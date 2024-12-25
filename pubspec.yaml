@@ -72,6 +72,7 @@ flutter:
 #   field_prefix: null
 #   classname: AppImages
 
+
 flutter_assets:
   assets_path: assets/animations
   output_path: lib/core/utils
