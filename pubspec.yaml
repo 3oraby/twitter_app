@@ -1,6 +1,6 @@
 name: twitter_app
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -9,11 +9,72 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: ^3.8.0
+  firebase_auth: ^5.3.3
+  cloud_firestore: ^5.5.0
+  get_it: ^8.0.2
+  google_fonts: ^6.2.1
+  device_preview: ^1.2.0
+  flutter_bloc: ^8.1.6
+  restart_app: ^1.3.2
+  shared_preferences: ^2.3.3
+  font_awesome_flutter: ^10.8.0
+  flutter_svg: ^2.0.16
+  modal_progress_hud_nsn: ^0.5.1
+  lottie: ^3.1.3
+  dio: ^5.7.0
+  sliding_up_panel2: ^3.3.0+1
+  easy_localization: ^3.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/animations/
+    - assets/images/
+    - assets/fonts/
+    - assets/svg/
+    - assets/translations/
+
+  fonts:
+    - family: UberMove
+      fonts:
+        - asset: assets/fonts/UberMoveBold.otf
+          weight: 700
+        - asset: assets/fonts/UberMoveMedium.otf
+          weight: 500
+
+# flutter_launcher_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   image_path: "assets/images/app logo.png"
+#   min_sdk_android: 21 # android min sdk min:16, default 21
+#   web:
+#     generate: true
+#     image_path: "assets/images/app logo.png"
+#     background_color: "#hexcode"
+#     theme_color: "#hexcode"
+#   windows:
+#     generate: true
+#     image_path: "assets/images/app logo.png"
+#     icon_size: 48 # min:48, max:256, default: 48
+#   macos:
+#     generate: true
+#     image_path: "assets/images/app logo.png"
+# flutter_assets:
+#   assets_path: assets/svg
+#   output_path: lib/core/utils
+#   filename: app_images.dart
+#   field_prefix: null
+#   classname: AppImages
+
+flutter_assets:
+  assets_path: assets/animations
+  output_path: lib/core/utils
+  filename: app_animations.dart
+  field_prefix: null
+  classname: AppAnimations
