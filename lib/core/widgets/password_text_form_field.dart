@@ -68,7 +68,7 @@ class _PasswordTextFieldWidgetState extends State<PasswordTextFieldWidget> {
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         labelText: widget.labelText,
-        hintText: widget.hintText ?? "Password".tr(),
+        hintText: widget.hintText ?? context.tr("Password"),
         hintStyle: widget.hintTextStyle ?? AppTextStyles.uberMoveBold16,
         contentPadding: EdgeInsets.all(widget.contentPadding),
         suffixIcon: IconButton(

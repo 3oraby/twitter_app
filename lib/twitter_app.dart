@@ -1,3 +1,4 @@
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/helpers/functions/on_generate_routes.dart';
@@ -14,7 +15,7 @@ class TwitterApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
-      locale: const Locale('en'),
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: onGenerateRoutes,
       initialRoute: getIt<FirebaseAuthService>().isUserLoggedIn()

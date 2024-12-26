@@ -26,7 +26,7 @@ class SignInScreen extends StatelessWidget {
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          title: "Sign In".tr(),
+          title: context.tr("Sign In"),
         ),
         body: const SignInBLocConsumerBody(),
       ),

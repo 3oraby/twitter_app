@@ -26,7 +26,7 @@ class SignUpScreen extends StatelessWidget {
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          title: "Sign Up".tr(),
+          title: context.tr("Sign Up"),
           automaticallyImplyLeading: false,
         ),
         body: const SignUpBlocConsumerBody(),

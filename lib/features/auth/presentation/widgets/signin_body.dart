@@ -44,7 +44,7 @@ class _SignInBodyState extends State<SignInBody> {
               const VerticalGap(16),
               CustomTextFormFieldWidget(
                 autovalidateMode: autovalidateMode,
-                hintText: "Email".tr(),
+                hintText: context.tr("Email"),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) =>
                     Validators.validateNormalText(context, value),
@@ -64,7 +64,7 @@ class _SignInBodyState extends State<SignInBody> {
               const VerticalGap(16),
               CustomTriggerButton(
                 buttonDescription: Text(
-                  "Sign In".tr(),
+                  context.tr("Sign In"),
                   style: AppTextStyles.uberMoveBold22
                       .copyWith(color: Colors.white),
                 ),
@@ -84,8 +84,8 @@ class _SignInBodyState extends State<SignInBody> {
               ),
               const VerticalGap(10),
               AuthSwitchWidget(
-                promptText: "Don't have an account?".tr(),
-                actionText: "SignUp".tr(),
+                promptText: context.tr("Don't have an account?"),
+                actionText: context.tr("SignUp"),
                 onActionPressed: () {
                   Navigator.pushNamed(context, SignUpScreen.routeId);
                 },
@@ -95,7 +95,7 @@ class _SignInBodyState extends State<SignInBody> {
               const VerticalGap(24),
               SocialSignInButton(
                 logoName: AppImages.svgPhoneNumberLogo,
-                description: "Continue With Phone".tr(),
+                description: context.tr("Continue With Phone"),
                 onPressed: () {
                   Navigator.pushNamed(
                       context, SignInWithPhoneNumberScreen.routeId);
@@ -104,7 +104,7 @@ class _SignInBodyState extends State<SignInBody> {
               const VerticalGap(16),
               SocialSignInButton(
                 logoName: AppImages.svgGoogleLogo,
-                description: "Continue With Google".tr(),
+                description: context.tr("Continue With Google"),
                 onPressed: () {},
               ),
               // CustomTriggerButton(

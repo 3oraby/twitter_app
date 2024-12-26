@@ -10,7 +10,7 @@ class SignInWithPhoneNumberScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildCustomAppBar(
         context,
-        title: "Enter Your Mobile Number".tr(),
+        title: context.tr("Enter Your Mobile Number"),
         centerTitle: false,
       ),
       body: const SignInWithPhoneNumberBody(),

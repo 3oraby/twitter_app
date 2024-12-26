@@ -15,12 +15,16 @@ Future<void> main() async {
   setupGetIt();
   Bloc.observer = CustomBlocObserver();
   await SharedPreferencesSingleton.init();
-  
+
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en', 'US'), Locale('ar')],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ar'),
+      ],
       path: 'assets/translations',
-      fallbackLocale: const Locale('en', 'US'),
+      fallbackLocale: const Locale('en'),
+      startLocale: const Locale('en'),
       child: DevicePreview(
         builder: (context) => const TwitterApp(),
       ),

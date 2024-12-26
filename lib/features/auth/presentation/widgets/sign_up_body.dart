@@ -40,7 +40,7 @@ class _SignUpBodyState extends State<SignUpBody> {
               const VerticalGap(16),
               CustomTextFormFieldWidget(
                 autovalidateMode: autovalidateMode,
-                hintText: "Email".tr(),
+                hintText: context.tr("Email"),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => Validators.validateEmail(context, value),
                 onSaved: (value) {
@@ -59,7 +59,7 @@ class _SignUpBodyState extends State<SignUpBody> {
               const VerticalGap(16),
               CustomTriggerButton(
                 buttonDescription: Text(
-                  "SignUp".tr(),
+                  context.tr("SignUp"),
                   style: AppTextStyles.uberMoveBold22
                       .copyWith(color: Colors.white),
                 ),
@@ -79,8 +79,8 @@ class _SignUpBodyState extends State<SignUpBody> {
               ),
               const VerticalGap(10),
               AuthSwitchWidget(
-                promptText: "Already have an account?".tr(),
-                actionText: "SignIn".tr(),
+                promptText: context.tr("Already have an account?"),
+                actionText: context.tr("SignIn"),
                 onActionPressed: () {
                   Navigator.pop(context);
                 },

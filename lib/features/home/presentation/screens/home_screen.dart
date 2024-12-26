@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/widgets/custom_app_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -60,42 +60,4 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class CustomAppDrawer extends StatefulWidget {
-  const CustomAppDrawer({
-    super.key,
-  });
 
-  @override
-  State<CustomAppDrawer> createState() => _CustomAppDrawerState();
-}
-
-class _CustomAppDrawerState extends State<CustomAppDrawer> {
-  bool switchValue = false;
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: SafeArea(
-        child: Column(
-          children: [
-            Switch(
-              value: switchValue,
-              onChanged: (value) async {
-                if (value) {
-                  await context.setLocale(const Locale('ar'));
-                  setState(() {
-                    switchValue = true;
-                  });
-                } else {
-                  await context.setLocale(const Locale('en'));
-                  setState(() {
-                    switchValue = false;
-                  });
-                }
-              },
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
