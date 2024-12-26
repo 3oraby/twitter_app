@@ -25,6 +25,7 @@ dependencies:
   dio: ^5.7.0
   sliding_up_panel2: ^3.3.0+1
   easy_localization: ^3.0.7
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:

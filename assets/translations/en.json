@@ -1,3 +1,21 @@
 {
-    "HelloWorld": "Hello World"
+  "Password": "Password",
+  "Email": "Email",
+  "or": "or",
+  "Sign Up": "Sign Up",
+  "SignUp": "SignUp",
+  "SignIn": "SignIn",
+  "Sign In": "Sign In",
+  "Enter Your Mobile Number": "Enter Your Mobile Number",
+  "Continue With Phone": "Continue With Phone",
+  "Continue With Google": "Continue With Google",
+  "Already have an account?": "Already have an account?",
+  "Don't have an account?": "Don't have an account?",
+  "Field is required": "Field is required",
+  "Email is required": "Email is required",
+  "Please enter a valid email address": "Please enter a valid email address",
+  "Password is required": "Password is required",
+  "Password must be at least 8 characters long": "Password must be at least 8 characters long",
+  "Phone number is required": "Phone number is required",
+  "Please enter a valid phone number": "Please enter a valid phone number"
 }

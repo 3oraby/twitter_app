@@ -1,3 +1,21 @@
 {
-    "HelloWorld": "مرحبا بك "
+  "Password": "كلمة المرور",
+  "Email": "البريد الإلكتروني",
+  "or": "أو",
+  "Sign Up": "إنشاء حساب",
+  "SignUp": "إنشاء حساب",
+  "SignIn": "تسجيل الدخول",
+  "Sign In": "تسجيل الدخول",
+  "Enter Your Mobile Number": "أدخل رقم هاتفك المحمول",
+  "Continue With Phone": "الاستمرار باستخدام الهاتف",
+  "Continue With Google": "الاستمرار باستخدام جوجل",
+  "Already have an account?": "هل لديك حساب بالفعل؟",
+  "Don't have an account?": "ليس لديك حساب؟",
+  "Field is required": "هذا الحقل مطلوب",
+  "Email is required": "البريد الإلكتروني مطلوب",
+  "Please enter a valid email address": "يرجى إدخال عنوان بريد إلكتروني صحيح",
+  "Password is required": "كلمة المرور مطلوبة",
+  "Password must be at least 8 characters long": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل",
+  "Phone number is required": "رقم الهاتف مطلوب",
+  "Please enter a valid phone number": "يرجى إدخال رقم هاتف صحيح"
 }

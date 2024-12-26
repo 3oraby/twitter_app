@@ -1,0 +1,94 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/utils/validators.dart';
+import 'package:twitter_app/core/widgets/custom_text_form_field.dart';
+import 'package:twitter_app/core/widgets/custom_trigger_button.dart';
+import 'package:twitter_app/core/widgets/password_text_form_field.dart';
+import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/auth/presentation/cubits/signup_cubits/sign_up_cubit.dart';
+import 'package:twitter_app/features/auth/presentation/widgets/auth_switch_widget.dart';
+
+class SignUpBody extends StatefulWidget {
+  const SignUpBody({
+    super.key,
+  });
+
+  @override
+  State<SignUpBody> createState() => _SignUpBodyState();
+}
+
+class _SignUpBodyState extends State<SignUpBody> {
+  AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction;
+  final formKey = GlobalKey<FormState>();
+  late String email, password;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppConstants.horizontalPadding,
+      ),
+      child: Form(
+        key: formKey,
+        autovalidateMode: autovalidateMode,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const VerticalGap(16),
+              CustomTextFormFieldWidget(
+                autovalidateMode: autovalidateMode,
+                hintText: "Email".tr(),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) => Validators.validateEmail(context, value),
+                onSaved: (value) {
+                  email = value!;
+                },
+              ),
+              const VerticalGap(16),
+              PasswordTextFieldWidget(
+                autovalidateMode: autovalidateMode,
+                validator: (value) =>
+                    Validators.validatePassword(context, value),
+                onSaved: (value) {
+                  password = value!;
+                },
+              ),
+              const VerticalGap(16),
+              CustomTriggerButton(
+                buttonDescription: Text(
+                  "SignUp".tr(),
+                  style: AppTextStyles.uberMoveBold22
+                      .copyWith(color: Colors.white),
+                ),
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    SignUpCubit signUpCubit =
+                        BlocProvider.of<SignUpCubit>(context);
+                    signUpCubit.createUserWithEmailAndPassword(
+                        email: email, password: password);
+                  } else {
+                    setState(() {
+                      autovalidateMode = AutovalidateMode.always;
+                    });
+                  }
+                },
+              ),
+              const VerticalGap(10),
+              AuthSwitchWidget(
+                promptText: "Already have an account?".tr(),
+                actionText: "SignIn".tr(),
+                onActionPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
