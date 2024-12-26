@@ -17,5 +17,8 @@
   "Password is required": "Password is required",
   "Password must be at least 8 characters long": "Password must be at least 8 characters long",
   "Phone number is required": "Phone number is required",
-  "Please enter a valid phone number": "Please enter a valid phone number"
+  "Please enter a valid phone number": "Please enter a valid phone number",
+  "Settings": "Settings",
+  "Bookmarks": "BookMarks",
+  "Profile": "Profile"
 }

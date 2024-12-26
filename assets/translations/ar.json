@@ -17,5 +17,8 @@
   "Password is required": "كلمة المرور مطلوبة",
   "Password must be at least 8 characters long": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل",
   "Phone number is required": "رقم الهاتف مطلوب",
-  "Please enter a valid phone number": "يرجى إدخال رقم هاتف صحيح"
+  "Please enter a valid phone number": "يرجى إدخال رقم هاتف صحيح",
+  "Settings": "الإعدادات",
+  "Bookmarks": "المفضلة",
+  "Profile": "الملف الشخصي"
 }
