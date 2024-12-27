@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:twitter_app/core/errors/custom_exception.dart';
-import 'package:twitter_app/core/services/database_service.dart';
-import 'package:twitter_app/core/services/get_it_service.dart';
 
 class FirebaseAuthService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -38,21 +36,12 @@ class FirebaseAuthService {
   Future<User> signInWithEmailAndPassword({
     required String email,
     required String password,
-    String expectedRole = "users",
   }) async {
     try {
       final credential = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      String userId = credential.user!.uid;
-      bool isUserExist = await getIt<DatabaseService>()
-          .isIdInCollection(collectionName: expectedRole, id: userId);
-      if (isUserExist) {
-        return credential.user!;
-      } else {
-        throw const CustomException(
-            message: "User not found. Please register or contact support.");
-      }
+      return credential.user!;
     } on FirebaseAuthException catch (e) {
       log("Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()} and code is ${e.code}");
       if (e.code == 'user-not-found') {
@@ -75,18 +64,12 @@ class FirebaseAuthService {
             message: 'An error occurred. Please try again.');
       }
     } catch (e) {
-      log("Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()}");
-      if (e.toString() ==
-          "User not found. Please register or contact support.") {
-        throw CustomException(message: e.toString());
-      } else {
-        throw const CustomException(
-            message: 'An error occurred. Please try again.');
-      }
+      throw const CustomException(
+          message: 'An error occurred. Please try again.');
     }
   }
 
-  Future<User> getCurrentUser() async {
+  User getCurrentFirebaseAuthUser() {
     try {
       User? user = firebaseAuth.currentUser;
       if (user == null) {
@@ -106,7 +89,8 @@ class FirebaseAuthService {
   }
 
   bool isUserLoggedIn() {
-    log("check if user logged in");
-    return firebaseAuth.currentUser != null;
+    bool isLoggedIn = firebaseAuth.currentUser != null;
+    log("check if user logged in == $isLoggedIn");
+    return isLoggedIn;
   }
 }

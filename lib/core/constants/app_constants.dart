@@ -8,7 +8,7 @@ class AppConstants {
   static const double bottomPadding = 8;
   static const double contentTextFieldPadding = 22;
   static const AutovalidateMode autovalidateMode =
-      AutovalidateMode.onUserInteraction;
+      AutovalidateMode.disabled;
 }
 
 enum Gender { male, female, other }

@@ -9,12 +9,12 @@ class CompleteUserProfileCubit extends Cubit<CompleteUserProfileState> {
 
   final UserRepo userRepo;
 
-  Future<void> addUserData({
+  Future<void> addUserToFirestore({
     required Map<String, dynamic> data,
     required String documentId,
   }) async {
     emit(CompleteUserProfileLoadingState());
-    var result = await userRepo.addUserData(
+    var result = await userRepo.addUserToFirestore(
       data: data,
       documentId: documentId,
     );

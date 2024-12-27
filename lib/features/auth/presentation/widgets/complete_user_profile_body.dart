@@ -1,10 +1,11 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
-import 'package:twitter_app/core/helpers/functions/get_current_user.dart';
+import 'package:twitter_app/core/helpers/functions/get_current_firebase_auth_user.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/utils/validators.dart';
@@ -13,7 +14,6 @@ import 'package:twitter_app/core/widgets/custom_trigger_button.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/data/models/complete_profile_user_model.dart';
-import 'package:twitter_app/features/auth/data/models/firebase_auth_user_model.dart';
 import 'package:twitter_app/features/auth/presentation/cubits/complete_user_profile_cubit/complete_user_profile_cubit.dart';
 
 class CompleteUserProfileBody extends StatefulWidget {
@@ -41,6 +41,35 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
     lastNameController.dispose();
     ageController.dispose();
     phoneNumberController.dispose();
+  }
+
+  _onCompleteProfileButtonPressed() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      User currentFirebaseAuthUser = getCurrentFirebaseAuthUser();
+
+      final CompleteProfileUserModel completeProfileUserModel =
+          CompleteProfileUserModel(
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        email: currentFirebaseAuthUser.email!,
+        age: int.parse(ageController.text),
+        gender: selectedGender,
+        phoneNumber: phoneNumberController.text,
+        createdAt: Timestamp.now(),
+      );
+      log("complete User Profile Data: ${completeProfileUserModel.toJson().toString()}");
+
+      BlocProvider.of<CompleteUserProfileCubit>(context).addUserToFirestore(
+        data: completeProfileUserModel.toJson(),
+        documentId: currentFirebaseAuthUser.uid,
+      );
+    } else {
+      setState(() {
+        autovalidateMode = AutovalidateMode.always;
+      });
+    }
   }
 
   @override
@@ -138,36 +167,7 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
               ),
               const VerticalGap(32),
               CustomTriggerButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-
-                    FirebaseAuthUserModel firebaseAuthUserModel =
-                        getCurrentUser();
-
-                    final CompleteProfileUserModel completeProfileUserModel =
-                        CompleteProfileUserModel(
-                      firstName: firstNameController.text,
-                      lastName: lastNameController.text,
-                      email: firebaseAuthUserModel.email,
-                      age: int.parse(ageController.text),
-                      gender: selectedGender,
-                      phoneNumber: phoneNumberController.text,
-                      createdAt: Timestamp.now(),
-                    );
-                    log("complete User Profile Data: ${completeProfileUserModel.toJson().toString()}");
-
-                    BlocProvider.of<CompleteUserProfileCubit>(context)
-                        .addUserData(
-                      data: completeProfileUserModel.toJson(),
-                      documentId: firebaseAuthUserModel.uid,
-                    );
-                  } else {
-                    setState(() {
-                      autovalidateMode = AutovalidateMode.always;
-                    });
-                  }
-                },
+                onPressed: _onCompleteProfileButtonPressed(),
                 buttonDescription: Text(
                   'Complete Profile',
                   style: AppTextStyles.uberMoveBold18
