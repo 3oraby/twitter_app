@@ -42,7 +42,7 @@ class AuthRepoImpl extends AuthRepo {
       log("current user data: id:  ${user.uid} ---- email: ${user.email}");
       return user;
     } catch (e) {
-      return throw ServerFailure(message: e.toString());
+      throw ServerFailure(message: e.toString());
     }
   }
 
