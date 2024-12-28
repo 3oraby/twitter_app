@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/cubits/logout_cubits/logout_cubit.dart';
@@ -9,9 +10,9 @@ void showLogoutConfirmationDialog({
 }) {
   showCustomAlertDialog(
     context: context,
-    title: "Are you sure?",
-    content: "Do you really want to log out?",
-    okButtonDescription: "Log Out",
+    title: context.tr("Are you sure?"),
+    content: context.tr("Do you really want to log out?"),
+    okButtonDescription: context.tr("Log Out"),
     onCancelButtonPressed: () {
       Navigator.pop(context);
     },

@@ -1,4 +1,4 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -8,7 +8,7 @@ void showCustomAlertDialog({
   required String title,
   required String content,
   required String okButtonDescription,
-  String cancelButtonDescription = "Cancel",
+  String? cancelButtonDescription,
   VoidCallback? onCancelButtonPressed,
   VoidCallback? onOkButtonPressed,
 }) {
@@ -23,7 +23,9 @@ void showCustomAlertDialog({
             children: [
               TextButton(
                 onPressed: onCancelButtonPressed,
-                child: Text(cancelButtonDescription),
+                child: Text(
+                  cancelButtonDescription ?? context.tr("Cancel"),
+                ),
               ),
               const Spacer(),
               TextButton(
