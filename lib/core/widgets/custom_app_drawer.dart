@@ -1,31 +1,35 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/cubits/logout_cubits/logout_cubit.dart';
+import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/widgets/custom_drawer_list_tile_option.dart';
 import 'package:twitter_app/core/widgets/custom_logout_button.dart';
+import 'package:twitter_app/core/widgets/language_selection_switch.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 
-class CustomAppDrawer extends StatefulWidget {
+class CustomAppDrawer extends StatelessWidget {
   const CustomAppDrawer({
     super.key,
   });
 
   @override
-  State<CustomAppDrawer> createState() => _CustomAppDrawerState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => LogoutCubit(
+        authRepo: getIt<AuthRepo>(),
+      ),
+      child: const DrawerBlocConsumerBody(),
+    );
+  }
 }
 
-class _CustomAppDrawerState extends State<CustomAppDrawer> {
-  late bool switchValue;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (context.locale.languageCode == 'ar') {
-      switchValue = true;
-    } else {
-      switchValue = false;
-    }
-  }
+class DrawerBlocConsumerBody extends StatelessWidget {
+  const DrawerBlocConsumerBody({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,20 +74,8 @@ class _CustomAppDrawerState extends State<CustomAppDrawer> {
                   ),
                 ],
               ),
+              const LanguageSelectionSwitch(),
               const VerticalGap(24),
-              Switch(
-                value: switchValue,
-                onChanged: (value) async {
-                  if (value) {
-                    await context.setLocale(const Locale('ar'));
-                  } else {
-                    await context.setLocale(const Locale('en'));
-                  }
-                  setState(() {
-                    switchValue = value;
-                  });
-                },
-              ),
             ],
           ),
         ),

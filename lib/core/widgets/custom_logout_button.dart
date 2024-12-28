@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/helpers/functions/show_logout_confirmation_dialog.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -13,7 +14,7 @@ class CustomLogOutButton extends StatelessWidget {
         showLogoutConfirmationDialog(context: context);
       },
       child: Text(
-        "Log Out",
+        context.tr("Log Out"),
         style: AppTextStyles.uberMoveBold20.copyWith(
           color: AppColors.errorColor,
         ),

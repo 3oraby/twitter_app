@@ -19,7 +19,11 @@ void showLogoutConfirmationDialog({
     onOkButtonPressed: () {
       //! remove user from prefs
       BlocProvider.of<LogoutCubit>(context).logOut();
-      Navigator.pushReplacementNamed(context, SignInScreen.routeId);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        SignInScreen.routeId,
+        (route) => false,
+      );
     },
   );
 }
