@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/cubits/logout_cubits/logout_cubit.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_alert_dialog.dart';
-import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 
 void showLogoutConfirmationDialog({
   required BuildContext context,
@@ -19,11 +18,6 @@ void showLogoutConfirmationDialog({
     onOkButtonPressed: () {
       //! remove user from prefs
       BlocProvider.of<LogoutCubit>(context).logOut();
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        SignInScreen.routeId,
-        (route) => false,
-      );
     },
   );
 }
