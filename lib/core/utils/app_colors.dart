@@ -7,4 +7,6 @@ class AppColors {
   static const Color highlightBackgroundColor = Color(0xFFe8e8e8);
   static const Color scaffoldBackgroundColor = Colors.white;
   static const Color dividerColor = Color(0xFFE0E0E0);
+  static const Color errorColor = Color.fromARGB(255, 212, 67, 56);
+
 }

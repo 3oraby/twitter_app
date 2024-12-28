@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/widgets/custom_drawer_list_tile_option.dart';
+import 'package:twitter_app/core/widgets/custom_logout_button.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 
 class CustomAppDrawer extends StatefulWidget {
@@ -53,6 +54,8 @@ class _CustomAppDrawerState extends State<CustomAppDrawer> {
                 iconData: Icons.settings,
                 onTap: () {},
               ),
+              const VerticalGap(24),
+              const CustomLogOutButton(),
               const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,

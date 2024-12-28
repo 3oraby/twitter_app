@@ -83,6 +83,17 @@ class FirebaseAuthService {
     }
   }
 
+  Future<void> logOut() async {
+    try {
+      await firebaseAuth.signOut();
+      log("User logged out successfully");
+    } catch (e) {
+      log("Error logging out FirebaseAuthService.logOut: $e");
+      throw const CustomException(
+          message: 'An error occurred. Please try again.');
+    }
+  }
+
   Future<void> deleteCurrentUser() async {
     log("delete current user");
     await firebaseAuth.currentUser!.delete();

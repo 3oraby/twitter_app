@@ -20,5 +20,9 @@
   "Please enter a valid phone number": "Please enter a valid phone number",
   "Settings": "Settings",
   "Bookmarks": "BookMarks",
-  "Profile": "Profile"
+  "Profile": "Profile",
+  "Logout": "Logout",
+  "Are you sure?": "Are you sure?",
+  "Do you really want to log out?": "Do you really want to log out?",
+  "Cancel": "Cancel"
 }

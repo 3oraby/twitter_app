@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:twitter_app/core/errors/failures.dart';
 import 'package:twitter_app/core/services/firebase_auth_service.dart';
+import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 
 class AuthRepoImpl extends AuthRepo {
@@ -43,6 +44,16 @@ class AuthRepoImpl extends AuthRepo {
       return user;
     } catch (e) {
       throw ServerFailure(message: e.toString());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Success>> logOut() async {
+    try {
+      await firebaseAuthService.logOut();
+      return right(Success());
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
     }
   }
 

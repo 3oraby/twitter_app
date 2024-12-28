@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twitter_app/core/cubits/logout_cubits/logout_cubit.dart';
+import 'package:twitter_app/core/helpers/functions/show_custom_alert_dialog.dart';
+import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
+
+void showLogoutConfirmationDialog({
+  required BuildContext context,
+}) {
+  showCustomAlertDialog(
+    context: context,
+    title: "Are you sure?",
+    content: "Do you really want to log out?",
+    okButtonDescription: "Log Out",
+    onCancelButtonPressed: () {
+      Navigator.pop(context);
+    },
+    onOkButtonPressed: () {
+      //! remove user from prefs
+      BlocProvider.of<LogoutCubit>(context).logOut();
+      Navigator.pushReplacementNamed(context, SignInScreen.routeId);
+    },
+  );
+}
