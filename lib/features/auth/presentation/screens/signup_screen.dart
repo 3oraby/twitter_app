@@ -52,10 +52,11 @@ class SignUpBlocConsumerBody extends StatelessWidget {
           log("account successfully created");
           showSuccessAuthModalBottomSheet(
             context: context,
-            sheetTitle: " Your Account Has Been Created Successfully! 🎉",
-            sheetDescription:
-                "Next step: Complete your profile by filling in some basic details like your first name and other information.",
-            buttonDescription: 'Complete Your Profile',
+            sheetTitle:
+                context.tr("Your Account Has Been Created Successfully! 🎉"),
+            sheetDescription: context.tr(
+                "Next step: Complete your profile by adding essential details like your first name, bio, and more to get started."),
+            buttonDescription: context.tr('Complete Your Profile'),
             onNextButtonPressed: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,

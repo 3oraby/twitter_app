@@ -51,10 +51,10 @@ class SignInBLocConsumerBody extends StatelessWidget {
           log("account successfully logged in");
           showSuccessAuthModalBottomSheet(
             context: context,
-            sheetTitle: "Welcome Back! 🎉",
-            sheetDescription:
-                "You’ve logged in successfully. Now you can request a ride instantly and enjoy a smooth journey to your destination.",
-            buttonDescription: 'Request a Ride',
+            sheetTitle: context.tr("Welcome Back! 🎉"),
+            sheetDescription: context.tr(
+                "You’ve logged in successfully. Start exploring tweets, connecting with friends, and sharing your thoughts instantly."),
+            buttonDescription: context.tr('Explore Now'),
             onNextButtonPressed: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,
