@@ -10,7 +10,7 @@ import 'package:twitter_app/features/auth/presentation/cubits/complete_user_prof
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/auth/presentation/widgets/complete_user_profile_body.dart';
 import 'package:twitter_app/features/home/presentation/screens/home_screen.dart';
-import 'package:twitter_app/features/user/data/repo_impl/user_repo_impl.dart';
+import 'package:twitter_app/features/user/domain/repo_interface/user_repo.dart';
 
 class CompleteUserProfileScreen extends StatefulWidget {
   const CompleteUserProfileScreen({super.key});
@@ -27,7 +27,7 @@ class _CompleteUserProfileScreenState extends State<CompleteUserProfileScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CompleteUserProfileCubit(
-        userRepo: getIt<UserRepoImpl>(),
+        userRepo: getIt<UserRepo>(),
       ),
       child: Scaffold(
         appBar: buildCustomAppBar(

@@ -167,7 +167,7 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
               ),
               const VerticalGap(32),
               CustomTriggerButton(
-                onPressed: _onCompleteProfileButtonPressed(),
+                onPressed: _onCompleteProfileButtonPressed,
                 buttonDescription: Text(
                   'Complete Profile',
                   style: AppTextStyles.uberMoveBold18
