@@ -6,7 +6,10 @@ final class CompleteUserProfileInitial extends CompleteUserProfileState {}
 
 final class CompleteUserProfileLoadingState extends CompleteUserProfileState {}
 
-final class CompleteUserProfileLoadedState extends CompleteUserProfileState {}
+final class CompleteUserProfileLoadedState extends CompleteUserProfileState {
+  final UserEntity userEntity;
+  CompleteUserProfileLoadedState({required this.userEntity});
+}
 
 final class CompleteUserProfileFailureState extends CompleteUserProfileState {
   final String message;

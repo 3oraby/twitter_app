@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:twitter_app/core/errors/failures.dart';
+import 'package:twitter_app/core/helpers/functions/delete_user_data_from_prefs.dart';
 import 'package:twitter_app/core/services/firebase_auth_service.dart';
 import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
@@ -51,6 +52,7 @@ class AuthRepoImpl extends AuthRepo {
   Future<Either<Failure, Success>> logOut() async {
     try {
       await firebaseAuthService.logOut();
+      await deleteUserDataFromPrefs();
       return right(Success());
     } catch (e) {
       return left(ServerFailure(message: e.toString()));

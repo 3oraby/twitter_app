@@ -3,9 +3,10 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 
 class UserEntity {
   final String userId;
-  final String userName;
+  // final String userName;
   final String firstName;
   final String lastName;
+  final String email;
   final int age;
   final Gender gender;
   final String? profilePicUrl;
@@ -19,7 +20,8 @@ class UserEntity {
 
   UserEntity({
     required this.userId,
-    required this.userName,
+    // required this.userName,
+    required this.email,
     required this.firstName,
     required this.lastName,
     required this.age,

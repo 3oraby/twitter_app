@@ -13,7 +13,7 @@ import 'package:twitter_app/core/widgets/custom_text_form_field.dart';
 import 'package:twitter_app/core/widgets/custom_trigger_button.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
-import 'package:twitter_app/features/auth/data/models/complete_profile_user_model.dart';
+import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/presentation/cubits/complete_user_profile_cubit/complete_user_profile_cubit.dart';
 
 class CompleteUserProfileBody extends StatefulWidget {
@@ -49,21 +49,21 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
 
       User currentFirebaseAuthUser = getCurrentFirebaseAuthUser();
 
-      final CompleteProfileUserModel completeProfileUserModel =
-          CompleteProfileUserModel(
+      final UserModel userModel = UserModel(
+        userId: currentFirebaseAuthUser.uid,
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         email: currentFirebaseAuthUser.email!,
         age: int.parse(ageController.text),
         gender: selectedGender,
         phoneNumber: phoneNumberController.text,
-        createdAt: Timestamp.now(),
+        joinedAt: Timestamp.now(),
       );
-      log("complete User Profile Data: ${completeProfileUserModel.toJson().toString()}");
+      log("complete User Profile Data: ${userModel.toJson().toString()}");
 
       BlocProvider.of<CompleteUserProfileCubit>(context).addUserToFirestore(
-        data: completeProfileUserModel.toJson(),
-        documentId: currentFirebaseAuthUser.uid,
+        data: userModel.toJson(),
+        documentId: userModel.userId,
       );
     } else {
       setState(() {

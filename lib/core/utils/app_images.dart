@@ -9,5 +9,9 @@ class AppImages {
   /// Assets for svgPhoneNumberLogo
   /// assets/svg/phone_number_logo.svg
   static const String svgPhoneNumberLogo = "assets/svg/phone_number_logo.svg";
+
+  /// Assets for svgXLogoWhiteBackground48
+  /// assets/svg/x_logo_white_background_48.svg
+  static const String svgXLogoWhiteBackground48 = "assets/svg/x_logo_white_background_48.svg";
 }
 

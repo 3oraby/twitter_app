@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
-import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/utils/app_images.dart';
 import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
 import 'package:twitter_app/features/auth/presentation/cubits/complete_user_profile_cubit/complete_user_profile_cubit.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
@@ -33,10 +34,7 @@ class _CompleteUserProfileScreenState extends State<CompleteUserProfileScreen> {
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          title: Text(
-            'Complete Your Profile',
-            style: AppTextStyles.uberMoveBold24,
-          ),
+          title: SvgPicture.asset(AppImages.svgXLogoWhiteBackground48),
         ),
         body: const CompleteUserProfileBlocConsumerBody(),
       ),
@@ -52,6 +50,7 @@ class CompleteUserProfileBlocConsumerBody extends StatelessWidget {
     return BlocConsumer<CompleteUserProfileCubit, CompleteUserProfileState>(
       listener: (context, state) {
         if (state is CompleteUserProfileFailureState) {
+          log(state.message);
           showCustomSnackBar(context, state.message);
           Navigator.pushReplacementNamed(context, SignInScreen.routeId);
         } else if (state is CompleteUserProfileLoadedState) {

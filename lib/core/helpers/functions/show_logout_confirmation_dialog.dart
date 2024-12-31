@@ -16,7 +16,6 @@ void showLogoutConfirmationDialog({
       Navigator.pop(context);
     },
     onOkButtonPressed: () {
-      //! remove user from prefs
       BlocProvider.of<LogoutCubit>(context).logOut();
     },
   );
