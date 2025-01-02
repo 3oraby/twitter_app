@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:twitter_app/core/errors/custom_exception.dart';
+import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 
 class FirestoreService implements DatabaseService {
@@ -57,25 +58,100 @@ class FirestoreService implements DatabaseService {
   }
 
   @override
-  Future<bool> isIdInCollection(
-      {required String collectionName, required String id}) async {
+  Future<dynamic> getData({
+    required String path,
+    List<QueryCondition>? queryConditions,
+    String? orderByField,
+    bool descending = false,
+    int? limit,
+    String? documentId,
+  }) async {
     try {
-      DocumentSnapshot doc = await FirebaseFirestore.instance
-          .collection(collectionName)
-          .doc(id)
-          .get();
+      if (documentId != null) {
+        final docSnapshot =
+            await firebaseFirestore.collection(path).doc(documentId).get();
+        if (docSnapshot.exists) {
+          return docSnapshot.data() as Map<String, dynamic>;
+        } else {
+          throw const CustomException(message: "No item found.");
+        }
+      }
 
-      if (doc.exists) {
-        log("Document exists!");
-        return true;
-      } else {
-        log("Document does not exist!");
-        throw const CustomException(
-            message: "User not found. Please register or contact support.");
+      Query query = firebaseFirestore.collection(path);
+      log('Base Query: firebaseFirestore.collection($path)');
+      if (queryConditions != null && queryConditions.isNotEmpty) {
+        for (var condition in queryConditions) {
+          switch (condition.operator) {
+            case QueryOperator.equalTo:
+              query = query.where(condition.field, isEqualTo: condition.value);
+              log('Adding WHERE: ${condition.field} == ${condition.value}');
+              break;
+            case QueryOperator.lessThan:
+              query = query.where(condition.field, isLessThan: condition.value);
+              log('Adding WHERE: ${condition.field} < ${condition.value}');
+              break;
+            case QueryOperator.greaterThan:
+              query =
+                  query.where(condition.field, isGreaterThan: condition.value);
+              log('Adding WHERE: ${condition.field} > ${condition.value}');
+              break;
+            case QueryOperator.lessThanOrEqualTo:
+              query = query.where(condition.field,
+                  isLessThanOrEqualTo: condition.value);
+              log('Adding WHERE: ${condition.field} <= ${condition.value}');
+              break;
+            case QueryOperator.greaterThanOrEqualTo:
+              query = query.where(condition.field,
+                  isGreaterThanOrEqualTo: condition.value);
+              log('Adding WHERE: ${condition.field} >= ${condition.value}');
+              break;
+          }
+        }
+      }
+
+      if (orderByField != null) {
+        query = query.orderBy(orderByField, descending: descending);
+        log('Adding ORDER BY: $orderByField ${descending ? 'desc' : 'asc'}');
+      }
+
+      if (limit != null) {
+        query = query.limit(limit);
+        log('Adding LIMIT: $limit');
+      }
+
+      log('Final Query: ${query.parameters}');
+
+      final querySnapshot = await query.get();
+      // if (querySnapshot.docs.isEmpty) {
+      //   throw const CustomException(
+      //       message: "No items found matching your search.");
+      // }
+
+      return querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } on FirebaseException catch (e) {
+      switch (e.code) {
+        case 'permission-denied':
+          throw const CustomException(
+              message: "You do not have permission to perform this action.");
+        case 'not-found':
+          throw const CustomException(message: "Requested data not found.");
+        case 'unavailable':
+          throw const CustomException(
+              message:
+                  "Service is temporarily unavailable. Please try again later.");
+        case 'deadline-exceeded':
+          throw const CustomException(
+              message: "Operation timed out. Please try again.");
+        default:
+          throw CustomException(
+              message: "An unknown error occurred: ${e.message}");
       }
     } catch (e) {
-      log("Error occurred: $e");
-      return false;
+      log('Error getting data from Firestore: $e');
+      throw const CustomException(
+          message: "Cannot fetch your data right now, please try again later.");
     }
   }
 }

@@ -1,3 +1,6 @@
+
+import 'package:twitter_app/core/models/query_condition_model.dart';
+
 abstract class DatabaseService {
   Future<void> addData({
     required String path,
@@ -5,6 +8,12 @@ abstract class DatabaseService {
     String? documentId,
   });
 
-  Future<bool> isIdInCollection(
-      {required String collectionName, required String id});
+  Future<dynamic> getData({
+    required String path,
+    List<QueryCondition>? queryConditions,
+    String? orderByField,
+    bool descending = false,
+    int? limit,
+    String? documentId,
+  });
 }
