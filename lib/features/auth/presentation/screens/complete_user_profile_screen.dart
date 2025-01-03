@@ -9,9 +9,9 @@ import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_images.dart';
 import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
 import 'package:twitter_app/features/auth/presentation/cubits/complete_user_profile_cubit/complete_user_profile_cubit.dart';
+import 'package:twitter_app/features/auth/presentation/screens/add_user_profile_picture_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/auth/presentation/widgets/complete_user_profile_body.dart';
-import 'package:twitter_app/features/home/presentation/screens/home_screen.dart';
 import 'package:twitter_app/features/user/domain/repo_interface/user_repo.dart';
 
 class CompleteUserProfileScreen extends StatefulWidget {
@@ -55,7 +55,7 @@ class CompleteUserProfileBlocConsumerBody extends StatelessWidget {
           Navigator.pushReplacementNamed(context, SignInScreen.routeId);
         } else if (state is CompleteUserProfileLoadedState) {
           log("user data is successfully added");
-          Navigator.pushReplacementNamed(context, HomeScreen.routeId);
+          Navigator.pushReplacementNamed(context, AddUserProfilePictureScreen.routeId);
         }
       },
       builder: (context, state) {

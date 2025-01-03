@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -165,14 +166,25 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
                   ),
                 ),
               ),
-              const VerticalGap(32),
-              CustomTriggerButton(
-                onPressed: _onCompleteProfileButtonPressed,
-                buttonDescription: Text(
-                  'Complete Profile',
-                  style: AppTextStyles.uberMoveBold18
-                      .copyWith(color: Colors.white),
-                ),
+              const VerticalGap(48),
+              Row(
+                children: [
+                  const Expanded(
+                    flex: 4,
+                    child: SizedBox(),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: CustomTriggerButton(
+                      onPressed: _onCompleteProfileButtonPressed,
+                      buttonDescription: Text(
+                        context.tr("Next"),
+                        style: AppTextStyles.uberMoveBold18
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const VerticalGap(16),
             ],
