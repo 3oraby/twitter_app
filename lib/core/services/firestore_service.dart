@@ -23,37 +23,11 @@ class FirestoreService implements DatabaseService {
         await firebaseFirestore.collection(path).add(data);
       }
     } on FirebaseException catch (e) {
-      switch (e.code) {
-        case 'permission-denied':
-          throw const CustomException(
-              message: "You do not have permission to perform this action.");
-        case 'not-found':
-          throw const CustomException(message: "Requested data not found.");
-        case 'unavailable':
-          throw const CustomException(
-              message:
-                  "Service is temporarily unavailable. Please try again later.");
-        case 'deadline-exceeded':
-          throw const CustomException(
-              message: "Operation timed out. Please try again.");
-        case 'already-exists':
-          throw const CustomException(
-              message: "Document with the same ID already exists.");
-        case 'aborted':
-          throw const CustomException(
-              message:
-                  "Operation aborted due to a conflict. Please try again.");
-        case 'invalid-argument':
-          throw const CustomException(
-              message: "Invalid input. Please check your data.");
-        default:
-          throw CustomException(
-              message: "An unknown error occurred: ${e.message}");
-      }
+      _handleFirebaseException(e);
     } catch (e) {
       log('Error adding data to Firestore: $e');
       throw const CustomException(
-          message: "Can not add your data right now , please try again later");
+          message: "Cannot add your data right now, please try again later.");
     }
   }
 
@@ -122,36 +96,60 @@ class FirestoreService implements DatabaseService {
       log('Final Query: ${query.parameters}');
 
       final querySnapshot = await query.get();
-      // if (querySnapshot.docs.isEmpty) {
-      //   throw const CustomException(
-      //       message: "No items found matching your search.");
-      // }
+      if (querySnapshot.docs.isEmpty) {
+        throw const CustomException(
+            message: "No items found matching your search.");
+      }
 
       return querySnapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
     } on FirebaseException catch (e) {
-      switch (e.code) {
-        case 'permission-denied':
-          throw const CustomException(
-              message: "You do not have permission to perform this action.");
-        case 'not-found':
-          throw const CustomException(message: "Requested data not found.");
-        case 'unavailable':
-          throw const CustomException(
-              message:
-                  "Service is temporarily unavailable. Please try again later.");
-        case 'deadline-exceeded':
-          throw const CustomException(
-              message: "Operation timed out. Please try again.");
-        default:
-          throw CustomException(
-              message: "An unknown error occurred: ${e.message}");
-      }
+      _handleFirebaseException(e);
     } catch (e) {
       log('Error getting data from Firestore: $e');
       throw const CustomException(
           message: "Cannot fetch your data right now, please try again later.");
+    }
+  }
+
+  @override
+  Future<void> updateData({
+    required String path,
+    required String documentId,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      log("Updating document at collection: $path with docId: $documentId");
+      await firebaseFirestore.collection(path).doc(documentId).update(data);
+      log("Document updated successfully at $path/$documentId");
+    } on FirebaseException catch (e) {
+      _handleFirebaseException(e);
+    } catch (e) {
+      log('Error updating data in Firestore: $e');
+      throw const CustomException(
+          message:
+              "Cannot update your data right now, please try again later.");
+    }
+  }
+
+  void _handleFirebaseException(FirebaseException e) {
+    switch (e.code) {
+      case 'permission-denied':
+        throw const CustomException(
+            message: "You do not have permission to perform this action.");
+      case 'not-found':
+        throw const CustomException(message: "Requested data not found.");
+      case 'unavailable':
+        throw const CustomException(
+            message:
+                "Service is temporarily unavailable. Please try again later.");
+      case 'deadline-exceeded':
+        throw const CustomException(
+            message: "Operation timed out. Please try again.");
+      default:
+        throw CustomException(
+            message: "An unknown error occurred: ${e.message}");
     }
   }
 }

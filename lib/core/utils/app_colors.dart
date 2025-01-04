@@ -10,4 +10,5 @@ class AppColors {
   static const Color errorColor = Color.fromARGB(255, 212, 67, 56);
   static const Color unEnabledButtonColor = Color.fromARGB(255, 136, 137, 141);
   static const Color imageBackgroundColor = Color.fromARGB(255, 209, 216, 224);
+  static const Color twitterAccentColor = Colors.blue;
 }

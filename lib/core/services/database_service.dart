@@ -1,4 +1,3 @@
-
 import 'package:twitter_app/core/models/query_condition_model.dart';
 
 abstract class DatabaseService {
@@ -15,5 +14,11 @@ abstract class DatabaseService {
     bool descending = false,
     int? limit,
     String? documentId,
+  });
+
+  Future<void> updateData({
+    required String path,
+    required String documentId,
+    required Map<String, dynamic> data,
   });
 }

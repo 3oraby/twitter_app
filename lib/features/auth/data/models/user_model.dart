@@ -53,7 +53,7 @@ class UserModel extends UserEntity {
       'lastName': lastName,
       'email': email,
       'age': age,
-      'gender': gender.index,
+      'gender': gender?.index ?? Gender.male,
       'profilePicUrl': profilePicUrl,
       'coverPicUrl': coverPicUrl,
       'bio': bio,

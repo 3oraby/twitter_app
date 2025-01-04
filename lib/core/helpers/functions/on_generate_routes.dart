@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/widgets/wrong_route_page.dart';
+import 'package:twitter_app/features/auth/presentation/screens/add_user_profile_picture_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/complete_user_profile_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone_number_screen.dart';
@@ -20,6 +21,8 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
           builder: (context) => const CompleteUserProfileScreen());
     case HomeScreen.routeId:
       return MaterialPageRoute(builder: (context) => const HomeScreen());
+    case AddUserProfilePictureScreen.routeId:
+      return MaterialPageRoute(builder: (context) => const AddUserProfilePictureScreen());
     // case CheckoutView.routeName:
     //   return MaterialPageRoute(
     //       builder: (context) => CheckoutView(

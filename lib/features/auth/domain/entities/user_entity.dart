@@ -4,16 +4,16 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 class UserEntity {
   final String userId;
   // final String userName;
-  final String firstName;
-  final String lastName;
   final String email;
-  final int age;
-  final Gender gender;
-  final String? profilePicUrl;
-  final String? coverPicUrl;
-  final String? bio;
-  final String? pinnedTweetId;
-  final String phoneNumber;
+  String? firstName;
+  String? lastName;
+  int? age;
+  Gender? gender;
+  String? profilePicUrl;
+  String? coverPicUrl;
+  String? bio;
+  String? pinnedTweetId;
+  String? phoneNumber;
   int nFollowing;
   int nFollowers;
   final Timestamp joinedAt;
@@ -22,15 +22,15 @@ class UserEntity {
     required this.userId,
     // required this.userName,
     required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.age,
-    required this.gender,
+    this.firstName,
+    this.lastName,
+    this.age,
+    this.gender,
     this.profilePicUrl,
     this.coverPicUrl,
     this.bio,
     this.pinnedTweetId,
-    required this.phoneNumber,
+    this.phoneNumber,
     this.nFollowing = 0,
     this.nFollowers = 0,
     required this.joinedAt,

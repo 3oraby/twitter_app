@@ -9,7 +9,10 @@ abstract class UserRepo {
     required String documentId,
   });
 
-  Future<Either<Failure, UserEntity>> getCurrentUserData({
+  Future<Either<Failure, UserEntity>> getCurrentUserData();
+
+  Future<Either<Failure, Success>> updateUserData({
+    required Map<String, dynamic> data,
     required String documentId,
   });
 }

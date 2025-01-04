@@ -5,14 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:twitter_app/core/errors/failures.dart';
 import 'package:twitter_app/core/helpers/functions/delete_user_data_from_prefs.dart';
 import 'package:twitter_app/core/services/firebase_auth_service.dart';
-import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 import 'package:twitter_app/features/user/domain/repo_interface/user_repo.dart';
 
 class AuthRepoImpl extends AuthRepo {
   final FirebaseAuthService firebaseAuthService;
-  AuthRepoImpl({required this.firebaseAuthService});
+  final UserRepo userRepo;
+  AuthRepoImpl({
+    required this.firebaseAuthService,
+    required this.userRepo,
+  });
 
   @override
   Future<Either<Failure, User>> createUserWithEmailAndPassword(
@@ -33,9 +36,7 @@ class AuthRepoImpl extends AuthRepo {
     try {
       User user = await firebaseAuthService.signInWithEmailAndPassword(
           email: email, password: password);
-      await getIt<UserRepo>().getCurrentUserData(
-        documentId: user.uid,
-      );
+      await userRepo.getCurrentUserData();
       return right(user);
     } catch (e) {
       return left(ServerFailure(message: e.toString()));
