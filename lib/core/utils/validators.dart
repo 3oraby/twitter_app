@@ -43,17 +43,17 @@ class Validators {
 
   static String? validateAge(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
-      return 'Age is required';
+      return context.tr('Age is required');
     }
     final age = int.tryParse(value);
     if (age == null || age <= 0) {
-      return 'Please enter a valid age';
+      return context.tr('Please enter a valid age');
     }
     if (age < 14) {
-      return 'Age must be 14 or older';
+      return context.tr('Age must be 14 or older');
     }
     if (age > 150) {
-      return 'Please enter a realistic age';
+      return context.tr('Please enter a realistic age');
     }
     return null;
   }

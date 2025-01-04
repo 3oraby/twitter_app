@@ -1,4 +1,4 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -12,12 +12,10 @@ class DrawerUserInfo extends StatefulWidget {
   const DrawerUserInfo({super.key});
 
   @override
-  State<DrawerUserInfo> createState() =>
-      _DrawerUserInfoState();
+  State<DrawerUserInfo> createState() => _DrawerUserInfoState();
 }
 
-class _DrawerUserInfoState
-    extends State<DrawerUserInfo> {
+class _DrawerUserInfoState extends State<DrawerUserInfo> {
   late UserEntity userEntity;
 
   @override
@@ -78,7 +76,7 @@ class _DrawerUserInfoState
                   style: AppTextStyles.uberMoveBold16,
                 ),
                 Text(
-                  " Following",
+                  context.tr(" Following"),
                   style: AppTextStyles.uberMoveMedium16.copyWith(
                     color: AppColors.secondaryColor,
                   ),
@@ -93,7 +91,7 @@ class _DrawerUserInfoState
                   style: AppTextStyles.uberMoveBold16,
                 ),
                 Text(
-                  " Followers",
+                  context.tr(" Followers"),
                   style: AppTextStyles.uberMoveMedium16.copyWith(
                     color: AppColors.secondaryColor,
                   ),

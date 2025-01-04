@@ -86,7 +86,7 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
             children: [
               const VerticalGap(16),
               Text(
-                'Tell us about yourself',
+                context.tr('Tell us about yourself'),
                 style: AppTextStyles.uberMoveBold22,
               ),
               const VerticalGap(16),
@@ -95,8 +95,8 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
                   Expanded(
                     child: CustomTextFormFieldWidget(
                       autovalidateMode: autovalidateMode,
-                      labelText: 'First Name',
-                      hintText: 'Enter your first name',
+                      labelText: context.tr('First Name'),
+                      hintText: context.tr('Enter your first name'),
                       controller: firstNameController,
                       validator: (value) =>
                           Validators.validateNormalText(context, value),
@@ -106,8 +106,8 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
                   Expanded(
                     child: CustomTextFormFieldWidget(
                       autovalidateMode: autovalidateMode,
-                      labelText: 'Last Name',
-                      hintText: 'Enter your last name',
+                      labelText: context.tr('Last Name'),
+                      hintText: context.tr('Enter your last name'),
                       controller: lastNameController,
                       validator: (value) =>
                           Validators.validateNormalText(context, value),
@@ -118,8 +118,8 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
               const VerticalGap(24),
               CustomTextFormFieldWidget(
                 autovalidateMode: autovalidateMode,
-                labelText: 'Age',
-                hintText: 'Enter your age',
+                labelText: context.tr('Age'),
+                hintText: context.tr('Enter your age'),
                 keyboardType: TextInputType.number,
                 controller: ageController,
                 validator: (value) => Validators.validateAge(context, value),
@@ -127,8 +127,8 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
               const VerticalGap(16),
               CustomTextFormFieldWidget(
                 autovalidateMode: autovalidateMode,
-                labelText: 'Phone Number',
-                hintText: 'Enter your phone number',
+                labelText: context.tr('Phone Number'),
+                hintText: context.tr('Enter your phone number'),
                 keyboardType: TextInputType.phone,
                 controller: phoneNumberController,
                 validator: (value) =>
@@ -136,7 +136,7 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
               ),
               const VerticalGap(16),
               Text(
-                'Gender',
+                context.tr('Gender'),
                 style: AppTextStyles.uberMoveBold16,
               ),
               const VerticalGap(8),
@@ -150,7 +150,9 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
                 items: Gender.values.map((Gender gender) {
                   return DropdownMenuItem<Gender>(
                     value: gender,
-                    child: Text(gender.name.capitalize()),
+                    child: Text(context.tr(
+                      gender.name.capitalize(),
+                    )),
                   );
                 }).toList(),
                 decoration: InputDecoration(
