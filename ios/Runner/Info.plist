@@ -50,5 +50,9 @@
 		<string>en</string>
 		<string>ar</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Twitter App needs access to your photo library to upload and manage profile pictures or other media.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Twitter App needs access to your camera to allow you to take photos for profile pictures or sharing media.</string>
 </dict>
 </plist>
