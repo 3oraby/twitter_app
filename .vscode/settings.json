@@ -8,6 +8,7 @@
         "geolocator",
         "hexcode",
         "Prefs",
+        "skeletonizer",
         "Subabase",
         "subprojects",
         "supabase",

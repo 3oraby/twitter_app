@@ -5,8 +5,8 @@ import 'package:path/path.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
-import 'package:twitter_app/core/utils/keys_name.dart';
 import 'package:twitter_app/core/utils/supabase_buckets_name.dart';
+import 'package:twitter_app/env/env.dart';
 
 class SupabaseStorageService extends StorageService {
   static late Supabase _supabase;
@@ -14,7 +14,7 @@ class SupabaseStorageService extends StorageService {
   static Future<void> supabaseInit() async {
     _supabase = await Supabase.initialize(
       url: BackendEndpoints.supabaseUrl,
-      anonKey: KeysName.anonKey,
+      anonKey: Env.supabaseAnonKey,
     );
   }
 
