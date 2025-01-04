@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
-import 'package:twitter_app/core/utils/app_images.dart';
+import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/utils/validators.dart';
 import 'package:twitter_app/core/widgets/custom_text_form_field.dart';
@@ -94,7 +94,7 @@ class _SignInBodyState extends State<SignInBody> {
               const CustomOrDivider(),
               const VerticalGap(24),
               SocialSignInButton(
-                logoName: AppImages.svgPhoneNumberLogo,
+                logoName: AppSvgs.svgPhoneNumberLogo,
                 description: context.tr("Continue With Phone"),
                 onPressed: () {
                   Navigator.pushNamed(
@@ -103,7 +103,7 @@ class _SignInBodyState extends State<SignInBody> {
               ),
               const VerticalGap(16),
               SocialSignInButton(
-                logoName: AppImages.svgGoogleLogo,
+                logoName: AppSvgs.svgGoogleLogo,
                 description: context.tr("Continue With Google"),
                 onPressed: () {},
               ),

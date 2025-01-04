@@ -17,9 +17,9 @@ class CustomDrawerListTileOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-
       onTap: onTap,
       contentPadding: EdgeInsets.zero,
+      minLeadingWidth: 0,
       leading: Icon(
         iconData,
         color: AppColors.primaryColor,
@@ -27,7 +27,7 @@ class CustomDrawerListTileOption extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: AppTextStyles.uberMoveBlack24,
+        style: AppTextStyles.uberMoveBlack20,
       ),
     );
   }

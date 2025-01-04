@@ -8,7 +8,7 @@ import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/helpers/functions/show_success_auth_modal_bottom_sheet.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
-import 'package:twitter_app/core/utils/app_images.dart';
+import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 import 'package:twitter_app/features/auth/presentation/cubits/signup_cubits/sign_up_cubit.dart';
@@ -28,7 +28,7 @@ class SignUpScreen extends StatelessWidget {
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          title: SvgPicture.asset(AppImages.svgXLogoWhiteBackground48),
+          title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground48),
           automaticallyImplyLeading: false,
         ),
         body: const SignUpBlocConsumerBody(),

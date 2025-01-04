@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
-import 'package:twitter_app/core/utils/app_images.dart';
+import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
 import 'package:twitter_app/features/auth/presentation/cubits/complete_user_profile_cubit/complete_user_profile_cubit.dart';
 import 'package:twitter_app/features/auth/presentation/screens/add_user_profile_picture_screen.dart';
@@ -34,7 +34,7 @@ class _CompleteUserProfileScreenState extends State<CompleteUserProfileScreen> {
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          title: SvgPicture.asset(AppImages.svgXLogoWhiteBackground48),
+          title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground48),
         ),
         body: const CompleteUserProfileBlocConsumerBody(),
       ),

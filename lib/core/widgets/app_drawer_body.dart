@@ -1,9 +1,10 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_drawer_list_tile_option.dart';
 import 'package:twitter_app/core/widgets/custom_logout_button.dart';
+import 'package:twitter_app/core/widgets/drawer_user_info.dart';
 import 'package:twitter_app/core/widgets/language_selection_switch.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 
@@ -18,10 +19,15 @@ class AppDrawerBody extends StatelessWidget {
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: AppConstants.horizontalPadding,
+            horizontal: AppConstants.horizontalDrawerPadding,
           ),
           child: Column(
             children: [
+              const DrawerUserInfo(),
+              const Divider(
+                color: AppColors.dividerColor,
+                height: 36,
+              ),
               CustomDrawerListTileOption(
                 title: context.tr("Profile"),
                 iconData: Icons.person_2_outlined,
@@ -39,7 +45,10 @@ class AppDrawerBody extends StatelessWidget {
                 iconData: Icons.settings,
                 onTap: () {},
               ),
-              const VerticalGap(24),
+              const Divider(
+                color: AppColors.dividerColor,
+                height: 36,
+              ),
               const CustomLogOutButton(),
               const Spacer(),
               Row(

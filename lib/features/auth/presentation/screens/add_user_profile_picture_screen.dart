@@ -15,7 +15,7 @@ import 'package:twitter_app/core/helpers/functions/show_success_auth_modal_botto
 import 'package:twitter_app/core/repos/files_repo/files_repo.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
-import 'package:twitter_app/core/utils/app_images.dart';
+import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_background_icon.dart';
 import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
@@ -47,7 +47,7 @@ class _AddUserProfilePictureScreenState
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          title: SvgPicture.asset(AppImages.svgXLogoWhiteBackground48),
+          title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground48),
         ),
         body: const AddUserProfilePictureBlocConsumerBody(),
       ),
