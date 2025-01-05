@@ -6,6 +6,7 @@ AppBar buildCustomAppBar(
   Widget? title,
   bool centerTitle = true,
   bool automaticallyImplyLeading = true,
+  Widget? leading,
 }) {
   return AppBar(
     elevation: 0,
@@ -14,5 +15,6 @@ AppBar buildCustomAppBar(
     title: title,
     centerTitle: centerTitle,
     automaticallyImplyLeading: automaticallyImplyLeading,
+    leading: leading,
   );
 }

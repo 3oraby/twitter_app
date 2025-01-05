@@ -13,5 +13,13 @@ class AppSvgs {
   /// Assets for svgXLogoWhiteBackground48
   /// assets/svg/x_logo_white_background_48.svg
   static const String svgXLogoWhiteBackground48 = "assets/svg/x_logo_white_background_48.svg";
+
+  /// Assets for svgXxxx
+  /// assets/svg/xxxx.svg
+  static const String svgXxxx = "assets/svg/xxxx.svg";
+
+  /// Assets for svgXxxxa
+  /// assets/svg/xxxxa.svg
+  static const String svgXxxxa = "assets/svg/xxxxa.svg";
 }
 
