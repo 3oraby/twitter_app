@@ -13,7 +13,7 @@ import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
 import 'package:twitter_app/features/auth/presentation/cubits/add_user_profile_picture_cubit/add_user_profile_picture_cubit.dart';
 import 'package:twitter_app/features/auth/presentation/widgets/add_user_profile_picture_body.dart';
-import 'package:twitter_app/features/home/presentation/screens/home_screen.dart';
+import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 import 'package:twitter_app/features/user/domain/repo_interface/user_repo.dart';
 
 class AddUserProfilePictureScreen extends StatefulWidget {
@@ -66,7 +66,7 @@ class AddUserProfilePictureBlocConsumerBody extends StatelessWidget {
             onNextButtonPressed: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                HomeScreen.routeId,
+                MainAppScreen.routeId,
                 (Route<dynamic> route) => false,
               );
             },

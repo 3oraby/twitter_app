@@ -5,7 +5,7 @@ import 'package:twitter_app/features/auth/presentation/screens/complete_user_pro
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone_number_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signup_screen.dart';
-import 'package:twitter_app/features/home/presentation/screens/home_screen.dart';
+import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 
 Route<dynamic> onGenerateRoutes(RouteSettings settings) {
   switch (settings.name) {
@@ -19,8 +19,8 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case CompleteUserProfileScreen.routeId:
       return MaterialPageRoute(
           builder: (context) => const CompleteUserProfileScreen());
-    case HomeScreen.routeId:
-      return MaterialPageRoute(builder: (context) => const HomeScreen());
+    case MainAppScreen.routeId:
+      return MaterialPageRoute(builder: (context) => const MainAppScreen());
     case AddUserProfilePictureScreen.routeId:
       return MaterialPageRoute(builder: (context) => const AddUserProfilePictureScreen());
     // case CheckoutView.routeName:

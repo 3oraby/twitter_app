@@ -13,7 +13,7 @@ import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 import 'package:twitter_app/features/auth/presentation/cubits/signin_cubits/sign_in_cubit.dart';
 import 'package:twitter_app/features/auth/presentation/widgets/signin_body.dart';
-import 'package:twitter_app/features/home/presentation/screens/home_screen.dart';
+import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
@@ -56,7 +56,7 @@ class SignInBLocConsumerBody extends StatelessWidget {
             onNextButtonPressed: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                HomeScreen.routeId,
+                MainAppScreen.routeId,
                 (Route<dynamic> route) => false,
               );
             },

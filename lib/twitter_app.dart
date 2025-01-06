@@ -5,7 +5,7 @@ import 'package:twitter_app/core/services/firebase_auth_service.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
-import 'package:twitter_app/features/home/presentation/screens/home_screen.dart';
+import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 
 class TwitterApp extends StatelessWidget {
   const TwitterApp({super.key});
@@ -19,7 +19,7 @@ class TwitterApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: onGenerateRoutes,
       initialRoute: getIt<FirebaseAuthService>().isUserLoggedIn()
-          ? HomeScreen.routeId
+          ? MainAppScreen.routeId
           : SignInScreen.routeId,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
