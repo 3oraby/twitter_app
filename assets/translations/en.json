@@ -68,5 +68,8 @@
   " Followers": " Followers",
   "Male": "Male",
   "Female": "Female",
-  "Other": "Other"
+  "Other": "Other",
+  "Home": "Home",
+  "Search": "Search",
+  "Notifications": "Notifications"
 }
