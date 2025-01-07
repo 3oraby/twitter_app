@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/utils/app_colors.dart';
 
-class CustomIconButton extends StatelessWidget {
-  const CustomIconButton({
+class CustomContainerButton extends StatelessWidget {
+  const CustomContainerButton({
     super.key,
     required this.child,
-    this.backgroundColor = Colors.white,
-    this.internalHorizontalPadding = 12,
-    this.internalVerticalPadding = 12,
-    this.borderRadius = AppConstants.borderRadius,
+    this.backgroundColor = AppColors.twitterAccentColor,
+    this.internalHorizontalPadding = 16,
+    this.internalVerticalPadding = 16,
+    this.borderRadius = 30,
     this.onPressed,
   });
 

@@ -11,4 +11,5 @@ class AppColors {
   static const Color unEnabledButtonColor = Color.fromARGB(255, 136, 137, 141);
   static const Color imageBackgroundColor = Color.fromARGB(255, 209, 216, 224);
   static const Color twitterAccentColor = Colors.blue;
+  static const Color lightTwitterAccentColor = Color(0xFF90CAF9);
 }

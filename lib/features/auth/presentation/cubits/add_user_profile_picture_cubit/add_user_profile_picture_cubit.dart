@@ -39,7 +39,6 @@ class AddUserProfilePictureCubit extends Cubit<AddUserProfilePictureState> {
           (failure) =>
               emit(AddUserProfilePictureFailureState(message: failure.message)),
           (success) async {
-            //! save user data
             UserEntity userEntity = getCurrentUserEntity();
             userEntity.profilePicUrl = imageUrl;
             await saveUserDataInPrefs(user: userEntity);

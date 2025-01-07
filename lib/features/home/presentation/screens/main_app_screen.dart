@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/widgets/custom_app_drawer.dart';
+import 'package:twitter_app/features/home/presentation/screens/make_new_tweet_screen.dart';
 import 'package:twitter_app/features/home/presentation/widgets/custom_bottom_navigation_bar.dart';
+import 'package:twitter_app/features/home/presentation/widgets/custom_floating_action_button.dart';
 import 'package:twitter_app/features/home/presentation/widgets/main_app_body.dart';
 
 class MainAppScreen extends StatefulWidget {
@@ -23,6 +25,12 @@ class _MainAppScreenState extends State<MainAppScreen> {
           setState(() {
             currentIndex = index;
           });
+        },
+      ),
+      floatingActionButton: CustomFloatingActionButton(
+        iconData: Icons.add,
+        onPressed: () {
+          Navigator.pushNamed(context, MakeNewTweetScreen.routeId);
         },
       ),
       body: MainAppBody(
