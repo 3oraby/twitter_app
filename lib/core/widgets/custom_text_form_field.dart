@@ -59,7 +59,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
   final Color enabledBorderColor;
   final double borderRadius;
   final double contentPadding;
-  final int maxLines;
+  final int? maxLines;
   final bool isEnabled;
   final void Function()? onTap;
   final AutovalidateMode autovalidateMode;

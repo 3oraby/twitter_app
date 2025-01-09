@@ -15,6 +15,7 @@ import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
 import 'package:twitter_app/core/widgets/custom_text_form_field.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
+import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/home/presentation/widgets/custom_floating_action_button.dart';
 
@@ -30,9 +31,24 @@ class MakeNewTweetScreen extends StatefulWidget {
 class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
   TextEditingController textTweetController = TextEditingController();
   bool _isPickedImageLoading = false;
+  bool _isPostButtonEnabled = false; // Track the button state.
 
   late UserEntity userEntity;
   List<File> mediaUrl = [];
+
+  @override
+  void initState() {
+    super.initState();
+    userEntity = getCurrentUserEntity();
+
+    // Add listener to the TextEditingController
+    textTweetController.addListener(() {
+      setState(() {
+        // Enable the button only if the text is not empty.
+        _isPostButtonEnabled = textTweetController.text.trim().isNotEmpty;
+      });
+    });
+  }
 
   Future<void> _onAddImagePressed() async {
     try {
@@ -64,16 +80,14 @@ class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    userEntity = getCurrentUserEntity();
+  _onPostButtonPressed() {
+    // Handle the post action
   }
 
   @override
   void dispose() {
-    super.dispose();
     textTweetController.dispose();
+    super.dispose();
   }
 
   @override
@@ -99,14 +113,15 @@ class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
         actions: [
           CustomContainerButton(
             internalVerticalPadding: 4,
-            backgroundColor: textTweetController.text.isEmpty
-                ? AppColors.lightTwitterAccentColor
-                : AppColors.twitterAccentColor,
+            backgroundColor: _isPostButtonEnabled
+                ? AppColors.twitterAccentColor
+                : AppColors.lightTwitterAccentColor,
+            onPressed: _isPostButtonEnabled ? _onPostButtonPressed : null,
             child: Text(
               "Post",
               style:
                   AppTextStyles.uberMoveMedium18.copyWith(color: Colors.white),
-            ),
+            ), // Disable the button if not enabled.
           ),
           const HorizontalGap(AppConstants.horizontalPadding),
         ],
@@ -127,10 +142,11 @@ class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
                   profilePicUrl: userEntity.profilePicUrl,
                   circleAvatarRadius: 20,
                 ),
-                const HorizontalGap(8),
+                const HorizontalGap(24),
                 Expanded(
                   child: CustomTextFormFieldWidget(
                     controller: textTweetController,
+                    contentPadding: 0,
                     borderWidth: 0,
                     borderColor: Colors.white,
                     focusedBorderWidth: 0,
@@ -140,11 +156,12 @@ class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
                     hintStyle: AppTextStyles.uberMoveRegular22.copyWith(
                       color: AppColors.secondaryColor,
                     ),
-                    maxLines: 8,
+                    maxLines: null,
                   ),
                 ),
               ],
             ),
+            const VerticalGap(28),
             SizedBox(
               height: 300,
               child: ListView.separated(
@@ -188,7 +205,9 @@ class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
                             onTap: () => _onRemoveImageButtonPressed(index),
                             child: Container(
                               decoration: const BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.black),
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                              ),
                               padding: const EdgeInsets.all(8),
                               child: const Icon(
                                 Icons.remove_circle,
