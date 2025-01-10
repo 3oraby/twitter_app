@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
+import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/home/domain/repos/tweet_repo.dart';
+import 'package:twitter_app/features/home/presentation/cubits/get_tweets_cubit/get_tweets_cubit.dart';
 import 'package:twitter_app/features/home/presentation/widgets/following_tab_bar_home_view.dart';
 import 'package:twitter_app/features/home/presentation/widgets/for_you_tab_bar_home_view.dart';
 
@@ -44,8 +48,7 @@ class HomeView extends StatelessWidget {
       length: 2,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: AppConstants.horizontalPadding
-        ),
+            horizontal: AppConstants.horizontalPadding),
         child: Column(
           children: [
             buildHomeAppBar(
@@ -63,12 +66,17 @@ class HomeView extends StatelessWidget {
                 Tab(text: "Following"),
               ],
             ),
-            const Expanded(
-              child: TabBarView(
-                children: [
-                  ForYouTabBarHomeView(),
-                  FollowingTabBarHomeView(),
-                ],
+            Expanded(
+              child: BlocProvider(
+                create: (context) => GetTweetsCubit(
+                  tweetRepo: getIt<TweetRepo>(),
+                ),
+                child: const TabBarView(
+                  children: [
+                    ForYouTabBarHomeView(),
+                    FollowingTabBarHomeView(),
+                  ],
+                ),
               ),
             ),
           ],
@@ -77,4 +85,3 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-

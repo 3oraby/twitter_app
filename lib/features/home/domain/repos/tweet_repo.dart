@@ -9,4 +9,8 @@ abstract class TweetRepo {
     required Map<String, dynamic> data,
     required List<File>? mediaFiles,
   });
+
+  Future<Either<Failure, List<TweetEntity>>> getTweets({
+    bool? isForFollowingOnly,
+  });
 }

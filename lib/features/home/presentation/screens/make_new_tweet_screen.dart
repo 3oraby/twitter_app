@@ -35,7 +35,7 @@ class MakeNewTweetScreen extends StatefulWidget {
 
 class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
   final TextEditingController textTweetController = TextEditingController();
-  bool _isPickedImageLoading = false;
+  // bool _isPickedImageLoading = false;
   late UserEntity userEntity;
   List<File> mediaFiles = [];
   bool _isPostButtonEnabled = false;
@@ -54,9 +54,9 @@ class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
 
   Future<void> _onAddImagePressed() async {
     try {
-      setState(() {
-        _isPickedImageLoading = true;
-      });
+      // setState(() {
+      //   _isPickedImageLoading = true;
+      // });
       final ImagePicker imagePicker = ImagePicker();
       final XFile? image =
           await imagePicker.pickImage(source: ImageSource.gallery);
@@ -68,9 +68,9 @@ class _MakeNewTweetScreenState extends State<MakeNewTweetScreen> {
     } catch (e) {
       log("Image picking error: $e");
     } finally {
-      setState(() {
-        _isPickedImageLoading = false;
-      });
+      // setState(() {
+      //   _isPickedImageLoading = false;
+      // });
     }
   }
 

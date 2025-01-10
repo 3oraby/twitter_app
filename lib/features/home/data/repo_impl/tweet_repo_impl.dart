@@ -50,4 +50,25 @@ class TweetRepoImpl extends TweetRepo {
       return left(const ServerFailure(message: "Failed to post the tweet"));
     }
   }
+
+  @override
+  Future<Either<Failure, List<TweetEntity>>> getTweets({
+    bool? isForFollowingOnly,
+  }) async {
+    try {
+      List data = await databaseService.getData(
+        path: BackendEndpoints.getTweets,
+      );
+
+      List<TweetEntity> tweets = data
+          .map(
+            (tweet) => TweetModel.fromMap(tweet),
+          )
+          .toList();
+      return right(tweets);
+    } catch (e) {
+      log("Exception in TweetRepoImpl.getTweets() ${e.toString()}");
+      return left(const ServerFailure(message: "Failed to get the tweets"));
+    }
+  }
 }
