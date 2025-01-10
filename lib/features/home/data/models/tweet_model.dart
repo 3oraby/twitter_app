@@ -3,7 +3,6 @@ import 'package:twitter_app/features/home/domain/entities/tweet_entity.dart';
 
 class TweetModel extends TweetEntity {
   TweetModel({
-    // required super.tweetId,
     required super.userId,
     required super.createdAt,
     super.content,
@@ -16,7 +15,6 @@ class TweetModel extends TweetEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      // 'tweetId': tweetId,
       'userId': userId,
       'content': content,
       'mediaUrl': mediaUrl,
@@ -30,7 +28,6 @@ class TweetModel extends TweetEntity {
 
   factory TweetModel.fromMap(Map<String, dynamic> map) {
     return TweetModel(
-      // tweetId: map['tweetId'] as String,
       userId: map['userId'] as String,
       content: map['content'] as String?,
       mediaUrl:
@@ -45,7 +42,6 @@ class TweetModel extends TweetEntity {
 
   TweetEntity toEntity() {
     return TweetEntity(
-      // tweetId: tweetId,
       userId: userId,
       content: content,
       mediaUrl: mediaUrl,
