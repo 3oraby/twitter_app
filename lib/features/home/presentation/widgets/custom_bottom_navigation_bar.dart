@@ -18,7 +18,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: AppConstants.horizontalPadding,
-          vertical: 16,
+          vertical: 8,
         ),
         child: GNav(
             gap: 4,
