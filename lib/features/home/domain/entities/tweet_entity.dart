@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TweetEntity {
-  final String tweetId;
+  // final String tweetId;
   final String userId;
   String? content;
   List<String>? mediaUrl;
@@ -12,7 +12,7 @@ class TweetEntity {
   int retweetsCount;
 
   TweetEntity({
-    required this.tweetId,
+    // required this.tweetId,
     required this.userId,
     required this.createdAt,
     this.content,

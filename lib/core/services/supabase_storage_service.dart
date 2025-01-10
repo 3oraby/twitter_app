@@ -22,7 +22,7 @@ class SupabaseStorageService extends StorageService {
   Future<String> uploadFile(File file, String path) async {
     String fileName = basename(file.path);
     // String extensionName = extension(file.path);
-    String uploadPath = "$path/$fileName";
+    String uploadPath = "$path/${DateTime.now()}/$fileName";
     await _supabase.client.storage
         .from(SupabaseBucketsName.twitterImages)
         .upload(
