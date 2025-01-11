@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_images.dart';
 
 class BuildUserCircleAvatarImage extends StatelessWidget {
@@ -16,6 +16,9 @@ class BuildUserCircleAvatarImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: circleAvatarRadius,
+      backgroundColor: profilePicUrl == null
+          ? Colors.white
+          : AppColors.highlightBackgroundColor,
       backgroundImage: profilePicUrl != null
           ? NetworkImage(
               profilePicUrl!,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -5,6 +7,8 @@ import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
+import 'package:twitter_app/core/widgets/custom_container_button.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/home/presentation/cubits/get_followers_suggestions_cubit/get_followers_suggestions_cubit.dart';
@@ -35,6 +39,7 @@ class _FollowersSuggestionViewState extends State<FollowersSuggestionView> {
   void initState() {
     super.initState();
     UserEntity currentUser = getCurrentUserEntity();
+    log("get suggestions followers data");
     BlocProvider.of<GetFollowersSuggestionsCubit>(context)
         .getFollowersSuggestions(currentUserId: currentUser.userId);
   }
@@ -127,13 +132,57 @@ class UserInfoCard extends StatelessWidget {
   final UserEntity user;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber,
+    return GestureDetector(
+      onTap: () {
+        // go to this user profile screen
+      },
       child: Column(
         children: [
-          Text(user.userId),
-          Text(user.firstName!),
-          Text(user.email),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: BuildUserCircleAvatarImage(
+              profilePicUrl: user.profilePicUrl,
+            ),
+            title: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "${user.firstName} ${user.lastName}",
+                style: AppTextStyles.uberMoveExtraBold18,
+              ),
+            ),
+            subtitle: Text(
+              user.email,
+              style: AppTextStyles.uberMoveBold16.copyWith(
+                color: AppColors.secondaryColor,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: CustomContainerButton(
+              internalHorizontalPadding: 32,
+              internalVerticalPadding: 8,
+              backgroundColor: AppColors.primaryColor,
+              onPressed: () {
+                // make + remove follow relationship
+              },
+              child: Text(
+                "Follow",
+                style:
+                    AppTextStyles.uberMoveBold14.copyWith(color: Colors.white),
+              ),
+            ),
+          ),
+          if (user.bio != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  user.bio!,
+                  style: AppTextStyles.uberMoveMedium18,
+                ),
+              ],
+            )
         ],
       ),
     );
