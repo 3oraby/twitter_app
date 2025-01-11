@@ -62,6 +62,11 @@ class FirestoreService implements DatabaseService {
               query = query.where(condition.field, isEqualTo: condition.value);
               log('Adding WHERE: ${condition.field} == ${condition.value}');
               break;
+            case QueryOperator.isNotEqualTo:
+              query =
+                  query.where(condition.field, isNotEqualTo: condition.value);
+              log('Adding WHERE: ${condition.field} != ${condition.value}');
+              break;
             case QueryOperator.lessThan:
               query = query.where(condition.field, isLessThan: condition.value);
               log('Adding WHERE: ${condition.field} < ${condition.value}');

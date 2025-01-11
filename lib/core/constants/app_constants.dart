@@ -24,7 +24,11 @@ class AppConstants {
           name: context.tr("Search"),
         ),
         BottomNavigationBarItemEntity(
-          itemIcon: Icons.notifications,
+          itemIcon: Icons.person_add_alt_1_outlined,
+          name: context.tr("Suggestions"),
+        ),
+        BottomNavigationBarItemEntity(
+          itemIcon: Icons.notifications_active_outlined,
           name: context.tr("Notifications"),
         ),
         BottomNavigationBarItemEntity(

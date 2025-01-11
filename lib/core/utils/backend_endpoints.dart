@@ -6,4 +6,5 @@ class BackendEndpoints {
   static const String uploadFiles = 'UploadFiles';
   static const String makeNewTweet = "tweets";
   static const String getTweets = "tweets";
+  static const String getSuggestionFollowers = "users";
 }

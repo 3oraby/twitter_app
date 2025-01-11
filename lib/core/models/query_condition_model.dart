@@ -15,5 +15,6 @@ enum QueryOperator {
   lessThan,
   greaterThan,
   lessThanOrEqualTo,
-  greaterThanOrEqualTo
+  greaterThanOrEqualTo,
+  isNotEqualTo
 }
