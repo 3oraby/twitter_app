@@ -20,22 +20,24 @@ class CustomBottomNavigationBar extends StatelessWidget {
           horizontal: AppConstants.horizontalPadding,
           vertical: 8,
         ),
-        child: GNav(
-            gap: 4,
-            backgroundColor: Colors.transparent,
-            color: AppColors.primaryColor,
-            activeColor: AppColors.primaryColor,
-            tabBackgroundColor: AppColors.lightBackgroundColor,
-            padding: const EdgeInsets.all(16),
-            onTabChange: onTabChange,
-            tabs: AppConstants.bottomNavigationBarItems(context: context).map(
-              (item) {
-                return GButton(
-                  icon: item.itemIcon,
-                  text: item.name,
-                );
-              },
-            ).toList()),
+        child: FittedBox(
+          child: GNav(
+              gap: 4,
+              backgroundColor: Colors.transparent,
+              color: AppColors.primaryColor,
+              activeColor: AppColors.primaryColor,
+              tabBackgroundColor: AppColors.lightBackgroundColor,
+              padding: const EdgeInsets.all(16),
+              onTabChange: onTabChange,
+              tabs: AppConstants.bottomNavigationBarItems(context: context).map(
+                (item) {
+                  return GButton(
+                    icon: item.itemIcon,
+                    text: item.name,
+                  );
+                },
+              ).toList()),
+        ),
       ),
     );
   }
