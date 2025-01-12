@@ -10,6 +10,8 @@ class CustomContainerButton extends StatelessWidget {
     this.internalVerticalPadding = 16,
     this.borderRadius = 30,
     this.onPressed,
+    this.height,
+    this.width,
   });
 
   final Widget child;
@@ -18,12 +20,16 @@ class CustomContainerButton extends StatelessWidget {
   final double internalVerticalPadding;
   final double borderRadius;
   final VoidCallback? onPressed;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
+        height: height,
+        width: width,
         padding: EdgeInsets.symmetric(
           horizontal: internalHorizontalPadding,
           vertical: internalVerticalPadding,
