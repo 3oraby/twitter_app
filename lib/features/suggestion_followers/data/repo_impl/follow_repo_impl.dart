@@ -20,22 +20,37 @@ class FollowRepoImpl extends FollowRepo {
     required String currentUserId,
   }) async {
     try {
-      List res = await databaseService.getData(
-        path: BackendEndpoints.getSuggestionFollowers,
-        queryConditions: [
-          QueryCondition(
-            field: "userId",
-            operator: QueryOperator.isNotEqualTo,
-            value: currentUserId,
-          )
-        ],
-      );
-      List<UserEntity> suggestionUsers = res
-          .map(
-            (doc) => UserModel.fromJson(doc.data()),
-          )
-          .toList();
-      return right(suggestionUsers);
+    List followRelationships = await databaseService.getData(
+      path: BackendEndpoints.toggleFollowRelationShip,
+      queryConditions: [
+        QueryCondition(
+          field: "followingId",
+          value: currentUserId,
+        ),
+      ],
+    );
+
+    Set<String> followedUserIds = followRelationships
+        .map((doc) => FollowingRelationshipModel.fromJson(doc.data()).followedId)
+        .toSet();
+
+    List res = await databaseService.getData(
+      path: BackendEndpoints.getSuggestionFollowers,
+      queryConditions: [
+        QueryCondition(
+          field: "userId",
+          operator: QueryOperator.isNotEqualTo,
+          value: currentUserId,
+        ),
+      ],
+    );
+
+    List<UserEntity> suggestionUsers = res
+        .map((doc) => UserModel.fromJson(doc.data()))
+        .where((user) => !followedUserIds.contains(user.userId)) 
+        .toList();
+
+    return right(suggestionUsers);
     } catch (e) {
       log("Exception in FollowRepoImpl.getFollowersSuggestions() ${e.toString()}");
       return left(const ServerFailure(message: "Failed to get suggestions"));
