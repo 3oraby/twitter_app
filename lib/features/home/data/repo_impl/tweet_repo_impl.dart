@@ -56,13 +56,13 @@ class TweetRepoImpl extends TweetRepo {
     bool? isForFollowingOnly,
   }) async {
     try {
-      List data = await databaseService.getData(
+      List res = await databaseService.getData(
         path: BackendEndpoints.getTweets,
       );
 
-      List<TweetEntity> tweets = data
+      List<TweetEntity> tweets = res
           .map(
-            (tweet) => TweetModel.fromMap(tweet),
+            (doc) => TweetModel.fromMap(doc.data()),
           )
           .toList();
       return right(tweets);

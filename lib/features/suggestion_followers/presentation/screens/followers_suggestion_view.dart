@@ -1,17 +1,22 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
+import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/home/presentation/cubits/get_followers_suggestions_cubit/get_followers_suggestions_cubit.dart';
+import 'package:twitter_app/features/suggestion_followers/data/models/following_relationship_model.dart';
+import 'package:twitter_app/features/suggestion_followers/domain/repos/follow_repo.dart';
+import 'package:twitter_app/features/suggestion_followers/presentation/cubits/get_followers_suggestions_cubit/get_followers_suggestions_cubit.dart';
+import 'package:twitter_app/features/suggestion_followers/presentation/cubits/toggle_follow_relation_ship_cubit/toggle_follow_relation_ship_cubit.dart';
 
 class FollowersSuggestionView extends StatefulWidget {
   const FollowersSuggestionView({super.key});
@@ -81,13 +86,28 @@ class FollowersSuggestionsBlocConsumerBody extends StatelessWidget {
   }
 }
 
-class FollowersSuggestionsBody extends StatelessWidget {
+class FollowersSuggestionsBody extends StatefulWidget {
   const FollowersSuggestionsBody({
     super.key,
     required this.suggestionUsers,
   });
 
   final List<UserEntity> suggestionUsers;
+
+  @override
+  State<FollowersSuggestionsBody> createState() =>
+      _FollowersSuggestionsBodyState();
+}
+
+class _FollowersSuggestionsBodyState extends State<FollowersSuggestionsBody> {
+  late UserEntity currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = getCurrentUserEntity();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -109,10 +129,11 @@ class FollowersSuggestionsBody extends StatelessWidget {
               ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: suggestionUsers.length,
+                itemCount: widget.suggestionUsers.length,
                 separatorBuilder: (context, index) => const VerticalGap(24),
                 itemBuilder: (context, index) => UserInfoCard(
-                  user: suggestionUsers[index],
+                  user: widget.suggestionUsers[index],
+                  currentUserId: currentUser.userId,
                 ),
               ),
             ],
@@ -127,9 +148,12 @@ class UserInfoCard extends StatelessWidget {
   const UserInfoCard({
     super.key,
     required this.user,
+    required this.currentUserId,
   });
 
   final UserEntity user;
+  final String currentUserId;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -159,18 +183,9 @@ class UserInfoCard extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            trailing: CustomContainerButton(
-              internalHorizontalPadding: 32,
-              internalVerticalPadding: 8,
-              backgroundColor: AppColors.primaryColor,
-              onPressed: () {
-                // make + remove follow relationship
-              },
-              child: Text(
-                "Follow",
-                style:
-                    AppTextStyles.uberMoveBold14.copyWith(color: Colors.white),
-              ),
+            trailing: CustomFollowButton(
+              followedId: user.userId,
+              followingId: currentUserId,
             ),
           ),
           if (user.bio != null)
@@ -185,6 +200,76 @@ class UserInfoCard extends StatelessWidget {
             )
         ],
       ),
+    );
+  }
+}
+
+class CustomFollowButton extends StatelessWidget {
+  const CustomFollowButton({
+    super.key,
+    required this.followedId,
+    required this.followingId,
+  });
+
+  final String followedId;
+  final String followingId;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ToggleFollowRelationShipCubit(
+        followRepo: getIt<FollowRepo>(),
+      ),
+      child: CustomFollowButtonBlocConsumerBody(
+        followedId: followedId,
+        followingId: followingId,
+      ),
+    );
+  }
+}
+
+class CustomFollowButtonBlocConsumerBody extends StatelessWidget {
+  const CustomFollowButtonBlocConsumerBody({
+    super.key,
+    required this.followedId,
+    required this.followingId,
+  });
+
+  final String followedId;
+  final String followingId;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<ToggleFollowRelationShipCubit,
+        ToggleFollowRelationShipState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return CustomContainerButton(
+          key: Key(followedId),
+          internalHorizontalPadding: 32,
+          internalVerticalPadding: 8,
+          backgroundColor: AppColors.primaryColor,
+          onPressed: () {
+            BlocProvider.of<ToggleFollowRelationShipCubit>(context)
+                .toggleFollowRelationShip(
+              data: FollowingRelationshipModel(
+                followedId: followedId,
+                followingId: followingId,
+                followedAt: Timestamp.now(),
+              ).toJson(),
+            );
+          },
+          child: state is ToggleFollowRelationShipLoadingState
+              ? CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(
+                  "Follow",
+                  style: AppTextStyles.uberMoveBold14
+                      .copyWith(color: Colors.white),
+                ),
+        );
+      },
     );
   }
 }

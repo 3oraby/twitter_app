@@ -7,4 +7,5 @@ class BackendEndpoints {
   static const String makeNewTweet = "tweets";
   static const String getTweets = "tweets";
   static const String getSuggestionFollowers = "users";
+  static const String toggleFollowRelationShip = "followRelationShips";
 }

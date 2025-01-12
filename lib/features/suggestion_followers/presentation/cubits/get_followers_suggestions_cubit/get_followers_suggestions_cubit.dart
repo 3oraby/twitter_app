@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/home/domain/repos/follow_repo.dart';
+import 'package:twitter_app/features/suggestion_followers/domain/repos/follow_repo.dart';
 
 part 'get_followers_suggestions_state.dart';
 
