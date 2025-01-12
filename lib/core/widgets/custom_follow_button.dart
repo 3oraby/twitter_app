@@ -34,7 +34,7 @@ class CustomFollowButton extends StatelessWidget {
   }
 }
 
-class CustomFollowButtonBlocConsumerBody extends StatelessWidget {
+class CustomFollowButtonBlocConsumerBody extends StatefulWidget {
   const CustomFollowButtonBlocConsumerBody({
     super.key,
     required this.followedId,
@@ -43,6 +43,15 @@ class CustomFollowButtonBlocConsumerBody extends StatelessWidget {
 
   final String followedId;
   final String followingId;
+
+  @override
+  State<CustomFollowButtonBlocConsumerBody> createState() =>
+      _CustomFollowButtonBlocConsumerBodyState();
+}
+
+class _CustomFollowButtonBlocConsumerBodyState
+    extends State<CustomFollowButtonBlocConsumerBody> {
+  bool isActive = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,44 +66,142 @@ class CustomFollowButtonBlocConsumerBody extends StatelessWidget {
         final isLoading = state is ToggleFollowRelationShipLoadingState;
 
         return CustomContainerButton(
-          key: Key(followedId),
-          width: 100,
+          width: 105,
           height: 40,
           internalVerticalPadding: 0,
           internalHorizontalPadding: 0,
-          backgroundColor: AppColors.primaryColor,
+          borderColor: AppColors.borderColor,
+          borderWidth: 1,
+          backgroundColor: isActive
+              ? Colors.white
+              : AppColors.primaryColor,
           onPressed: isLoading
               ? null
-              : () {
-                  BlocProvider.of<ToggleFollowRelationShipCubit>(context)
+              : () async {
+                  await BlocProvider.of<ToggleFollowRelationShipCubit>(context)
                       .toggleFollowRelationShip(
                     data: FollowingRelationshipModel(
-                      followedId: followedId,
-                      followingId: followingId,
+                      followedId: widget.followedId,
+                      followingId: widget.followingId,
                       followedAt: Timestamp.now(),
                     ).toJson(),
                   );
+                  setState(() {
+                    isActive = !isActive;
+                  });
                 },
           child: Center(
             child: isLoading
-                ? const SizedBox(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                      strokeWidth: 2,
-                    ),
-                  )
+                ? Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: CircularProgressIndicator(
+                    color: isActive ? Colors.black : Colors.white,
+                    strokeWidth: 2,
+                  ),
+                )
                 : FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.center,
-                  child: Text(
-                      "Follow",
-                      style: AppTextStyles.uberMoveBold14
-                          .copyWith(color: Colors.white),
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                    child: Text(
+                      isActive ? "Following" : "Follow",
+                      style: AppTextStyles.uberMoveBold14.copyWith(
+                        color: isActive ? Colors.black : Colors.white,
+                      ),
                     ),
-                ),
+                  ),
           ),
         );
       },
+    );
+  }
+}
+
+class ActiveToggleFollowButton extends StatelessWidget {
+  const ActiveToggleFollowButton({
+    super.key,
+    required this.followedId,
+    required this.isLoading,
+    required this.followingId,
+    required this.onPressed,
+  });
+
+  final String followedId;
+  final bool isLoading;
+  final String followingId;
+  final VoidCallback onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return CustomContainerButton(
+      key: Key(followedId),
+      width: 100,
+      height: 40,
+      internalVerticalPadding: 0,
+      internalHorizontalPadding: 0,
+      backgroundColor: AppColors.highlightBackgroundColor,
+      onPressed: onPressed,
+      child: Center(
+        child: isLoading
+            ? const SizedBox(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.center,
+                child: Text(
+                  "Following",
+                  style: AppTextStyles.uberMoveBold14,
+                ),
+              ),
+      ),
+    );
+  }
+}
+
+class InActiveToggleFollowButton extends StatelessWidget {
+  const InActiveToggleFollowButton({
+    super.key,
+    required this.followedId,
+    required this.isLoading,
+    required this.followingId,
+    required this.onPressed,
+  });
+
+  final String followedId;
+  final bool isLoading;
+  final String followingId;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomContainerButton(
+      key: Key(followedId),
+      width: 100,
+      height: 40,
+      internalVerticalPadding: 0,
+      internalHorizontalPadding: 0,
+      backgroundColor: AppColors.primaryColor,
+      onPressed: onPressed,
+      child: Center(
+        child: isLoading
+            ? const SizedBox(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.center,
+                child: Text(
+                  "Follow",
+                  style: AppTextStyles.uberMoveBold14
+                      .copyWith(color: Colors.white),
+                ),
+              ),
+      ),
     );
   }
 }

@@ -12,6 +12,8 @@ class CustomContainerButton extends StatelessWidget {
     this.onPressed,
     this.height,
     this.width,
+    this.borderColor = Colors.white,
+    this.borderWidth = 0,
   });
 
   final Widget child;
@@ -22,6 +24,8 @@ class CustomContainerButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final double? width;
   final double? height;
+  final double borderWidth;
+  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +39,12 @@ class CustomContainerButton extends StatelessWidget {
           vertical: internalVerticalPadding,
         ),
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(
+              color: borderColor,
+              width: borderWidth,
+            )),
         child: child,
       ),
     );
