@@ -110,9 +110,7 @@ class FirestoreService implements DatabaseService {
         //     message: "No items found matching your search.".tr());
       }
 
-      return querySnapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
-          .toList();
+      return querySnapshot.docs.toList();
     } on FirebaseException catch (e) {
       _handleFirebaseException(e);
     } catch (e) {
