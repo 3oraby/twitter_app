@@ -104,8 +104,10 @@ class FirestoreService implements DatabaseService {
 
       final querySnapshot = await query.get();
       if (querySnapshot.docs.isEmpty) {
-        throw CustomException(
-            message: "No items found matching your search.".tr());
+        log("No items found matching your search.");
+        return [];
+        // throw CustomException(
+        //     message: "No items found matching your search.".tr());
       }
 
       return querySnapshot.docs
@@ -137,6 +139,25 @@ class FirestoreService implements DatabaseService {
       log('Error updating data in Firestore: $e');
       throw CustomException(
           message: "Cannot update your data right now, please try again later."
+              .tr());
+    }
+  }
+
+  @override
+  Future<void> deleteData({
+    required String path,
+    required String documentId,
+  }) async {
+    try {
+      log("Deleting document at collection: $path with docId: $documentId");
+      await firebaseFirestore.collection(path).doc(documentId).delete();
+      log("Document deleted successfully at $path/$documentId");
+    } on FirebaseException catch (e) {
+      _handleFirebaseException(e);
+    } catch (e) {
+      log('Error deleting data from Firestore: $e');
+      throw CustomException(
+          message: "Cannot delete your data right now, please try again later."
               .tr());
     }
   }
