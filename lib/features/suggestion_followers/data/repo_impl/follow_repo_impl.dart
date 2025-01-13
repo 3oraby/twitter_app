@@ -20,37 +20,38 @@ class FollowRepoImpl extends FollowRepo {
     required String currentUserId,
   }) async {
     try {
-    List followRelationships = await databaseService.getData(
-      path: BackendEndpoints.toggleFollowRelationShip,
-      queryConditions: [
-        QueryCondition(
-          field: "followingId",
-          value: currentUserId,
-        ),
-      ],
-    );
+      List followRelationships = await databaseService.getData(
+        path: BackendEndpoints.toggleFollowRelationShip,
+        queryConditions: [
+          QueryCondition(
+            field: "followingId",
+            value: currentUserId,
+          ),
+        ],
+      );
 
-    Set<String> followedUserIds = followRelationships
-        .map((doc) => FollowingRelationshipModel.fromJson(doc.data()).followedId)
-        .toSet();
+      Set<String> followedUserIds = followRelationships
+          .map((doc) =>
+              FollowingRelationshipModel.fromJson(doc.data()).followedId)
+          .toSet();
 
-    List res = await databaseService.getData(
-      path: BackendEndpoints.getSuggestionFollowers,
-      queryConditions: [
-        QueryCondition(
-          field: "userId",
-          operator: QueryOperator.isNotEqualTo,
-          value: currentUserId,
-        ),
-      ],
-    );
+      List res = await databaseService.getData(
+        path: BackendEndpoints.getSuggestionFollowers,
+        queryConditions: [
+          QueryCondition(
+            field: "userId",
+            operator: QueryOperator.isNotEqualTo,
+            value: currentUserId,
+          ),
+        ],
+      );
 
-    List<UserEntity> suggestionUsers = res
-        .map((doc) => UserModel.fromJson(doc.data()))
-        .where((user) => !followedUserIds.contains(user.userId)) 
-        .toList();
+      List<UserEntity> suggestionUsers = res
+          .map((doc) => UserModel.fromJson(doc.data()))
+          .where((user) => !followedUserIds.contains(user.userId))
+          .toList();
 
-    return right(suggestionUsers);
+      return right(suggestionUsers);
     } catch (e) {
       log("Exception in FollowRepoImpl.getFollowersSuggestions() ${e.toString()}");
       return left(const ServerFailure(message: "Failed to get suggestions"));
@@ -83,10 +84,35 @@ class FollowRepoImpl extends FollowRepo {
           path: BackendEndpoints.toggleFollowRelationShip,
           data: data,
         );
+
+        // Increment followers count for the followed user
+        await databaseService.incrementField(
+          path: BackendEndpoints.updateUserData,
+          documentId: followingRelationshipModel.followedId,
+          field: "nFollowers",
+        );
+
+        // Increment following count for the following user
+        await databaseService.incrementField(
+          path: BackendEndpoints.updateUserData,
+          documentId: followingRelationshipModel.followingId,
+          field: "nFollowing",
+        );
       } else {
         await databaseService.deleteData(
           path: BackendEndpoints.toggleFollowRelationShip,
           documentId: result.first.id,
+        );
+        // Decrement followers and following counts
+        await databaseService.decrementField(
+          path: BackendEndpoints.updateUserData,
+          documentId: followingRelationshipModel.followedId,
+          field: "nFollowers",
+        );
+        await databaseService.decrementField(
+          path: BackendEndpoints.updateUserData,
+          documentId: followingRelationshipModel.followingId,
+          field: "nFollowing",
         );
       }
 
