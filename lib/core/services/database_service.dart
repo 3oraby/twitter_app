@@ -26,4 +26,18 @@ abstract class DatabaseService {
     required String path,
     required String documentId,
   });
+
+  Future<void> incrementField({
+    required String path,
+    required String documentId,
+    required String field,
+    int incrementAmount = 1,
+  });
+
+  Future<void> decrementField({
+    required String path,
+    required String documentId,
+    required String field,
+    int decrementAmount = -1,
+  });
 }

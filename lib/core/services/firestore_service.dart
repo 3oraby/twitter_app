@@ -160,6 +160,38 @@ class FirestoreService implements DatabaseService {
     }
   }
 
+  @override
+  Future<void> incrementField({
+    required String path,
+    required String documentId,
+    required String field,
+    int incrementAmount = 1,
+  }) async {
+    try {
+      await firebaseFirestore.collection(path).doc(documentId).update({
+        field: FieldValue.increment(incrementAmount),
+      });
+    } catch (e) {
+      throw Exception("Failed to increment field: $e");
+    }
+  }
+
+  @override
+  Future<void> decrementField({
+    required String path,
+    required String documentId,
+    required String field,
+    int decrementAmount = -1,
+  }) async {
+    try {
+      await firebaseFirestore.collection(path).doc(documentId).update({
+        field: FieldValue.increment(decrementAmount),
+      });
+    } catch (e) {
+      throw Exception("Failed to decrement field: $e");
+    }
+  }
+
   void _handleFirebaseException(FirebaseException e) {
     switch (e.code) {
       case 'permission-denied':
