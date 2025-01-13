@@ -3,27 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
+import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/suggestion_followers/domain/repos/follow_repo.dart';
 import 'package:twitter_app/features/suggestion_followers/presentation/cubits/get_followers_suggestions_cubit/get_followers_suggestions_cubit.dart';
 import 'package:twitter_app/features/suggestion_followers/presentation/widgets/followers_suggestions_body.dart';
 
-class FollowersSuggestionView extends StatefulWidget {
-  const FollowersSuggestionView({super.key});
+class FollowersSuggestionScreen extends StatelessWidget {
+  const FollowersSuggestionScreen({super.key});
 
-  @override
-  State<FollowersSuggestionView> createState() =>
-      _FollowersSuggestionViewState();
-}
-
-class _FollowersSuggestionViewState extends State<FollowersSuggestionView> {
+  static const String routeId = 'kFollowersSuggestions';
   AppBar buildSuggestionsAppBar({
     required BuildContext context,
   }) {
     return buildCustomAppBar(
       context,
-      automaticallyImplyLeading: false,
       title: Text(
         "Connect",
         style: AppTextStyles.uberMoveBlack20,
@@ -32,27 +28,40 @@ class _FollowersSuggestionViewState extends State<FollowersSuggestionView> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    UserEntity currentUser = getCurrentUserEntity();
-    log("get suggestions followers data");
-    BlocProvider.of<GetFollowersSuggestionsCubit>(context)
-        .getFollowersSuggestions(currentUserId: currentUser.userId);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        buildSuggestionsAppBar(context: context),
-        const FollowersSuggestionsBlocConsumerBody()
-      ],
+    return BlocProvider(
+      create: (context) => GetFollowersSuggestionsCubit(
+        followRepo: getIt<FollowRepo>(),
+      ),
+      child: Scaffold(
+        appBar: buildSuggestionsAppBar(context: context),
+        body: const FollowersSuggestionsBlocConsumerBody(),
+      ),
     );
   }
 }
 
-class FollowersSuggestionsBlocConsumerBody extends StatelessWidget {
+class FollowersSuggestionsBlocConsumerBody extends StatefulWidget {
   const FollowersSuggestionsBlocConsumerBody({super.key});
+
+  @override
+  State<FollowersSuggestionsBlocConsumerBody> createState() =>
+      _FollowersSuggestionsBlocConsumerBodyState();
+}
+
+class _FollowersSuggestionsBlocConsumerBodyState
+    extends State<FollowersSuggestionsBlocConsumerBody> {
+  late UserEntity currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    log("get suggestions followers data");
+    currentUser = getCurrentUserEntity();
+
+    BlocProvider.of<GetFollowersSuggestionsCubit>(context)
+        .getFollowersSuggestions(currentUserId: currentUser.userId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +74,10 @@ class FollowersSuggestionsBlocConsumerBody extends StatelessWidget {
             suggestionUsers: state.suggestionUsers,
           );
         } else if (state is GetFollowersSuggestionsLoadingState) {
-          return const CircularProgressIndicator(
-            color: AppColors.primaryColor,
+          return const Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ),
           );
         } else if (state is GetFollowersSuggestionsFailureState) {
           return Text(state.message);

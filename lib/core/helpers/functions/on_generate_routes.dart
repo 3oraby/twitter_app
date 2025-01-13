@@ -7,6 +7,7 @@ import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone
 import 'package:twitter_app/features/auth/presentation/screens/signup_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/make_new_tweet_screen.dart';
+import 'package:twitter_app/features/suggestion_followers/presentation/screens/followers_suggestion_screen.dart';
 
 Route<dynamic> onGenerateRoutes(RouteSettings settings) {
   switch (settings.name) {
@@ -23,9 +24,16 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case MainAppScreen.routeId:
       return MaterialPageRoute(builder: (context) => const MainAppScreen());
     case AddUserProfilePictureScreen.routeId:
-      return MaterialPageRoute(builder: (context) => const AddUserProfilePictureScreen());
+      return MaterialPageRoute(
+          builder: (context) => const AddUserProfilePictureScreen());
     case MakeNewTweetScreen.routeId:
-      return MaterialPageRoute(builder: (context) => const MakeNewTweetScreen());
+      return MaterialPageRoute(
+          builder: (context) => const MakeNewTweetScreen());
+    case FollowersSuggestionScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => const FollowersSuggestionScreen(),
+      );
+
     // case CheckoutView.routeName:
     //   return MaterialPageRoute(
     //       builder: (context) => CheckoutView(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -21,6 +20,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           vertical: 8,
         ),
         child: FittedBox(
+          fit: BoxFit.scaleDown,
           child: GNav(
               gap: 4,
               backgroundColor: Colors.transparent,

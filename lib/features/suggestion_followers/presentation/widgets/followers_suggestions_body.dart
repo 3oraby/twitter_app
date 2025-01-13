@@ -31,34 +31,33 @@ class _FollowersSuggestionsBodyState extends State<FollowersSuggestionsBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.horizontalPadding),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Suggested for you",
-                    style: AppTextStyles.uberMoveBlack24,
-                  ),
-                ],
-              ),
-              ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: widget.suggestionUsers.length,
-                separatorBuilder: (context, index) => const VerticalGap(24),
-                itemBuilder: (context, index) => UserInfoCard(
-                  user: widget.suggestionUsers[index],
-                  currentUserId: currentUser.userId,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: AppConstants.horizontalPadding),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Suggested for you",
+                  style: AppTextStyles.uberMoveBlack24,
                 ),
+              ],
+            ),
+            const VerticalGap(24),
+            ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: widget.suggestionUsers.length,
+              separatorBuilder: (context, index) => const VerticalGap(24),
+              itemBuilder: (context, index) => UserInfoCard(
+                user: widget.suggestionUsers[index],
+                currentUserId: currentUser.userId,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
