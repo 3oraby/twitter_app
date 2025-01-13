@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
-import 'package:twitter_app/core/widgets/custom_follow_button.dart';
+import 'package:twitter_app/core/widgets/custom_toggle_follow_button.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 
 class UserInfoCard extends StatelessWidget {
@@ -45,7 +45,7 @@ class UserInfoCard extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            trailing: CustomFollowButton(
+            trailing: CustomToggleFollowButton(
               followedId: user.userId,
               followingId: currentUserId,
             ),

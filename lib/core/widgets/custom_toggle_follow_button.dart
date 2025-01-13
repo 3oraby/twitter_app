@@ -10,8 +10,8 @@ import 'package:twitter_app/features/suggestion_followers/data/models/following_
 import 'package:twitter_app/features/suggestion_followers/domain/repos/follow_repo.dart';
 import 'package:twitter_app/features/suggestion_followers/presentation/cubits/toggle_follow_relation_ship_cubit/toggle_follow_relation_ship_cubit.dart';
 
-class CustomFollowButton extends StatelessWidget {
-  const CustomFollowButton({
+class CustomToggleFollowButton extends StatelessWidget {
+  const CustomToggleFollowButton({
     super.key,
     required this.followedId,
     required this.followingId,
@@ -26,7 +26,7 @@ class CustomFollowButton extends StatelessWidget {
       create: (context) => ToggleFollowRelationShipCubit(
         followRepo: getIt<FollowRepo>(),
       ),
-      child: CustomFollowButtonBlocConsumerBody(
+      child: CustomToggleFollowButtonBlocConsumerBody(
         followedId: followedId,
         followingId: followingId,
       ),
@@ -34,8 +34,8 @@ class CustomFollowButton extends StatelessWidget {
   }
 }
 
-class CustomFollowButtonBlocConsumerBody extends StatefulWidget {
-  const CustomFollowButtonBlocConsumerBody({
+class CustomToggleFollowButtonBlocConsumerBody extends StatefulWidget {
+  const CustomToggleFollowButtonBlocConsumerBody({
     super.key,
     required this.followedId,
     required this.followingId,
@@ -45,13 +45,27 @@ class CustomFollowButtonBlocConsumerBody extends StatefulWidget {
   final String followingId;
 
   @override
-  State<CustomFollowButtonBlocConsumerBody> createState() =>
-      _CustomFollowButtonBlocConsumerBodyState();
+  State<CustomToggleFollowButtonBlocConsumerBody> createState() =>
+      _CustomToggleFollowButtonBlocConsumerBodyState();
 }
 
-class _CustomFollowButtonBlocConsumerBodyState
-    extends State<CustomFollowButtonBlocConsumerBody> {
+class _CustomToggleFollowButtonBlocConsumerBodyState
+    extends State<CustomToggleFollowButtonBlocConsumerBody> {
   bool isActive = false;
+
+  _toggleFollow() async {
+    await BlocProvider.of<ToggleFollowRelationShipCubit>(context)
+        .toggleFollowRelationShip(
+      data: FollowingRelationshipModel(
+        followedId: widget.followedId,
+        followingId: widget.followingId,
+        followedAt: Timestamp.now(),
+      ).toJson(),
+    );
+    setState(() {
+      isActive = !isActive;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +78,6 @@ class _CustomFollowButtonBlocConsumerBodyState
       },
       builder: (context, state) {
         final isLoading = state is ToggleFollowRelationShipLoadingState;
-
         return CustomContainerButton(
           width: 105,
           height: 40,
@@ -72,33 +85,17 @@ class _CustomFollowButtonBlocConsumerBodyState
           internalHorizontalPadding: 0,
           borderColor: AppColors.borderColor,
           borderWidth: 1,
-          backgroundColor: isActive
-              ? Colors.white
-              : AppColors.primaryColor,
-          onPressed: isLoading
-              ? null
-              : () async {
-                  await BlocProvider.of<ToggleFollowRelationShipCubit>(context)
-                      .toggleFollowRelationShip(
-                    data: FollowingRelationshipModel(
-                      followedId: widget.followedId,
-                      followingId: widget.followingId,
-                      followedAt: Timestamp.now(),
-                    ).toJson(),
-                  );
-                  setState(() {
-                    isActive = !isActive;
-                  });
-                },
+          backgroundColor: isActive ? Colors.white : AppColors.primaryColor,
+          onPressed: isLoading ? null : _toggleFollow,
           child: Center(
             child: isLoading
                 ? Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: CircularProgressIndicator(
-                    color: isActive ? Colors.black : Colors.white,
-                    strokeWidth: 2,
-                  ),
-                )
+                    padding: const EdgeInsets.all(4),
+                    child: CircularProgressIndicator(
+                      color: isActive ? Colors.black : Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
                 : FittedBox(
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.center,
