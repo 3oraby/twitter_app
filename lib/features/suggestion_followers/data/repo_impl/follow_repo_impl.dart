@@ -59,8 +59,10 @@ class FollowRepoImpl extends FollowRepo {
   }
 
   @override
-  Future<Either<Failure, Success>> toggleFollowRelationShip(
-      {required Map<String, dynamic> data}) async {
+  Future<Either<Failure, Success>> toggleFollowRelationShip({
+    required Map<String, dynamic> data,
+    required bool isMakingFollowRelation,
+  }) async {
     try {
       FollowingRelationshipModel followingRelationshipModel =
           FollowingRelationshipModel.fromJson(data);
@@ -80,6 +82,14 @@ class FollowRepoImpl extends FollowRepo {
 
       log("result from follow  ${result.toString()} ");
       if (result.isEmpty) {
+        // follow
+        if (!isMakingFollowRelation) {
+          log("not expected follow type in follow repo");
+          return left(const ServerFailure(
+              message:
+                  "Can not follow this account right now, please try again later"));
+        }
+
         await databaseService.addData(
           path: BackendEndpoints.toggleFollowRelationShip,
           data: data,
@@ -99,6 +109,14 @@ class FollowRepoImpl extends FollowRepo {
           field: "nFollowing",
         );
       } else {
+        // unfollow
+        if (isMakingFollowRelation) {
+          log("not expected follow type in follow repo");
+          return left(const ServerFailure(
+              message:
+                  "Can not Unfollow this account right now, please try again later"));
+        }
+
         await databaseService.deleteData(
           path: BackendEndpoints.toggleFollowRelationShip,
           documentId: result.first.id,

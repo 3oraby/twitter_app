@@ -15,18 +15,6 @@ class FollowersSuggestionScreen extends StatelessWidget {
   const FollowersSuggestionScreen({super.key});
 
   static const String routeId = 'kFollowersSuggestions';
-  AppBar buildSuggestionsAppBar({
-    required BuildContext context,
-  }) {
-    return buildCustomAppBar(
-      context,
-      title: Text(
-        "Connect",
-        style: AppTextStyles.uberMoveBlack20,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -34,7 +22,13 @@ class FollowersSuggestionScreen extends StatelessWidget {
         followRepo: getIt<FollowRepo>(),
       ),
       child: Scaffold(
-        appBar: buildSuggestionsAppBar(context: context),
+        appBar: buildCustomAppBar(
+          context,
+          title: Text(
+            "Connect",
+            style: AppTextStyles.uberMoveBlack20,
+          ),
+        ),
         body: const FollowersSuggestionsBlocConsumerBody(),
       ),
     );

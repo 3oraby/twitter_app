@@ -10,5 +10,6 @@ abstract class FollowRepo {
 
   Future<Either<Failure, Success>> toggleFollowRelationShip({
     required Map<String, dynamic> data,
+    required bool isMakingFollowRelation,
   });
 }

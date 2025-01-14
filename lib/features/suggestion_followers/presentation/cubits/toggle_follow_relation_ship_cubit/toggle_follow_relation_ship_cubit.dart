@@ -10,10 +10,15 @@ class ToggleFollowRelationShipCubit
 
   final FollowRepo followRepo;
 
-  Future<void> toggleFollowRelationShip(
-      {required Map<String, dynamic> data}) async {
+  Future<void> toggleFollowRelationShip({
+    required Map<String, dynamic> data,
+    required bool isMakingFollowRelation,
+  }) async {
     emit(ToggleFollowRelationShipLoadingState());
-    var res = await followRepo.toggleFollowRelationShip(data: data);
+    var res = await followRepo.toggleFollowRelationShip(
+      data: data,
+      isMakingFollowRelation: isMakingFollowRelation,
+    );
     res.fold(
       (failure) =>
           emit(ToggleFollowRelationShipFailureState(message: failure.message)),

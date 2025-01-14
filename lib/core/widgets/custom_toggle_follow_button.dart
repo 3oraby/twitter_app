@@ -54,14 +54,14 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
   bool isActive = false;
 
   _toggleFollow() async {
-    await BlocProvider.of<ToggleFollowRelationShipCubit>(context)
+    BlocProvider.of<ToggleFollowRelationShipCubit>(context)
         .toggleFollowRelationShip(
-      data: FollowingRelationshipModel(
-        followedId: widget.followedId,
-        followingId: widget.followingId,
-        followedAt: Timestamp.now(),
-      ).toJson(),
-    );
+            data: FollowingRelationshipModel(
+              followedId: widget.followedId,
+              followingId: widget.followingId,
+              followedAt: Timestamp.now(),
+            ).toJson(),
+            isMakingFollowRelation: !isActive);
     setState(() {
       isActive = !isActive;
     });
@@ -73,7 +73,10 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
         ToggleFollowRelationShipState>(
       listener: (context, state) {
         if (state is ToggleFollowRelationShipFailureState) {
-          showCustomSnackBar(context, 'Failed to update follow relationship');
+          showCustomSnackBar(context, state.message);
+          setState(() {
+            isActive = !isActive;
+          });
         }
       },
       builder: (context, state) {
@@ -88,117 +91,19 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
           backgroundColor: isActive ? Colors.white : AppColors.primaryColor,
           onPressed: isLoading ? null : _toggleFollow,
           child: Center(
-            child: isLoading
-                ? Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: CircularProgressIndicator(
-                      color: isActive ? Colors.black : Colors.white,
-                      strokeWidth: 2,
-                    ),
-                  )
-                : FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.center,
-                    child: Text(
-                      isActive ? "Following" : "Follow",
-                      style: AppTextStyles.uberMoveBold14.copyWith(
-                        color: isActive ? Colors.black : Colors.white,
-                      ),
-                    ),
-                  ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.center,
+              child: Text(
+                isActive ? "Following" : "Follow",
+                style: AppTextStyles.uberMoveBold14.copyWith(
+                  color: isActive ? Colors.black : Colors.white,
+                ),
+              ),
+            ),
           ),
         );
       },
-    );
-  }
-}
-
-class ActiveToggleFollowButton extends StatelessWidget {
-  const ActiveToggleFollowButton({
-    super.key,
-    required this.followedId,
-    required this.isLoading,
-    required this.followingId,
-    required this.onPressed,
-  });
-
-  final String followedId;
-  final bool isLoading;
-  final String followingId;
-  final VoidCallback onPressed;
-  @override
-  Widget build(BuildContext context) {
-    return CustomContainerButton(
-      key: Key(followedId),
-      width: 100,
-      height: 40,
-      internalVerticalPadding: 0,
-      internalHorizontalPadding: 0,
-      backgroundColor: AppColors.highlightBackgroundColor,
-      onPressed: onPressed,
-      child: Center(
-        child: isLoading
-            ? const SizedBox(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2,
-                ),
-              )
-            : FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.center,
-                child: Text(
-                  "Following",
-                  style: AppTextStyles.uberMoveBold14,
-                ),
-              ),
-      ),
-    );
-  }
-}
-
-class InActiveToggleFollowButton extends StatelessWidget {
-  const InActiveToggleFollowButton({
-    super.key,
-    required this.followedId,
-    required this.isLoading,
-    required this.followingId,
-    required this.onPressed,
-  });
-
-  final String followedId;
-  final bool isLoading;
-  final String followingId;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomContainerButton(
-      key: Key(followedId),
-      width: 100,
-      height: 40,
-      internalVerticalPadding: 0,
-      internalHorizontalPadding: 0,
-      backgroundColor: AppColors.primaryColor,
-      onPressed: onPressed,
-      child: Center(
-        child: isLoading
-            ? const SizedBox(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2,
-                ),
-              )
-            : FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.center,
-                child: Text(
-                  "Follow",
-                  style: AppTextStyles.uberMoveBold14
-                      .copyWith(color: Colors.white),
-                ),
-              ),
-      ),
     );
   }
 }
