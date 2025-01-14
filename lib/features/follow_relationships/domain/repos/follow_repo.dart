@@ -12,4 +12,9 @@ abstract class FollowRepo {
     required Map<String, dynamic> data,
     required bool isMakingFollowRelation,
   });
+
+  Future<Either<Failure, List<UserEntity>>> getUserConnections({
+    required String currentUserId,
+    required bool isFetchingFollowers,
+  });
 }

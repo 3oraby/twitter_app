@@ -16,5 +16,7 @@ enum QueryOperator {
   greaterThan,
   lessThanOrEqualTo,
   greaterThanOrEqualTo,
-  isNotEqualTo
+  isNotEqualTo,
+  whereIn,
+  whereNotIn,
 }

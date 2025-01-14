@@ -86,6 +86,14 @@ class FirestoreService implements DatabaseService {
                   isGreaterThanOrEqualTo: condition.value);
               log('Adding WHERE: ${condition.field} >= ${condition.value}');
               break;
+            case QueryOperator.whereIn:
+              query = query.where(condition.field, whereIn: condition.value);
+              log('Adding WHERE: ${condition.field} whereIn ${condition.value}');
+              break;
+            case QueryOperator.whereNotIn:
+              query = query.where(condition.field, whereNotIn: condition.value);
+              log('Adding WHERE: ${condition.field} whereNotIn ${condition.value}');
+              break;
           }
         }
       }
@@ -101,7 +109,6 @@ class FirestoreService implements DatabaseService {
       }
 
       log('Final Query: ${query.parameters}');
-
       final querySnapshot = await query.get();
       if (querySnapshot.docs.isEmpty) {
         log("No items found matching your search.");

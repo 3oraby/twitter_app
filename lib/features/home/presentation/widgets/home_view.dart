@@ -47,7 +47,8 @@ class HomeView extends StatelessWidget {
           },
           icon: const Icon(
             Icons.person_add_alt_1_outlined,
-            size: 32,
+            size: 34,
+            color: AppColors.primaryColor,
           ),
         )
       ],

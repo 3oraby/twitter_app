@@ -61,6 +61,56 @@ class FollowRepoImpl extends FollowRepo {
   }
 
   @override
+  Future<Either<Failure, List<UserEntity>>> getUserConnections({
+    required String currentUserId,
+    required bool isFetchingFollowers,
+  }) async {
+    try {
+      List followRelationships = await databaseService.getData(
+        path: BackendEndpoints.toggleFollowRelationShip,
+        queryConditions: [
+          QueryCondition(
+            field: isFetchingFollowers ? "followedId" : "followingId",
+            value: currentUserId,
+          ),
+        ],
+      );
+      log(followRelationships.toString());
+      // Extract the appropriate user IDs based on the query
+      Set<String> userIds = followRelationships
+          .map((doc) => isFetchingFollowers
+              ? FollowingRelationshipModel.fromJson(doc.data()).followingId
+              : FollowingRelationshipModel.fromJson(doc.data()).followedId)
+          .toSet();
+      if (userIds.isEmpty) {
+        return right([]); // If no userIds, return an empty list of suggestions
+      }
+      // Fetch user details using the extracted user IDs
+      List res = await databaseService.getData(
+        path: BackendEndpoints
+            .getUserConnections, // Replace with appropriate endpoint
+        queryConditions: [
+          QueryCondition(
+            field: "userId",
+            operator: QueryOperator.whereIn,
+            value: userIds.toList(),
+          ),
+        ],
+      );
+
+      // Map fetched documents to UserEntity list
+      List<UserEntity> userEntities =
+          res.map((doc) => UserModel.fromJson(doc.data())).toList();
+
+      return right(userEntities);
+    } catch (e) {
+      log("Exception in FollowRepoImpl.getUserConnections() ${e.toString()}");
+      return left(
+          const ServerFailure(message: "Failed to get user connections"));
+    }
+  }
+
+  @override
   Future<Either<Failure, Success>> toggleFollowRelationShip({
     required Map<String, dynamic> data,
     required bool isMakingFollowRelation,

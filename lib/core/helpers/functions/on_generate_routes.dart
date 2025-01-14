@@ -5,6 +5,7 @@ import 'package:twitter_app/features/auth/presentation/screens/complete_user_pro
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone_number_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signup_screen.dart';
+import 'package:twitter_app/features/follow_relationships/presentation/screens/user_connections_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/make_new_tweet_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
@@ -29,11 +30,15 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case MakeNewTweetScreen.routeId:
       return MaterialPageRoute(
           builder: (context) => const MakeNewTweetScreen());
+
     case FollowersSuggestionScreen.routeId:
       return MaterialPageRoute(
         builder: (context) => const FollowersSuggestionScreen(),
       );
-
+    case UserConnectionsScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => const UserConnectionsScreen(),
+      );
     // case CheckoutView.routeName:
     //   return MaterialPageRoute(
     //       builder: (context) => CheckoutView(

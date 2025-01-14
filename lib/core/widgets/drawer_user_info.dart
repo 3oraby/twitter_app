@@ -7,6 +7,7 @@ import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/follow_relationships/presentation/screens/user_connections_screen.dart';
 
 class DrawerUserInfo extends StatefulWidget {
   const DrawerUserInfo({super.key});
@@ -57,38 +58,43 @@ class _DrawerUserInfoState extends State<DrawerUserInfo> {
           ],
         ),
         const VerticalGap(16),
-        Row(
-          children: [
-            Row(
-              children: [
-                Text(
-                  userEntity.nFollowing.toString(),
-                  style: AppTextStyles.uberMoveBold16,
-                ),
-                Text(
-                  context.tr(" Following"),
-                  style: AppTextStyles.uberMoveMedium16.copyWith(
-                    color: AppColors.secondaryColor,
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, UserConnectionsScreen.routeId);
+          },
+          child: Row(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    userEntity.nFollowing.toString(),
+                    style: AppTextStyles.uberMoveBold16,
                   ),
-                ),
-              ],
-            ),
-            const HorizontalGap(16),
-            Row(
-              children: [
-                Text(
-                  userEntity.nFollowers.toString(),
-                  style: AppTextStyles.uberMoveBold16,
-                ),
-                Text(
-                  context.tr(" Followers"),
-                  style: AppTextStyles.uberMoveMedium16.copyWith(
-                    color: AppColors.secondaryColor,
+                  Text(
+                    context.tr(" Following"),
+                    style: AppTextStyles.uberMoveMedium16.copyWith(
+                      color: AppColors.secondaryColor,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              const HorizontalGap(16),
+              Row(
+                children: [
+                  Text(
+                    userEntity.nFollowers.toString(),
+                    style: AppTextStyles.uberMoveBold16,
+                  ),
+                  Text(
+                    context.tr(" Followers"),
+                    style: AppTextStyles.uberMoveMedium16.copyWith(
+                      color: AppColors.secondaryColor,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );
