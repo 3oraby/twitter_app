@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
@@ -41,7 +42,7 @@ class _FollowersSuggestionsBodyState extends State<FollowersSuggestionsBody> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Suggested for you",
+                  context.tr("Suggested for you"),
                   style: AppTextStyles.uberMoveBlack24,
                 ),
               ],

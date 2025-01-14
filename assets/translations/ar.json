@@ -72,5 +72,14 @@
   "Home": "الرئيسية",
   "Search": "بحث",
   "Notifications": "الإشعارات",
-  "Suggestions": "اقتراحات"
+  "Suggestions": "اقتراحات",
+  "Follow": "متابعة",
+  "Following": "متابع",
+  "Suggested for you": "مقترح لك",
+  "Connect": "متابعة",
+  "Failed to follow user. Please try again later.": "فشل في متابعة المستخدم. يرجى المحاولة لاحقًا.",
+  "Failed to unfollow user. Please try again later.": "فشل في إلغاء متابعة المستخدم. يرجى المحاولة لاحقًا.",
+  "Failed to get suggestions.": "فشل في الحصول على الاقتراحات.",
+  "Failed to update user stats.": "فشل في تحديث إحصائيات المستخدم.",
+  "The operation could not be completed due to an unexpected issue. Please try again later.": "تعذر إكمال العملية بسبب مشكلة غير متوقعة. يرجى المحاولة مرة أخرى لاحقًا."
 }

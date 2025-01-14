@@ -1,4 +1,4 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -31,7 +31,9 @@ class UserInfoCard extends StatelessWidget {
             ),
             title: FittedBox(
               fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
+              alignment: context.locale == const Locale("en")
+                  ? Alignment.centerLeft
+                  : Alignment.centerRight,
               child: Text(
                 "${user.firstName} ${user.lastName}",
                 style: AppTextStyles.uberMoveExtraBold18,

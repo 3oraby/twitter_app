@@ -54,7 +54,7 @@ class FollowRepoImpl extends FollowRepo {
       return right(suggestionUsers);
     } catch (e) {
       log("Exception in FollowRepoImpl.getFollowersSuggestions() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to get suggestions"));
+      return left(const ServerFailure(message: "Failed to get suggestions."));
     }
   }
 
@@ -86,7 +86,7 @@ class FollowRepoImpl extends FollowRepo {
           log("not expected follow type in follow repo");
           return left(const ServerFailure(
               message:
-                  "Can not follow this account right now, please try again later"));
+                  "The operation could not be completed due to an unexpected issue. Please try again later."));
         }
 
         return await _followUser(data, followingRelationshipModel);
@@ -95,7 +95,7 @@ class FollowRepoImpl extends FollowRepo {
           log("not expected follow type in follow repo");
           return left(const ServerFailure(
               message:
-                  "Can not Unfollow this account right now, please try again later"));
+                  "The operation could not be completed due to an unexpected issue. Please try again later."));
         }
         return await _unfollowUser(
             existingRelation.first.id, followingRelationshipModel);
@@ -131,7 +131,7 @@ class FollowRepoImpl extends FollowRepo {
     } catch (e) {
       log("Exception in FollowRepoImpl._followUser: ${e.toString()}");
       return left(const ServerFailure(
-        message: "Failed to follow user. Please try again later.",
+        message: ("Failed to follow user. Please try again later."),
       ));
     }
   }
@@ -186,7 +186,8 @@ class FollowRepoImpl extends FollowRepo {
         );
       }
     } catch (e) {
-      throw Exception("Failed to update user stats for $userId: $e");
+      log("error in followRepoImpl._updateUserStats() ${e.toString()}");
+      throw Exception("Failed to update user stats.");
     }
   }
 }

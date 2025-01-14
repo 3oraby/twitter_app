@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
@@ -25,7 +26,7 @@ class FollowersSuggestionScreen extends StatelessWidget {
         appBar: buildCustomAppBar(
           context,
           title: Text(
-            "Connect",
+            context.tr("Connect"),
             style: AppTextStyles.uberMoveBlack20,
           ),
         ),

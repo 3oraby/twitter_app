@@ -72,5 +72,14 @@
   "Home": "Home",
   "Search": "Search",
   "Notifications": "Notifications",
-  "Suggestions": "Suggestions"
+  "Suggestions": "Suggestions",
+  "Follow": "Follow",
+  "Following": "Following",
+  "Suggested for you": "Suggested for you",
+  "Connect": "Connect",
+  "Failed to follow user. Please try again later.": "Failed to follow user. Please try again later.",
+  "Failed to unfollow user. Please try again later.": "Failed to unfollow user. Please try again later.",
+  "Failed to get suggestions.": "Failed to get suggestions.",
+  "Failed to update user stats.": "Failed to update user stats.",
+  "The operation could not be completed due to an unexpected issue. Please try again later.": "The operation could not be completed due to an unexpected issue. Please try again later."
 }

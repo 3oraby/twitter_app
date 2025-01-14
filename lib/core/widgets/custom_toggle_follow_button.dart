@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
@@ -73,7 +74,7 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
         ToggleFollowRelationShipState>(
       listener: (context, state) {
         if (state is ToggleFollowRelationShipFailureState) {
-          showCustomSnackBar(context, state.message);
+          showCustomSnackBar(context, context.tr(state.message));
           setState(() {
             isActive = !isActive;
           });
@@ -95,7 +96,7 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
               fit: BoxFit.scaleDown,
               alignment: Alignment.center,
               child: Text(
-                isActive ? "Following" : "Follow",
+                isActive ? context.tr("Following") : context.tr("Follow"),
                 style: AppTextStyles.uberMoveBold14.copyWith(
                   color: isActive ? Colors.black : Colors.white,
                 ),
