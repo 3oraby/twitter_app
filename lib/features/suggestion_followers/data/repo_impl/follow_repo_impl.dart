@@ -66,7 +66,7 @@ class FollowRepoImpl extends FollowRepo {
     try {
       FollowingRelationshipModel followingRelationshipModel =
           FollowingRelationshipModel.fromJson(data);
-      var result = await databaseService.getData(
+      var existingRelation = await databaseService.getData(
         path: BackendEndpoints.toggleFollowRelationShip,
         queryConditions: [
           QueryCondition(
@@ -80,9 +80,8 @@ class FollowRepoImpl extends FollowRepo {
         ],
       );
 
-      log("result from follow  ${result.toString()} ");
-      if (result.isEmpty) {
-        // follow
+      log("result from follow  ${existingRelation.toString()} ");
+      if (existingRelation.isEmpty) {
         if (!isMakingFollowRelation) {
           log("not expected follow type in follow repo");
           return left(const ServerFailure(
@@ -90,54 +89,104 @@ class FollowRepoImpl extends FollowRepo {
                   "Can not follow this account right now, please try again later"));
         }
 
-        await databaseService.addData(
-          path: BackendEndpoints.toggleFollowRelationShip,
-          data: data,
-        );
-
-        // Increment followers count for the followed user
-        await databaseService.incrementField(
-          path: BackendEndpoints.updateUserData,
-          documentId: followingRelationshipModel.followedId,
-          field: "nFollowers",
-        );
-
-        // Increment following count for the following user
-        await databaseService.incrementField(
-          path: BackendEndpoints.updateUserData,
-          documentId: followingRelationshipModel.followingId,
-          field: "nFollowing",
-        );
+        return await _followUser(data, followingRelationshipModel);
       } else {
-        // unfollow
         if (isMakingFollowRelation) {
           log("not expected follow type in follow repo");
           return left(const ServerFailure(
               message:
                   "Can not Unfollow this account right now, please try again later"));
         }
-
-        await databaseService.deleteData(
-          path: BackendEndpoints.toggleFollowRelationShip,
-          documentId: result.first.id,
-        );
-        // Decrement followers and following counts
-        await databaseService.decrementField(
-          path: BackendEndpoints.updateUserData,
-          documentId: followingRelationshipModel.followedId,
-          field: "nFollowers",
-        );
-        await databaseService.decrementField(
-          path: BackendEndpoints.updateUserData,
-          documentId: followingRelationshipModel.followingId,
-          field: "nFollowing",
-        );
+        return await _unfollowUser(
+            existingRelation.first.id, followingRelationshipModel);
       }
-
-      return right(Success());
     } catch (e) {
       log("Exception in FollowRepoImpl.getFollowersSuggestions() ${e.toString()}");
       return left(const ServerFailure(message: "Failed to get suggestions"));
+    }
+  }
+
+  Future<Either<Failure, Success>> _followUser(
+    Map<String, dynamic> data,
+    FollowingRelationshipModel relationshipModel,
+  ) async {
+    try {
+      await databaseService.addData(
+        path: BackendEndpoints.toggleFollowRelationShip,
+        data: data,
+      );
+
+      await _updateUserStats(
+        relationshipModel.followedId,
+        "nFollowers",
+        isIncrement: true,
+      );
+      await _updateUserStats(
+        relationshipModel.followingId,
+        "nFollowing",
+        isIncrement: true,
+      );
+
+      return right(Success());
+    } catch (e) {
+      log("Exception in FollowRepoImpl._followUser: ${e.toString()}");
+      return left(const ServerFailure(
+        message: "Failed to follow user. Please try again later.",
+      ));
+    }
+  }
+
+  Future<Either<Failure, Success>> _unfollowUser(
+    String documentId,
+    FollowingRelationshipModel relationshipModel,
+  ) async {
+    try {
+      await databaseService.deleteData(
+        path: BackendEndpoints.toggleFollowRelationShip,
+        documentId: documentId,
+      );
+
+      await _updateUserStats(
+        relationshipModel.followedId,
+        "nFollowers",
+        isIncrement: false,
+      );
+      await _updateUserStats(
+        relationshipModel.followingId,
+        "nFollowing",
+        isIncrement: false,
+      );
+
+      return right(Success());
+    } catch (e) {
+      log("Exception in FollowRepoImpl._unfollowUser: ${e.toString()}");
+      return left(const ServerFailure(
+        message: "Failed to unfollow user. Please try again later.",
+      ));
+    }
+  }
+
+  Future<void> _updateUserStats(
+    String userId,
+    String field, {
+    required bool isIncrement,
+  }) async {
+    try {
+      if (isIncrement) {
+        await databaseService.incrementField(
+          path: BackendEndpoints.updateUserData,
+          documentId: userId,
+          field: field,
+        );
+      } else {
+        await databaseService.decrementField(
+          path: BackendEndpoints.updateUserData,
+          documentId: userId,
+          field: field,
+        );
+      }
+    } catch (e) {
+      throw Exception("Failed to update user stats for $userId: $e");
     }
   }
 }
