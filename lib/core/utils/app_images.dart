@@ -5,5 +5,9 @@ class AppImages {
   /// Assets for imagesDefaultProfilePicture
   /// assets/images/default_profile_picture.png
   static const String imagesDefaultProfilePicture = "assets/images/default_profile_picture.png";
+
+  /// Assets for imagesUnknownUser
+  /// assets/images/unknown_user.jpg
+  static const String imagesUnknownUser = "assets/images/unknown_user.jpg";
 }
 

@@ -24,10 +24,10 @@ class BuildUserCircleAvatarImage extends StatelessWidget {
               profilePicUrl!,
             )
           : const AssetImage(
-              AppImages.imagesDefaultProfilePicture,
+              AppImages.imagesUnknownUser,
             ),
       onBackgroundImageError: (error, stackTrace) {
-        const AssetImage(AppImages.imagesDefaultProfilePicture);
+        const AssetImage(AppImages.imagesUnknownUser);
       },
     );
   }
