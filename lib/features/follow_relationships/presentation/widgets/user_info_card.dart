@@ -4,6 +4,7 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_toggle_follow_button.dart';
+import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 
 class UserInfoCard extends StatelessWidget {
@@ -12,11 +13,13 @@ class UserInfoCard extends StatelessWidget {
     required this.user,
     required this.currentUserId,
     this.isActiveFollowButton = false,
+    this.showFollowsYouLabel = false,
   });
 
   final UserEntity user;
   final String currentUserId;
   final bool isActiveFollowButton;
+  final bool showFollowsYouLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +44,38 @@ class UserInfoCard extends StatelessWidget {
                 style: AppTextStyles.uberMoveExtraBold18,
               ),
             ),
-            subtitle: Text(
-              user.email,
-              style: AppTextStyles.uberMoveBold16.copyWith(
-                color: AppColors.secondaryColor,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.email,
+                  style: AppTextStyles.uberMoveBold16.copyWith(
+                    color: AppColors.secondaryColor,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const VerticalGap(4),
+                Visibility(
+                  visible: showFollowsYouLabel,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.highlightBackgroundColor,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      "Follows you",
+                      style: AppTextStyles.uberMoveBold14.copyWith(
+                        color: AppColors.secondaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             trailing: CustomToggleFollowButton(
               followedId: user.userId,
