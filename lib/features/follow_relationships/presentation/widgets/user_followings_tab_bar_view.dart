@@ -111,6 +111,7 @@ class UserFollowingsTabBarBody extends StatelessWidget {
         itemBuilder: (context, index) => UserInfoCard(
           user: userConnections[index],
           currentUserId: currentUser.userId,
+          isActiveFollowButton: true,
         ),
       ),
     );

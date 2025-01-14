@@ -11,10 +11,12 @@ class UserInfoCard extends StatelessWidget {
     super.key,
     required this.user,
     required this.currentUserId,
+    this.isActiveFollowButton = false,
   });
 
   final UserEntity user;
   final String currentUserId;
+  final bool isActiveFollowButton;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class UserInfoCard extends StatelessWidget {
             trailing: CustomToggleFollowButton(
               followedId: user.userId,
               followingId: currentUserId,
+              isActive: isActiveFollowButton,
             ),
           ),
           if (user.bio != null)

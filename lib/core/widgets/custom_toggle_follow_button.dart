@@ -16,10 +16,12 @@ class CustomToggleFollowButton extends StatelessWidget {
     super.key,
     required this.followedId,
     required this.followingId,
+    this.isActive = false,
   });
 
   final String followedId;
   final String followingId;
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CustomToggleFollowButton extends StatelessWidget {
       child: CustomToggleFollowButtonBlocConsumerBody(
         followedId: followedId,
         followingId: followingId,
+        isActive: isActive,
       ),
     );
   }
@@ -40,10 +43,12 @@ class CustomToggleFollowButtonBlocConsumerBody extends StatefulWidget {
     super.key,
     required this.followedId,
     required this.followingId,
+    required this.isActive,
   });
 
   final String followedId;
   final String followingId;
+  final bool isActive;
 
   @override
   State<CustomToggleFollowButtonBlocConsumerBody> createState() =>
@@ -52,7 +57,13 @@ class CustomToggleFollowButtonBlocConsumerBody extends StatefulWidget {
 
 class _CustomToggleFollowButtonBlocConsumerBodyState
     extends State<CustomToggleFollowButtonBlocConsumerBody> {
-  bool isActive = false;
+  late bool isActive;
+
+  @override
+  void initState() {
+    super.initState();
+    isActive = widget.isActive;
+  }
 
   _toggleFollow() async {
     BlocProvider.of<ToggleFollowRelationShipCubit>(context)
