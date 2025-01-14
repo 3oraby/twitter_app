@@ -81,7 +81,6 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
         }
       },
       builder: (context, state) {
-        final isLoading = state is ToggleFollowRelationShipLoadingState;
         return CustomContainerButton(
           width: 105,
           height: 40,
@@ -90,7 +89,9 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
           borderColor: AppColors.borderColor,
           borderWidth: 1,
           backgroundColor: isActive ? Colors.white : AppColors.primaryColor,
-          onPressed: isLoading ? null : _toggleFollow,
+          onPressed: state is ToggleFollowRelationShipLoadingState
+              ? null
+              : _toggleFollow,
           child: Center(
             child: FittedBox(
               fit: BoxFit.scaleDown,

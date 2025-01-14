@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:twitter_app/core/errors/failures.dart';
+import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
+import 'package:twitter_app/core/helpers/functions/save_user_data_in_prefs.dart';
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/success/success.dart';
@@ -126,6 +128,7 @@ class FollowRepoImpl extends FollowRepo {
         "nFollowing",
         isIncrement: true,
       );
+      await _updateUserStatsInSharedPreferences(isIncrement: true);
 
       return right(Success());
     } catch (e) {
@@ -156,6 +159,7 @@ class FollowRepoImpl extends FollowRepo {
         "nFollowing",
         isIncrement: false,
       );
+      await _updateUserStatsInSharedPreferences(isIncrement: false);
 
       return right(Success());
     } catch (e) {
@@ -188,6 +192,26 @@ class FollowRepoImpl extends FollowRepo {
     } catch (e) {
       log("error in followRepoImpl._updateUserStats() ${e.toString()}");
       throw Exception("Failed to update user stats.");
+    }
+  }
+
+  Future<void> _updateUserStatsInSharedPreferences({
+    required bool isIncrement,
+  }) async {
+    try {
+      UserEntity currentUser = getCurrentUserEntity();
+
+      int updatedCount =
+          isIncrement ? currentUser.nFollowing + 1 : currentUser.nFollowing - 1;
+
+      UserEntity updatedUser = currentUser.copyWith(
+        nFollowing: updatedCount,
+      );
+
+      await saveUserDataInPrefs(user: updatedUser);
+    } catch (e) {
+      log("error in FollowRepoImpl._updateUserStatsInSharedPreferences() ${e.toString()}");
+      throw Exception("Failed to update user stats in SharedPreferences.");
     }
   }
 }
