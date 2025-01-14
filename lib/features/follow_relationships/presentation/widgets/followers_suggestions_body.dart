@@ -6,7 +6,7 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/suggestion_followers/presentation/widgets/user_info_card.dart';
+import 'package:twitter_app/features/follow_relationships/presentation/widgets/user_info_card.dart';
 
 class FollowersSuggestionsBody extends StatefulWidget {
   const FollowersSuggestionsBody({

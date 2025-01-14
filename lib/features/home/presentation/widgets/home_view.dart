@@ -14,7 +14,7 @@ import 'package:twitter_app/features/home/domain/repos/tweet_repo.dart';
 import 'package:twitter_app/features/home/presentation/cubits/get_tweets_cubit/get_tweets_cubit.dart';
 import 'package:twitter_app/features/home/presentation/widgets/following_tab_bar_home_view.dart';
 import 'package:twitter_app/features/home/presentation/widgets/for_you_tab_bar_home_view.dart';
-import 'package:twitter_app/features/suggestion_followers/presentation/screens/followers_suggestion_screen.dart';
+import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({

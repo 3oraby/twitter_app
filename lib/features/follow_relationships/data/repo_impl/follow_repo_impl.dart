@@ -10,8 +10,8 @@ import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/suggestion_followers/data/models/following_relationship_model.dart';
-import 'package:twitter_app/features/suggestion_followers/domain/repos/follow_repo.dart';
+import 'package:twitter_app/features/follow_relationships/data/models/following_relationship_model.dart';
+import 'package:twitter_app/features/follow_relationships/domain/repos/follow_repo.dart';
 
 class FollowRepoImpl extends FollowRepo {
   final DatabaseService databaseService;

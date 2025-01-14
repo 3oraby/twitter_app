@@ -7,9 +7,9 @@ import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
-import 'package:twitter_app/features/suggestion_followers/data/models/following_relationship_model.dart';
-import 'package:twitter_app/features/suggestion_followers/domain/repos/follow_repo.dart';
-import 'package:twitter_app/features/suggestion_followers/presentation/cubits/toggle_follow_relation_ship_cubit/toggle_follow_relation_ship_cubit.dart';
+import 'package:twitter_app/features/follow_relationships/data/models/following_relationship_model.dart';
+import 'package:twitter_app/features/follow_relationships/domain/repos/follow_repo.dart';
+import 'package:twitter_app/features/follow_relationships/presentation/cubits/toggle_follow_relation_ship_cubit/toggle_follow_relation_ship_cubit.dart';
 
 class CustomToggleFollowButton extends StatelessWidget {
   const CustomToggleFollowButton({

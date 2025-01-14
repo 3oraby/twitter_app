@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:twitter_app/features/suggestion_followers/domain/entities/following_relationship_entity.dart';
+import 'package:twitter_app/features/follow_relationships/domain/entities/following_relationship_entity.dart';
 
 class FollowingRelationshipModel extends FollowingRelationshipEntity {
   FollowingRelationshipModel({

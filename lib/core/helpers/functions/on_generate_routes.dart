@@ -7,7 +7,7 @@ import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone
 import 'package:twitter_app/features/auth/presentation/screens/signup_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/make_new_tweet_screen.dart';
-import 'package:twitter_app/features/suggestion_followers/presentation/screens/followers_suggestion_screen.dart';
+import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 
 Route<dynamic> onGenerateRoutes(RouteSettings settings) {
   switch (settings.name) {
