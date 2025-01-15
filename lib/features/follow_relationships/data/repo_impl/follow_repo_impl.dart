@@ -103,7 +103,7 @@ class FollowRepoImpl extends FollowRepo {
       }
 
       if (userIds.isEmpty) {
-        return right([]); 
+        return right([]);
       }
 
       List res = await databaseService.getData(
@@ -119,12 +119,12 @@ class FollowRepoImpl extends FollowRepo {
 
       List<UserWithFollowStatusEntity> userConnections = res.map((doc) {
         UserEntity user = UserModel.fromJson(doc.data()).toEntity();
-        bool followsYou;
-        bool isFollowed;
+        bool isFollowingCurrentUser;
+        bool isFollowedByCurrentUser;
 
         if (isFetchingFollowers) {
-          followsYou = true;
-          isFollowed = followingsRelationships.any(
+          isFollowingCurrentUser = true;
+          isFollowedByCurrentUser = followingsRelationships.any(
             (relationship) {
               FollowingRelationshipModel followingRelationshipModel =
                   FollowingRelationshipModel.fromJson(relationship.data());
@@ -132,8 +132,8 @@ class FollowRepoImpl extends FollowRepo {
             },
           );
         } else {
-          isFollowed = true;
-          followsYou = followersRelationships.any(
+          isFollowedByCurrentUser = true;
+          isFollowingCurrentUser = followersRelationships.any(
             (relationship) {
               FollowingRelationshipModel followingRelationshipModel =
                   FollowingRelationshipModel.fromJson(relationship.data());
@@ -144,8 +144,8 @@ class FollowRepoImpl extends FollowRepo {
 
         return UserWithFollowStatusModel(
           user: UserModel.fromEntity(user),
-          followsYou: followsYou,
-          isFollowed: isFollowed,
+          isFollowingCurrentUser: isFollowingCurrentUser,
+          isFollowedByCurrentUser: isFollowedByCurrentUser,
         );
       }).toList();
 

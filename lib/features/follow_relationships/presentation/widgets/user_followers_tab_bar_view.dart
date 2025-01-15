@@ -111,10 +111,10 @@ class UserFollowersTabBarBody extends StatelessWidget {
         itemCount: userConnections.length,
         separatorBuilder: (context, index) => const VerticalGap(24),
         itemBuilder: (context, index) => UserInfoCard(
-          user: userConnections[index].user.toEntity(),
+          user: userConnections[index].user,
           currentUserId: currentUser.userId,
-          showFollowsYouLabel: userConnections[index].followsYou,
-          isActiveFollowButton: userConnections[index].isFollowed,
+          showFollowsYouLabel: userConnections[index].isFollowingCurrentUser,
+          isActiveFollowButton: userConnections[index].isFollowedByCurrentUser,
         ),
       ),
     );

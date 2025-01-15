@@ -4,31 +4,31 @@ import 'package:twitter_app/features/follow_relationships/domain/entities/user_w
 class UserWithFollowStatusModel extends UserWithFollowStatusEntity {
   UserWithFollowStatusModel({
     required super.user,
-    required super.followsYou,
-    required super.isFollowed,
+    required super.isFollowingCurrentUser,
+    required super.isFollowedByCurrentUser,
   });
 
   factory UserWithFollowStatusModel.fromJson(Map<String, dynamic> json) {
     return UserWithFollowStatusModel(
       user: UserModel.fromJson(json['user']),
-      followsYou: json['followsYou'] ?? false,
-      isFollowed: json['isFollowed'] ?? false,
+      isFollowingCurrentUser: json['isFollowingCurrentUser'] ?? false,
+      isFollowedByCurrentUser: json['isFollowedByCurrentUser'] ?? false,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'user': user.toJson(),
-      'followsYou': followsYou,
-      'isFollowed': isFollowed,
+      'user': UserModel.fromEntity(user).toJson(),
+      'isFollowingCurrentUser': isFollowingCurrentUser,
+      'isFollowedByCurrentUser': isFollowedByCurrentUser,
     };
   }
 
   UserWithFollowStatusEntity toEntity() {
     return UserWithFollowStatusEntity(
-      user: user, 
-      followsYou: followsYou,
-      isFollowed: isFollowed,
+      user: user,
+      isFollowingCurrentUser: isFollowingCurrentUser,
+      isFollowedByCurrentUser: isFollowedByCurrentUser,
     );
   }
 
@@ -36,8 +36,8 @@ class UserWithFollowStatusModel extends UserWithFollowStatusEntity {
       UserWithFollowStatusEntity entity) {
     return UserWithFollowStatusModel(
       user: entity.user,
-      followsYou: entity.followsYou,
-      isFollowed: entity.isFollowed,
+      isFollowingCurrentUser: entity.isFollowingCurrentUser,
+      isFollowedByCurrentUser: entity.isFollowedByCurrentUser,
     );
   }
 }
