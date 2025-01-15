@@ -81,6 +81,7 @@ class UserInfoCard extends StatelessWidget {
               followedId: user.userId,
               followingId: currentUserId,
               isActive: isActiveFollowButton,
+              useFollowBack: showFollowsYouLabel,
             ),
           ),
           if (user.bio != null)

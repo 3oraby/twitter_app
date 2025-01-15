@@ -17,11 +17,13 @@ class CustomToggleFollowButton extends StatelessWidget {
     required this.followedId,
     required this.followingId,
     this.isActive = false,
+    this.useFollowBack = false,
   });
 
   final String followedId;
   final String followingId;
   final bool isActive;
+  final bool useFollowBack;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class CustomToggleFollowButton extends StatelessWidget {
         followedId: followedId,
         followingId: followingId,
         isActive: isActive,
+        useFollowBack: useFollowBack,
       ),
     );
   }
@@ -44,11 +47,13 @@ class CustomToggleFollowButtonBlocConsumerBody extends StatefulWidget {
     required this.followedId,
     required this.followingId,
     required this.isActive,
+    required this.useFollowBack,
   });
 
   final String followedId;
   final String followingId;
   final bool isActive;
+  final bool useFollowBack;
 
   @override
   State<CustomToggleFollowButtonBlocConsumerBody> createState() =>
@@ -58,22 +63,25 @@ class CustomToggleFollowButtonBlocConsumerBody extends StatefulWidget {
 class _CustomToggleFollowButtonBlocConsumerBodyState
     extends State<CustomToggleFollowButtonBlocConsumerBody> {
   late bool isActive;
+  late bool isFollowBack;
 
   @override
   void initState() {
     super.initState();
     isActive = widget.isActive;
+    isFollowBack = widget.useFollowBack;
   }
 
   _toggleFollow() async {
     BlocProvider.of<ToggleFollowRelationShipCubit>(context)
         .toggleFollowRelationShip(
-            data: FollowingRelationshipModel(
-              followedId: widget.followedId,
-              followingId: widget.followingId,
-              followedAt: Timestamp.now(),
-            ).toJson(),
-            isMakingFollowRelation: !isActive);
+      data: FollowingRelationshipModel(
+        followedId: widget.followedId,
+        followingId: widget.followingId,
+        followedAt: Timestamp.now(),
+      ).toJson(),
+      isMakingFollowRelation: !isActive,
+    );
     setState(() {
       isActive = !isActive;
     });
@@ -93,7 +101,7 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
       },
       builder: (context, state) {
         return CustomContainerButton(
-          width: 105,
+          width: 115,
           height: 40,
           internalVerticalPadding: 0,
           internalHorizontalPadding: 0,
@@ -108,7 +116,11 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
               fit: BoxFit.scaleDown,
               alignment: Alignment.center,
               child: Text(
-                isActive ? context.tr("Following") : context.tr("Follow"),
+                isActive
+                    ? context.tr("Following")
+                    : isFollowBack
+                        ? "Follow back"
+                        : context.tr("Follow"),
                 style: AppTextStyles.uberMoveBold14.copyWith(
                   color: isActive ? Colors.black : Colors.white,
                 ),
