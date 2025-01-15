@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:twitter_app/core/errors/custom_exception.dart';
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
@@ -27,9 +26,9 @@ class FirestoreService implements DatabaseService {
       _handleFirebaseException(e);
     } catch (e) {
       log('Error adding data to Firestore: $e');
-      throw CustomException(
+      throw const CustomException(
           message:
-              "Cannot add your data right now, please try again later.".tr());
+              "Cannot add your data right now, please try again later.");
     }
   }
 
@@ -114,7 +113,7 @@ class FirestoreService implements DatabaseService {
         log("No items found matching your search.");
         return [];
         // throw CustomException(
-        //     message: "No items found matching your search.".tr());
+        //     message: "No items found matching your search.");
       }
 
       return querySnapshot.docs.toList();
@@ -122,9 +121,9 @@ class FirestoreService implements DatabaseService {
       _handleFirebaseException(e);
     } catch (e) {
       log('Error getting data from Firestore: $e');
-      throw CustomException(
+      throw const CustomException(
           message:
-              "Cannot fetch your data right now, please try again later.".tr());
+              "Cannot fetch your data right now, please try again later.");
     }
   }
 
@@ -142,9 +141,9 @@ class FirestoreService implements DatabaseService {
       _handleFirebaseException(e);
     } catch (e) {
       log('Error updating data in Firestore: $e');
-      throw CustomException(
+      throw const CustomException(
           message: "Cannot update your data right now, please try again later."
-              .tr());
+              );
     }
   }
 
@@ -161,9 +160,9 @@ class FirestoreService implements DatabaseService {
       _handleFirebaseException(e);
     } catch (e) {
       log('Error deleting data from Firestore: $e');
-      throw CustomException(
+      throw const CustomException(
           message: "Cannot delete your data right now, please try again later."
-              .tr());
+              );
     }
   }
 
@@ -202,21 +201,21 @@ class FirestoreService implements DatabaseService {
   void _handleFirebaseException(FirebaseException e) {
     switch (e.code) {
       case 'permission-denied':
-        throw CustomException(
-            message: "You do not have permission to perform this action.".tr());
+        throw const CustomException(
+            message: "You do not have permission to perform this action.");
       case 'not-found':
-        throw CustomException(message: "Requested data not found.".tr());
+        throw const CustomException(message: "Requested data not found.");
       case 'unavailable':
-        throw CustomException(
+        throw const CustomException(
             message:
                 "Service is temporarily unavailable. Please try again later."
-                    .tr());
+                    );
       case 'deadline-exceeded':
-        throw CustomException(
-            message: "Operation timed out. Please try again.".tr());
+        throw const CustomException(
+            message: "Operation timed out. Please try again.");
       default:
         log("there is an error in firestore service ${e.toString()}");
-        throw CustomException(message: "An unknown error occurred".tr());
+        throw const CustomException(message: "An unknown error occurred");
     }
   }
 }
