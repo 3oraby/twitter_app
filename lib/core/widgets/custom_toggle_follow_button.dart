@@ -119,7 +119,7 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
                 isActive
                     ? context.tr("Following")
                     : isFollowBack
-                        ? "Follow back"
+                        ? context.tr("Follow back")
                         : context.tr("Follow"),
                 style: AppTextStyles.uberMoveBold14.copyWith(
                   color: isActive ? Colors.black : Colors.white,

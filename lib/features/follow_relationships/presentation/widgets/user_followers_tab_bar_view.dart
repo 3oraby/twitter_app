@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -70,10 +71,10 @@ class _UserFollowersTabBarBlocConsumerBodyState
           );
         } else if (state is GetUserConnectionsEmptyState) {
           return CustomEmptyBodyWidget(
-            mainLabel: "No Followers Yet!",
-            subLabel:
-                "It looks like no one is following you right now. Share your profile to gain followers.",
-            buttonDescription: "back to home",
+            mainLabel: context.tr("No Followers Yet!"),
+            subLabel: context.tr(
+                "It looks like no one is following you right now. Share your profile to gain followers."),
+            buttonDescription: context.tr("back to home"),
             onButtonPressed: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,

@@ -81,5 +81,14 @@
   "Failed to unfollow user. Please try again later.": "فشل في إلغاء متابعة المستخدم. يرجى المحاولة لاحقًا.",
   "Failed to get suggestions.": "فشل في الحصول على الاقتراحات.",
   "Failed to update user stats.": "فشل في تحديث إحصائيات المستخدم.",
-  "The operation could not be completed due to an unexpected issue. Please try again later.": "تعذر إكمال العملية بسبب مشكلة غير متوقعة. يرجى المحاولة مرة أخرى لاحقًا."
+  "The operation could not be completed due to an unexpected issue. Please try again later.": "تعذر إكمال العملية بسبب مشكلة غير متوقعة. يرجى المحاولة مرة أخرى لاحقًا.",
+  "Followers": "المتابعون",
+  "No Followers Yet!": "لا متابعين حتى الآن!",
+  "It looks like no one is following you right now. Share your profile to gain followers.": "يبدو أنه لا أحد يتابعك في الوقت الحالي. شارك ملفك الشخصي لكسب المتابعين.",
+  "back to home": "العودة إلى الصفحة الرئيسية",
+  "No Followings Yet!": "لا متابَعين حتى الآن!",
+  "You are not following anyone yet. Explore accounts and start connecting.": "أنت لا تتابع أي شخص حتى الآن. استكشف الحسابات وابدأ في الاتصال.",
+  "Discover Accounts": "اكتشاف الحسابات",
+  "Follows you": "يتابعك",
+  "Follow back": "رد المتابعة"
 }

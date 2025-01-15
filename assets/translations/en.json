@@ -81,5 +81,14 @@
   "Failed to unfollow user. Please try again later.": "Failed to unfollow user. Please try again later.",
   "Failed to get suggestions.": "Failed to get suggestions.",
   "Failed to update user stats.": "Failed to update user stats.",
-  "The operation could not be completed due to an unexpected issue. Please try again later.": "The operation could not be completed due to an unexpected issue. Please try again later."
+  "The operation could not be completed due to an unexpected issue. Please try again later.": "The operation could not be completed due to an unexpected issue. Please try again later.",
+  "Followers": "Followers",
+  "No Followers Yet!": "No Followers Yet!",
+  "It looks like no one is following you right now. Share your profile to gain followers.": "It looks like no one is following you right now. Share your profile to gain followers.",
+  "back to home": "back to home",
+  "No Followings Yet!": "No Followings Yet!",
+  "You are not following anyone yet. Explore accounts and start connecting.": "You are not following anyone yet. Explore accounts and start connecting.",
+  "Discover Accounts": "Discover Accounts",
+  "Follows you": "Follows you",
+  "Follow back": "Follow back"
 }

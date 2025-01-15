@@ -68,7 +68,7 @@ class UserInfoCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
-                      "Follows you",
+                      context.tr("Follows you"),
                       style: AppTextStyles.uberMoveBold14.copyWith(
                         color: AppColors.secondaryColor,
                       ),
