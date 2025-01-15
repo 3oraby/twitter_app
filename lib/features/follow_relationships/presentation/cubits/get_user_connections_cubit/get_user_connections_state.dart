@@ -9,7 +9,7 @@ final class GetUserConnectionsLoadingState extends GetUserConnectionsState {}
 final class GetUserConnectionsEmptyState extends GetUserConnectionsState {}
 
 final class GetUserConnectionsLoadedState extends GetUserConnectionsState {
-  final List<UserEntity> userConnections;
+  final List<UserWithFollowStatusEntity> userConnections;
   GetUserConnectionsLoadedState({required this.userConnections});
 }
 

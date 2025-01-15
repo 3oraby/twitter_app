@@ -11,6 +11,8 @@ import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/follow_relationships/data/models/following_relationship_model.dart';
+import 'package:twitter_app/features/follow_relationships/data/models/user_with_follow_status_model.dart';
+import 'package:twitter_app/features/follow_relationships/domain/entities/user_with_follow_status_entity.dart';
 import 'package:twitter_app/features/follow_relationships/domain/repos/follow_repo.dart';
 
 class FollowRepoImpl extends FollowRepo {
@@ -61,34 +63,51 @@ class FollowRepoImpl extends FollowRepo {
   }
 
   @override
-  Future<Either<Failure, List<UserEntity>>> getUserConnections({
+  Future<Either<Failure, List<UserWithFollowStatusEntity>>> getUserConnections({
     required String currentUserId,
     required bool isFetchingFollowers,
   }) async {
     try {
-      List followRelationships = await databaseService.getData(
+      List followersRelationships = await databaseService.getData(
         path: BackendEndpoints.toggleFollowRelationShip,
         queryConditions: [
           QueryCondition(
-            field: isFetchingFollowers ? "followedId" : "followingId",
+            field: "followedId",
             value: currentUserId,
           ),
         ],
       );
-      log(followRelationships.toString());
-      // Extract the appropriate user IDs based on the query
-      Set<String> userIds = followRelationships
-          .map((doc) => isFetchingFollowers
-              ? FollowingRelationshipModel.fromJson(doc.data()).followingId
-              : FollowingRelationshipModel.fromJson(doc.data()).followedId)
-          .toSet();
-      if (userIds.isEmpty) {
-        return right([]); // If no userIds, return an empty list of suggestions
+
+      List followingsRelationships = await databaseService.getData(
+        path: BackendEndpoints.toggleFollowRelationShip,
+        queryConditions: [
+          QueryCondition(
+            field: "followingId",
+            value: currentUserId,
+          ),
+        ],
+      );
+
+      Set<String> userIds = {};
+
+      if (isFetchingFollowers) {
+        for (var doc in followersRelationships) {
+          userIds
+              .add(FollowingRelationshipModel.fromJson(doc.data()).followingId);
+        }
+      } else {
+        for (var doc in followingsRelationships) {
+          userIds
+              .add(FollowingRelationshipModel.fromJson(doc.data()).followedId);
+        }
       }
-      // Fetch user details using the extracted user IDs
+
+      if (userIds.isEmpty) {
+        return right([]); 
+      }
+
       List res = await databaseService.getData(
-        path: BackendEndpoints
-            .getUserConnections, // Replace with appropriate endpoint
+        path: BackendEndpoints.getUserConnections,
         queryConditions: [
           QueryCondition(
             field: "userId",
@@ -98,11 +117,39 @@ class FollowRepoImpl extends FollowRepo {
         ],
       );
 
-      // Map fetched documents to UserEntity list
-      List<UserEntity> userEntities =
-          res.map((doc) => UserModel.fromJson(doc.data())).toList();
+      List<UserWithFollowStatusEntity> userConnections = res.map((doc) {
+        UserEntity user = UserModel.fromJson(doc.data()).toEntity();
+        bool followsYou;
+        bool isFollowed;
 
-      return right(userEntities);
+        if (isFetchingFollowers) {
+          followsYou = true;
+          isFollowed = followingsRelationships.any(
+            (relationship) {
+              FollowingRelationshipModel followingRelationshipModel =
+                  FollowingRelationshipModel.fromJson(relationship.data());
+              return followingRelationshipModel.followedId == user.userId;
+            },
+          );
+        } else {
+          isFollowed = true;
+          followsYou = followersRelationships.any(
+            (relationship) {
+              FollowingRelationshipModel followingRelationshipModel =
+                  FollowingRelationshipModel.fromJson(relationship.data());
+              return followingRelationshipModel.followingId == user.userId;
+            },
+          );
+        }
+
+        return UserWithFollowStatusModel(
+          user: UserModel.fromEntity(user),
+          followsYou: followsYou,
+          isFollowed: isFollowed,
+        );
+      }).toList();
+
+      return right(userConnections);
     } catch (e) {
       log("Exception in FollowRepoImpl.getUserConnections() ${e.toString()}");
       return left(

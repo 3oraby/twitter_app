@@ -7,6 +7,7 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/follow_relationships/domain/entities/user_with_follow_status_entity.dart';
 import 'package:twitter_app/features/follow_relationships/domain/repos/follow_repo.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/cubits/get_user_connections_cubit/get_user_connections_cubit.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
@@ -94,7 +95,7 @@ class UserFollowingsTabBarBody extends StatelessWidget {
     required this.currentUser,
   });
 
-  final List<UserEntity> userConnections;
+  final List<UserWithFollowStatusEntity> userConnections;
   final UserEntity currentUser;
 
   @override
@@ -109,9 +110,10 @@ class UserFollowingsTabBarBody extends StatelessWidget {
         itemCount: userConnections.length,
         separatorBuilder: (context, index) => const VerticalGap(24),
         itemBuilder: (context, index) => UserInfoCard(
-          user: userConnections[index],
+          user: userConnections[index].user.toEntity(),
           currentUserId: currentUser.userId,
-          isActiveFollowButton: true,
+          isActiveFollowButton: userConnections[index].isFollowed,
+          showFollowsYouLabel: userConnections[index].followsYou,
         ),
       ),
     );
