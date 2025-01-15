@@ -26,7 +26,7 @@ class HomeView extends StatelessWidget {
     UserEntity currentUser = getCurrentUserEntity();
     return buildCustomAppBar(
       context,
-      title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground48),
+      title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground36),
       leading: GestureDetector(
         onTap: () {
           Scaffold.of(context).openDrawer();

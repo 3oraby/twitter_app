@@ -77,19 +77,19 @@ flutter:
 #     generate: true
 #     image_path: "assets/images/app logo.png"
 
-# flutter_assets:
-#   assets_path: assets/svg
-#   output_path: lib/core/utils
-#   filename: app_svgs.dart
-#   field_prefix: null
-#   classname: AppSvgs
-
 flutter_assets:
-  assets_path: assets/images
+  assets_path: assets/svg
   output_path: lib/core/utils
-  filename: app_images.dart
+  filename: app_svgs.dart
   field_prefix: null
-  classname: AppImages
+  classname: AppSvgs
+
+# flutter_assets:
+#   assets_path: assets/images
+#   output_path: lib/core/utils
+#   filename: app_images.dart
+#   field_prefix: null
+#   classname: AppImages
 
 # flutter_assets:
 #   assets_path: assets/animations

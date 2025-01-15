@@ -10,16 +10,8 @@ class AppSvgs {
   /// assets/svg/phone_number_logo.svg
   static const String svgPhoneNumberLogo = "assets/svg/phone_number_logo.svg";
 
-  /// Assets for svgXLogoWhiteBackground48
-  /// assets/svg/x_logo_white_background_48.svg
-  static const String svgXLogoWhiteBackground48 = "assets/svg/x_logo_white_background_48.svg";
-
-  /// Assets for svgXxxx
-  /// assets/svg/xxxx.svg
-  static const String svgXxxx = "assets/svg/xxxx.svg";
-
-  /// Assets for svgXxxxa
-  /// assets/svg/xxxxa.svg
-  static const String svgXxxxa = "assets/svg/xxxxa.svg";
+  /// Assets for svgXLogoWhiteBackground36
+  /// assets/svg/x_logo_white_background_36.svg
+  static const String svgXLogoWhiteBackground36 = "assets/svg/x_logo_white_background_36.svg";
 }
 

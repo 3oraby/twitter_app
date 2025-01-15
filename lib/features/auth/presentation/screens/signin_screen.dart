@@ -28,7 +28,7 @@ class SignInScreen extends StatelessWidget {
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground48),
+          title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground36),
         ),
         body: const SignInBLocConsumerBody(),
       ),
