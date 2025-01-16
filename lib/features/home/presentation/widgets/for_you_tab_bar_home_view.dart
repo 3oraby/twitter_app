@@ -4,10 +4,11 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
+import 'package:twitter_app/core/widgets/custom_like_button.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
-import 'package:twitter_app/features/home/domain/entities/tweet_details_entity.dart';
-import 'package:twitter_app/features/home/presentation/cubits/get_tweets_cubit/get_tweets_cubit.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/tweet/presentation/cubits/get_tweets_cubit/get_tweets_cubit.dart';
 
 class ForYouTabBarHomeView extends StatefulWidget {
   const ForYouTabBarHomeView({super.key});
@@ -145,17 +146,7 @@ class CustomBookMarkButton extends StatelessWidget {
   }
 }
 
-class CustomLikeButton extends StatelessWidget {
-  const CustomLikeButton({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {},
-      icon: const Icon(Icons.favorite_border),
-    );
-  }
-}
 
 class CustomRetweetButton extends StatelessWidget {
   const CustomRetweetButton({super.key});

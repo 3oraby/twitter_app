@@ -1,7 +1,7 @@
 
 import 'package:twitter_app/features/auth/data/models/user_model.dart';
-import 'package:twitter_app/features/home/data/models/tweet_model.dart';
-import 'package:twitter_app/features/home/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
 class TweetDetailsModel extends TweetDetailsEntity {
   TweetDetailsModel({

@@ -19,9 +19,9 @@ import 'package:twitter_app/core/widgets/custom_text_form_field.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/home/data/models/tweet_model.dart';
-import 'package:twitter_app/features/home/domain/repos/tweet_repo.dart';
-import 'package:twitter_app/features/home/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
+import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
+import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
+import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
 import 'package:twitter_app/features/home/presentation/widgets/custom_floating_action_button.dart';
 
 class MakeNewTweetScreen extends StatefulWidget {

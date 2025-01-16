@@ -1,5 +1,5 @@
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/home/domain/entities/tweet_entity.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_entity.dart';
 
 class TweetDetailsEntity {
   final String tweetId;

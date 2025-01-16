@@ -7,11 +7,11 @@ import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
-import 'package:twitter_app/features/home/data/models/tweet_details_model.dart';
-import 'package:twitter_app/features/home/data/models/tweet_model.dart';
-import 'package:twitter_app/features/home/domain/entities/tweet_details_entity.dart';
-import 'package:twitter_app/features/home/domain/entities/tweet_entity.dart';
-import 'package:twitter_app/features/home/domain/repos/tweet_repo.dart';
+import 'package:twitter_app/features/tweet/data/models/tweet_details_model.dart';
+import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_entity.dart';
+import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
 
 class TweetRepoImpl extends TweetRepo {
   final DatabaseService databaseService;
