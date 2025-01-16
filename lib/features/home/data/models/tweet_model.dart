@@ -52,4 +52,17 @@ class TweetModel extends TweetEntity {
       retweetsCount: retweetsCount,
     );
   }
+
+  factory TweetModel.fromEntity(TweetEntity entity) {
+    return TweetModel(
+      userId: entity.userId,
+      content: entity.content,
+      mediaUrl: entity.mediaUrl,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      likesCount: entity.likesCount,
+      commentsCount: entity.commentsCount,
+      retweetsCount: entity.retweetsCount,
+    );
+  }
 }

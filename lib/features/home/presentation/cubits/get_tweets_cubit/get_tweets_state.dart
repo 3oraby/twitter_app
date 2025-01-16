@@ -7,7 +7,7 @@ final class GetTweetsInitial extends GetTweetsState {}
 final class GetTweetsLoadingState extends GetTweetsState {}
 
 final class GetTweetsLoadedState extends GetTweetsState {
-  final List<TweetEntity> tweets;
+  final List<TweetDetailsEntity> tweets;
   GetTweetsLoadedState({required this.tweets});
 }
 

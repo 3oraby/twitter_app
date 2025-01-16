@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:twitter_app/core/errors/failures.dart';
+import 'package:twitter_app/features/home/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/home/domain/entities/tweet_entity.dart';
 
 abstract class TweetRepo {
@@ -10,7 +11,7 @@ abstract class TweetRepo {
     required List<File>? mediaFiles,
   });
 
-  Future<Either<Failure, List<TweetEntity>>> getTweets({
+  Future<Either<Failure, List<TweetDetailsEntity>>> getTweets({
     bool? isForFollowingOnly,
   });
 }

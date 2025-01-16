@@ -27,8 +27,7 @@ class FirestoreService implements DatabaseService {
     } catch (e) {
       log('Error adding data to Firestore: $e');
       throw const CustomException(
-          message:
-              "Cannot add your data right now, please try again later.");
+          message: "Cannot add your data right now, please try again later.");
     }
   }
 
@@ -122,8 +121,7 @@ class FirestoreService implements DatabaseService {
     } catch (e) {
       log('Error getting data from Firestore: $e');
       throw const CustomException(
-          message:
-              "Cannot fetch your data right now, please try again later.");
+          message: "Cannot fetch your data right now, please try again later.");
     }
   }
 
@@ -142,8 +140,8 @@ class FirestoreService implements DatabaseService {
     } catch (e) {
       log('Error updating data in Firestore: $e');
       throw const CustomException(
-          message: "Cannot update your data right now, please try again later."
-              );
+          message:
+              "Cannot update your data right now, please try again later.");
     }
   }
 
@@ -161,8 +159,8 @@ class FirestoreService implements DatabaseService {
     } catch (e) {
       log('Error deleting data from Firestore: $e');
       throw const CustomException(
-          message: "Cannot delete your data right now, please try again later."
-              );
+          message:
+              "Cannot delete your data right now, please try again later.");
     }
   }
 
@@ -208,8 +206,7 @@ class FirestoreService implements DatabaseService {
       case 'unavailable':
         throw const CustomException(
             message:
-                "Service is temporarily unavailable. Please try again later."
-                    );
+                "Service is temporarily unavailable. Please try again later.");
       case 'deadline-exceeded':
         throw const CustomException(
             message: "Operation timed out. Please try again.");
