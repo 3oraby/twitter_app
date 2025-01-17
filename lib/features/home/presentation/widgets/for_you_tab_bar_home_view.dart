@@ -116,13 +116,17 @@ class CustomTweetInfoCard extends StatelessWidget {
                   CustomShowTweetsMedia(
                     mediaUrl: tweetDetailsEntity.tweet.mediaUrl!,
                   ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomCommentButton(),
-                    CustomRetweetButton(),
-                    CustomLikeButton(),
-                    CustomBookMarkButton(),
+                    const CustomCommentButton(),
+                    const CustomRetweetButton(),
+                    CustomLikeButton(
+                      tweetId: tweetDetailsEntity.tweetId,
+                      userId: tweetDetailsEntity.user.userId,
+                      originalAuthorId: tweetDetailsEntity.tweet.userId,
+                    ),
+                    const CustomBookMarkButton(),
                   ],
                 ),
               ],
@@ -145,8 +149,6 @@ class CustomBookMarkButton extends StatelessWidget {
     );
   }
 }
-
-
 
 class CustomRetweetButton extends StatelessWidget {
   const CustomRetweetButton({super.key});
@@ -197,6 +199,7 @@ class CustomShowTweetsMedia extends StatelessWidget {
                 height: 300,
                 width: 300,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const SizedBox(),
               ),
             ),
           ],

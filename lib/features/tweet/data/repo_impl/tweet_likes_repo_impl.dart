@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:twitter_app/core/errors/failures.dart';
+import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
@@ -13,26 +14,56 @@ class TweetLikesRepoImpl extends TweetLikesRepo {
   TweetLikesRepoImpl({required this.databaseService});
 
   @override
-  Future<Either<Failure, Success>> addNewLike({
+  Future<Either<Failure, Success>> toggleTweetLike({
     required Map<String, dynamic> data,
   }) async {
     try {
       TweetLikesModel tweetLikesModel = TweetLikesModel.fromJson(data);
-      await databaseService.addData(
-        path:
-            "${BackendEndpoints.getTweets}/${tweetLikesModel.tweetId}/${BackendEndpoints.addNewTweetLike}",
-        data: tweetLikesModel.toJson(),
+      String path =
+          "${BackendEndpoints.getTweets}/${tweetLikesModel.tweetId}/${BackendEndpoints.toggleTweetLike}";
+
+      var existingLike = await databaseService.getData(
+        path: path,
+        queryConditions: [
+          QueryCondition(
+            field: "userId",
+            value: tweetLikesModel.userId,
+          ),
+          QueryCondition(
+            field: "tweetId",
+            value: tweetLikesModel.tweetId,
+          ),
+        ],
       );
+
+      if (existingLike.isEmpty) {
+        await databaseService.addData(
+          path: path,
+          data: tweetLikesModel.toJson(),
+        );
+
+        await databaseService.incrementField(
+          path: BackendEndpoints.updateTweetData,
+          documentId: tweetLikesModel.tweetId,
+          field: "likesCount",
+        );
+      } else {
+        await databaseService.deleteData(
+          path: path,
+          documentId: existingLike.first.id,
+        );
+
+        await databaseService.decrementField(
+          path: BackendEndpoints.updateTweetData,
+          documentId: tweetLikesModel.tweetId,
+          field: "likesCount",
+        );
+      }
 
       return right(Success());
     } catch (e) {
       log("exception in tweetLikesRepoImpl.addNewLike() ${e.toString()}");
       return left(const ServerFailure(message: "Failed to add like"));
     }
-  }
-
-  @override
-  Future<Either<Failure, Success>> removeLike() {
-    throw UnimplementedError();
   }
 }
