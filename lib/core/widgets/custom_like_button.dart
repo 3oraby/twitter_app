@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:like_button/like_button.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
@@ -52,8 +53,8 @@ class _LikeButtonBlocConsumerBodyState
     extends State<LikeButtonBlocConsumerBody> {
   bool isActive = false;
 
-  _onToggleLikeButtonPressed() async {
-    await BlocProvider.of<ToggleTweetLikeCubit>(context).toggleTweetLike(
+  Future<bool?> _onToggleLikeButtonPressed(bool isLiked) async {
+    BlocProvider.of<ToggleTweetLikeCubit>(context).toggleTweetLike(
       data: TweetLikesModel(
         tweetId: widget.tweetId,
         userId: widget.userId,
@@ -62,8 +63,9 @@ class _LikeButtonBlocConsumerBodyState
       ).toJson(),
     );
     setState(() {
-      isActive = !isActive;
+      isActive = !isLiked;
     });
+    return !isLiked;
   }
 
   @override
@@ -72,19 +74,15 @@ class _LikeButtonBlocConsumerBodyState
       listener: (context, state) {
         if (state is ToggleTweetLikeFailureState) {
           showCustomSnackBar(context, state.message);
+          setState(() {
+            isActive = !isActive;
+          });
         }
       },
       builder: (context, state) {
-        return IconButton(
-          onPressed: _onToggleLikeButtonPressed,
-          icon: isActive
-              ? const Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                )
-              : const Icon(
-                  Icons.favorite_border,
-                ),
+        return LikeButton(
+          isLiked: isActive,
+          onTap: _onToggleLikeButtonPressed,
         );
       },
     );
