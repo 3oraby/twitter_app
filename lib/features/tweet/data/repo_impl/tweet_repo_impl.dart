@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:twitter_app/core/errors/failures.dart';
+import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_details_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
@@ -59,13 +61,35 @@ class TweetRepoImpl extends TweetRepo {
     bool? isForFollowingOnly,
   }) async {
     try {
+      final UserEntity currentUser = getCurrentUserEntity();
+
       List res = await databaseService.getData(
         path: BackendEndpoints.getTweets,
       );
 
+      List<String> tweetIds = res.map((doc) => doc.id).toList().cast<String>();
+
+      Set<String> likedTweetIds = {};
+      for (String tweetId in tweetIds) {
+        List likes = await databaseService.getData(
+          path:
+              "${BackendEndpoints.getTweets}/$tweetId/${BackendEndpoints.toggleTweetLike}", 
+          queryConditions: [
+            QueryCondition(
+              field: "userId",
+              value: currentUser.userId,
+            ),
+          ],
+        );
+
+        if (likes.isNotEmpty) {
+          likedTweetIds.add(tweetId);
+        }
+      }
+
+      // Step 5: Fetch user details
       Set<String> userIds =
           res.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
-
       List userDocs = await databaseService.getData(
         path: BackendEndpoints.getUserData,
         queryConditions: [
@@ -76,6 +100,7 @@ class TweetRepoImpl extends TweetRepo {
           ),
         ],
       );
+
       List<TweetDetailsEntity> tweets = res.map((doc) {
         TweetModel tweetModel = TweetModel.fromMap(doc.data());
 
@@ -83,15 +108,18 @@ class TweetRepoImpl extends TweetRepo {
           (userDoc) => userDoc.data()['userId'] == tweetModel.userId,
         );
 
-        Map<String,dynamic> userData = userDoc.data();
+        Map<String, dynamic> userData = userDoc.data();
 
         Map<String, dynamic> data = {
           'tweetId': doc.id,
           'tweet': tweetModel.toJson(),
           'user': userData,
+          'isLiked': likedTweetIds.contains(doc.id),
         };
+
         return TweetDetailsModel.fromJson(data);
       }).toList();
+
       return right(tweets);
     } catch (e) {
       log("Exception in TweetRepoImpl.getTweets() ${e.toString()}");

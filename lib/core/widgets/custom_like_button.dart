@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
+import 'package:twitter_app/core/utils/app_colors.dart';
+import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_likes_repo.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/toggle_tweet_like_cubit/toggle_tweet_like_cubit.dart';
@@ -14,11 +16,16 @@ class CustomLikeButton extends StatelessWidget {
     required this.tweetId,
     required this.originalAuthorId,
     required this.userId,
+    required this.likesCount,
+    this.isActive = false,
   });
 
   final String tweetId;
   final String originalAuthorId;
   final String userId;
+  final int likesCount;
+  final bool isActive;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -29,6 +36,8 @@ class CustomLikeButton extends StatelessWidget {
         userId: userId,
         tweetId: tweetId,
         originalAuthorId: originalAuthorId,
+        likesCount: likesCount,
+        isActive: isActive,
       ),
     );
   }
@@ -40,10 +49,14 @@ class LikeButtonBlocConsumerBody extends StatefulWidget {
     required this.tweetId,
     required this.originalAuthorId,
     required this.userId,
+    required this.likesCount,
+    this.isActive = false,
   });
   final String tweetId;
   final String originalAuthorId;
   final String userId;
+  final int likesCount;
+  final bool isActive;
   @override
   State<LikeButtonBlocConsumerBody> createState() =>
       _LikeButtonBlocConsumerBodyState();
@@ -51,7 +64,21 @@ class LikeButtonBlocConsumerBody extends StatefulWidget {
 
 class _LikeButtonBlocConsumerBodyState
     extends State<LikeButtonBlocConsumerBody> {
-  bool isActive = false;
+  late bool isActive;
+  late int likesCount;
+  late int amount;
+
+  @override
+  void initState() {
+    super.initState();
+    isActive = widget.isActive;
+    likesCount = widget.likesCount;
+    if (isActive) {
+      amount = -1;
+    } else {
+      amount = 1;
+    }
+  }
 
   Future<bool?> _onToggleLikeButtonPressed(bool isLiked) async {
     BlocProvider.of<ToggleTweetLikeCubit>(context).toggleTweetLike(
@@ -64,6 +91,8 @@ class _LikeButtonBlocConsumerBodyState
     );
     setState(() {
       isActive = !isLiked;
+      likesCount += amount;
+      amount *= -1;
     });
     return !isLiked;
   }
@@ -83,6 +112,26 @@ class _LikeButtonBlocConsumerBodyState
         return LikeButton(
           isLiked: isActive,
           onTap: _onToggleLikeButtonPressed,
+          likeCount: likesCount,
+          countBuilder: (likeCount, isLiked, text) => Text(
+            likeCount.toString(),
+            style: AppTextStyles.uberMoveMedium18.copyWith(
+              color: isLiked ? Colors.red : AppColors.thirdColor,
+            ),
+          ),
+          likeBuilder: (isLiked) {
+            if (isLiked) {
+              return const Icon(
+                Icons.favorite,
+                color: Colors.red,
+              );
+            } else {
+              return const Icon(
+                Icons.favorite_border,
+                color: AppColors.thirdColor,
+              );
+            }
+          },
         );
       },
     );

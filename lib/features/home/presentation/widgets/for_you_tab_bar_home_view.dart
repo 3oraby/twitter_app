@@ -125,6 +125,8 @@ class CustomTweetInfoCard extends StatelessWidget {
                       tweetId: tweetDetailsEntity.tweetId,
                       userId: tweetDetailsEntity.user.userId,
                       originalAuthorId: tweetDetailsEntity.tweet.userId,
+                      likesCount: tweetDetailsEntity.tweet.likesCount,
+                      isActive: tweetDetailsEntity.isLiked,
                     ),
                     const CustomBookMarkButton(),
                   ],

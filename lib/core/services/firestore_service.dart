@@ -114,7 +114,7 @@ class FirestoreService implements DatabaseService {
         // throw CustomException(
         //     message: "No items found matching your search.");
       }
-
+      log("--------- query end ---------");
       return querySnapshot.docs.toList();
     } on FirebaseException catch (e) {
       _handleFirebaseException(e);
