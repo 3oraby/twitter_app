@@ -19,8 +19,7 @@ class TweetLikesRepoImpl extends TweetLikesRepo {
   }) async {
     try {
       TweetLikesModel tweetLikesModel = TweetLikesModel.fromJson(data);
-      String path =
-          "${BackendEndpoints.getTweets}/${tweetLikesModel.tweetId}/${BackendEndpoints.toggleTweetLike}";
+      String path = BackendEndpoints.toggleTweetLike;
 
       var existingLike = await databaseService.getData(
         path: path,

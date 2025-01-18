@@ -10,6 +10,7 @@ import 'package:twitter_app/core/services/storage_service.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_details_model.dart';
+import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_entity.dart';
@@ -67,27 +68,16 @@ class TweetRepoImpl extends TweetRepo {
         path: BackendEndpoints.getTweets,
       );
 
-      List<String> tweetIds = res.map((doc) => doc.id).toList().cast<String>();
+      List likes = await databaseService.getData(
+        path: BackendEndpoints.getTweetLikes,
+        queryConditions: [
+          QueryCondition(
+            field: "userId",
+            value: currentUser.userId,
+          ),
+        ],
+      );
 
-      Set<String> likedTweetIds = {};
-      for (String tweetId in tweetIds) {
-        List likes = await databaseService.getData(
-          path:
-              "${BackendEndpoints.getTweets}/$tweetId/${BackendEndpoints.toggleTweetLike}", 
-          queryConditions: [
-            QueryCondition(
-              field: "userId",
-              value: currentUser.userId,
-            ),
-          ],
-        );
-
-        if (likes.isNotEmpty) {
-          likedTweetIds.add(tweetId);
-        }
-      }
-
-      // Step 5: Fetch user details
       Set<String> userIds =
           res.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
       List userDocs = await databaseService.getData(
@@ -110,11 +100,17 @@ class TweetRepoImpl extends TweetRepo {
 
         Map<String, dynamic> userData = userDoc.data();
 
+        Set<String> tweetIdsLikedByCurrentUser = likes
+            .map(
+              (doc) => TweetLikesModel.fromJson(doc.data()).tweetId,
+            )
+            .toSet();
+        bool isLikedByCurrentUser = tweetIdsLikedByCurrentUser.contains(doc.id);
         Map<String, dynamic> data = {
           'tweetId': doc.id,
           'tweet': tweetModel.toJson(),
           'user': userData,
-          'isLiked': likedTweetIds.contains(doc.id),
+          'isLiked': isLikedByCurrentUser,
         };
 
         return TweetDetailsModel.fromJson(data);
