@@ -13,10 +13,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
-  setupGetIt();
-  Bloc.observer = CustomBlocObserver();
   await SharedPreferencesSingleton.init();
   await SupabaseStorageService.supabaseInit();
+  setupGetIt();
+  Bloc.observer = CustomBlocObserver();
 
   runApp(
     EasyLocalization(
@@ -26,6 +26,7 @@ Future<void> main() async {
       ],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
+       
       startLocale: const Locale('en'),
       child: DevicePreview(
         builder: (context) => const TwitterApp(),
