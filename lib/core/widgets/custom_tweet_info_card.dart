@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_like_button.dart';
+import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
@@ -49,7 +49,7 @@ class CustomTweetInfoCard extends StatelessWidget {
                 style: AppTextStyles.uberMoveRegular16,
               ),
               const VerticalGap(4),
-              if (tweetDetailsEntity.tweet.mediaUrl != null)
+              if (tweetDetailsEntity.tweet.mediaUrl?.isNotEmpty ?? false)
                 CustomShowTweetsMedia(
                   mediaUrl: tweetDetailsEntity.tweet.mediaUrl!,
                 ),
@@ -74,7 +74,6 @@ class CustomTweetInfoCard extends StatelessWidget {
     );
   }
 }
-
 
 class CustomBookMarkButton extends StatelessWidget {
   const CustomBookMarkButton({super.key});
@@ -108,41 +107,6 @@ class CustomCommentButton extends StatelessWidget {
     return IconButton(
       onPressed: () {},
       icon: const Icon(Icons.add_comment_outlined),
-    );
-  }
-}
-
-class CustomShowTweetsMedia extends StatelessWidget {
-  const CustomShowTweetsMedia({
-    super.key,
-    required this.mediaUrl,
-  });
-
-  final List<String> mediaUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: mediaUrl.length,
-        separatorBuilder: (context, index) => const HorizontalGap(12),
-        itemBuilder: (context, index) => Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-              child: Image.network(
-                mediaUrl[index],
-                height: 300,
-                width: 300,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => const SizedBox(),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
