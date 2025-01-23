@@ -1,4 +1,5 @@
 import 'package:twitter_app/core/models/query_condition_model.dart';
+import 'package:twitter_app/core/services/database_transaction_service.dart';
 
 abstract class DatabaseService {
   Future<void> addData({
@@ -40,4 +41,8 @@ abstract class DatabaseService {
     required String field,
     int decrementAmount = -1,
   });
+
+  Future<void> runTransaction(
+    Future<void> Function(DatabaseTransactionService transaction) transactionHandler,
+  );
 }

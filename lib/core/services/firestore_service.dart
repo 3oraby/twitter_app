@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:twitter_app/core/errors/custom_exception.dart';
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
+import 'package:twitter_app/core/services/database_transaction_service.dart';
+import 'package:twitter_app/core/services/firestore_transaction_service.dart';
 
 class FirestoreService implements DatabaseService {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -213,6 +215,24 @@ class FirestoreService implements DatabaseService {
       default:
         log("there is an error in firestore service ${e.toString()}");
         throw const CustomException(message: "An unknown error occurred");
+    }
+  }
+
+  @override
+  Future<void> runTransaction(
+    Future<void> Function(DatabaseTransactionService transaction) transactionHandler,
+  ) async {
+    try {
+      await firebaseFirestore.runTransaction((firestoreTransaction) async {
+        final transaction = FirestoreTransactionService(firestoreTransaction);
+        await transactionHandler(transaction);
+      });
+    } on FirebaseException catch (e) {
+      _handleFirebaseException(e);
+    } catch (e) {
+      log('Error running Firestore transaction: $e');
+      throw const CustomException(
+          message: "Cannot complete the transaction, please try again later.");
     }
   }
 }
