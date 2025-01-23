@@ -10,6 +10,7 @@ class BackendEndpoints {
   static const String toggleFollowRelationShip = "followRelationShips";
   static const String getUserConnections = "users";
   static const String toggleTweetLike = "tweetLikes";
+  static const String toggleRetweet= "retweets";
   static const String getTweetLikes = "tweetLikes";
   static const String updateTweetData = "tweets";
 }

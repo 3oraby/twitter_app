@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_like_button.dart';
+import 'package:twitter_app/core/widgets/custom_retweet_button.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
@@ -57,7 +57,12 @@ class CustomTweetInfoCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const CustomCommentButton(),
-                  const CustomRetweetButton(),
+                  CustomRetweetButton(
+                    tweetId: tweetDetailsEntity.tweetId,
+                    originalAuthorId: tweetDetailsEntity.tweet.userId,
+                    retweetsCount: tweetDetailsEntity.tweet.retweetsCount,
+                    isActive: tweetDetailsEntity.isRetweeted,
+                  ),
                   CustomLikeButton(
                     tweetId: tweetDetailsEntity.tweetId,
                     originalAuthorId: tweetDetailsEntity.tweet.userId,
@@ -87,17 +92,17 @@ class CustomBookMarkButton extends StatelessWidget {
   }
 }
 
-class CustomRetweetButton extends StatelessWidget {
-  const CustomRetweetButton({super.key});
+// class CustomRetweetButton extends StatelessWidget {
+//   const CustomRetweetButton({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {},
-      icon: const Icon(Icons.share),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return IconButton(
+//       onPressed: () {},
+//       icon: const Icon(Icons.share),
+//     );
+//   }
+// }
 
 class CustomCommentButton extends StatelessWidget {
   const CustomCommentButton({super.key});

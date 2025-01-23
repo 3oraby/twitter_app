@@ -9,9 +9,11 @@ import 'package:twitter_app/core/services/supabase_storage_service.dart';
 import 'package:twitter_app/features/auth/data/repo_impl/auth_repo_impl.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 import 'package:twitter_app/features/follow_relationships/data/repo_impl/follow_repo_impl.dart';
+import 'package:twitter_app/features/tweet/data/repo_impl/retweet_repo_impl.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/tweet_likes_repo_impl.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/tweet_repo_impl.dart';
 import 'package:twitter_app/features/follow_relationships/domain/repos/follow_repo.dart';
+import 'package:twitter_app/features/tweet/domain/repos/retweet_repo.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_likes_repo.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
 import 'package:twitter_app/features/user/data/repo_impl/user_repo_impl.dart';
@@ -51,6 +53,9 @@ void setupGetIt() {
   ));
 
   getIt.registerSingleton<TweetLikesRepo>(TweetLikesRepoImpl(
+    databaseService: getIt<DatabaseService>(),
+  ));
+  getIt.registerSingleton<RetweetRepo>(RetweetRepoImpl(
     databaseService: getIt<DatabaseService>(),
   ));
 }

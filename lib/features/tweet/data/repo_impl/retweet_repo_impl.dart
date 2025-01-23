@@ -6,63 +6,63 @@ import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
-import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
-import 'package:twitter_app/features/tweet/domain/repos/tweet_likes_repo.dart';
+import 'package:twitter_app/features/tweet/data/models/retweet_model.dart';
+import 'package:twitter_app/features/tweet/domain/repos/retweet_repo.dart';
 
-class TweetLikesRepoImpl extends TweetLikesRepo {
+class RetweetRepoImpl extends RetweetRepo {
   final DatabaseService databaseService;
-  TweetLikesRepoImpl({required this.databaseService});
+  RetweetRepoImpl({required this.databaseService});
 
   @override
-  Future<Either<Failure, Success>> toggleTweetLike({
+  Future<Either<Failure, Success>> toggleRetweet({
     required Map<String, dynamic> data,
   }) async {
     try {
-      TweetLikesModel tweetLikesModel = TweetLikesModel.fromJson(data);
-      String path = BackendEndpoints.toggleTweetLike;
+      RetweetModel retweetModel = RetweetModel.fromJson(data);
+      String path = BackendEndpoints.toggleRetweet;
 
-      var existingLike = await databaseService.getData(
+      var existingRetweet = await databaseService.getData(
         path: path,
         queryConditions: [
           QueryCondition(
             field: "userId",
-            value: tweetLikesModel.userId,
+            value: retweetModel.userId,
           ),
           QueryCondition(
             field: "tweetId",
-            value: tweetLikesModel.tweetId,
+            value: retweetModel.tweetId,
           ),
         ],
       );
 
-      if (existingLike.isEmpty) {
+      if (existingRetweet.isEmpty) {
         await databaseService.addData(
           path: path,
-          data: tweetLikesModel.toJson(),
+          data: retweetModel.toJson(),
         );
 
         await databaseService.incrementField(
           path: BackendEndpoints.updateTweetData,
-          documentId: tweetLikesModel.tweetId,
-          field: "likesCount",
+          documentId: retweetModel.tweetId,
+          field: "retweetsCount",
         );
       } else {
         await databaseService.deleteData(
           path: path,
-          documentId: existingLike.first.id,
+          documentId: existingRetweet.first.id,
         );
 
         await databaseService.decrementField(
           path: BackendEndpoints.updateTweetData,
-          documentId: tweetLikesModel.tweetId,
-          field: "likesCount",
+          documentId: retweetModel.tweetId,
+          field: "retweetsCount",
         );
       }
 
       return right(Success());
     } catch (e) {
-      log("exception in tweetLikesRepoImpl.addNewLike() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to toggle like"));
+      log("exception in retweetRepoImpl.toggleRetweet() ${e.toString()}");
+      return left(const ServerFailure(message: "Failed to toggle retweet"));
     }
   }
 }
