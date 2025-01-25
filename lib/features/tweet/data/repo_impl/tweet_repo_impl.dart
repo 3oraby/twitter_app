@@ -9,6 +9,7 @@ import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/tweet/data/models/retweet_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_details_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
@@ -78,6 +79,16 @@ class TweetRepoImpl extends TweetRepo {
         ],
       );
 
+      List retweets = await databaseService.getData(
+        path: BackendEndpoints.getRetweets,
+        queryConditions: [
+          QueryCondition(
+            field: "userId",
+            value: currentUser.userId,
+          ),
+        ],
+      );
+
       Set<String> userIds =
           res.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
       List userDocs = await databaseService.getData(
@@ -106,11 +117,21 @@ class TweetRepoImpl extends TweetRepo {
             )
             .toSet();
         bool isLikedByCurrentUser = tweetIdsLikedByCurrentUser.contains(doc.id);
+
+        Set<String> tweetIdsRetweetedByCurrentUser = retweets
+            .map(
+              (doc) => RetweetModel.fromJson(doc.data()).tweetId,
+            )
+            .toSet();
+
+        bool isRetweetedByCurrentUser =
+            tweetIdsRetweetedByCurrentUser.contains(doc.id);
         Map<String, dynamic> data = {
           'tweetId': doc.id,
           'tweet': tweetModel.toJson(),
           'user': userData,
           'isLiked': isLikedByCurrentUser,
+          'isRetweeted': isRetweetedByCurrentUser,
         };
 
         return TweetDetailsModel.fromJson(data);
