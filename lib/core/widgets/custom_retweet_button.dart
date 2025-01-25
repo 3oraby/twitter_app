@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:like_button/like_button.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
@@ -99,36 +101,35 @@ class _RetweetButtonBlocConsumerBodyState
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ToggleRetweetCubit, ToggleRetweetState>(
-      listener: (context, state) {
-        if (state is ToggleRetweetFailureState) {
-          showCustomSnackBar(context, state.message);
-          setState(() {
-            isActive = !isActive;
-          });
-        }
-      },
-      builder: (context, state) {
-        return IconButton(
-          onPressed: () async {
-            await _onToggleRetweetButtonPressed(isActive);
-          },
-          icon: Row(
-            children: [
-              Icon(
-                Icons.repeat,
-                color: isActive ? Colors.green : AppColors.thirdColor,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                retweetsCount.toString(),
-                style: AppTextStyles.uberMoveMedium18.copyWith(
-                  color: isActive ? Colors.green : AppColors.thirdColor,
-                ),
-              ),
-            ],
+        listener: (context, state) {
+      if (state is ToggleRetweetFailureState) {
+        showCustomSnackBar(context, state.message);
+        setState(() {
+          isActive = !isActive;
+        });
+      }
+    }, builder: (context, state) {
+      return LikeButton(
+        isLiked: isActive,
+        onTap: _onToggleRetweetButtonPressed,
+        likeCount: retweetsCount,
+        bubblesColor: BubblesColor(
+          dotPrimaryColor: Colors.green,
+          dotSecondaryColor: Colors.lightGreen,
+        ),
+        countBuilder: (likeCount, isLiked, text) => Text(
+          likeCount.toString(),
+          style: AppTextStyles.uberMoveMedium18.copyWith(
+            color: isLiked ? Colors.green : AppColors.thirdColor,
           ),
-        );
-      },
-    );
+        ),
+        likeBuilder: (isLiked) {
+          return Icon(
+            FontAwesomeIcons.repeat,
+            color: isLiked ? Colors.green : AppColors.thirdColor,
+          );
+        },
+      );
+    });
   }
 }

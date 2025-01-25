@@ -119,17 +119,10 @@ class _LikeButtonBlocConsumerBodyState
             ),
           ),
           likeBuilder: (isLiked) {
-            if (isLiked) {
-              return const Icon(
-                Icons.favorite,
-                color: Colors.red,
-              );
-            } else {
-              return const Icon(
-                Icons.favorite_border,
-                color: AppColors.thirdColor,
-              );
-            }
+            return Icon(
+              Icons.favorite,
+              color: isLiked ? Colors.red : AppColors.thirdColor,
+            );
           },
         );
       },

@@ -64,79 +64,83 @@ class TweetRepoImpl extends TweetRepo {
   }) async {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
+      List<TweetDetailsEntity> tweets = [];
+      await databaseService.runTransaction(
+        (transaction) async {
+          List res = await databaseService.getData(
+            path: BackendEndpoints.getTweets,
+          );
 
-      List res = await databaseService.getData(
-        path: BackendEndpoints.getTweets,
+          List likes = await databaseService.getData(
+            path: BackendEndpoints.getTweetLikes,
+            queryConditions: [
+              QueryCondition(
+                field: "userId",
+                value: currentUser.userId,
+              ),
+            ],
+          );
+
+          List retweets = await databaseService.getData(
+            path: BackendEndpoints.getRetweets,
+            queryConditions: [
+              QueryCondition(
+                field: "userId",
+                value: currentUser.userId,
+              ),
+            ],
+          );
+
+          Set<String> userIds =
+              res.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
+          List userDocs = await databaseService.getData(
+            path: BackendEndpoints.getUserData,
+            queryConditions: [
+              QueryCondition(
+                field: "userId",
+                operator: QueryOperator.whereIn,
+                value: userIds.toList(),
+              ),
+            ],
+          );
+
+          tweets = res.map((doc) {
+            TweetModel tweetModel = TweetModel.fromMap(doc.data());
+
+            var userDoc = userDocs.firstWhere(
+              (userDoc) => userDoc.data()['userId'] == tweetModel.userId,
+            );
+
+            Map<String, dynamic> userData = userDoc.data();
+
+            Set<String> tweetIdsLikedByCurrentUser = likes
+                .map(
+                  (doc) => TweetLikesModel.fromJson(doc.data()).tweetId,
+                )
+                .toSet();
+            bool isLikedByCurrentUser =
+                tweetIdsLikedByCurrentUser.contains(doc.id);
+
+            Set<String> tweetIdsRetweetedByCurrentUser = retweets
+                .map(
+                  (doc) => RetweetModel.fromJson(doc.data()).tweetId,
+                )
+                .toSet();
+
+            bool isRetweetedByCurrentUser =
+                tweetIdsRetweetedByCurrentUser.contains(doc.id);
+            Map<String, dynamic> data = {
+              'tweetId': doc.id,
+              'tweet': tweetModel.toJson(),
+              'user': userData,
+              'isLiked': isLikedByCurrentUser,
+              'isRetweeted': isRetweetedByCurrentUser,
+            };
+
+            return TweetDetailsModel.fromJson(data);
+          }).toList();
+        },
       );
-
-      List likes = await databaseService.getData(
-        path: BackendEndpoints.getTweetLikes,
-        queryConditions: [
-          QueryCondition(
-            field: "userId",
-            value: currentUser.userId,
-          ),
-        ],
-      );
-
-      List retweets = await databaseService.getData(
-        path: BackendEndpoints.getRetweets,
-        queryConditions: [
-          QueryCondition(
-            field: "userId",
-            value: currentUser.userId,
-          ),
-        ],
-      );
-
-      Set<String> userIds =
-          res.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
-      List userDocs = await databaseService.getData(
-        path: BackendEndpoints.getUserData,
-        queryConditions: [
-          QueryCondition(
-            field: "userId",
-            operator: QueryOperator.whereIn,
-            value: userIds.toList(),
-          ),
-        ],
-      );
-
-      List<TweetDetailsEntity> tweets = res.map((doc) {
-        TweetModel tweetModel = TweetModel.fromMap(doc.data());
-
-        var userDoc = userDocs.firstWhere(
-          (userDoc) => userDoc.data()['userId'] == tweetModel.userId,
-        );
-
-        Map<String, dynamic> userData = userDoc.data();
-
-        Set<String> tweetIdsLikedByCurrentUser = likes
-            .map(
-              (doc) => TweetLikesModel.fromJson(doc.data()).tweetId,
-            )
-            .toSet();
-        bool isLikedByCurrentUser = tweetIdsLikedByCurrentUser.contains(doc.id);
-
-        Set<String> tweetIdsRetweetedByCurrentUser = retweets
-            .map(
-              (doc) => RetweetModel.fromJson(doc.data()).tweetId,
-            )
-            .toSet();
-
-        bool isRetweetedByCurrentUser =
-            tweetIdsRetweetedByCurrentUser.contains(doc.id);
-        Map<String, dynamic> data = {
-          'tweetId': doc.id,
-          'tweet': tweetModel.toJson(),
-          'user': userData,
-          'isLiked': isLikedByCurrentUser,
-          'isRetweeted': isRetweetedByCurrentUser,
-        };
-
-        return TweetDetailsModel.fromJson(data);
-      }).toList();
-
       return right(tweets);
     } catch (e) {
       log("Exception in TweetRepoImpl.getTweets() ${e.toString()}");
