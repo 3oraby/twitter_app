@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
+import 'package:twitter_app/core/widgets/custom_comment_button.dart';
 import 'package:twitter_app/core/widgets/custom_like_button.dart';
 import 'package:twitter_app/core/widgets/custom_retweet_button.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
@@ -56,7 +57,9 @@ class CustomTweetInfoCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CustomCommentButton(),
+                  CustomCommentButton(
+                    commentsCount: tweetDetailsEntity.tweet.commentsCount,
+                  ),
                   CustomRetweetButton(
                     tweetId: tweetDetailsEntity.tweetId,
                     originalAuthorId: tweetDetailsEntity.tweet.userId,
@@ -88,30 +91,6 @@ class CustomBookMarkButton extends StatelessWidget {
     return IconButton(
       onPressed: () {},
       icon: const Icon(Icons.bookmark_border_outlined),
-    );
-  }
-}
-
-// class CustomRetweetButton extends StatelessWidget {
-//   const CustomRetweetButton({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return IconButton(
-//       onPressed: () {},
-//       icon: const Icon(Icons.share),
-//     );
-//   }
-// }
-
-class CustomCommentButton extends StatelessWidget {
-  const CustomCommentButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {},
-      icon: const Icon(Icons.add_comment_outlined),
     );
   }
 }

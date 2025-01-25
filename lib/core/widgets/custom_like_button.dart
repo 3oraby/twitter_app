@@ -120,7 +120,7 @@ class _LikeButtonBlocConsumerBodyState
           ),
           likeBuilder: (isLiked) {
             return Icon(
-              Icons.favorite,
+              isLiked ? Icons.favorite : Icons.favorite_border,
               color: isLiked ? Colors.red : AppColors.thirdColor,
             );
           },
