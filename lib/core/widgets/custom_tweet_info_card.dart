@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
+import 'package:twitter_app/core/widgets/custom_bookmark_button.dart';
 import 'package:twitter_app/core/widgets/custom_comment_button.dart';
 import 'package:twitter_app/core/widgets/custom_like_button.dart';
 import 'package:twitter_app/core/widgets/custom_retweet_button.dart';
@@ -54,6 +55,7 @@ class CustomTweetInfoCard extends StatelessWidget {
                 CustomShowTweetsMedia(
                   mediaUrl: tweetDetailsEntity.tweet.mediaUrl!,
                 ),
+              const VerticalGap(8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -72,25 +74,17 @@ class CustomTweetInfoCard extends StatelessWidget {
                     likesCount: tweetDetailsEntity.tweet.likesCount,
                     isActive: tweetDetailsEntity.isLiked,
                   ),
-                  const CustomBookMarkButton(),
+                  CustomBookmarkButton(
+                    tweetId: tweetDetailsEntity.tweetId,
+                    originalAuthorId: tweetDetailsEntity.tweet.userId,
+                    isActive: tweetDetailsEntity.isBookmarked,
+                  ),
                 ],
               ),
             ],
           ),
         )
       ],
-    );
-  }
-}
-
-class CustomBookMarkButton extends StatelessWidget {
-  const CustomBookMarkButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {},
-      icon: const Icon(Icons.bookmark_border_outlined),
     );
   }
 }

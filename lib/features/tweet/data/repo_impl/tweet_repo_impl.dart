@@ -9,6 +9,7 @@ import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/bookmark/data/models/bookmark_model.dart';
 import 'package:twitter_app/features/tweet/data/models/retweet_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_details_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
@@ -91,6 +92,16 @@ class TweetRepoImpl extends TweetRepo {
             ],
           );
 
+          List bookmarks = await databaseService.getData(
+            path: BackendEndpoints.getBookMarks,
+            queryConditions: [
+              QueryCondition(
+                field: "userId",
+                value: currentUser.userId,
+              ),
+            ],
+          );
+
           Set<String> userIds =
               res.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
           List userDocs = await databaseService.getData(
@@ -129,12 +140,22 @@ class TweetRepoImpl extends TweetRepo {
 
             bool isRetweetedByCurrentUser =
                 tweetIdsRetweetedByCurrentUser.contains(doc.id);
+
+            Set<String> tweetIdsBookmarkedByCurrentUser = bookmarks
+                .map(
+                  (doc) => BookmarkModel.fromJson(doc.data()).tweetId,
+                )
+                .toSet();
+
+            bool isBookmarkedByCurrentUser =
+                tweetIdsBookmarkedByCurrentUser.contains(doc.id);
             Map<String, dynamic> data = {
               'tweetId': doc.id,
               'tweet': tweetModel.toJson(),
               'user': userData,
               'isLiked': isLikedByCurrentUser,
               'isRetweeted': isRetweetedByCurrentUser,
+              'isBookmarked': isBookmarkedByCurrentUser,
             };
 
             return TweetDetailsModel.fromJson(data);
