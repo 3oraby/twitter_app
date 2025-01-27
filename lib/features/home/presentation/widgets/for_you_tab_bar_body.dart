@@ -20,8 +20,7 @@ class ForYouTabBarBody extends StatelessWidget {
             CustomTweetInfoCard(
               tweetDetailsEntity: tweets[index],
             ),
-            if (index !=
-                tweets.length - 1)
+            if (index != tweets.length - 1)
               const Divider(
                 color: AppColors.dividerColor,
                 height: 24,

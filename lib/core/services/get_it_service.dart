@@ -10,6 +10,8 @@ import 'package:twitter_app/features/auth/data/repo_impl/auth_repo_impl.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 import 'package:twitter_app/features/bookmark/data/repo_impl/bookmark_repo_impl.dart';
 import 'package:twitter_app/features/bookmark/domain/repos/bookmark_repo.dart';
+import 'package:twitter_app/features/comments/data/comments_repo_impl.dart';
+import 'package:twitter_app/features/comments/domain/repos/comments_repo.dart';
 import 'package:twitter_app/features/follow_relationships/data/repo_impl/follow_repo_impl.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/retweet_repo_impl.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/tweet_likes_repo_impl.dart';
@@ -63,5 +65,10 @@ void setupGetIt() {
 
   getIt.registerSingleton<BookmarkRepo>(BookmarkRepoImpl(
     databaseService: getIt<DatabaseService>(),
+  ));
+
+  getIt.registerSingleton<CommentsRepo>(CommentsRepoImpl(
+    databaseService: getIt<DatabaseService>(),
+    storageService: getIt<StorageService>(),
   ));
 }

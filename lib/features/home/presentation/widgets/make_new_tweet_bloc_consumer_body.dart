@@ -1,0 +1,174 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
+import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
+import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
+import 'package:twitter_app/core/utils/app_colors.dart';
+import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/widgets/custom_container_button.dart';
+import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
+import 'package:twitter_app/core/widgets/horizontal_gap.dart';
+import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/home/presentation/widgets/make_new_tweet_preview_media.dart';
+import 'package:twitter_app/features/home/presentation/widgets/make_new_tweet_text_field.dart';
+import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
+import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
+import 'package:twitter_app/features/home/presentation/widgets/custom_floating_action_button.dart';
+
+class MakeNewTweetBlocConsumerBody extends StatefulWidget {
+  const MakeNewTweetBlocConsumerBody({super.key});
+
+  @override
+  State<MakeNewTweetBlocConsumerBody> createState() =>
+      _MakeNewTweetBlocConsumerBodyState();
+}
+
+class _MakeNewTweetBlocConsumerBodyState
+    extends State<MakeNewTweetBlocConsumerBody> {
+  final TextEditingController textTweetController = TextEditingController();
+  late UserEntity userEntity;
+  List<File> mediaFiles = [];
+  bool _isPostButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    userEntity = getCurrentUserEntity();
+
+    textTweetController.addListener(() {
+      setState(() {
+        _isPostButtonEnabled = textTweetController.text.trim().isNotEmpty;
+      });
+    });
+  }
+
+  Future<void> _onAddImagePressed() async {
+    try {
+      final ImagePicker imagePicker = ImagePicker();
+      final XFile? image =
+          await imagePicker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          mediaFiles.add(File(image.path));
+        });
+      }
+    } catch (e) {
+      log("Image picking error: $e");
+    } finally {}
+  }
+
+  void _onRemoveImageButtonPressed(int index) {
+    setState(() {
+      mediaFiles.removeAt(index);
+    });
+  }
+
+  void _onPostButtonPressed(BuildContext context) async {
+    final text = textTweetController.text.trim();
+
+    if (text.isNotEmpty || mediaFiles.isNotEmpty) {
+      TweetModel tweetModel = TweetModel(
+        userId: userEntity.userId,
+        content: text,
+        createdAt: Timestamp.now(),
+      );
+      BlocProvider.of<MakeNewTweetCubit>(context).makeNewTweet(
+        data: tweetModel.toJson(),
+        mediaFiles: mediaFiles,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    textTweetController.dispose();
+    super.dispose();
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return buildCustomAppBar(
+      context,
+      automaticallyImplyLeading: false,
+      centerTitle: false,
+      title: Row(
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              "Cancel",
+              style: AppTextStyles.uberMoveMedium20,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        CustomContainerButton(
+          internalVerticalPadding: 4,
+          backgroundColor: textTweetController.text.trim().isNotEmpty ||
+                  mediaFiles.isNotEmpty
+              ? AppColors.twitterAccentColor
+              : AppColors.lightTwitterAccentColor,
+          onPressed:
+              _isPostButtonEnabled ? () => _onPostButtonPressed(context) : null,
+          child: Text(
+            "Post",
+            style: AppTextStyles.uberMoveMedium18.copyWith(color: Colors.white),
+          ),
+        ),
+        const HorizontalGap(AppConstants.horizontalPadding),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<MakeNewTweetCubit, MakeNewTweetState>(
+      listener: (context, state) {
+        if (state is MakeNewTweetLoadedState) {
+          Navigator.pop(context);
+        } else if (state is MakeNewTweetFailureState) {
+          showCustomSnackBar(context, state.message);
+        }
+      },
+      builder: (context, state) {
+        return CustomModalProgressHUD(
+          inAsyncCall: state is MakeNewTweetLoadingState,
+          child: Scaffold(
+            appBar: _buildAppBar(context),
+            floatingActionButton: CustomFloatingActionButton(
+              iconData: Icons.add_a_photo,
+              onPressed: _onAddImagePressed,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppConstants.horizontalPadding),
+              child: ListView(
+                children: [
+                  MakeNewTweetTextField(
+                    userEntity: userEntity,
+                    textTweetController: textTweetController,
+                    hintText: "What`s happening?",
+                  ),
+                  const VerticalGap(28),
+                  MakeNewTweetPreviewMedia(
+                    mediaFiles: mediaFiles,
+                    onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

@@ -44,7 +44,6 @@ class TweetRepoImpl extends TweetRepo {
         }
       }
 
-      log("media url: $mediaUrl");
       data["mediaUrl"] = mediaUrl;
 
       await databaseService.addData(

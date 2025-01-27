@@ -5,10 +5,12 @@ import 'package:twitter_app/features/auth/presentation/screens/complete_user_pro
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone_number_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signup_screen.dart';
+import 'package:twitter_app/features/comments/presentation/screens/make_new_comment_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/user_connections_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/make_new_tweet_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
 Route<dynamic> onGenerateRoutes(RouteSettings settings) {
   switch (settings.name) {
@@ -39,11 +41,12 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => const UserConnectionsScreen(),
       );
-    // case CheckoutView.routeName:
-    //   return MaterialPageRoute(
-    //       builder: (context) => CheckoutView(
-    //             cartEntity: settings.arguments as CartEntity,
-    //           ));
+    case MakeNewCommentScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => MakeNewCommentScreen(
+          tweetDetailsEntity: settings.arguments as TweetDetailsEntity,
+        ),
+      );
     default:
       return MaterialPageRoute(
         builder: (context) => const WrongRoutePage(),

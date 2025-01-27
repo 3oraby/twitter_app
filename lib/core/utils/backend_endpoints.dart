@@ -16,4 +16,8 @@ class BackendEndpoints {
   static const String updateTweetData = "tweets";
   static const String toggleBookMarks = "bookmarks";
   static const String getBookMarks = "bookmarks";
+  static const String makeNewComment = "comments";
+  static const String getComments = "comments";
+  static const String deleteComment = "comments";
+  static const String updateComment = "comments";
 }
