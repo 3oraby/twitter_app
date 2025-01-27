@@ -47,7 +47,12 @@ class _MakeNewCommentBlocConsumerBodyState
 
     textCommentController.addListener(() {
       setState(() {
-        _isPostButtonEnabled = textCommentController.text.trim().isNotEmpty;
+        if (textCommentController.text.trim().isNotEmpty ||
+            mediaFiles.isNotEmpty) {
+          _isPostButtonEnabled = true;
+        } else {
+          _isPostButtonEnabled = false;
+        }
       });
     });
   }
@@ -60,6 +65,7 @@ class _MakeNewCommentBlocConsumerBodyState
       if (image != null) {
         setState(() {
           mediaFiles.add(File(image.path));
+          _isPostButtonEnabled = true;
         });
       }
     } catch (e) {
@@ -70,24 +76,29 @@ class _MakeNewCommentBlocConsumerBodyState
   void _onRemoveImageButtonPressed(int index) {
     setState(() {
       mediaFiles.removeAt(index);
+      if (mediaFiles.isEmpty && textCommentController.text.trim().isEmpty) {
+        _isPostButtonEnabled = false;
+      }
     });
   }
 
   void _onPostButtonPressed(BuildContext context) async {
-    final text = textCommentController.text.trim();
+    setState(() {
+      _isPostButtonEnabled = false;
+    });
+    final String content = textCommentController.text.trim();
 
-    if (text.isNotEmpty || mediaFiles.isNotEmpty) {
-      CommentModel commentModel = CommentModel(
-        tweetId: widget.tweetDetailsEntity.tweetId,
-        tweetAuthorData: widget.tweetDetailsEntity.user,
-        commentAuthorData: currentUser,
-        createdAt: Timestamp.now(),
-      );
-      BlocProvider.of<MakeNewCommentCubit>(context).makeNewComment(
-        data: commentModel.toJson(),
-        mediaFiles: mediaFiles,
-      );
-    }
+    CommentModel commentModel = CommentModel(
+      tweetId: widget.tweetDetailsEntity.tweetId,
+      tweetAuthorData: widget.tweetDetailsEntity.user,
+      commentAuthorData: currentUser,
+      content: content,
+      createdAt: Timestamp.now(),
+    );
+    BlocProvider.of<MakeNewCommentCubit>(context).makeNewComment(
+      data: commentModel.toJson(),
+      mediaFiles: mediaFiles,
+    );
   }
 
   @override
@@ -117,8 +128,7 @@ class _MakeNewCommentBlocConsumerBodyState
       actions: [
         CustomContainerButton(
           internalVerticalPadding: 4,
-          backgroundColor: textCommentController.text.trim().isNotEmpty ||
-                  mediaFiles.isNotEmpty
+          backgroundColor: _isPostButtonEnabled
               ? AppColors.twitterAccentColor
               : AppColors.lightTwitterAccentColor,
           onPressed:
@@ -145,9 +155,12 @@ class _MakeNewCommentBlocConsumerBodyState
         listener: (context, state) {
           if (state is MakeNewCommentFailureState) {
             showCustomSnackBar(context, state.message);
+            setState(() {
+              _isPostButtonEnabled = true;
+            });
           } else if (state is MakeNewCommentLoadedState) {
             //! load sound
-            showCustomSnackBar(context, "Comment sent 🚀");
+            showCustomSnackBar(context, "Comment sent successfully🚀");
             Navigator.pop(context);
             //! load the comment in the first of the list
           }

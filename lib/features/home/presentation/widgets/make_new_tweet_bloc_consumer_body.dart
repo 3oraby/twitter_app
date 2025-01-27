@@ -12,7 +12,6 @@ import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
-import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
@@ -44,7 +43,12 @@ class _MakeNewTweetBlocConsumerBodyState
 
     textTweetController.addListener(() {
       setState(() {
-        _isPostButtonEnabled = textTweetController.text.trim().isNotEmpty;
+        if (textTweetController.text.trim().isNotEmpty ||
+            mediaFiles.isNotEmpty) {
+          _isPostButtonEnabled = true;
+        } else {
+          _isPostButtonEnabled = false;
+        }
       });
     });
   }
@@ -57,6 +61,7 @@ class _MakeNewTweetBlocConsumerBodyState
       if (image != null) {
         setState(() {
           mediaFiles.add(File(image.path));
+          _isPostButtonEnabled = true;
         });
       }
     } catch (e) {
@@ -67,23 +72,27 @@ class _MakeNewTweetBlocConsumerBodyState
   void _onRemoveImageButtonPressed(int index) {
     setState(() {
       mediaFiles.removeAt(index);
+      if (mediaFiles.isEmpty && textTweetController.text.trim().isEmpty) {
+        _isPostButtonEnabled = false;
+      }
     });
   }
 
   void _onPostButtonPressed(BuildContext context) async {
-    final text = textTweetController.text.trim();
+    setState(() {
+      _isPostButtonEnabled = false;
+    });
+    final content = textTweetController.text.trim();
 
-    if (text.isNotEmpty || mediaFiles.isNotEmpty) {
-      TweetModel tweetModel = TweetModel(
-        userId: userEntity.userId,
-        content: text,
-        createdAt: Timestamp.now(),
-      );
-      BlocProvider.of<MakeNewTweetCubit>(context).makeNewTweet(
-        data: tweetModel.toJson(),
-        mediaFiles: mediaFiles,
-      );
-    }
+    TweetModel tweetModel = TweetModel(
+      userId: userEntity.userId,
+      content: content,
+      createdAt: Timestamp.now(),
+    );
+    BlocProvider.of<MakeNewTweetCubit>(context).makeNewTweet(
+      data: tweetModel.toJson(),
+      mediaFiles: mediaFiles,
+    );
   }
 
   @override
@@ -113,8 +122,7 @@ class _MakeNewTweetBlocConsumerBodyState
       actions: [
         CustomContainerButton(
           internalVerticalPadding: 4,
-          backgroundColor: textTweetController.text.trim().isNotEmpty ||
-                  mediaFiles.isNotEmpty
+          backgroundColor: _isPostButtonEnabled
               ? AppColors.twitterAccentColor
               : AppColors.lightTwitterAccentColor,
           onPressed:
@@ -137,11 +145,14 @@ class _MakeNewTweetBlocConsumerBodyState
           Navigator.pop(context);
         } else if (state is MakeNewTweetFailureState) {
           showCustomSnackBar(context, state.message);
+          setState(() {
+            _isPostButtonEnabled = true;
+          });
         }
       },
       builder: (context, state) {
-        return CustomModalProgressHUD(
-          inAsyncCall: state is MakeNewTweetLoadingState,
+        return AbsorbPointer(
+          absorbing: state is MakeNewTweetLoadingState,
           child: Scaffold(
             appBar: _buildAppBar(context),
             floatingActionButton: CustomFloatingActionButton(
@@ -153,6 +164,13 @@ class _MakeNewTweetBlocConsumerBodyState
                   horizontal: AppConstants.horizontalPadding),
               child: ListView(
                 children: [
+                  Visibility(
+                    visible: state is MakeNewTweetLoadingState,
+                    child: LinearProgressIndicator(
+                      color: AppColors.twitterAccentColor,
+                    ),
+                  ),
+                  const VerticalGap(6),
                   MakeNewTweetTextField(
                     userEntity: userEntity,
                     textTweetController: textTweetController,

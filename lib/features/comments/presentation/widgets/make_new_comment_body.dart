@@ -33,57 +33,60 @@ class MakeNewCommentBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MakeNewCommentCubit, MakeNewCommentState>(
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.horizontalPadding,
-              vertical: AppConstants.topPadding,
-            ),
-            child: Column(
-              children: [
-                Visibility(
-                  visible: state is MakeNewCommentLoadingState,
-                  child: LinearProgressIndicator(
-                    color: AppColors.twitterAccentColor,
+        return AbsorbPointer(
+          absorbing: state is MakeNewCommentLoadingState,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.horizontalPadding,
+                vertical: AppConstants.topPadding,
+              ),
+              child: Column(
+                children: [
+                  Visibility(
+                    visible: state is MakeNewCommentLoadingState,
+                    child: LinearProgressIndicator(
+                      color: AppColors.twitterAccentColor,
+                    ),
                   ),
-                ),
-                const VerticalGap(6),
-                CustomTweetInfoCard(
-                  tweetDetailsEntity: tweetDetailsEntity,
-                  mediaHeight: 150,
-                  mediaWidth: 100,
-                  showInteractionsRow: false,
-                ),
-                const VerticalGap(24),
-                Row(
-                  children: [
-                    Text(
-                      "Replying to",
-                      style: AppTextStyles.uberMoveMedium16.copyWith(
-                        color: AppColors.secondaryColor,
+                  const VerticalGap(6),
+                  CustomTweetInfoCard(
+                    tweetDetailsEntity: tweetDetailsEntity,
+                    mediaHeight: 150,
+                    mediaWidth: 100,
+                    showInteractionsRow: false,
+                  ),
+                  const VerticalGap(24),
+                  Row(
+                    children: [
+                      Text(
+                        "Replying to",
+                        style: AppTextStyles.uberMoveMedium16.copyWith(
+                          color: AppColors.secondaryColor,
+                        ),
                       ),
-                    ),
-                    Text(
-                      " @${tweetDetailsEntity.user.email}",
-                      style: AppTextStyles.uberMoveMedium16.copyWith(
-                        color: AppColors.twitterAccentColor,
+                      Text(
+                        " @${tweetDetailsEntity.user.email}",
+                        style: AppTextStyles.uberMoveMedium16.copyWith(
+                          color: AppColors.twitterAccentColor,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const VerticalGap(16),
-                MakeNewTweetTextField(
-                  userEntity: currentUser,
-                  textTweetController: textCommentController,
-                  hintText: "Post your comment",
-                ),
-                const VerticalGap(16),
-                MakeNewTweetPreviewMedia(
-                  mediaFiles: mediaFiles,
-                  onRemoveImageButtonPressed: onRemoveImageButtonPressed,
-                ),
-                const VerticalGap(24),
-              ],
+                    ],
+                  ),
+                  const VerticalGap(16),
+                  MakeNewTweetTextField(
+                    userEntity: currentUser,
+                    textTweetController: textCommentController,
+                    hintText: "Post your comment",
+                  ),
+                  const VerticalGap(16),
+                  MakeNewTweetPreviewMedia(
+                    mediaFiles: mediaFiles,
+                    onRemoveImageButtonPressed: onRemoveImageButtonPressed,
+                  ),
+                  const VerticalGap(24),
+                ],
+              ),
             ),
           ),
         );
