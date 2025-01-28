@@ -6,6 +6,7 @@ import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dar
 import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone_number_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signup_screen.dart';
 import 'package:twitter_app/features/comments/presentation/screens/make_new_comment_screen.dart';
+import 'package:twitter_app/features/comments/presentation/screens/show_tweet_comments_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/user_connections_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/make_new_tweet_screen.dart';
@@ -44,6 +45,12 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case MakeNewCommentScreen.routeId:
       return MaterialPageRoute(
         builder: (context) => MakeNewCommentScreen(
+          tweetDetailsEntity: settings.arguments as TweetDetailsEntity,
+        ),
+      );
+    case ShowTweetCommentsScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => ShowTweetCommentsScreen(
           tweetDetailsEntity: settings.arguments as TweetDetailsEntity,
         ),
       );
