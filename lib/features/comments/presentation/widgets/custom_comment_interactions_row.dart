@@ -41,16 +41,6 @@ class CustomCommentInteractionsRow extends StatelessWidget {
               commentDetailsEntity.comment.commentAuthorData.userId,
           likesCount: commentDetailsEntity.comment.likes?.length ?? 0,
         ),
-        const HorizontalGap(6),
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            "Reply",
-            style: AppTextStyles.uberMoveExtraBold18.copyWith(
-              color: AppColors.thirdColor,
-            ),
-          ),
-        ),
       ],
     );
   }
