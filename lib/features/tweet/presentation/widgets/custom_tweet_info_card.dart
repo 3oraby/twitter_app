@@ -54,17 +54,26 @@ class CustomTweetInfoCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const VerticalGap(4),
-                  Text(
-                    tweetDetailsEntity.tweet.content ?? '',
-                    style: AppTextStyles.uberMoveRegular16,
-                  ),
-                  const VerticalGap(4),
+                  if (tweetDetailsEntity.tweet.content != null)
+                    Column(
+                      children: [
+                        const VerticalGap(4),
+                        Text(
+                          tweetDetailsEntity.tweet.content!,
+                          style: AppTextStyles.uberMoveRegular16,
+                        ),
+                      ],
+                    ),
                   if (tweetDetailsEntity.tweet.mediaUrl?.isNotEmpty ?? false)
-                    CustomShowTweetsMedia(
-                      mediaUrl: tweetDetailsEntity.tweet.mediaUrl!,
-                      mediaHeight: mediaHeight,
-                      mediaWidth: mediaWidth,
+                    Column(
+                      children: [
+                        const VerticalGap(8),
+                        CustomShowTweetsMedia(
+                          mediaUrl: tweetDetailsEntity.tweet.mediaUrl!,
+                          mediaHeight: mediaHeight,
+                          mediaWidth: mediaWidth,
+                        ),
+                      ],
                     ),
                   const VerticalGap(8),
                   Visibility(
