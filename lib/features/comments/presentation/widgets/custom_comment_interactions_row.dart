@@ -40,6 +40,7 @@ class CustomCommentInteractionsRow extends StatelessWidget {
           originalAuthorId:
               commentDetailsEntity.comment.commentAuthorData.userId,
           likesCount: commentDetailsEntity.comment.likes?.length ?? 0,
+          isActive: commentDetailsEntity.isLiked,
         ),
       ],
     );
