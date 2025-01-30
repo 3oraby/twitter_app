@@ -34,8 +34,9 @@ class _ShowTweetCommentsBlocConsumerBodyState
       builder: (context, state) {
         if (state is GetTweetCommentsEmptyState) {
           return CustomEmptyBodyWidget(
-            mainLabel: "There is no comments on this tweet",
-            subLabel: "be the first one to comment",
+            mainLabel: "No comments yet! 💬",
+            subLabel: "Be the first to share your thoughts 💡",
+            showImage: false,
           );
         } else if (state is GetTweetCommentsFailureState) {
           return CustomFailureBodyWidget(message: state.message);
