@@ -7,7 +7,6 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
-import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/data/models/comment_details_model.dart';
@@ -24,7 +23,7 @@ class CommentsRepoImpl extends CommentsRepo {
   });
 
   @override
-  Future<Either<Failure, Success>> makeNewComment({
+  Future<Either<Failure, CommentDetailsEntity>> makeNewComment({
     required Map<String, dynamic> data,
     required List<File>? mediaFiles,
   }) async {
@@ -43,7 +42,7 @@ class CommentsRepoImpl extends CommentsRepo {
       }
 
       commentModel.mediaUrl = mediaUrl;
-      await databaseService.addData(
+      String? id = await databaseService.addData(
         path: BackendEndpoints.makeNewComment,
         data: commentModel.toJson(),
       );
@@ -53,7 +52,13 @@ class CommentsRepoImpl extends CommentsRepo {
         documentId: commentModel.tweetId,
         field: "commentsCount",
       );
-      return right(Success());
+
+      CommentDetailsModel commentDetailsModel = CommentDetailsModel(
+        tweetId: commentModel.tweetId,
+        commentId: id!,
+        comment: commentModel.toEntity(),
+      );
+      return right(commentDetailsModel.toEntity());
     } catch (e) {
       log("Exception in CommentsRepoImpl.makeNewComment() ${e.toString()}");
       return Left(

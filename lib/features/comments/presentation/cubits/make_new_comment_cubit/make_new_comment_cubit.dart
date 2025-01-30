@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/domain/repos/comments_repo.dart';
 
 part 'make_new_comment_state.dart';
@@ -22,7 +23,8 @@ class MakeNewCommentCubit extends Cubit<MakeNewCommentState> {
     );
     res.fold(
       (failure) => emit(MakeNewCommentFailureState(message: failure.message)),
-      (success) => emit(MakeNewCommentLoadedState()),
+      (commentDetails) =>
+          emit(MakeNewCommentLoadedState(commentDetails: commentDetails)),
     );
   }
 }

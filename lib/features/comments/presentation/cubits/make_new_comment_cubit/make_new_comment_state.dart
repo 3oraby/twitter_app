@@ -6,7 +6,11 @@ final class MakeNewCommentInitial extends MakeNewCommentState {}
 
 final class MakeNewCommentLoadingState extends MakeNewCommentState {}
 
-final class MakeNewCommentLoadedState extends MakeNewCommentState {}
+final class MakeNewCommentLoadedState extends MakeNewCommentState {
+  final CommentDetailsEntity commentDetails;
+
+  MakeNewCommentLoadedState({required this.commentDetails});
+}
 
 final class MakeNewCommentFailureState extends MakeNewCommentState {
   final String message;
