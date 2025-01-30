@@ -2,7 +2,7 @@ import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_transaction_service.dart';
 
 abstract class DatabaseService {
-  Future<void> addData({
+  Future<String?> addData({
     required String path,
     required Map<String, dynamic> data,
     String? documentId,
@@ -43,6 +43,20 @@ abstract class DatabaseService {
   });
 
   Future<void> runTransaction(
-    Future<void> Function(DatabaseTransactionService transaction) transactionHandler,
+    Future<void> Function(DatabaseTransactionService transaction)
+        transactionHandler,
   );
+  Future<void> addToList({
+    required String path,
+    required String documentId,
+    required String field,
+    required dynamic value,
+  });
+
+  Future<void> removeFromList({
+    required String path,
+    required String documentId,
+    required String field,
+    required dynamic value,
+  });
 }

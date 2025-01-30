@@ -87,6 +87,7 @@ class CommentsRepoImpl extends CommentsRepo {
 
         CommentDetailsModel commentDetailsModel = CommentDetailsModel(
           tweetId: commentModel.tweetId,
+          commentId: doc.id,
           comment: commentModel,
           isLiked: isCommentLikedByCurrentUser,
           isBookmarked: false,

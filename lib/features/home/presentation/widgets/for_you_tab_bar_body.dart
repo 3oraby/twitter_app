@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
-import 'package:twitter_app/core/widgets/custom_tweet_info_card.dart';
+import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_info_card.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/comments/presentation/screens/show_tweet_comments_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';

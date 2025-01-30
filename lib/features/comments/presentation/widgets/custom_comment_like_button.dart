@@ -1,27 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:like_button/like_button.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
-import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/widgets/custom_like_button_body.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
-import 'package:twitter_app/features/tweet/domain/repos/tweet_likes_repo.dart';
-import 'package:twitter_app/features/tweet/presentation/cubits/toggle_tweet_like_cubit/toggle_tweet_like_cubit.dart';
+import 'package:twitter_app/features/comments/data/models/comment_likes_model.dart';
+import 'package:twitter_app/features/comments/domain/repos/comment_likes_repo.dart';
+import 'package:twitter_app/features/comments/presentation/cubits/toggle_comment_likes_cubit/toggle_comment_likes_cubit.dart';
 
-class CustomLikeButton extends StatelessWidget {
-  const CustomLikeButton({
+class CustomCommentLikeButton extends StatelessWidget {
+  const CustomCommentLikeButton({
     super.key,
-    required this.tweetId,
+    required this.commentId,
     required this.originalAuthorId,
     required this.likesCount,
     this.isActive = false,
   });
 
-  final String tweetId;
+  final String commentId;
   final String originalAuthorId;
   final int likesCount;
   final bool isActive;
@@ -29,11 +27,11 @@ class CustomLikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ToggleTweetLikeCubit(
-        tweetLikesRepo: getIt<TweetLikesRepo>(),
+      create: (context) => ToggleCommentLikesCubit(
+        commentLikesRepo: getIt<CommentLikesRepo>(),
       ),
-      child: LikeButtonBlocConsumerBody(
-        tweetId: tweetId,
+      child: CommentLikeButtonBlocConsumerBody(
+        commentId: commentId,
         originalAuthorId: originalAuthorId,
         likesCount: likesCount,
         isActive: isActive,
@@ -42,25 +40,25 @@ class CustomLikeButton extends StatelessWidget {
   }
 }
 
-class LikeButtonBlocConsumerBody extends StatefulWidget {
-  const LikeButtonBlocConsumerBody({
+class CommentLikeButtonBlocConsumerBody extends StatefulWidget {
+  const CommentLikeButtonBlocConsumerBody({
     super.key,
-    required this.tweetId,
+    required this.commentId,
     required this.originalAuthorId,
     required this.likesCount,
     this.isActive = false,
   });
-  final String tweetId;
+  final String commentId;
   final String originalAuthorId;
   final int likesCount;
   final bool isActive;
   @override
-  State<LikeButtonBlocConsumerBody> createState() =>
-      _LikeButtonBlocConsumerBodyState();
+  State<CommentLikeButtonBlocConsumerBody> createState() =>
+      _CommentLikeButtonBlocConsumerBodyState();
 }
 
-class _LikeButtonBlocConsumerBodyState
-    extends State<LikeButtonBlocConsumerBody> {
+class _CommentLikeButtonBlocConsumerBodyState
+    extends State<CommentLikeButtonBlocConsumerBody> {
   late bool isActive;
   late int likesCount;
   late int amount;
@@ -80,9 +78,9 @@ class _LikeButtonBlocConsumerBodyState
   }
 
   Future<bool?> _onToggleLikeButtonPressed(bool isLiked) async {
-    BlocProvider.of<ToggleTweetLikeCubit>(context).toggleTweetLike(
-      data: TweetLikesModel(
-        tweetId: widget.tweetId,
+    BlocProvider.of<ToggleCommentLikesCubit>(context).toggleCommentLikes(
+      data: CommentLikesModel(
+        commentId: widget.commentId,
         userId: currentUser.userId,
         originalAuthorId: widget.originalAuthorId,
         likedAt: Timestamp.now(),
@@ -98,32 +96,22 @@ class _LikeButtonBlocConsumerBodyState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ToggleTweetLikeCubit, ToggleTweetLikeState>(
+    return BlocConsumer<ToggleCommentLikesCubit, ToggleCommentLikesState>(
       listener: (context, state) {
-        if (state is ToggleTweetLikeFailureState) {
+        if (state is ToggleCommentLikesFailureState) {
           showCustomSnackBar(context, state.message);
           setState(() {
             isActive = !isActive;
+            likesCount += amount;
+            amount *= -1;
           });
         }
       },
       builder: (context, state) {
-        return LikeButton(
-          isLiked: isActive,
-          onTap: _onToggleLikeButtonPressed,
-          likeCount: likesCount,
-          countBuilder: (likeCount, isLiked, text) => Text(
-            likeCount.toString(),
-            style: AppTextStyles.uberMoveMedium18.copyWith(
-              color: isLiked ? Colors.red : AppColors.thirdColor,
-            ),
-          ),
-          likeBuilder: (isLiked) {
-            return Icon(
-              isLiked ? Icons.favorite : Icons.favorite_border,
-              color: isLiked ? Colors.red : AppColors.thirdColor,
-            );
-          },
+        return CustomLikeButtonBody(
+          isActive: isActive,
+          likesCount: likesCount,
+          onToggleLikeButtonPressed: _onToggleLikeButtonPressed,
         );
       },
     );

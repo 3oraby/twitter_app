@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/widgets/custom_bookmark_button.dart';
 import 'package:twitter_app/core/widgets/custom_comment_button.dart';
-import 'package:twitter_app/core/widgets/custom_like_button.dart';
+import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_like_button.dart';
 import 'package:twitter_app/core/widgets/custom_retweet_button.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
@@ -29,7 +29,7 @@ class CustomTweetInteractionsRow extends StatelessWidget {
           retweetsCount: tweetDetailsEntity.tweet.retweetsCount,
           isActive: tweetDetailsEntity.isRetweeted,
         ),
-        CustomLikeButton(
+        CustomTweetLikeButton(
           tweetId: tweetDetailsEntity.tweetId,
           originalAuthorId: tweetDetailsEntity.tweet.userId,
           likesCount: tweetDetailsEntity.tweet.likesCount,

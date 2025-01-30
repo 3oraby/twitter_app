@@ -2,6 +2,7 @@ import 'package:twitter_app/features/comments/domain/entities/comment_entity.dar
 
 class CommentDetailsEntity {
   final String tweetId;
+  final String commentId;
   final CommentEntity comment;
   bool isLiked;
   bool isRetweeted;
@@ -9,6 +10,7 @@ class CommentDetailsEntity {
 
   CommentDetailsEntity({
     required this.tweetId,
+    required this.commentId,
     required this.comment,
     this.isLiked = false,
     this.isRetweeted = false,

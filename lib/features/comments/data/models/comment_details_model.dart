@@ -4,6 +4,7 @@ import 'package:twitter_app/features/comments/domain/entities/comment_entity.dar
 class CommentDetailsModel extends CommentDetailsEntity {
   CommentDetailsModel({
     required super.tweetId,
+    required super.commentId,
     required super.comment,
     super.isLiked,
     super.isBookmarked,
@@ -13,6 +14,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
   Map<String, dynamic> toJson() {
     return {
       'tweetId': tweetId,
+      'commentId': commentId,
       'comment': comment,
       'isLiked': isLiked,
       'isBookmarked': isBookmarked,
@@ -23,6 +25,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
   factory CommentDetailsModel.fromJson(Map<String, dynamic> json) {
     return CommentDetailsModel(
       tweetId: json['tweetId'] as String,
+      commentId: json['commentId'] as String,
       comment: json['comment'] as CommentEntity,
       isLiked: json['isLiked'] as bool? ?? false,
       isBookmarked: json['isBookmarked'] as bool? ?? false,
@@ -33,6 +36,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
   CommentDetailsEntity toEntity() {
     return CommentDetailsEntity(
       tweetId: tweetId,
+      commentId: commentId,
       comment: comment,
       isLiked: isLiked,
       isBookmarked: isBookmarked,
@@ -43,6 +47,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
   factory CommentDetailsModel.fromEntity(CommentDetailsEntity entity) {
     return CommentDetailsModel(
       tweetId: entity.tweetId,
+      commentId: entity.commentId,
       comment: entity.comment,
       isLiked: entity.isLiked,
       isBookmarked: entity.isBookmarked,

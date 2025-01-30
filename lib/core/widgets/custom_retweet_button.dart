@@ -106,6 +106,8 @@ class _RetweetButtonBlocConsumerBodyState
         showCustomSnackBar(context, state.message);
         setState(() {
           isActive = !isActive;
+          retweetsCount += amount;
+          amount *= -1;
         });
       }
     }, builder: (context, state) {

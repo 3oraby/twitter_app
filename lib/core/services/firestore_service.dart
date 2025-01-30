@@ -11,7 +11,7 @@ class FirestoreService implements DatabaseService {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
-  Future<void> addData({
+  Future<String?> addData({
     required String path,
     required Map<String, dynamic> data,
     String? documentId,
@@ -20,12 +20,16 @@ class FirestoreService implements DatabaseService {
       if (documentId != null) {
         log("set new data to collection: $path and docId: $documentId");
         await firebaseFirestore.collection(path).doc(documentId).set(data);
+        return null;
       } else {
         log("add new data to collection $path");
-        await firebaseFirestore.collection(path).add(data);
+        DocumentReference<Map<String, dynamic>> docs =
+            await firebaseFirestore.collection(path).add(data);
+        return docs.id;
       }
     } on FirebaseException catch (e) {
       _handleFirebaseException(e);
+      return null;
     } catch (e) {
       log('Error adding data to Firestore: $e');
       throw const CustomException(
@@ -220,7 +224,8 @@ class FirestoreService implements DatabaseService {
 
   @override
   Future<void> runTransaction(
-    Future<void> Function(DatabaseTransactionService transaction) transactionHandler,
+    Future<void> Function(DatabaseTransactionService transaction)
+        transactionHandler,
   ) async {
     try {
       await firebaseFirestore.runTransaction((firestoreTransaction) async {
@@ -233,6 +238,52 @@ class FirestoreService implements DatabaseService {
       log('Error running Firestore transaction: $e');
       throw const CustomException(
           message: "Cannot complete the transaction, please try again later.");
+    }
+  }
+
+  @override
+  Future<void> addToList({
+    required String path,
+    required String documentId,
+    required String field,
+    required dynamic value,
+  }) async {
+    try {
+      log("Adding $value to $field in $path/$documentId");
+      await firebaseFirestore.collection(path).doc(documentId).update({
+        field: FieldValue.arrayUnion([value]),
+      });
+      log("Added $value to $field successfully");
+    } on FirebaseException catch (e) {
+      _handleFirebaseException(e);
+    } catch (e) {
+      log('Error adding to list in Firestore: $e');
+      throw const CustomException(
+          message:
+              "Cannot update your data right now, please try again later.");
+    }
+  }
+
+  @override
+  Future<void> removeFromList({
+    required String path,
+    required String documentId,
+    required String field,
+    required dynamic value,
+  }) async {
+    try {
+      log("Removing $value from $field in $path/$documentId");
+      await firebaseFirestore.collection(path).doc(documentId).update({
+        field: FieldValue.arrayRemove([value]),
+      });
+      log("Removed $value from $field successfully");
+    } on FirebaseException catch (e) {
+      _handleFirebaseException(e);
+    } catch (e) {
+      log('Error removing from list in Firestore: $e');
+      throw const CustomException(
+          message:
+              "Cannot update your data right now, please try again later.");
     }
   }
 }

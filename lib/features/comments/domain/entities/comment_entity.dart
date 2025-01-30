@@ -8,7 +8,7 @@ class CommentEntity {
   String? content;
   List<String>? mediaUrl;
   Timestamp? updatedAt;
-  List<String>? likes;
+  List<dynamic>? likes;
   List<String>? bookmarks;
   List<String>? retweets;
   final Timestamp createdAt;
