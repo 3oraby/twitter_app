@@ -19,9 +19,8 @@ class ShowTweetCommentsScreen extends StatefulWidget {
 
   static const String routeId = 'kShowTweetCommentsScreen';
   final TweetDetailsEntity tweetDetailsEntity;
-
   @override
-  _ShowTweetCommentsScreenState createState() =>
+  State<ShowTweetCommentsScreen> createState() =>
       _ShowTweetCommentsScreenState();
 }
 
@@ -88,6 +87,8 @@ class _ShowTweetCommentsScreenState extends State<ShowTweetCommentsScreen> {
                 isSectionExpanded: isSectionExpanded,
                 onTextFieldTap: toggleSection,
                 currentUser: currentUser,
+                replyingToUserName: widget.tweetDetailsEntity.user.email,
+                isComment: true,
               ),
               const VerticalGap(16),
             ],

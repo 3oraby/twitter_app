@@ -1,23 +1,24 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 
-class MakeNewTweetPreviewMedia extends StatelessWidget {
-  const MakeNewTweetPreviewMedia({
+class PreviewChosenMedia extends StatelessWidget {
+  const PreviewChosenMedia({
     super.key,
     required this.mediaFiles,
     required this.onRemoveImageButtonPressed,
+    this.previewChosenMediaLength = 300,
   });
 
   final List<File> mediaFiles;
   final void Function(int index) onRemoveImageButtonPressed;
+  final double previewChosenMediaLength;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: previewChosenMediaLength,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: mediaFiles.length,
@@ -28,8 +29,8 @@ class MakeNewTweetPreviewMedia extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppConstants.borderRadius),
               child: Image.file(
                 mediaFiles[index],
-                height: 300,
-                width: 300,
+                height: previewChosenMediaLength,
+                width: previewChosenMediaLength,
                 fit: BoxFit.cover,
               ),
             ),

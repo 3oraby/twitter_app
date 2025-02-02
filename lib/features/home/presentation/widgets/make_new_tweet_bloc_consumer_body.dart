@@ -15,7 +15,7 @@ import 'package:twitter_app/core/widgets/custom_container_button.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/home/presentation/widgets/make_new_tweet_preview_media.dart';
+import 'package:twitter_app/features/home/presentation/widgets/preview_chosen_media.dart';
 import 'package:twitter_app/features/home/presentation/widgets/make_new_tweet_text_field.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
@@ -177,7 +177,7 @@ class _MakeNewTweetBlocConsumerBodyState
                     hintText: "What`s happening?",
                   ),
                   const VerticalGap(28),
-                  MakeNewTweetPreviewMedia(
+                  PreviewChosenMedia(
                     mediaFiles: mediaFiles,
                     onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
                   ),
