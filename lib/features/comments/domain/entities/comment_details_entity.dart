@@ -5,15 +5,11 @@ class CommentDetailsEntity {
   final String commentId;
   final CommentEntity comment;
   bool isLiked;
-  bool isRetweeted;
-  bool isBookmarked;
 
   CommentDetailsEntity({
     required this.tweetId,
     required this.commentId,
     required this.comment,
     this.isLiked = false,
-    this.isRetweeted = false,
-    this.isBookmarked = false,
   });
 }

@@ -95,8 +95,6 @@ class CommentsRepoImpl extends CommentsRepo {
           commentId: doc.id,
           comment: commentModel,
           isLiked: isCommentLikedByCurrentUser,
-          isBookmarked: false,
-          isRetweeted: false,
         );
         return commentDetailsModel.toEntity();
       }).toList();

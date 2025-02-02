@@ -7,8 +7,6 @@ class CommentDetailsModel extends CommentDetailsEntity {
     required super.commentId,
     required super.comment,
     super.isLiked,
-    super.isBookmarked,
-    super.isRetweeted,
   });
 
   Map<String, dynamic> toJson() {
@@ -17,8 +15,6 @@ class CommentDetailsModel extends CommentDetailsEntity {
       'commentId': commentId,
       'comment': comment,
       'isLiked': isLiked,
-      'isBookmarked': isBookmarked,
-      'isRetweeted': isRetweeted,
     };
   }
 
@@ -28,8 +24,6 @@ class CommentDetailsModel extends CommentDetailsEntity {
       commentId: json['commentId'] as String,
       comment: json['comment'] as CommentEntity,
       isLiked: json['isLiked'] as bool? ?? false,
-      isBookmarked: json['isBookmarked'] as bool? ?? false,
-      isRetweeted: json['isRetweeted'] as bool? ?? false,
     );
   }
 
@@ -39,8 +33,6 @@ class CommentDetailsModel extends CommentDetailsEntity {
       commentId: commentId,
       comment: comment,
       isLiked: isLiked,
-      isBookmarked: isBookmarked,
-      isRetweeted: isRetweeted,
     );
   }
 
@@ -50,8 +42,6 @@ class CommentDetailsModel extends CommentDetailsEntity {
       commentId: entity.commentId,
       comment: entity.comment,
       isLiked: entity.isLiked,
-      isBookmarked: entity.isBookmarked,
-      isRetweeted: entity.isRetweeted,
     );
   }
 }

@@ -9,8 +9,7 @@ class CommentEntity {
   List<String>? mediaUrl;
   Timestamp? updatedAt;
   List<dynamic>? likes;
-  List<String>? bookmarks;
-  List<String>? retweets;
+  int repliesCount;
   final Timestamp createdAt;
 
   CommentEntity({
@@ -22,7 +21,6 @@ class CommentEntity {
     this.mediaUrl,
     this.updatedAt,
     this.likes,
-    this.bookmarks,
-    this.retweets,
+    this.repliesCount = 0,
   });
 }

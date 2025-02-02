@@ -12,8 +12,7 @@ class CommentModel extends CommentEntity {
     super.mediaUrl,
     super.updatedAt,
     super.likes,
-    super.bookmarks,
-    super.retweets,
+    super.repliesCount,
   });
 
   Map<String, dynamic> toJson() {
@@ -25,8 +24,7 @@ class CommentModel extends CommentEntity {
       'mediaUrl': mediaUrl,
       'updatedAt': updatedAt,
       'likes': likes,
-      'bookmarks': bookmarks,
-      'retweets': retweets,
+      'repliesCount': repliesCount,
       'createdAt': createdAt,
     };
   }
@@ -47,8 +45,7 @@ class CommentModel extends CommentEntity {
           .toList(),
       updatedAt: json['updatedAt'] as Timestamp?,
       likes: json['likes'],
-      bookmarks: json['bookmarks'],
-      retweets: json['retweets'],
+      repliesCount: json['repliesCount'],
     );
   }
 
@@ -62,8 +59,7 @@ class CommentModel extends CommentEntity {
       mediaUrl: mediaUrl,
       updatedAt: updatedAt,
       likes: likes,
-      bookmarks: bookmarks,
-      retweets: retweets,
+      repliesCount: repliesCount,
     );
   }
 
@@ -77,8 +73,7 @@ class CommentModel extends CommentEntity {
       mediaUrl: entity.mediaUrl,
       updatedAt: entity.updatedAt,
       likes: entity.likes,
-      bookmarks: entity.bookmarks,
-      retweets: entity.retweets,
+      repliesCount: entity.repliesCount,
     );
   }
 }
