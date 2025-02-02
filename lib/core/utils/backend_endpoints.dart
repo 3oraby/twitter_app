@@ -28,4 +28,12 @@ class BackendEndpoints {
   static const String toggleCommentLikes = "commentLikes";
   static const String getCommentLikes = "commentLikes";
   static const String updateCommentData = "comments";
+  // replies
+  static const String makeNewReply = "Replies";
+  static const String getReplies = "Replies";
+  static const String deleteReply = "Replies";
+  static const String updateReply = "Replies";
+  static const String updateReplyData = "Replies";
+  static const String toggleReplyLikes = "ReplyLikes";
+  static const String getReplyLikes = "ReplyLikes";
 }
