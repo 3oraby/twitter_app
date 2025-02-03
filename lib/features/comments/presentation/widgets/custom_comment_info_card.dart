@@ -5,7 +5,6 @@ import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
-import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_interactions_row.dart';
 
@@ -24,7 +23,7 @@ class CustomCommentInfoCard extends StatelessWidget {
   final double mediaHeight;
   final double mediaWidth;
   final VoidCallback? onTweetTap;
-  final ValueChanged<UserEntity> onReplyButtonPressed;
+  final ValueChanged<CommentDetailsEntity> onReplyButtonPressed;
 
   @override
   Widget build(BuildContext context) {

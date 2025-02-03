@@ -15,23 +15,28 @@ import 'package:twitter_app/core/widgets/custom_text_form_field.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/data/models/comment_model.dart';
+import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/make_new_comment_cubit/make_new_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/reply_media_files_cubit/reply_media_files_cubit.dart';
 import 'package:twitter_app/features/home/presentation/widgets/preview_chosen_media.dart';
+import 'package:twitter_app/features/replies/data/models/reply_model.dart';
+import 'package:twitter_app/features/replies/presentation/cubits/make_new_reply_cubit/make_new_reply_cubit.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
 class ExpandedMakeReplySection extends StatefulWidget {
   const ExpandedMakeReplySection({
     super.key,
     required this.currentUser,
-    required this.tweetDetailsEntity,
     required this.replyingToUserName,
+    this.tweetDetailsEntity,
+    this.commentDetailsEntity,
     this.isComment = true,
     this.onFieldSubmitted,
   });
 
   final UserEntity currentUser;
-  final TweetDetailsEntity tweetDetailsEntity;
+  final TweetDetailsEntity? tweetDetailsEntity;
+  final CommentDetailsEntity? commentDetailsEntity;
   final String replyingToUserName;
   final bool isComment;
   final void Function(String?)? onFieldSubmitted;
@@ -107,14 +112,28 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
 
     if (widget.isComment) {
       CommentModel commentModel = CommentModel(
-        tweetId: widget.tweetDetailsEntity.tweetId,
-        tweetAuthorData: widget.tweetDetailsEntity.user,
+        tweetId: widget.tweetDetailsEntity!.tweetId,
+        tweetAuthorData: widget.tweetDetailsEntity!.user,
         commentAuthorData: widget.currentUser,
         content: content,
         createdAt: Timestamp.now(),
       );
       BlocProvider.of<MakeNewCommentCubit>(context).makeNewComment(
         data: commentModel.toJson(),
+        mediaFiles: mediaFiles,
+      );
+    } else {
+      ReplyModel replyModel = ReplyModel(
+        commentId: widget.commentDetailsEntity!.commentId,
+        commentAuthorData:
+            widget.commentDetailsEntity!.comment.commentAuthorData,
+        replyAuthorData: widget.currentUser,
+        content: content,
+        createdAt: Timestamp.now(),
+      );
+
+      BlocProvider.of<MakeNewReplyCubit>(context).makeNewReply(
+        data: replyModel.toJson(),
         mediaFiles: mediaFiles,
       );
     }
@@ -136,9 +155,8 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
           });
         }
       },
-      child: BlocConsumer<MakeNewCommentCubit, MakeNewCommentState>(
-        listener: (context, state) {},
-        builder: (context, state) {
+      child: BlocBuilder<MakeNewCommentCubit, MakeNewCommentState>(
+        builder: (context, newCommentState) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -154,11 +172,16 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                 subtitle: Text(widget.currentUser.email),
               ),
               const VerticalGap(2),
-              Visibility(
-                visible: state is MakeNewCommentLoadingState,
-                child: LinearProgressIndicator(
-                  color: AppColors.twitterAccentColor,
-                ),
+              BlocBuilder<MakeNewReplyCubit, MakeNewReplyState>(
+                builder: (context, newReplyState) {
+                  return Visibility(
+                    visible: newCommentState is MakeNewCommentLoadingState ||
+                        newReplyState is MakeNewReplyLoadingState,
+                    child: LinearProgressIndicator(
+                      color: AppColors.twitterAccentColor,
+                    ),
+                  );
+                },
               ),
               const VerticalGap(10),
               Row(

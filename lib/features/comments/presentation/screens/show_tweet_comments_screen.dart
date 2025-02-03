@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/reply_media_files_cubit/reply_media_files_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_make_reply_section.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_tweet_comments_part.dart';
@@ -63,6 +65,7 @@ class _ShowTweetCommentsListenerBodyState
   late UserEntity currentUser;
   final ScrollController _scrollController = ScrollController();
   late String replyingToUserName;
+  CommentDetailsEntity? _commentDetailsEntity;
 
   void toggleSection() {
     setState(() {
@@ -83,6 +86,7 @@ class _ShowTweetCommentsListenerBodyState
       listener: (context, state) {
         if (state is ReplyMediaFilesUpdatedState) {
           setState(() {
+            log("listen about media files in showTweetCommentsScreen");
             mediaFiles = state.mediaFiles;
           });
         }
@@ -117,11 +121,13 @@ class _ShowTweetCommentsListenerBodyState
                       ),
                       ShowTweetCommentsPart(
                         tweetDetailsEntity: widget.tweetDetailsEntity,
-                        onReplyButtonPressed: (commentAuthorData) {
+                        onReplyButtonPressed: (commentDetailsEntity) {
                           setState(() {
-                            isComment = true;
+                            isComment = false;
                             isSectionExpanded = true;
-                            replyingToUserName = commentAuthorData.email;
+                            replyingToUserName = commentDetailsEntity
+                                .comment.commentAuthorData.email;
+                            _commentDetailsEntity = commentDetailsEntity;
                           });
                         },
                       ),
@@ -131,6 +137,7 @@ class _ShowTweetCommentsListenerBodyState
               ),
               CustomMakeReplySection(
                 tweetDetailsEntity: widget.tweetDetailsEntity,
+                commentDetailsEntity: _commentDetailsEntity,
                 isSectionExpanded: isSectionExpanded,
                 onTextFieldTap: toggleSection,
                 currentUser: currentUser,

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/core/widgets/custom_failure_body_widget.dart';
-import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/get_tweet_comments_cubit/get_tweet_comments_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_all_comments_body.dart';
 
@@ -15,7 +15,7 @@ class ShowAllCommentsBlocConsumerBody extends StatefulWidget {
   });
 
   final String tweetId;
-  final ValueChanged<UserEntity> onReplyButtonPressed;
+  final ValueChanged<CommentDetailsEntity> onReplyButtonPressed;
 
   @override
   State<ShowAllCommentsBlocConsumerBody> createState() =>

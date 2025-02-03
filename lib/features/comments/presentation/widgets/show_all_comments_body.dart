@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
-import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_info_card.dart';
 
@@ -13,7 +12,7 @@ class ShowAllCommentsBody extends StatelessWidget {
   });
 
   final List<CommentDetailsEntity> comments;
-  final ValueChanged<UserEntity> onReplyButtonPressed;
+  final ValueChanged<CommentDetailsEntity> onReplyButtonPressed;
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,6 @@ import 'package:twitter_app/core/helpers/functions/get_time_ago.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
-import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_like_button.dart';
 
@@ -15,7 +14,7 @@ class CustomCommentInteractionsRow extends StatelessWidget {
   });
 
   final CommentDetailsEntity commentDetailsEntity;
-  final ValueChanged<UserEntity> onReplyButtonPressed;
+  final ValueChanged<CommentDetailsEntity> onReplyButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +29,7 @@ class CustomCommentInteractionsRow extends StatelessWidget {
         const HorizontalGap(6),
         TextButton(
           onPressed: () {
-            onReplyButtonPressed(
-                commentDetailsEntity.comment.commentAuthorData);
+            onReplyButtonPressed(commentDetailsEntity);
           },
           child: Text(
             "Reply",

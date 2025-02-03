@@ -32,8 +32,8 @@ class ReplyModel extends ReplyEntity {
   Map<String, dynamic> toJson() {
     return {
       'commentId': commentId,
-      'commentAuthorData': (commentAuthorData as UserModel).toJson(),
-      'replyAuthorData': (replyAuthorData as UserModel).toJson(),
+      'commentAuthorData': UserModel.fromEntity(commentAuthorData).toJson(),
+      'replyAuthorData': UserModel.fromEntity(replyAuthorData).toJson(),
       'createdAt': createdAt,
       'content': content,
       'mediaUrl': mediaUrl,
