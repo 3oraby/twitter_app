@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -7,6 +8,7 @@ import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_interactions_row.dart';
+import 'package:twitter_app/features/replies/presentation/widgets/show_comment_replies_part.dart';
 
 class CustomCommentInfoCard extends StatelessWidget {
   const CustomCommentInfoCard({
@@ -86,11 +88,11 @@ class CustomCommentInfoCard extends StatelessWidget {
                       onReplyButtonPressed: onReplyButtonPressed,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      
-                    },
-                    child: Text("______ View ${commentDetailsEntity.comment.repliesCount} replies "),
+                  Visibility(
+                    visible: commentDetailsEntity.comment.repliesCount > 0,
+                    child: ShowCommentRepliesPart(
+                      commentDetailsEntity: commentDetailsEntity,
+                    ),
                   ),
                 ],
               ),
