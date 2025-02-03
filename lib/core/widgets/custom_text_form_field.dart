@@ -35,12 +35,14 @@ class CustomTextFormFieldWidget extends StatelessWidget {
     this.autovalidateMode = AutovalidateMode.disabled,
     this.focusedBorderColor = AppColors.primaryColor,
     this.focusedBorderWidth = 2,
+    this.onFieldSubmitted,
   });
 
   final String? labelText;
   final String? hintText;
   final void Function(String)? onChanged;
   final void Function(String?)? onSaved;
+  final void Function(String?)? onFieldSubmitted;
   final FormFieldValidator<String>? validator;
   final TextInputType keyboardType;
   final TextStyle? textStyle;
@@ -73,6 +75,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
       focusNode: focusNode,
       onChanged: onChanged,
       onSaved: onSaved,
+      onFieldSubmitted: onFieldSubmitted,
       validator: validator,
       keyboardType: keyboardType,
       style: textStyle ?? AppTextStyles.uberMoveBold16,

@@ -26,12 +26,14 @@ class ExpandedMakeReplySection extends StatefulWidget {
     required this.tweetDetailsEntity,
     required this.replyingToUserName,
     this.isComment = true,
+    this.onFieldSubmitted,
   });
 
   final UserEntity currentUser;
   final TweetDetailsEntity tweetDetailsEntity;
   final String replyingToUserName;
   final bool isComment;
+  final void Function(String?)? onFieldSubmitted;
 
   @override
   State<ExpandedMakeReplySection> createState() =>
@@ -136,11 +138,22 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
               ),
               subtitle: Text(widget.currentUser.email),
             ),
-            const VerticalGap(4),
+            const VerticalGap(2),
+            Visibility(
+              visible: state is MakeNewCommentLoadingState,
+              child: LinearProgressIndicator(
+                color: AppColors.twitterAccentColor,
+              ),
+            ),
+            const VerticalGap(10),
             Row(
               children: [
                 Text("Replying to"),
-                Text(" @${widget.replyingToUserName}"),
+                Text(
+                  " @${widget.replyingToUserName}",
+                  style: AppTextStyles.uberMoveMedium18
+                      .copyWith(color: AppColors.twitterAccentColor),
+                ),
               ],
             ),
             const VerticalGap(8),
@@ -178,6 +191,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                     hintStyle: AppTextStyles.uberMoveBold20.copyWith(
                       color: AppColors.secondaryColor,
                     ),
+                    onFieldSubmitted: widget.onFieldSubmitted,
                   ),
                 ],
               ),
@@ -199,21 +213,14 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                   backgroundColor: _isReplyButtonEnabled
                       ? AppColors.twitterAccentColor
                       : AppColors.lightTwitterAccentColor,
-                  onPressed: _isReplyButtonEnabled
-                      ? _onReplyButtonPressed
-                      : null,
-                  child: state is MakeNewCommentLoadingState
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(
-                          "Reply",
-                          style: AppTextStyles.uberMoveBold16.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
+                  onPressed:
+                      _isReplyButtonEnabled ? _onReplyButtonPressed : null,
+                  child: Text(
+                    "Reply",
+                    style: AppTextStyles.uberMoveBold16.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),

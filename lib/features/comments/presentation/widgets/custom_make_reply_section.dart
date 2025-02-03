@@ -16,6 +16,7 @@ class CustomMakeReplySection extends StatelessWidget {
     required this.onTextFieldTap,
     required this.currentUser,
     required this.replyingToUserName,
+    this.onFieldSubmitted,
     this.isComment = true,
   });
 
@@ -25,6 +26,8 @@ class CustomMakeReplySection extends StatelessWidget {
   final UserEntity currentUser;
   final String replyingToUserName;
   final bool isComment;
+  final void Function(String?)? onFieldSubmitted;
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,7 @@ class CustomMakeReplySection extends StatelessWidget {
                 tweetDetailsEntity: tweetDetailsEntity,
                 replyingToUserName: replyingToUserName,
                 isComment: isComment,
+                onFieldSubmitted: onFieldSubmitted,
               ),
             )
           : CollapsedMakeReplySection(

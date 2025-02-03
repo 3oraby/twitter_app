@@ -88,7 +88,15 @@ class _ShowTweetCommentsScreenState extends State<ShowTweetCommentsScreen> {
                 onTextFieldTap: toggleSection,
                 currentUser: currentUser,
                 replyingToUserName: widget.tweetDetailsEntity.user.email,
+                onFieldSubmitted: (value) {
+                  if (value?.isEmpty ?? false){
+                    setState(() {
+                      isSectionExpanded = false;
+                    });
+                  }
+                },
                 isComment: true,
+
               ),
               const VerticalGap(16),
             ],
