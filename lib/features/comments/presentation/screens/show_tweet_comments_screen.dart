@@ -62,6 +62,7 @@ class _ShowTweetCommentsListenerBodyState
   List<File> mediaFiles = [];
   late UserEntity currentUser;
   final ScrollController _scrollController = ScrollController();
+  late String replyingToUserName;
 
   void toggleSection() {
     setState(() {
@@ -73,6 +74,7 @@ class _ShowTweetCommentsListenerBodyState
   void initState() {
     super.initState();
     currentUser = getCurrentUserEntity();
+    replyingToUserName = widget.tweetDetailsEntity.user.email;
   }
 
   @override
@@ -115,6 +117,13 @@ class _ShowTweetCommentsListenerBodyState
                       ),
                       ShowTweetCommentsPart(
                         tweetDetailsEntity: widget.tweetDetailsEntity,
+                        onReplyButtonPressed: (commentAuthorData) {
+                          setState(() {
+                            isComment = true;
+                            isSectionExpanded = true;
+                            replyingToUserName = commentAuthorData.email;
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -125,7 +134,7 @@ class _ShowTweetCommentsListenerBodyState
                 isSectionExpanded: isSectionExpanded,
                 onTextFieldTap: toggleSection,
                 currentUser: currentUser,
-                replyingToUserName: widget.tweetDetailsEntity.user.email,
+                replyingToUserName: replyingToUserName,
                 onFieldSubmitted: (text) {
                   if ((text?.isEmpty ?? false) && mediaFiles.isEmpty) {
                     setState(() {
