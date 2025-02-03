@@ -33,8 +33,7 @@ class _ShowAllCommentsBlocConsumerBodyState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<GetTweetCommentsCubit, GetTweetCommentsState>(
-      listener: (context, state) {},
+    return BlocBuilder<GetTweetCommentsCubit, GetTweetCommentsState>(
       builder: (context, state) {
         if (state is GetTweetCommentsEmptyState) {
           return CustomEmptyBodyWidget(

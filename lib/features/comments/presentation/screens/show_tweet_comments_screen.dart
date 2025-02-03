@@ -6,14 +6,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
+import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
+import 'package:twitter_app/features/comments/domain/repos/comments_repo.dart';
+import 'package:twitter_app/features/comments/presentation/cubits/make_new_comment_cubit/make_new_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/reply_media_files_cubit/reply_media_files_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_make_reply_section.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_tweet_comments_part.dart';
+import 'package:twitter_app/features/replies/domain/repos/replies_repo.dart';
+import 'package:twitter_app/features/replies/presentation/cubits/make_new_reply_cubit/make_new_reply_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_main_details_tweet_card.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
@@ -27,8 +32,22 @@ class ShowTweetCommentsScreen extends StatelessWidget {
   final TweetDetailsEntity tweetDetailsEntity;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ReplyMediaFilesCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ReplyMediaFilesCubit(),
+        ),
+        BlocProvider(
+          create: (context) => MakeNewCommentCubit(
+            commentsRepo: getIt<CommentsRepo>(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => MakeNewReplyCubit(
+            repliesRepo: getIt<RepliesRepo>(),
+          ),
+        ),
+      ],
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
@@ -82,15 +101,37 @@ class _ShowTweetCommentsListenerBodyState
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ReplyMediaFilesCubit, ReplyMediaFilesState>(
-      listener: (context, state) {
-        if (state is ReplyMediaFilesUpdatedState) {
-          setState(() {
-            log("listen about media files in showTweetCommentsScreen");
-            mediaFiles = state.mediaFiles;
-          });
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ReplyMediaFilesCubit, ReplyMediaFilesState>(
+          listener: (context, state) {
+            if (state is ReplyMediaFilesUpdatedState) {
+              setState(() {
+                log("listen about media files in showTweetCommentsScreen");
+                mediaFiles = state.mediaFiles;
+              });
+            }
+          },
+        ),
+        BlocListener<MakeNewCommentCubit, MakeNewCommentState>(
+          listener: (context, state) {
+            if (state is MakeNewCommentLoadedState) {
+              setState(() {
+                isSectionExpanded = false;
+              });
+            }
+          },
+        ),
+        BlocListener<MakeNewReplyCubit, MakeNewReplyState>(
+          listener: (context, state) {
+            if (state is MakeNewReplyLoadedState) {
+              setState(() {
+                isSectionExpanded = false;
+              });
+            }
+          },
+        ),
+      ],
       child: GestureDetector(
         onTap: () {
           if (isSectionExpanded) {
