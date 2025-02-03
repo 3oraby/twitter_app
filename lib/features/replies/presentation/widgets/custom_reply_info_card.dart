@@ -5,23 +5,25 @@ import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
-import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
-import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_interactions_row.dart';
+import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
+import 'package:twitter_app/features/replies/presentation/widgets/custom_reply_interactions_row.dart';
 
-class CustomCommentInfoCard extends StatelessWidget {
-  const CustomCommentInfoCard({
+class CustomReplyInfoCard extends StatelessWidget {
+  const CustomReplyInfoCard({
     super.key,
-    required this.commentDetailsEntity,
+    required this.replyDetailsEntity,
     this.showInteractionsRow = true,
-    this.mediaHeight = 300,
-    this.mediaWidth = 250,
-    required this.onReplyButtonPressed,
+    this.mediaHeight = 150,
+    this.mediaWidth = 100,
+    // this.onTweetTap,
+    // required this.onReplyButtonPressed,
   });
-  final CommentDetailsEntity commentDetailsEntity;
+  final ReplyDetailsEntity replyDetailsEntity;
   final bool showInteractionsRow;
   final double mediaHeight;
   final double mediaWidth;
-  final ValueChanged<CommentDetailsEntity> onReplyButtonPressed;
+  // final VoidCallback? onTweetTap;
+  // final ValueChanged<replyDetailsEntity> onReplyButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CustomCommentInfoCard extends StatelessWidget {
           children: [
             BuildUserCircleAvatarImage(
               profilePicUrl:
-                  commentDetailsEntity.comment.commentAuthorData.profilePicUrl,
+                  replyDetailsEntity.reply.replyAuthorData.profilePicUrl,
               circleAvatarRadius: 20,
             ),
             const HorizontalGap(8),
@@ -44,35 +46,35 @@ class CustomCommentInfoCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "${commentDetailsEntity.comment.commentAuthorData.firstName} ${commentDetailsEntity.comment.commentAuthorData.lastName}",
+                        "${replyDetailsEntity.reply.replyAuthorData.firstName} ${replyDetailsEntity.reply.replyAuthorData.lastName}",
                         style: AppTextStyles.uberMoveBold18,
                       ),
                       const HorizontalGap(8),
                       Text(
-                        commentDetailsEntity.comment.commentAuthorData.email,
+                        replyDetailsEntity.reply.replyAuthorData.email,
                         style: AppTextStyles.uberMoveMedium16
                             .copyWith(color: AppColors.secondaryColor),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                  if (commentDetailsEntity.comment.content != null)
+                  if (replyDetailsEntity.reply.content != null)
                     Column(
                       children: [
                         const VerticalGap(4),
                         Text(
-                          commentDetailsEntity.comment.content!,
+                          replyDetailsEntity.reply.content!,
                           style: AppTextStyles.uberMoveRegular16,
                         ),
                       ],
                     ),
-                  if (commentDetailsEntity.comment.mediaUrl?.isNotEmpty ??
+                  if (replyDetailsEntity.reply.mediaUrl?.isNotEmpty ??
                       false)
                     Column(
                       children: [
                         const VerticalGap(8),
                         CustomShowTweetsMedia(
-                          mediaUrl: commentDetailsEntity.comment.mediaUrl!,
+                          mediaUrl: replyDetailsEntity.reply.mediaUrl!,
                           mediaHeight: mediaHeight,
                           mediaWidth: mediaWidth,
                         ),
@@ -81,16 +83,10 @@ class CustomCommentInfoCard extends StatelessWidget {
                   const VerticalGap(8),
                   Visibility(
                     visible: showInteractionsRow,
-                    child: CustomCommentInteractionsRow(
-                      commentDetailsEntity: commentDetailsEntity,
-                      onReplyButtonPressed: onReplyButtonPressed,
+                    child: CustomReplyInteractionsRow(
+                      replyDetailsEntity: replyDetailsEntity,
+                      // onReplyButtonPressed: onReplyButtonPressed,
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      
-                    },
-                    child: Text("______ View ${commentDetailsEntity.comment.repliesCount} replies "),
                   ),
                 ],
               ),
