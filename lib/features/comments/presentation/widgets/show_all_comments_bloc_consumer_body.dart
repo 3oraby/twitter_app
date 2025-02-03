@@ -4,22 +4,22 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/core/widgets/custom_failure_body_widget.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/get_tweet_comments_cubit/get_tweet_comments_cubit.dart';
-import 'package:twitter_app/features/comments/presentation/widgets/show_tweet_comments_body.dart';
+import 'package:twitter_app/features/comments/presentation/widgets/show_all_comments_body.dart';
 
-class ShowTweetCommentsBlocConsumerBody extends StatefulWidget {
-  const ShowTweetCommentsBlocConsumerBody({
+class ShowAllCommentsBlocConsumerBody extends StatefulWidget {
+  const ShowAllCommentsBlocConsumerBody({
     super.key,
     required this.tweetId,
   });
 
   final String tweetId;
   @override
-  State<ShowTweetCommentsBlocConsumerBody> createState() =>
-      _ShowTweetCommentsBlocConsumerBodyState();
+  State<ShowAllCommentsBlocConsumerBody> createState() =>
+      _ShowAllCommentsBlocConsumerBodyState();
 }
 
-class _ShowTweetCommentsBlocConsumerBodyState
-    extends State<ShowTweetCommentsBlocConsumerBody> {
+class _ShowAllCommentsBlocConsumerBodyState
+    extends State<ShowAllCommentsBlocConsumerBody> {
   @override
   void initState() {
     super.initState();
@@ -45,7 +45,7 @@ class _ShowTweetCommentsBlocConsumerBodyState
             color: AppColors.primaryColor,
           );
         } else if (state is GetTweetCommentsLoadedState) {
-          return ShowTweetCommentsBody(
+          return ShowAllCommentsBody(
             comments: state.comments,
           );
         }

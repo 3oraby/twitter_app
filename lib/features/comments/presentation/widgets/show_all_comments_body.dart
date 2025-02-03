@@ -4,8 +4,8 @@ import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_info_card.dart';
 
-class ShowTweetCommentsBody extends StatelessWidget {
-  const ShowTweetCommentsBody({
+class ShowAllCommentsBody extends StatelessWidget {
+  const ShowAllCommentsBody({
     super.key,
     required this.comments,
   });

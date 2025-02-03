@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
@@ -6,12 +9,13 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/comments/presentation/cubits/reply_media_files_cubit/reply_media_files_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_make_reply_section.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_tweet_comments_part.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_main_details_tweet_card.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
-class ShowTweetCommentsScreen extends StatefulWidget {
+class ShowTweetCommentsScreen extends StatelessWidget {
   const ShowTweetCommentsScreen({
     super.key,
     required this.tweetDetailsEntity,
@@ -20,12 +24,42 @@ class ShowTweetCommentsScreen extends StatefulWidget {
   static const String routeId = 'kShowTweetCommentsScreen';
   final TweetDetailsEntity tweetDetailsEntity;
   @override
-  State<ShowTweetCommentsScreen> createState() =>
-      _ShowTweetCommentsScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ReplyMediaFilesCubit(),
+      child: Scaffold(
+        appBar: buildCustomAppBar(
+          context,
+          title: Text(
+            "Post",
+            style: AppTextStyles.uberMoveBlack20,
+          ),
+        ),
+        body: ShowTweetCommentsListenerBody(
+          tweetDetailsEntity: tweetDetailsEntity,
+        ),
+      ),
+    );
+  }
 }
 
-class _ShowTweetCommentsScreenState extends State<ShowTweetCommentsScreen> {
+class ShowTweetCommentsListenerBody extends StatefulWidget {
+  const ShowTweetCommentsListenerBody({
+    super.key,
+    required this.tweetDetailsEntity,
+  });
+
+  final TweetDetailsEntity tweetDetailsEntity;
+  @override
+  State<ShowTweetCommentsListenerBody> createState() =>
+      _ShowTweetCommentsListenerBodyState();
+}
+
+class _ShowTweetCommentsListenerBodyState
+    extends State<ShowTweetCommentsListenerBody> {
   bool isSectionExpanded = false;
+  bool isComment = true;
+  List<File> mediaFiles = [];
   late UserEntity currentUser;
   final ScrollController _scrollController = ScrollController();
 
@@ -43,18 +77,22 @@ class _ShowTweetCommentsScreenState extends State<ShowTweetCommentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildCustomAppBar(
-        context,
-        title: Text(
-          "Post",
-          style: AppTextStyles.uberMoveBlack20,
-        ),
-      ),
-      body: GestureDetector(
+    return BlocListener<ReplyMediaFilesCubit, ReplyMediaFilesState>(
+      listener: (context, state) {
+        if (state is ReplyMediaFilesUpdatedState) {
+          setState(() {
+            mediaFiles = state.mediaFiles;
+          });
+        }
+      },
+      child: GestureDetector(
         onTap: () {
           if (isSectionExpanded) {
-            toggleSection();
+            if (mediaFiles.isNotEmpty) {
+              FocusScope.of(context).unfocus();
+            } else {
+              toggleSection();
+            }
           }
         },
         child: Padding(
@@ -88,15 +126,14 @@ class _ShowTweetCommentsScreenState extends State<ShowTweetCommentsScreen> {
                 onTextFieldTap: toggleSection,
                 currentUser: currentUser,
                 replyingToUserName: widget.tweetDetailsEntity.user.email,
-                onFieldSubmitted: (value) {
-                  if (value?.isEmpty ?? false){
+                onFieldSubmitted: (text) {
+                  if ((text?.isEmpty ?? false) && mediaFiles.isEmpty) {
                     setState(() {
                       isSectionExpanded = false;
                     });
                   }
                 },
-                isComment: true,
-
+                isComment: isComment,
               ),
               const VerticalGap(16),
             ],
