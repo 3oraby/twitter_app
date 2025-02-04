@@ -42,6 +42,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
             setState(() {
               replies.insert(0, makeNewReplyState.replyDetailsEntity);
               isRepliesHidden = false;
+              widget.commentDetailsEntity.comment.repliesCount += 1;
             });
           }
         }
@@ -68,7 +69,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
           return Column(
             children: [
               Visibility(
-                visible: isRepliesHidden,
+                visible: isRepliesHidden && replies.isNotEmpty,
                 child: GestureDetector(
                   onTap: () {
                     setState(() {

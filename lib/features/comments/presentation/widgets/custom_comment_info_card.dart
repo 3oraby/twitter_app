@@ -90,12 +90,9 @@ class CustomCommentInfoCard extends StatelessWidget {
                       onReplyButtonPressed: onReplyButtonPressed,
                     ),
                   ),
-                  Visibility(
-                    visible: commentDetailsEntity.comment.repliesCount > 0,
-                    child: ShowCommentRepliesPart(
-                      commentDetailsEntity: commentDetailsEntity,
-                      onReplyButtonPressed: onReplyButtonPressed,
-                    ),
+                  ShowCommentRepliesPart(
+                    commentDetailsEntity: commentDetailsEntity,
+                    onReplyButtonPressed: onReplyButtonPressed,
                   ),
                 ],
               ),
