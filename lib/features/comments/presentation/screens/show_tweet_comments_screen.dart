@@ -17,6 +17,7 @@ import 'package:twitter_app/features/comments/presentation/cubits/make_new_comme
 import 'package:twitter_app/features/comments/presentation/cubits/reply_media_files_cubit/reply_media_files_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_make_reply_section.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_tweet_comments_part.dart';
+import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/repos/replies_repo.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/make_new_reply_cubit/make_new_reply_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_main_details_tweet_card.dart';
@@ -85,6 +86,7 @@ class _ShowTweetCommentsListenerBodyState
   final ScrollController _scrollController = ScrollController();
   late String replyingToUserName;
   CommentDetailsEntity? _commentDetailsEntity;
+  ReplyDetailsEntity? _replyDetailsEntity;
 
   void toggleSection() {
     setState(() {
@@ -162,14 +164,27 @@ class _ShowTweetCommentsListenerBodyState
                       ),
                       ShowTweetCommentsPart(
                         tweetDetailsEntity: widget.tweetDetailsEntity,
-                        onReplyButtonPressed: (commentDetailsEntity) {
-                          setState(() {
-                            isComment = false;
-                            isSectionExpanded = true;
-                            replyingToUserName = commentDetailsEntity
-                                .comment.commentAuthorData.email;
-                            _commentDetailsEntity = commentDetailsEntity;
-                          });
+                        onReplyButtonPressed: (entity) {
+                          entity.fold(
+                            (commentDetailsEntity) {
+                              setState(() {
+                                isComment = false;
+                                isSectionExpanded = true;
+                                replyingToUserName = commentDetailsEntity
+                                    .comment.commentAuthorData.email;
+                                _commentDetailsEntity = commentDetailsEntity;
+                              });
+                            },
+                            (replyDetailsEntity) {
+                              setState(() {
+                                isComment = false;
+                                isSectionExpanded = true;
+                                replyingToUserName = replyDetailsEntity
+                                    .reply.commentAuthorData.email;
+                                _replyDetailsEntity = replyDetailsEntity;
+                              });
+                            },
+                          );
                         },
                       ),
                     ],
@@ -179,6 +194,7 @@ class _ShowTweetCommentsListenerBodyState
               CustomMakeReplySection(
                 tweetDetailsEntity: widget.tweetDetailsEntity,
                 commentDetailsEntity: _commentDetailsEntity,
+                replyDetailsEntity: _replyDetailsEntity,
                 isSectionExpanded: isSectionExpanded,
                 onTextFieldTap: toggleSection,
                 currentUser: currentUser,

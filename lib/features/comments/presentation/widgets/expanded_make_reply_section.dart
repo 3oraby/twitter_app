@@ -20,6 +20,7 @@ import 'package:twitter_app/features/comments/presentation/cubits/make_new_comme
 import 'package:twitter_app/features/comments/presentation/cubits/reply_media_files_cubit/reply_media_files_cubit.dart';
 import 'package:twitter_app/features/home/presentation/widgets/preview_chosen_media.dart';
 import 'package:twitter_app/features/replies/data/models/reply_model.dart';
+import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/make_new_reply_cubit/make_new_reply_cubit.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
@@ -30,6 +31,7 @@ class ExpandedMakeReplySection extends StatefulWidget {
     required this.replyingToUserName,
     this.tweetDetailsEntity,
     this.commentDetailsEntity,
+    this.replyDetailsEntity,
     this.isComment = true,
     this.onFieldSubmitted,
   });
@@ -37,6 +39,7 @@ class ExpandedMakeReplySection extends StatefulWidget {
   final UserEntity currentUser;
   final TweetDetailsEntity? tweetDetailsEntity;
   final CommentDetailsEntity? commentDetailsEntity;
+  final ReplyDetailsEntity? replyDetailsEntity;
   final String replyingToUserName;
   final bool isComment;
   final void Function(String?)? onFieldSubmitted;
@@ -122,11 +125,25 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
         data: commentModel.toJson(),
         mediaFiles: mediaFiles,
       );
-    } else {
+    } else if (widget.commentDetailsEntity != null) {
       ReplyModel replyModel = ReplyModel(
         commentId: widget.commentDetailsEntity!.commentId,
         commentAuthorData:
             widget.commentDetailsEntity!.comment.commentAuthorData,
+        replyAuthorData: widget.currentUser,
+        content: content,
+        createdAt: Timestamp.now(),
+      );
+
+      BlocProvider.of<MakeNewReplyCubit>(context).makeNewReply(
+        data: replyModel.toJson(),
+        mediaFiles: mediaFiles,
+      );
+    } else if (widget.replyDetailsEntity != null) {
+      ReplyModel replyModel = ReplyModel(
+        commentId: widget.replyDetailsEntity!.commentId,
+        commentAuthorData:
+            widget.replyDetailsEntity!.reply.replyAuthorData,
         replyAuthorData: widget.currentUser,
         content: content,
         createdAt: Timestamp.now(),

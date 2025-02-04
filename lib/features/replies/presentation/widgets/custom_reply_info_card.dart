@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -6,6 +7,7 @@ import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/presentation/widgets/custom_reply_interactions_row.dart';
 
@@ -16,15 +18,14 @@ class CustomReplyInfoCard extends StatelessWidget {
     this.showInteractionsRow = true,
     this.mediaHeight = 150,
     this.mediaWidth = 100,
-    // this.onTweetTap,
-    // required this.onReplyButtonPressed,
+    required this.onReplyButtonPressed,
   });
   final ReplyDetailsEntity replyDetailsEntity;
   final bool showInteractionsRow;
   final double mediaHeight;
   final double mediaWidth;
-  // final VoidCallback? onTweetTap;
-  // final ValueChanged<replyDetailsEntity> onReplyButtonPressed;
+  final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
+      onReplyButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +91,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                     visible: showInteractionsRow,
                     child: CustomReplyInteractionsRow(
                       replyDetailsEntity: replyDetailsEntity,
-                      // onReplyButtonPressed: onReplyButtonPressed,
+                      onReplyButtonPressed: onReplyButtonPressed,
                     ),
                   ),
                 ],

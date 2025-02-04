@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
@@ -14,9 +15,12 @@ class ShowCommentRepliesBlocConsumerBody extends StatefulWidget {
   const ShowCommentRepliesBlocConsumerBody({
     super.key,
     required this.commentDetailsEntity,
+    required this.onReplyButtonPressed,
   });
 
   final CommentDetailsEntity commentDetailsEntity;
+  final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
+      onReplyButtonPressed;
 
   @override
   State<ShowCommentRepliesBlocConsumerBody> createState() =>
@@ -109,8 +113,12 @@ class _ShowCommentRepliesBlocConsumerBodyState
                 children: isRepliesHidden
                     ? []
                     : replies
-                        .map((reply) =>
-                            CustomReplyInfoCard(replyDetailsEntity: reply))
+                        .map(
+                          (reply) => CustomReplyInfoCard(
+                            replyDetailsEntity: reply,
+                            onReplyButtonPressed: widget.onReplyButtonPressed,
+                          ),
+                        )
                         .toList(),
               ),
               Visibility(
