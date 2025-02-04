@@ -28,6 +28,8 @@ class CustomNetworkImage extends StatelessWidget {
       height: height,
       alignment: Alignment(0, 0),
       fit: fit,
+      useOldImageOnUrlChange: true,
+      cacheManager: CachedNetworkImageProvider.defaultCacheManager,
       placeholder: (context, url) {
         return SizedBox(
           width: width,
@@ -49,40 +51,5 @@ class CustomNetworkImage extends StatelessWidget {
         ),
       ),
     );
-    // return Image.network(
-    //   imageUrl,
-    //   width: width,
-    //   height: height,
-    //   alignment: Alignment(0, 0),
-    //   fit: fit,
-    //   loadingBuilder: (context, child, loadingProgress) {
-    //     if (loadingProgress == null) {
-    //       return child;
-    //     }
-    //     return SizedBox(
-    //       width: width,
-    //       height: height,
-    //       child: Container(
-    //         color: Colors.grey[300], // Background color for the placeholder
-    //       ).redacted(
-    //         context: context,
-    //         redact: true,
-    //       ),
-    //     );
-    //   },
-    //   errorBuilder: errorBuilder ?? _defaultErrorBuilder,
-    // );
   }
-
-  // Widget _defaultErrorBuilder(
-  //     BuildContext context, Object error, StackTrace? stackTrace) {
-  //   return SizedBox(
-  //     width: width,
-  //     height: height,
-  //     child: Container(
-  //       color: Colors.grey[300],
-  //       child: const Icon(Icons.error, color: Colors.red),
-  //     ),
-  //   );
-  // }
 }
