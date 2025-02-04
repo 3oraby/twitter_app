@@ -69,7 +69,8 @@ class _ShowCommentRepliesBlocConsumerBodyState
           return Column(
             children: [
               Visibility(
-                visible: isRepliesHidden && replies.isNotEmpty,
+                visible: isRepliesHidden &&
+                    widget.commentDetailsEntity.comment.repliesCount > 0,
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
