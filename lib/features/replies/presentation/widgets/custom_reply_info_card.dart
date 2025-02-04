@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
@@ -50,8 +51,13 @@ class CustomReplyInfoCard extends StatelessWidget {
                         style: AppTextStyles.uberMoveBold18,
                       ),
                       const HorizontalGap(8),
+                      Icon(
+                        FontAwesomeIcons.play,
+                        size: 18,
+                      ),
+                      const HorizontalGap(8),
                       Text(
-                        replyDetailsEntity.reply.replyAuthorData.email,
+                        "${replyDetailsEntity.reply.commentAuthorData.firstName} ${replyDetailsEntity.reply.commentAuthorData.lastName}",
                         style: AppTextStyles.uberMoveMedium16
                             .copyWith(color: AppColors.secondaryColor),
                         overflow: TextOverflow.ellipsis,
@@ -68,8 +74,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if (replyDetailsEntity.reply.mediaUrl?.isNotEmpty ??
-                      false)
+                  if (replyDetailsEntity.reply.mediaUrl?.isNotEmpty ?? false)
                     Column(
                       children: [
                         const VerticalGap(8),
