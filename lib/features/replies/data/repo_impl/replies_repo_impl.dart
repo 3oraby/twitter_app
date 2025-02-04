@@ -7,7 +7,6 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
-import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/replies/data/models/reply_details_model.dart';
@@ -25,7 +24,7 @@ class RepliesRepoImpl extends RepliesRepo {
   });
 
   @override
-  Future<Either<Failure, Success>> makeNewReply(
+  Future<Either<Failure, ReplyDetailsEntity>> makeNewReply(
       {required Map<String, dynamic> data,
       required List<File>? mediaFiles}) async {
     try {
@@ -43,7 +42,7 @@ class RepliesRepoImpl extends RepliesRepo {
       }
 
       replyModel.mediaUrl = mediaUrl;
-      await databaseService.addData(
+      String? id = await databaseService.addData(
         path: BackendEndpoints.makeNewReply,
         data: replyModel.toJson(),
       );
@@ -54,7 +53,13 @@ class RepliesRepoImpl extends RepliesRepo {
         field: "repliesCount",
       );
 
-      return right(Success());
+      ReplyDetailsEntity replyDetailsEntity = ReplyDetailsEntity(
+        commentId: replyModel.commentId,
+        replyId: id!,
+        reply: replyModel.toEntity(),
+      );
+
+      return right(replyDetailsEntity);
     } catch (e) {
       log("Exception in RepliesRepoImpl.makeNewReply() ${e.toString()}");
       return Left(

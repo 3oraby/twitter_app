@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/repos/replies_repo.dart';
 
 part 'make_new_reply_state.dart';
@@ -22,7 +23,9 @@ class MakeNewReplyCubit extends Cubit<MakeNewReplyState> {
 
     res.fold(
       (failure) => emit(MakeNewReplyFailureState(message: failure.message)),
-      (success) => emit(MakeNewReplyLoadedState()),
+      (replyDetailsEntity) => emit(MakeNewReplyLoadedState(
+        replyDetailsEntity: replyDetailsEntity,
+      )),
     );
   }
 }

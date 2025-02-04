@@ -6,7 +6,11 @@ final class MakeNewReplyInitial extends MakeNewReplyState {}
 
 final class MakeNewReplyLoadingState extends MakeNewReplyState {}
 
-final class MakeNewReplyLoadedState extends MakeNewReplyState {}
+final class MakeNewReplyLoadedState extends MakeNewReplyState {
+  final ReplyDetailsEntity replyDetailsEntity;
+
+  MakeNewReplyLoadedState({required this.replyDetailsEntity});
+}
 
 final class MakeNewReplyFailureState extends MakeNewReplyState {
   final String message;
