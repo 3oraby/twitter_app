@@ -16,7 +16,9 @@ import 'package:twitter_app/features/comments/domain/repos/comment_likes_repo.da
 import 'package:twitter_app/features/comments/domain/repos/comments_repo.dart';
 import 'package:twitter_app/features/follow_relationships/data/repo_impl/follow_repo_impl.dart';
 import 'package:twitter_app/features/replies/data/repo_impl/replies_repo_impl.dart';
+import 'package:twitter_app/features/replies/data/repo_impl/reply_likes_repo_impl.dart';
 import 'package:twitter_app/features/replies/domain/repos/replies_repo.dart';
+import 'package:twitter_app/features/replies/domain/repos/reply_likes_repo.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/retweet_repo_impl.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/tweet_likes_repo_impl.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/tweet_repo_impl.dart';
@@ -77,6 +79,10 @@ void setupGetIt() {
   ));
 
   getIt.registerSingleton<CommentLikesRepo>(CommentLikesRepoImpl(
+    databaseService: getIt<DatabaseService>(),
+  ));
+
+  getIt.registerSingleton<ReplyLikesRepo>(ReplyLikesRepoImpl(
     databaseService: getIt<DatabaseService>(),
   ));
 

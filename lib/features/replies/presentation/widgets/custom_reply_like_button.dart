@@ -7,9 +7,9 @@ import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/widgets/custom_like_button_body.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/comments/data/models/comment_likes_model.dart';
-import 'package:twitter_app/features/comments/domain/repos/comment_likes_repo.dart';
-import 'package:twitter_app/features/comments/presentation/cubits/toggle_comment_likes_cubit/toggle_comment_likes_cubit.dart';
+import 'package:twitter_app/features/replies/data/models/reply_likes_model.dart';
+import 'package:twitter_app/features/replies/domain/repos/reply_likes_repo.dart';
+import 'package:twitter_app/features/replies/presentation/cubits/toggle_reply_likes_cubit/toggle_reply_likes_cubit.dart';
 
 class CustomReplyLikeButton extends StatelessWidget {
   const CustomReplyLikeButton({
@@ -28,8 +28,8 @@ class CustomReplyLikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ToggleCommentLikesCubit(
-        commentLikesRepo: getIt<CommentLikesRepo>(),
+      create: (context) => ToggleReplyLikesCubit(
+        replyLikesRepo: getIt<ReplyLikesRepo>(),
       ),
       child: CommentLikeButtonBlocConsumerBody(
         replyId: replyId,
@@ -79,9 +79,9 @@ class _CommentLikeButtonBlocConsumerBodyState
   }
 
   Future<bool?> _onToggleLikeButtonPressed(bool isLiked) async {
-    BlocProvider.of<ToggleCommentLikesCubit>(context).toggleCommentLikes(
-      data: CommentLikesModel(
-        commentId: widget.replyId,
+    BlocProvider.of<ToggleReplyLikesCubit>(context).toggleReplyLikes(
+      data: ReplyLikesModel(
+        replyId: widget.replyId,
         userId: currentUser.userId,
         originalAuthorId: widget.originalAuthorId,
         likedAt: Timestamp.now(),
@@ -97,9 +97,9 @@ class _CommentLikeButtonBlocConsumerBodyState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ToggleCommentLikesCubit, ToggleCommentLikesState>(
+    return BlocConsumer<ToggleReplyLikesCubit, ToggleReplyLikesState>(
       listener: (context, state) {
-        if (state is ToggleCommentLikesFailureState) {
+        if (state is ToggleReplyLikesFailureState) {
           showCustomSnackBar(context, state.message);
           setState(() {
             isActive = !isActive;
