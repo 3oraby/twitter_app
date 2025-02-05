@@ -120,6 +120,8 @@ class _ShowTweetCommentsListenerBodyState
             if (state is MakeNewCommentLoadedState) {
               setState(() {
                 isSectionExpanded = false;
+                isComment = true;
+                replyingToUserName = widget.tweetDetailsEntity.user.email;
               });
             }
           },
@@ -129,6 +131,8 @@ class _ShowTweetCommentsListenerBodyState
             if (state is MakeNewReplyLoadedState) {
               setState(() {
                 isSectionExpanded = false;
+                isComment = true;
+                replyingToUserName = widget.tweetDetailsEntity.user.email;
               });
             }
           },
