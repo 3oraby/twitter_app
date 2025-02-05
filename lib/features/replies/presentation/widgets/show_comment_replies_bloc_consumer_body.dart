@@ -1,3 +1,4 @@
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +41,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
           if (makeNewReplyState.replyDetailsEntity.commentId ==
               widget.commentDetailsEntity.commentId) {
             setState(() {
-              replies.insert(0, makeNewReplyState.replyDetailsEntity);
+              replies.add(makeNewReplyState.replyDetailsEntity);
               isRepliesHidden = false;
               widget.commentDetailsEntity.comment.repliesCount += 1;
             });
