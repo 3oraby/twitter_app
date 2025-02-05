@@ -23,10 +23,6 @@ class AppConstants {
           itemIcon: Icons.search,
           name: context.tr("Search"),
         ),
-        // BottomNavigationBarItemEntity(
-        //   itemIcon: Icons.person_add_alt_1_outlined,
-        //   name: context.tr("Suggestions"),
-        // ),
         BottomNavigationBarItemEntity(
           itemIcon: Icons.notifications_active_outlined,
           name: context.tr("Notifications"),
@@ -36,6 +32,14 @@ class AppConstants {
           name: context.tr("Settings"),
         ),
       ];
+
+  static const List<String> commentFilters = [
+    "Most relevant replies",
+    "Most liked replies",
+    "Most recent replies",
+  ];
 }
 
 enum Gender { male, female, other }
+
+enum CommentFiltersEnum { relevant, likes, recent }

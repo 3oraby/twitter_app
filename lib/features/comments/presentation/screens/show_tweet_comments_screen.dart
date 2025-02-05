@@ -9,6 +9,7 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/widgets/filter_bottom_sheet.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
@@ -101,6 +102,27 @@ class _ShowTweetCommentsListenerBodyState
     replyingToUserName = widget.tweetDetailsEntity.user.email;
   }
 
+  String selectedFilter = AppConstants.commentFilters[0];
+
+  void showFilterOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return FilterBottomSheet(
+          sheetTitle: 'Sort Replies',
+          filters: AppConstants.commentFilters,
+          selectedFilter: selectedFilter,
+          onFilterSelected: (filter) {
+            setState(() {
+              selectedFilter = filter;
+            });
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -161,6 +183,24 @@ class _ShowTweetCommentsListenerBodyState
                     children: [
                       CustomMainDetailsTweetCard(
                         tweetDetailsEntity: widget.tweetDetailsEntity,
+                      ),
+                      const VerticalGap(8),
+                      GestureDetector(
+                        onTap: showFilterOptions,
+                        child: Row(
+                          children: [
+                            Text(
+                              selectedFilter,
+                              style: AppTextStyles.uberMoveBold18.copyWith(
+                                color: AppColors.thirdColor,
+                              ),
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: AppColors.thirdColor,
+                            ),
+                          ],
+                        ),
                       ),
                       const Divider(
                         color: AppColors.dividerColor,
