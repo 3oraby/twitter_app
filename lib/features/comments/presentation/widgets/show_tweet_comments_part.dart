@@ -14,10 +14,13 @@ class ShowTweetCommentsPart extends StatelessWidget {
     super.key,
     required this.tweetDetailsEntity,
     required this.onReplyButtonPressed,
+    required this.selectedCommentedFilter,
   });
 
   final TweetDetailsEntity tweetDetailsEntity;
-  final ValueChanged<Either<CommentDetailsEntity,ReplyDetailsEntity>> onReplyButtonPressed;
+  final ValueChanged<Either<CommentDetailsEntity, ReplyDetailsEntity>>
+      onReplyButtonPressed;
+  final ValueNotifier<String> selectedCommentedFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +31,7 @@ class ShowTweetCommentsPart extends StatelessWidget {
       child: ShowAllCommentsBlocConsumerBody(
         tweetId: tweetDetailsEntity.tweetId,
         onReplyButtonPressed: onReplyButtonPressed,
+        selectedCommentedFilter: selectedCommentedFilter,
       ),
     );
   }

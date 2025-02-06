@@ -70,10 +70,26 @@ class CommentsRepoImpl extends CommentsRepo {
   }
 
   @override
-  Future<Either<Failure, List<CommentDetailsEntity>>> getTweetComments(
-      {required String tweetId}) async {
+  Future<Either<Failure, List<CommentDetailsEntity>>> getTweetComments({
+    required String tweetId,
+    String? filter,
+  }) async {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
+      List<String>? orderByFields;
+      List<bool>? descending;
+
+      if (filter == "Most relevant replies") {
+        orderByFields = ["repliesCount", "likes"];
+        descending = [true, true];
+      } else if (filter == "Most liked replies") {
+        orderByFields = ["likes"];
+        descending = [true];
+      } else if (filter == "Most recent replies") {
+        orderByFields = ["createdAt"];
+        descending = [false];
+      }
+
       List<CommentDetailsEntity> comments = [];
       List res = await databaseService.getData(
         path: BackendEndpoints.getComments,
@@ -83,6 +99,8 @@ class CommentsRepoImpl extends CommentsRepo {
             value: tweetId,
           ),
         ],
+        orderByFields: orderByFields,
+        descending: descending,
       );
 
       comments = res.map((doc) {

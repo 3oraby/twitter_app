@@ -102,8 +102,9 @@ class _ShowTweetCommentsListenerBodyState
     replyingToUserName = widget.tweetDetailsEntity.user.email;
   }
 
-  String selectedFilter = AppConstants.commentFilters[0];
-
+  final ValueNotifier<String> selectedCommentedFilter = ValueNotifier<String>(
+    AppConstants.commentFilters[0],
+  );
   void showFilterOptions() {
     showModalBottomSheet(
       context: context,
@@ -111,10 +112,10 @@ class _ShowTweetCommentsListenerBodyState
         return FilterBottomSheet(
           sheetTitle: 'Sort Replies',
           filters: AppConstants.commentFilters,
-          selectedFilter: selectedFilter,
+          selectedFilter: selectedCommentedFilter.value,
           onFilterSelected: (filter) {
             setState(() {
-              selectedFilter = filter;
+              selectedCommentedFilter.value = filter;
             });
             Navigator.pop(context);
           },
@@ -190,7 +191,7 @@ class _ShowTweetCommentsListenerBodyState
                         child: Row(
                           children: [
                             Text(
-                              selectedFilter,
+                              selectedCommentedFilter.value,
                               style: AppTextStyles.uberMoveBold18.copyWith(
                                 color: AppColors.thirdColor,
                               ),
@@ -207,6 +208,7 @@ class _ShowTweetCommentsListenerBodyState
                         height: 32,
                       ),
                       ShowTweetCommentsPart(
+                        selectedCommentedFilter: selectedCommentedFilter,
                         tweetDetailsEntity: widget.tweetDetailsEntity,
                         onReplyButtonPressed: (entity) {
                           entity.fold(

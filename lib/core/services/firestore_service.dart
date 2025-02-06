@@ -41,8 +41,8 @@ class FirestoreService implements DatabaseService {
   Future<dynamic> getData({
     required String path,
     List<QueryCondition>? queryConditions,
-    String? orderByField,
-    bool descending = false,
+    List<String>? orderByFields,
+    List<bool>? descending,
     int? limit,
     String? documentId,
   }) async {
@@ -102,9 +102,11 @@ class FirestoreService implements DatabaseService {
         }
       }
 
-      if (orderByField != null) {
-        query = query.orderBy(orderByField, descending: descending);
-        log('Adding ORDER BY: $orderByField ${descending ? 'desc' : 'asc'}');
+      if (orderByFields != null) {
+        for (int i = 0; i < orderByFields.length; i++) {
+          log("query$i");
+          query = query.orderBy(orderByFields[i], descending: descending![i]);
+        }
       }
 
       if (limit != null) {

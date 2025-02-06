@@ -11,8 +11,8 @@ abstract class DatabaseService {
   Future<dynamic> getData({
     required String path,
     List<QueryCondition>? queryConditions,
-    String? orderByField,
-    bool descending = false,
+    List<String>? orderByFields,
+    List<bool>? descending,
     int? limit,
     String? documentId,
   });

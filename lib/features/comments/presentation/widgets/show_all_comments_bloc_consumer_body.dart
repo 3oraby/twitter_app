@@ -14,11 +14,13 @@ class ShowAllCommentsBlocConsumerBody extends StatefulWidget {
     super.key,
     required this.tweetId,
     required this.onReplyButtonPressed,
+    required this.selectedCommentedFilter,
   });
 
   final String tweetId;
   final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
       onReplyButtonPressed;
+  final ValueNotifier<String> selectedCommentedFilter;
 
   @override
   State<ShowAllCommentsBlocConsumerBody> createState() =>
@@ -30,8 +32,10 @@ class _ShowAllCommentsBlocConsumerBodyState
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<GetTweetCommentsCubit>(context)
-        .getTweetComments(tweetId: widget.tweetId);
+    BlocProvider.of<GetTweetCommentsCubit>(context).getTweetComments(
+      tweetId: widget.tweetId,
+      filter: widget.selectedCommentedFilter.value,
+    );
   }
 
   @override
