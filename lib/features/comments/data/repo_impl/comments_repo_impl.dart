@@ -83,11 +83,11 @@ class CommentsRepoImpl extends CommentsRepo {
         orderByFields = ["repliesCount", "likes"];
         descending = [true, true];
       } else if (filter == "Most liked replies") {
-        orderByFields = ["likes"];
-        descending = [true];
+        orderByFields = ["likes", "createdAt"];
+        descending = [true, false];
       } else if (filter == "Most recent replies") {
-        orderByFields = ["createdAt"];
-        descending = [false];
+        orderByFields = ["createdAt", "repliesCount"];
+        descending = [true, true];
       }
 
       List<CommentDetailsEntity> comments = [];

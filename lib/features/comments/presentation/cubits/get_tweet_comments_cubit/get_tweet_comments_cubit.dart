@@ -18,6 +18,7 @@ class GetTweetCommentsCubit extends Cubit<GetTweetCommentsState> {
     emit(GetTweetCommentsLoadingState());
     var res = await commentsRepo.getTweetComments(
       tweetId: tweetId,
+      filter: filter,
     );
     res.fold(
       (failure) => emit(GetTweetCommentsFailureState(message: failure.message)),

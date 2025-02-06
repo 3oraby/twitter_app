@@ -26,12 +26,23 @@ class ShowAllCommentsBlocConsumerBody extends StatefulWidget {
   State<ShowAllCommentsBlocConsumerBody> createState() =>
       _ShowAllCommentsBlocConsumerBodyState();
 }
-
-class _ShowAllCommentsBlocConsumerBodyState
-    extends State<ShowAllCommentsBlocConsumerBody> {
+class _ShowAllCommentsBlocConsumerBodyState extends State<ShowAllCommentsBlocConsumerBody> {
   @override
   void initState() {
     super.initState();
+
+    _fetchComments();
+
+    widget.selectedCommentedFilter.addListener(_fetchComments);
+  }
+
+  @override
+  void dispose() {
+    widget.selectedCommentedFilter.removeListener(_fetchComments);
+    super.dispose();
+  }
+
+  void _fetchComments() {
     BlocProvider.of<GetTweetCommentsCubit>(context).getTweetComments(
       tweetId: widget.tweetId,
       filter: widget.selectedCommentedFilter.value,
