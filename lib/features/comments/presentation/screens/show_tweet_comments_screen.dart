@@ -125,6 +125,12 @@ class _ShowTweetCommentsListenerBodyState
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
@@ -208,6 +214,7 @@ class _ShowTweetCommentsListenerBodyState
                         height: 32,
                       ),
                       ShowTweetCommentsPart(
+                        scrollController: _scrollController,
                         selectedCommentedFilter: selectedCommentedFilter,
                         tweetDetailsEntity: widget.tweetDetailsEntity,
                         onReplyButtonPressed: (entity) {

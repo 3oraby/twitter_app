@@ -1,8 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
-import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/make_new_comment_cubit/make_new_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_info_card.dart';
@@ -42,22 +42,18 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           });
         }
       },
-      child: Column(
-        children: [
-          const VerticalGap(24),
-          for (int index = 0; index < widget.comments.length; index++) ...[
-            CustomCommentInfoCard(
-              commentDetailsEntity: widget.comments[index],
-              onReplyButtonPressed: widget.onReplyButtonPressed,
-            ),
-            if (index != widget.comments.length - 1)
-              const Divider(
-                color: AppColors.dividerColor,
-                height: 24,
-              ),
-          ],
-          const VerticalGap(32),
-        ],
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: widget.comments.length,
+        separatorBuilder: (context, index) => const Divider(
+          color: AppColors.dividerColor,
+          height: 28,
+        ),
+        itemBuilder: (context, index) => CustomCommentInfoCard(
+          commentDetailsEntity: widget.comments[index],
+          onReplyButtonPressed: widget.onReplyButtonPressed,
+        ),
       ),
     );
   }

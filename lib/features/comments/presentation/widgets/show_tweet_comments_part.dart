@@ -15,12 +15,14 @@ class ShowTweetCommentsPart extends StatelessWidget {
     required this.tweetDetailsEntity,
     required this.onReplyButtonPressed,
     required this.selectedCommentedFilter,
+    required this.scrollController,
   });
 
   final TweetDetailsEntity tweetDetailsEntity;
   final ValueChanged<Either<CommentDetailsEntity, ReplyDetailsEntity>>
       onReplyButtonPressed;
   final ValueNotifier<String> selectedCommentedFilter;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class ShowTweetCommentsPart extends StatelessWidget {
         tweetId: tweetDetailsEntity.tweetId,
         onReplyButtonPressed: onReplyButtonPressed,
         selectedCommentedFilter: selectedCommentedFilter,
+        scrollController: scrollController,
       ),
     );
   }

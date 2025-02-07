@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:twitter_app/core/errors/failures.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
@@ -73,6 +74,12 @@ class CommentsRepoImpl extends CommentsRepo {
   Future<Either<Failure, List<CommentDetailsEntity>>> getTweetComments({
     required String tweetId,
     String? filter,
+    int? limit,
+    DocumentSnapshot? lastDocument,
+    dynamic startAfterValue,
+    String? startAfterField,
+    dynamic startAt,
+    dynamic startAfter,
   }) async {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
@@ -101,8 +108,11 @@ class CommentsRepoImpl extends CommentsRepo {
         ],
         orderByFields: orderByFields,
         descending: descending,
+        limit: limit,
+        lastDocument: lastDocument,
+        startAt: startAt,
+        startAfter: startAfter,
       );
-
       comments = res.map((doc) {
         CommentModel commentModel = CommentModel.fromJson(doc.data());
         bool isCommentLikedByCurrentUser =

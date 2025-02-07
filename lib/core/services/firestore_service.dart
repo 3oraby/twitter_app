@@ -45,6 +45,11 @@ class FirestoreService implements DatabaseService {
     List<bool>? descending,
     int? limit,
     String? documentId,
+    DocumentSnapshot? lastDocument,
+    dynamic startAfterValue,
+    String? startAfterField,
+    dynamic startAt,
+    dynamic startAfter,
   }) async {
     try {
       if (documentId != null) {
@@ -58,7 +63,6 @@ class FirestoreService implements DatabaseService {
       }
 
       Query query = firebaseFirestore.collection(path);
-      log('Base Query: firebaseFirestore.collection($path)');
       if (queryConditions != null && queryConditions.isNotEmpty) {
         for (var condition in queryConditions) {
           switch (condition.operator) {
@@ -104,26 +108,46 @@ class FirestoreService implements DatabaseService {
 
       if (orderByFields != null) {
         for (int i = 0; i < orderByFields.length; i++) {
-          log("query$i");
           query = query.orderBy(orderByFields[i], descending: descending![i]);
         }
+      }
+
+      if (startAfterValue != null && startAfterField != null) {
+        query = query.startAfter([startAfterValue]);
+        log('Pagination: Start after $startAfterField = $startAfterValue');
       }
 
       if (limit != null) {
         query = query.limit(limit);
         log('Adding LIMIT: $limit');
       }
+      if (lastDocument != null) {
+        query = query.startAfterDocument(lastDocument);
+      }
+      if (startAt != null) {
+        query = query.startAt(startAt);
+      }
 
+      if (startAfter != null) {
+        log("start after: $startAfter");
+        query = query.startAfter(startAfter);
+      }
       log('Final Query: ${query.parameters}');
       final querySnapshot = await query.get();
       if (querySnapshot.docs.isEmpty) {
         log("No items found matching your search.");
         return [];
-        // throw CustomException(
-        //     message: "No items found matching your search.");
+        // return {
+        //   'data': [],
+        //   'lastDocument': null,
+        // };
       }
-      log("--------- query end ---------");
+      // final lastDoc = querySnapshot.docs.last;
       return querySnapshot.docs.toList();
+      // return {
+      //   'data': querySnapshot.docs.toList(),
+      //   'lastDocument': lastDoc,
+      // };
     } on FirebaseException catch (e) {
       _handleFirebaseException(e);
     } catch (e) {

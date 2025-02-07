@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_transaction_service.dart';
 
@@ -15,6 +16,11 @@ abstract class DatabaseService {
     List<bool>? descending,
     int? limit,
     String? documentId,
+    DocumentSnapshot? lastDocument,
+    dynamic startAfterValue,
+    String? startAfterField,
+    dynamic startAt,
+    dynamic startAfter,
   });
 
   Future<void> updateData({
