@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
+import 'package:twitter_app/core/helpers/functions/pick_image_from_gallery.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -35,6 +36,7 @@ class _MakeNewTweetBlocConsumerBodyState
   late UserEntity userEntity;
   List<File> mediaFiles = [];
   bool _isPostButtonEnabled = false;
+  bool isImageLoading = false;
 
   @override
   void initState() {
@@ -55,9 +57,10 @@ class _MakeNewTweetBlocConsumerBodyState
 
   Future<void> _onAddImagePressed() async {
     try {
-      final ImagePicker imagePicker = ImagePicker();
-      final XFile? image =
-          await imagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        isImageLoading = true;
+      });
+      XFile? image = await pickImageFromGallery();
       if (image != null) {
         setState(() {
           mediaFiles.add(File(image.path));
@@ -66,7 +69,11 @@ class _MakeNewTweetBlocConsumerBodyState
       }
     } catch (e) {
       log("Image picking error: $e");
-    } finally {}
+    } finally {
+      setState(() {
+        isImageLoading = false;
+      });
+    }
   }
 
   void _onRemoveImageButtonPressed(int index) {
@@ -180,6 +187,7 @@ class _MakeNewTweetBlocConsumerBodyState
                   PreviewChosenMedia(
                     mediaFiles: mediaFiles,
                     onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
+                    isLoading: isImageLoading,
                   ),
                 ],
               ),

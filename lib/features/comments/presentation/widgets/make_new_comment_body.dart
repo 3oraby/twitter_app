@@ -84,6 +84,7 @@ class MakeNewCommentBody extends StatelessWidget {
                   PreviewChosenMedia(
                     mediaFiles: mediaFiles,
                     onRemoveImageButtonPressed: onRemoveImageButtonPressed,
+                    isLoading: false,
                   ),
                   const VerticalGap(24),
                 ],

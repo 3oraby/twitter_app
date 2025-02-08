@@ -230,6 +230,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                         previewChosenMediaLength: 100,
                         mediaFiles: mediaFiles,
                         onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
+                        isLoading: false,
                       ),
                     ),
                     const VerticalGap(16),

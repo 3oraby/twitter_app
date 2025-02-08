@@ -10,11 +10,13 @@ class PreviewChosenMedia extends StatelessWidget {
     required this.mediaFiles,
     required this.onRemoveImageButtonPressed,
     this.previewChosenMediaLength = 300,
+    required this.isLoading,
   });
 
   final List<File> mediaFiles;
   final void Function(int index) onRemoveImageButtonPressed;
   final double previewChosenMediaLength;
+  final bool isLoading;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
