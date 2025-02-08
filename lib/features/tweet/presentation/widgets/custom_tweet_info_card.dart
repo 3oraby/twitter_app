@@ -5,6 +5,7 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
+import 'package:twitter_app/core/widgets/custom_popup_menu_item_widget.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_interactions_row.dart';
@@ -58,11 +59,13 @@ class CustomTweetInfoCard extends StatelessWidget {
                         style: AppTextStyles.uberMoveBold18,
                       ),
                       const HorizontalGap(8),
-                      Text(
-                        tweetDetailsEntity.user.email,
-                        style: AppTextStyles.uberMoveMedium16
-                            .copyWith(color: AppColors.secondaryColor),
-                        overflow: TextOverflow.ellipsis,
+                      Flexible(
+                        child: Text(
+                          tweetDetailsEntity.user.email,
+                          style: AppTextStyles.uberMoveMedium16
+                              .copyWith(color: AppColors.secondaryColor),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       const Spacer(),
                       PopupMenuButton<String>(
@@ -72,17 +75,18 @@ class CustomTweetInfoCard extends StatelessWidget {
                         ),
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(
-                            AppConstants.menusBorderRadius),
+                          AppConstants.menusBorderRadius,
+                        ),
                         onSelected: (value) {
                           switch (value) {
                             case 'not_interested':
                               _handleNotInterested();
                               break;
                             case 'edit':
-                              onUpdateTweetTap!();
+                              onUpdateTweetTap?.call();
                               break;
                             case 'delete':
-                              onDeleteTweetTap!();
+                              onDeleteTweetTap?.call();
                               break;
                             default:
                               log('Unknown menu item selected');
@@ -96,6 +100,7 @@ class CustomTweetInfoCard extends StatelessWidget {
                               icon: FontAwesomeIcons.faceAngry,
                             ),
                           ),
+                          const PopupMenuDivider(),
                           PopupMenuItem(
                             value: 'profile',
                             child: CustomPopupMenuItemWidget(
@@ -104,7 +109,8 @@ class CustomTweetInfoCard extends StatelessWidget {
                             ),
                           ),
                           if (currentUser.userId ==
-                              tweetDetailsEntity.tweet.userId)
+                              tweetDetailsEntity.tweet.userId) ...[
+                            const PopupMenuDivider(),
                             PopupMenuItem(
                               value: 'edit',
                               child: CustomPopupMenuItemWidget(
@@ -112,15 +118,17 @@ class CustomTweetInfoCard extends StatelessWidget {
                                 icon: FontAwesomeIcons.penToSquare,
                               ),
                             ),
-                          if (currentUser.userId ==
-                              tweetDetailsEntity.tweet.userId)
+                            const PopupMenuDivider(),
                             PopupMenuItem(
                               value: 'delete',
                               child: CustomPopupMenuItemWidget(
-                                title: "Delete",
+                                title: "Delete post",
                                 icon: FontAwesomeIcons.xmark,
+                                iconColor: AppColors.errorColor,
+                                titleColor: AppColors.errorColor,
                               ),
                             ),
+                          ],
                         ],
                       ),
                     ],
@@ -166,30 +174,5 @@ class CustomTweetInfoCard extends StatelessWidget {
   void _handleNotInterested() {
     // Implement the action for "Not interested in this post"
     log('User selected: Not interested in this post');
-  }
-}
-
-class CustomPopupMenuItemWidget extends StatelessWidget {
-  const CustomPopupMenuItemWidget({
-    super.key,
-    required this.icon,
-    required this.title,
-  });
-
-  final String title;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: AppTextStyles.uberMoveMedium18,
-        ),
-        const Spacer(),
-        Icon(icon),
-      ],
-    );
   }
 }
