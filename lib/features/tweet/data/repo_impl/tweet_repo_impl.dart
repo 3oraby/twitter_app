@@ -187,4 +187,53 @@ class TweetRepoImpl extends TweetRepo {
       return left(const ServerFailure(message: "Failed to delete the tweet"));
     }
   }
+
+  @override
+  Future<Either<Failure, TweetDetailsEntity>> updateTweet({
+    required String tweetId,
+    required Map<String, dynamic> data,
+    required List<String>? oldMediaUrls,
+    required List<File>? mediaFiles,
+  }) async {
+    try {
+      List<String> updatedMediaUrls = oldMediaUrls ?? [];
+
+      if (oldMediaUrls != null && data["mediaUrl"] != null) {
+        List<String> removedMedia = oldMediaUrls
+            .where((url) => !(data["mediaUrl"] as List).contains(url))
+            .toList();
+
+        if (removedMedia.isNotEmpty) {
+          await storageService.deleteFiles(removedMedia);
+          updatedMediaUrls.removeWhere((url) => removedMedia.contains(url));
+        }
+      }
+
+      if (mediaFiles != null) {
+        for (File file in mediaFiles) {
+          String fileUrl = await storageService.uploadFile(
+            file,
+            BackendEndpoints.uploadFiles,
+          );
+          updatedMediaUrls.add(fileUrl);
+        }
+      }
+
+      data["mediaUrl"] = updatedMediaUrls;
+
+      TweetDetailsEntity tweetDetailsEntity =
+          TweetDetailsModel.fromJson(data).toEntity();
+
+      await databaseService.updateData(
+        path: BackendEndpoints.updateTweet,
+        documentId: tweetId,
+        data: data,
+      );
+
+      return right(tweetDetailsEntity);
+    } catch (e) {
+      log("Exception in TweetRepoImpl.updateTweet() ${e.toString()}");
+      return left(const ServerFailure(message: "Failed to update the tweet"));
+    }
+  }
 }

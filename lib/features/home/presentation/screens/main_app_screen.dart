@@ -30,7 +30,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
       floatingActionButton: CustomFloatingActionButton(
         iconData: Icons.add,
         onPressed: () {
-          Navigator.pushNamed(context, MakeNewTweetScreen.routeId);
+          Navigator.pushNamed(context, CreateOrUpdateTweetScreen.routeId);
         },
       ),
       body: MainAppBody(

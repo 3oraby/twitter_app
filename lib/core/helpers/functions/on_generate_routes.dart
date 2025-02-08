@@ -30,9 +30,14 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case AddUserProfilePictureScreen.routeId:
       return MaterialPageRoute(
           builder: (context) => const AddUserProfilePictureScreen());
-    case MakeNewTweetScreen.routeId:
+    case CreateOrUpdateTweetScreen.routeId:
       return MaterialPageRoute(
-          builder: (context) => const MakeNewTweetScreen());
+        builder: (context) => CreateOrUpdateTweetScreen(
+          tweetDetails: settings.arguments is TweetDetailsEntity
+              ? settings.arguments as TweetDetailsEntity
+              : null,
+        ),
+      );
 
     case FollowersSuggestionScreen.routeId:
       return MaterialPageRoute(

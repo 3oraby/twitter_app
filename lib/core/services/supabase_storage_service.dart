@@ -21,7 +21,6 @@ class SupabaseStorageService extends StorageService {
   @override
   Future<String> uploadFile(File file, String path) async {
     String fileName = basename(file.path);
-    // String extensionName = extension(file.path);
     String uploadPath = "$path/${DateTime.now()}/$fileName";
     await _supabase.client.storage
         .from(SupabaseBucketsName.twitterImages)
@@ -39,5 +38,18 @@ class SupabaseStorageService extends StorageService {
     log("publicFileUrl: $publicFileUrl");
     log("--------------------------------------------------------------");
     return publicFileUrl;
+  }
+
+  @override
+  Future<void> deleteFiles(List<String> paths) async {
+    try {
+      await _supabase.client.storage
+          .from(SupabaseBucketsName.twitterImages)
+          .remove(paths);
+      log("Successfully deleted files: $paths");
+    } catch (e) {
+      log("Error deleting files: $e");
+      throw Exception("Failed to delete files from storage");
+    }
   }
 }

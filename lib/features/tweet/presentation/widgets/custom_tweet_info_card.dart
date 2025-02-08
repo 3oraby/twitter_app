@@ -8,12 +8,13 @@ import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_popup_menu_item_widget.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/home/presentation/screens/make_new_tweet_screen.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_interactions_row.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
-class CustomTweetInfoCard extends StatelessWidget {
+class CustomTweetInfoCard extends StatefulWidget {
   const CustomTweetInfoCard({
     super.key,
     required this.tweetDetailsEntity,
@@ -23,7 +24,6 @@ class CustomTweetInfoCard extends StatelessWidget {
     this.mediaWidth = 250,
     this.onTweetTap,
     this.onDeleteTweetTap,
-    this.onUpdateTweetTap,
   });
 
   final TweetDetailsEntity tweetDetailsEntity;
@@ -33,19 +33,37 @@ class CustomTweetInfoCard extends StatelessWidget {
   final double mediaWidth;
   final VoidCallback? onTweetTap;
   final VoidCallback? onDeleteTweetTap;
-  final VoidCallback? onUpdateTweetTap;
+
+  @override
+  State<CustomTweetInfoCard> createState() => _CustomTweetInfoCardState();
+}
+
+class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
+  void _handleNotInterested() {
+    // Implement the action for "Not interested in this post"
+    log('User selected: Not interested in this post');
+  }
+
+  void _onUpdateTweetTap() {
+    log('User selected: update tweet');
+    Navigator.pushNamed(
+      context,
+      CreateOrUpdateTweetScreen.routeId,
+      arguments: widget.tweetDetailsEntity,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTweetTap,
+      onTap: widget.onTweetTap,
       child: Container(
         color: Colors.transparent,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BuildUserCircleAvatarImage(
-              profilePicUrl: tweetDetailsEntity.user.profilePicUrl,
+              profilePicUrl: widget.tweetDetailsEntity.user.profilePicUrl,
             ),
             const HorizontalGap(8),
             Expanded(
@@ -55,13 +73,13 @@ class CustomTweetInfoCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "${tweetDetailsEntity.user.firstName} ${tweetDetailsEntity.user.lastName}",
+                        "${widget.tweetDetailsEntity.user.firstName} ${widget.tweetDetailsEntity.user.lastName}",
                         style: AppTextStyles.uberMoveBold18,
                       ),
                       const HorizontalGap(8),
                       Flexible(
                         child: Text(
-                          tweetDetailsEntity.user.email,
+                          widget.tweetDetailsEntity.user.email,
                           style: AppTextStyles.uberMoveMedium16
                               .copyWith(color: AppColors.secondaryColor),
                           overflow: TextOverflow.ellipsis,
@@ -83,10 +101,10 @@ class CustomTweetInfoCard extends StatelessWidget {
                               _handleNotInterested();
                               break;
                             case 'edit':
-                              onUpdateTweetTap?.call();
+                              _onUpdateTweetTap();
                               break;
                             case 'delete':
-                              onDeleteTweetTap?.call();
+                              widget.onDeleteTweetTap?.call();
                               break;
                             default:
                               log('Unknown menu item selected');
@@ -108,8 +126,8 @@ class CustomTweetInfoCard extends StatelessWidget {
                               icon: FontAwesomeIcons.person,
                             ),
                           ),
-                          if (currentUser.userId ==
-                              tweetDetailsEntity.tweet.userId) ...[
+                          if (widget.currentUser.userId ==
+                              widget.tweetDetailsEntity.tweet.userId) ...[
                             const PopupMenuDivider(),
                             PopupMenuItem(
                               value: 'edit',
@@ -133,33 +151,34 @@ class CustomTweetInfoCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (tweetDetailsEntity.tweet.content != null)
+                  if (widget.tweetDetailsEntity.tweet.content != null)
                     Column(
                       children: [
                         const VerticalGap(4),
                         Text(
-                          tweetDetailsEntity.tweet.content!,
+                          widget.tweetDetailsEntity.tweet.content!,
                           style: AppTextStyles.uberMoveRegular16,
                         ),
                       ],
                     ),
-                  if (tweetDetailsEntity.tweet.mediaUrl?.isNotEmpty ?? false)
+                  if (widget.tweetDetailsEntity.tweet.mediaUrl?.isNotEmpty ??
+                      false)
                     Column(
                       children: [
                         const VerticalGap(8),
                         CustomShowTweetsMedia(
-                          mediaUrl: tweetDetailsEntity.tweet.mediaUrl!,
-                          mediaHeight: mediaHeight,
-                          mediaWidth: mediaWidth,
+                          mediaUrl: widget.tweetDetailsEntity.tweet.mediaUrl!,
+                          mediaHeight: widget.mediaHeight,
+                          mediaWidth: widget.mediaWidth,
                         ),
                       ],
                     ),
                   const VerticalGap(8),
                   Visibility(
-                    visible: showInteractionsRow,
+                    visible: widget.showInteractionsRow,
                     child: CustomTweetInteractionsRow(
-                      tweetDetailsEntity: tweetDetailsEntity,
-                      currentUser: currentUser,
+                      tweetDetailsEntity: widget.tweetDetailsEntity,
+                      currentUser: widget.currentUser,
                     ),
                   ),
                 ],
@@ -169,10 +188,5 @@ class CustomTweetInfoCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _handleNotInterested() {
-    // Implement the action for "Not interested in this post"
-    log('User selected: Not interested in this post');
   }
 }

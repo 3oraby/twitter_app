@@ -9,7 +9,6 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/pick_image_from_gallery.dart';
-import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
@@ -18,20 +17,25 @@ import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/home/presentation/widgets/preview_chosen_media.dart';
 import 'package:twitter_app/features/home/presentation/widgets/make_new_tweet_text_field.dart';
+import 'package:twitter_app/features/tweet/data/models/tweet_details_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
+import 'package:twitter_app/features/tweet/presentation/cubits/update_tweet_cubit/update_tweet_cubit.dart';
 import 'package:twitter_app/features/home/presentation/widgets/custom_floating_action_button.dart';
 
-class MakeNewTweetBlocConsumerBody extends StatefulWidget {
-  const MakeNewTweetBlocConsumerBody({super.key});
+class CreateOrUpdateBlocConsumerBody extends StatefulWidget {
+  const CreateOrUpdateBlocConsumerBody({super.key, this.tweetDetails});
+
+  final TweetDetailsEntity? tweetDetails;
 
   @override
-  State<MakeNewTweetBlocConsumerBody> createState() =>
-      _MakeNewTweetBlocConsumerBodyState();
+  State<CreateOrUpdateBlocConsumerBody> createState() =>
+      _CreateOrUpdateBlocConsumerBodyState();
 }
 
-class _MakeNewTweetBlocConsumerBodyState
-    extends State<MakeNewTweetBlocConsumerBody> {
+class _CreateOrUpdateBlocConsumerBodyState
+    extends State<CreateOrUpdateBlocConsumerBody> {
   final TextEditingController textTweetController = TextEditingController();
   late UserEntity userEntity;
   List<File> mediaFiles = [];
@@ -43,14 +47,14 @@ class _MakeNewTweetBlocConsumerBodyState
     super.initState();
     userEntity = getCurrentUserEntity();
 
+    if (widget.tweetDetails != null) {
+      textTweetController.text = widget.tweetDetails!.tweet.content ?? '';
+    }
+
     textTweetController.addListener(() {
       setState(() {
-        if (textTweetController.text.trim().isNotEmpty ||
-            mediaFiles.isNotEmpty) {
-          _isPostButtonEnabled = true;
-        } else {
-          _isPostButtonEnabled = false;
-        }
+        _isPostButtonEnabled =
+            textTweetController.text.trim().isNotEmpty || mediaFiles.isNotEmpty;
       });
     });
   }
@@ -79,9 +83,8 @@ class _MakeNewTweetBlocConsumerBodyState
   void _onRemoveImageButtonPressed(int index) {
     setState(() {
       mediaFiles.removeAt(index);
-      if (mediaFiles.isEmpty && textTweetController.text.trim().isEmpty) {
-        _isPostButtonEnabled = false;
-      }
+      _isPostButtonEnabled =
+          textTweetController.text.trim().isNotEmpty || mediaFiles.isNotEmpty;
     });
   }
 
@@ -91,15 +94,24 @@ class _MakeNewTweetBlocConsumerBodyState
     });
     final content = textTweetController.text.trim();
 
-    TweetModel tweetModel = TweetModel(
-      userId: userEntity.userId,
-      content: content,
-      createdAt: Timestamp.now(),
-    );
-    BlocProvider.of<MakeNewTweetCubit>(context).makeNewTweet(
-      data: tweetModel.toJson(),
-      mediaFiles: mediaFiles,
-    );
+    if (widget.tweetDetails == null) {
+      TweetModel tweetModel = TweetModel(
+        userId: userEntity.userId,
+        content: content,
+        createdAt: Timestamp.now(),
+      );
+      BlocProvider.of<MakeNewTweetCubit>(context).makeNewTweet(
+        data: tweetModel.toJson(),
+        mediaFiles: mediaFiles,
+      );
+    } else {
+      BlocProvider.of<UpdateTweetCubit>(context).updateTweet(
+        tweetId: widget.tweetDetails!.tweetId,
+        data: TweetDetailsModel.fromEntity(widget.tweetDetails!).toJson(),
+        oldMediaUrls: widget.tweetDetails!.tweet.mediaUrl,
+        mediaFiles: mediaFiles,
+      );
+    }
   }
 
   @override
@@ -135,7 +147,7 @@ class _MakeNewTweetBlocConsumerBodyState
           onPressed:
               _isPostButtonEnabled ? () => _onPostButtonPressed(context) : null,
           child: Text(
-            "Post",
+            widget.tweetDetails == null ? "Post" : "Update",
             style: AppTextStyles.uberMoveMedium18.copyWith(color: Colors.white),
           ),
         ),
@@ -148,13 +160,9 @@ class _MakeNewTweetBlocConsumerBodyState
   Widget build(BuildContext context) {
     return BlocConsumer<MakeNewTweetCubit, MakeNewTweetState>(
       listener: (context, state) {
-        if (state is MakeNewTweetLoadedState) {
+        if (state is MakeNewTweetLoadedState ||
+            state is MakeNewTweetFailureState) {
           Navigator.pop(context);
-        } else if (state is MakeNewTweetFailureState) {
-          showCustomSnackBar(context, state.message);
-          setState(() {
-            _isPostButtonEnabled = true;
-          });
         }
       },
       builder: (context, state) {
