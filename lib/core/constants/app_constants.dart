@@ -5,6 +5,7 @@ import 'package:twitter_app/features/home/domain/entities/bottom_navigation_bar_
 class AppConstants {
   static const double borderRadius = 12;
   static const double bottomSheetBorderRadius = 28;
+  static const double menusBorderRadius = 24;
   static const double horizontalPadding = 12;
   static const double horizontalDrawerPadding = 24;
   static const double topPadding = 16;

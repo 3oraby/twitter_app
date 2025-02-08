@@ -26,7 +26,9 @@ class ShowAllCommentsBlocConsumerBody extends StatefulWidget {
   State<ShowAllCommentsBlocConsumerBody> createState() =>
       _ShowAllCommentsBlocConsumerBodyState();
 }
-class _ShowAllCommentsBlocConsumerBodyState extends State<ShowAllCommentsBlocConsumerBody> {
+
+class _ShowAllCommentsBlocConsumerBodyState
+    extends State<ShowAllCommentsBlocConsumerBody> {
   @override
   void initState() {
     super.initState();

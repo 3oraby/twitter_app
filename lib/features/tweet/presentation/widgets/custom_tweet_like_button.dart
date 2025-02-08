@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/widgets/custom_like_button_body.dart';
@@ -16,6 +15,7 @@ class CustomTweetLikeButton extends StatelessWidget {
     required this.tweetId,
     required this.originalAuthorId,
     required this.likesCount,
+    required this.currentUser,
     this.isActive = false,
   });
 
@@ -23,6 +23,7 @@ class CustomTweetLikeButton extends StatelessWidget {
   final String originalAuthorId;
   final int likesCount;
   final bool isActive;
+  final UserEntity currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class CustomTweetLikeButton extends StatelessWidget {
         tweetId: tweetId,
         originalAuthorId: originalAuthorId,
         likesCount: likesCount,
+        currentUser: currentUser,
         isActive: isActive,
       ),
     );
@@ -46,12 +48,14 @@ class TweetLikeButtonBlocConsumerBody extends StatefulWidget {
     required this.tweetId,
     required this.originalAuthorId,
     required this.likesCount,
+    required this.currentUser,
     this.isActive = false,
   });
   final String tweetId;
   final String originalAuthorId;
   final int likesCount;
   final bool isActive;
+  final UserEntity currentUser;
   @override
   State<TweetLikeButtonBlocConsumerBody> createState() =>
       _TweetLikeButtonBlocConsumerBodyState();
@@ -62,12 +66,10 @@ class _TweetLikeButtonBlocConsumerBodyState
   late bool isActive;
   late int likesCount;
   late int amount;
-  late UserEntity currentUser;
 
   @override
   void initState() {
     super.initState();
-    currentUser = getCurrentUserEntity();
     isActive = widget.isActive;
     likesCount = widget.likesCount;
     if (isActive) {
@@ -81,7 +83,7 @@ class _TweetLikeButtonBlocConsumerBodyState
     BlocProvider.of<ToggleTweetLikeCubit>(context).toggleTweetLike(
       data: TweetLikesModel(
         tweetId: widget.tweetId,
-        userId: currentUser.userId,
+        userId: widget.currentUser.userId,
         originalAuthorId: widget.originalAuthorId,
         likedAt: Timestamp.now(),
       ).toJson(),

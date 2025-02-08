@@ -51,6 +51,7 @@ class MakeNewCommentBody extends StatelessWidget {
                   ),
                   const VerticalGap(6),
                   CustomTweetInfoCard(
+                    currentUser: currentUser,
                     tweetDetailsEntity: tweetDetailsEntity,
                     mediaHeight: 150,
                     mediaWidth: 100,

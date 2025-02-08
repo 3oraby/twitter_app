@@ -7,6 +7,7 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
+import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/bookmark/data/models/bookmark_model.dart';
@@ -160,6 +161,22 @@ class TweetRepoImpl extends TweetRepo {
     } catch (e) {
       log("Exception in TweetRepoImpl.getTweets() ${e.toString()}");
       return left(const ServerFailure(message: "Failed to get the tweets"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Success>> deleteTweet(
+      {required String tweetId}) async {
+    try {
+      await databaseService.deleteData(
+        path: BackendEndpoints.deleteTweet,
+        documentId: tweetId,
+      );
+
+      return right(Success());
+    } catch (e) {
+      log("Exception in TweetRepoImpl.deleteTweet() ${e.toString()}");
+      return left(const ServerFailure(message: "Failed to delete the tweet"));
     }
   }
 }

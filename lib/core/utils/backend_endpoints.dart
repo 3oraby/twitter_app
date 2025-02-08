@@ -14,6 +14,8 @@ class BackendEndpoints {
   static const String toggleTweetLike = "tweetLikes";
   static const String getTweetLikes = "tweetLikes";
   static const String updateTweetData = "tweets";
+  static const String deleteTweet = "tweets";
+  static const String updateTweet = "tweets";
   // retweets
   static const String toggleRetweet = "retweets";
   static const String getRetweets = "retweets";
