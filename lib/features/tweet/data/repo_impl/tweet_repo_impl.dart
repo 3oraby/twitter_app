@@ -16,7 +16,6 @@ import 'package:twitter_app/features/tweet/data/models/tweet_details_model.dart'
 import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
-import 'package:twitter_app/features/tweet/domain/entities/tweet_entity.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
 
 class TweetRepoImpl extends TweetRepo {
@@ -27,12 +26,13 @@ class TweetRepoImpl extends TweetRepo {
     required this.storageService,
   });
   @override
-  Future<Either<Failure, TweetEntity>> makeNewTweet({
+  Future<Either<Failure, TweetDetailsEntity>> makeNewTweet({
     required Map<String, dynamic> data,
     required List<File>? mediaFiles,
   }) async {
     try {
       List<String> mediaUrl = [];
+      final UserEntity currentUser = getCurrentUserEntity();
       if (mediaFiles != null) {
         log("media files: $mediaFiles");
 
@@ -47,12 +47,20 @@ class TweetRepoImpl extends TweetRepo {
 
       data["mediaUrl"] = mediaUrl;
 
-      await databaseService.addData(
+      String? tweetId = await databaseService.addData(
         path: BackendEndpoints.makeNewTweet,
         data: data,
       );
 
-      return right(TweetModel.fromMap(data).toEntity());
+      TweetModel tweetModel = TweetModel.fromMap(data);
+
+      TweetDetailsModel tweetDetailsModel = TweetDetailsModel(
+        tweetId: tweetId!,
+        tweet: tweetModel.toEntity(),
+        user: currentUser,
+      );
+
+      return right(tweetDetailsModel.toEntity());
     } catch (e) {
       log("Exception in TweetRepoImpl.makeNewTweet() ${e.toString()}");
       return left(const ServerFailure(message: "Failed to post the tweet"));

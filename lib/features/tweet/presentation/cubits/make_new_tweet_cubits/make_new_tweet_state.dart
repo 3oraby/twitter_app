@@ -7,8 +7,8 @@ final class MakeNewTweetInitial extends MakeNewTweetState {}
 final class MakeNewTweetLoadingState extends MakeNewTweetState {}
 
 final class MakeNewTweetLoadedState extends MakeNewTweetState {
-  final TweetEntity tweetEntity;
-  MakeNewTweetLoadedState({required this.tweetEntity});
+  final TweetDetailsEntity tweetDetailsEntity;
+  MakeNewTweetLoadedState({required this.tweetDetailsEntity});
 }
 
 final class MakeNewTweetFailureState extends MakeNewTweetState {

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twitter_app/features/tweet/domain/entities/tweet_entity.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
 
 part 'make_new_tweet_state.dart';
@@ -23,7 +23,7 @@ class MakeNewTweetCubit extends Cubit<MakeNewTweetState> {
 
     result.fold(
       (failure) => emit(MakeNewTweetFailureState(message: failure.message)),
-      (tweetEntity) => emit(MakeNewTweetLoadedState(tweetEntity: tweetEntity)),
+      (tweetDetailsEntity) => emit(MakeNewTweetLoadedState(tweetDetailsEntity: tweetDetailsEntity)),
     );
   }
 }
