@@ -9,7 +9,7 @@ import 'package:twitter_app/features/comments/presentation/screens/make_new_comm
 import 'package:twitter_app/features/comments/presentation/screens/show_tweet_comments_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/user_connections_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
-import 'package:twitter_app/features/home/presentation/screens/make_new_tweet_screen.dart';
+import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 

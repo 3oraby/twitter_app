@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
-import 'package:twitter_app/features/home/presentation/widgets/make_new_tweet_bloc_consumer_body.dart';
+import 'package:twitter_app/features/home/presentation/widgets/create_or_update_tweet_bloc_consumer_body.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
@@ -28,7 +28,7 @@ class CreateOrUpdateTweetScreen extends StatelessWidget {
           ),
         ),
       ],
-      child: CreateOrUpdateBlocConsumerBody(tweetDetails: tweetDetails),
+      child: CreateOrUpdateTweetBlocConsumerBody(tweetDetails: tweetDetails),
     );
   }
 }

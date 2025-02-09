@@ -24,18 +24,18 @@ import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cu
 import 'package:twitter_app/features/tweet/presentation/cubits/update_tweet_cubit/update_tweet_cubit.dart';
 import 'package:twitter_app/features/home/presentation/widgets/custom_floating_action_button.dart';
 
-class CreateOrUpdateBlocConsumerBody extends StatefulWidget {
-  const CreateOrUpdateBlocConsumerBody({super.key, this.tweetDetails});
+class CreateOrUpdateTweetBlocConsumerBody extends StatefulWidget {
+  const CreateOrUpdateTweetBlocConsumerBody({super.key, this.tweetDetails});
 
   final TweetDetailsEntity? tweetDetails;
 
   @override
-  State<CreateOrUpdateBlocConsumerBody> createState() =>
-      _CreateOrUpdateBlocConsumerBodyState();
+  State<CreateOrUpdateTweetBlocConsumerBody> createState() =>
+      _CreateOrUpdateTweetBlocConsumerBodyState();
 }
 
-class _CreateOrUpdateBlocConsumerBodyState
-    extends State<CreateOrUpdateBlocConsumerBody> {
+class _CreateOrUpdateTweetBlocConsumerBodyState
+    extends State<CreateOrUpdateTweetBlocConsumerBody> {
   final TextEditingController textTweetController = TextEditingController();
   late UserEntity userEntity;
   List<File> mediaFiles = [];
@@ -105,9 +105,23 @@ class _CreateOrUpdateBlocConsumerBodyState
         mediaFiles: mediaFiles,
       );
     } else {
+      TweetModel newTweetModel = TweetModel(
+          userId: userEntity.userId,
+          content: content,
+          createdAt: widget.tweetDetails!.tweet.createdAt,
+          updatedAt: Timestamp.now());
+
+      TweetDetailsModel newTweetDetails = TweetDetailsModel(
+        tweetId: widget.tweetDetails!.tweetId,
+        tweet: newTweetModel.toEntity(),
+        user: widget.tweetDetails!.user,
+        isLiked: widget.tweetDetails!.isLiked,
+        isBookmarked: widget.tweetDetails!.isBookmarked,
+        isRetweeted: widget.tweetDetails!.isRetweeted,
+      );
       BlocProvider.of<UpdateTweetCubit>(context).updateTweet(
         tweetId: widget.tweetDetails!.tweetId,
-        data: TweetDetailsModel.fromEntity(widget.tweetDetails!).toJson(),
+        data: newTweetDetails.toJson(),
         oldMediaUrls: widget.tweetDetails!.tweet.mediaUrl,
         mediaFiles: mediaFiles,
       );
@@ -158,49 +172,60 @@ class _CreateOrUpdateBlocConsumerBodyState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MakeNewTweetCubit, MakeNewTweetState>(
-      listener: (context, state) {
-        if (state is MakeNewTweetLoadedState ||
-            state is MakeNewTweetFailureState) {
+    return BlocConsumer<UpdateTweetCubit, UpdateTweetState>(
+      listener: (context, updateTweetState) {
+        if (updateTweetState is UpdateTweetLoadedState ||
+            updateTweetState is UpdateTweetFailureState) {
           Navigator.pop(context);
         }
       },
-      builder: (context, state) {
-        return AbsorbPointer(
-          absorbing: state is MakeNewTweetLoadingState,
-          child: Scaffold(
-            appBar: _buildAppBar(context),
-            floatingActionButton: CustomFloatingActionButton(
-              iconData: Icons.add_a_photo,
-              onPressed: _onAddImagePressed,
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: AppConstants.horizontalPadding),
-              child: ListView(
-                children: [
-                  Visibility(
-                    visible: state is MakeNewTweetLoadingState,
-                    child: LinearProgressIndicator(
-                      color: AppColors.twitterAccentColor,
-                    ),
+      builder: (context, updateTweetState) {
+        return BlocConsumer<MakeNewTweetCubit, MakeNewTweetState>(
+          listener: (context, makeTweetState) {
+            if (makeTweetState is MakeNewTweetLoadedState ||
+                makeTweetState is MakeNewTweetFailureState) {
+              Navigator.pop(context);
+            }
+          },
+          builder: (context, makeTweetState) {
+            return AbsorbPointer(
+              absorbing: makeTweetState is MakeNewTweetLoadingState,
+              child: Scaffold(
+                appBar: _buildAppBar(context),
+                floatingActionButton: CustomFloatingActionButton(
+                  iconData: Icons.add_a_photo,
+                  onPressed: _onAddImagePressed,
+                ),
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppConstants.horizontalPadding),
+                  child: ListView(
+                    children: [
+                      Visibility(
+                        visible: makeTweetState is MakeNewTweetLoadingState ||
+                            updateTweetState is UpdateTweetLoadingState,
+                        child: LinearProgressIndicator(
+                          color: AppColors.twitterAccentColor,
+                        ),
+                      ),
+                      const VerticalGap(6),
+                      MakeNewTweetTextField(
+                        userEntity: userEntity,
+                        textTweetController: textTweetController,
+                        hintText: "What`s happening?",
+                      ),
+                      const VerticalGap(28),
+                      PreviewChosenMedia(
+                        mediaFiles: mediaFiles,
+                        onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
+                        isLoading: isImageLoading,
+                      ),
+                    ],
                   ),
-                  const VerticalGap(6),
-                  MakeNewTweetTextField(
-                    userEntity: userEntity,
-                    textTweetController: textTweetController,
-                    hintText: "What`s happening?",
-                  ),
-                  const VerticalGap(28),
-                  PreviewChosenMedia(
-                    mediaFiles: mediaFiles,
-                    onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
-                    isLoading: isImageLoading,
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );

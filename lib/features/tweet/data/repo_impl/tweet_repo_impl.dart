@@ -219,15 +219,16 @@ class TweetRepoImpl extends TweetRepo {
         }
       }
 
-      data["mediaUrl"] = updatedMediaUrls;
-
       TweetDetailsEntity tweetDetailsEntity =
           TweetDetailsModel.fromJson(data).toEntity();
+
+      tweetDetailsEntity.tweet.mediaUrl = updatedMediaUrls;
+      log("new tweet data after edit: ${TweetDetailsModel.fromEntity(tweetDetailsEntity).toJson()}");
 
       await databaseService.updateData(
         path: BackendEndpoints.updateTweet,
         documentId: tweetId,
-        data: data,
+        data: TweetModel.fromEntity(tweetDetailsEntity.tweet).toJson(),
       );
 
       return right(tweetDetailsEntity);
