@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/widgets/wrong_route_page.dart';
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/auth/presentation/screens/add_user_profile_picture_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/complete_user_profile_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
@@ -12,6 +13,7 @@ import 'package:twitter_app/features/home/presentation/screens/main_app_screen.d
 import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 Route<dynamic> onGenerateRoutes(RouteSettings settings) {
   switch (settings.name) {
@@ -57,6 +59,12 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => ShowTweetCommentsScreen(
           tweetDetailsEntity: settings.arguments as TweetDetailsEntity,
+        ),
+      );
+    case UserProfileScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => UserProfileScreen(
+          userEntity: settings.arguments as UserEntity,
         ),
       );
     default:

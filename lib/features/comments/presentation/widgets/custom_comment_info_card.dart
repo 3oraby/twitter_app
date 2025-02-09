@@ -10,6 +10,7 @@ import 'package:twitter_app/features/comments/domain/entities/comment_details_en
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_interactions_row.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/presentation/widgets/show_comment_replies_part.dart';
+import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 class CustomCommentInfoCard extends StatelessWidget {
   const CustomCommentInfoCard({
@@ -35,30 +36,49 @@ class CustomCommentInfoCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BuildUserCircleAvatarImage(
-              profilePicUrl:
-                  commentDetailsEntity.comment.commentAuthorData.profilePicUrl,
-              circleAvatarRadius: 20,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  UserProfileScreen.routeId,
+                  arguments: commentDetailsEntity.comment.commentAuthorData,
+                );
+              },
+              child: BuildUserCircleAvatarImage(
+                profilePicUrl: commentDetailsEntity
+                    .comment.commentAuthorData.profilePicUrl,
+                circleAvatarRadius: 20,
+              ),
             ),
             const HorizontalGap(8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        "${commentDetailsEntity.comment.commentAuthorData.firstName} ${commentDetailsEntity.comment.commentAuthorData.lastName}",
-                        style: AppTextStyles.uberMoveBold18,
-                      ),
-                      const HorizontalGap(8),
-                      Text(
-                        commentDetailsEntity.comment.commentAuthorData.email,
-                        style: AppTextStyles.uberMoveMedium16
-                            .copyWith(color: AppColors.secondaryColor),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        UserProfileScreen.routeId,
+                        arguments:
+                            commentDetailsEntity.comment.commentAuthorData,
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "${commentDetailsEntity.comment.commentAuthorData.firstName} ${commentDetailsEntity.comment.commentAuthorData.lastName}",
+                          style: AppTextStyles.uberMoveBold18,
+                        ),
+                        const HorizontalGap(8),
+                        Text(
+                          commentDetailsEntity.comment.commentAuthorData.email,
+                          style: AppTextStyles.uberMoveMedium16
+                              .copyWith(color: AppColors.secondaryColor),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
                   if (commentDetailsEntity.comment.content != null)
                     Column(

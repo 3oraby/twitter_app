@@ -13,6 +13,7 @@ import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_int
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 class CustomTweetInfoCard extends StatefulWidget {
   const CustomTweetInfoCard({
@@ -53,6 +54,15 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
     );
   }
 
+  void _onUserProfileTweetTap() {
+    log('User selected: user profile');
+    Navigator.pushNamed(
+      context,
+      UserProfileScreen.routeId,
+      arguments: widget.tweetDetailsEntity.user,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -62,94 +72,103 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BuildUserCircleAvatarImage(
-              profilePicUrl: widget.tweetDetailsEntity.user.profilePicUrl,
+            GestureDetector(
+              onTap: _onUserProfileTweetTap,
+              child: BuildUserCircleAvatarImage(
+                profilePicUrl: widget.tweetDetailsEntity.user.profilePicUrl,
+              ),
             ),
             const HorizontalGap(8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        "${widget.tweetDetailsEntity.user.firstName} ${widget.tweetDetailsEntity.user.lastName}",
-                        style: AppTextStyles.uberMoveBold18,
-                      ),
-                      const HorizontalGap(8),
-                      Flexible(
-                        child: Text(
-                          widget.tweetDetailsEntity.user.email,
-                          style: AppTextStyles.uberMoveMedium16
-                              .copyWith(color: AppColors.secondaryColor),
-                          overflow: TextOverflow.ellipsis,
+                  GestureDetector(
+                    onTap: _onUserProfileTweetTap,
+                    child: Row(
+                      children: [
+                        Text(
+                          "${widget.tweetDetailsEntity.user.firstName} ${widget.tweetDetailsEntity.user.lastName}",
+                          style: AppTextStyles.uberMoveBold18,
                         ),
-                      ),
-                      const Spacer(),
-                      PopupMenuButton<String>(
-                        icon: Icon(
-                          Icons.more_horiz,
-                          color: AppColors.twitterAccentColor,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(
-                          AppConstants.menusBorderRadius,
-                        ),
-                        onSelected: (value) {
-                          switch (value) {
-                            case 'not_interested':
-                              _handleNotInterested();
-                              break;
-                            case 'edit':
-                              _onUpdateTweetTap();
-                              break;
-                            case 'delete':
-                              widget.onDeleteTweetTap?.call();
-                              break;
-                            default:
-                              log('Unknown menu item selected');
-                          }
-                        },
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: 'not_interested',
-                            child: CustomPopupMenuItemWidget(
-                              title: "Not interested in this post",
-                              icon: FontAwesomeIcons.faceAngry,
-                            ),
+                        const HorizontalGap(8),
+                        Flexible(
+                          child: Text(
+                            widget.tweetDetailsEntity.user.email,
+                            style: AppTextStyles.uberMoveMedium16
+                                .copyWith(color: AppColors.secondaryColor),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          const PopupMenuDivider(),
-                          PopupMenuItem(
-                            value: 'profile',
-                            child: CustomPopupMenuItemWidget(
-                              title: "Profile",
-                              icon: FontAwesomeIcons.person,
-                            ),
+                        ),
+                        const Spacer(),
+                        PopupMenuButton<String>(
+                          icon: Icon(
+                            Icons.more_horiz,
+                            color: AppColors.twitterAccentColor,
                           ),
-                          if (widget.currentUser.userId ==
-                              widget.tweetDetailsEntity.tweet.userId) ...[
-                            const PopupMenuDivider(),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.menusBorderRadius,
+                          ),
+                          onSelected: (value) {
+                            switch (value) {
+                              case 'not_interested':
+                                _handleNotInterested();
+                                break;
+                              case 'edit':
+                                _onUpdateTweetTap();
+                                break;
+                              case 'profile':
+                                _onUserProfileTweetTap();
+                                break;
+                              case 'delete':
+                                widget.onDeleteTweetTap?.call();
+                                break;
+                              default:
+                                log('Unknown menu item selected');
+                            }
+                          },
+                          itemBuilder: (context) => [
                             PopupMenuItem(
-                              value: 'edit',
+                              value: 'not_interested',
                               child: CustomPopupMenuItemWidget(
-                                title: "Edit",
-                                icon: FontAwesomeIcons.penToSquare,
+                                title: "Not interested in this post",
+                                icon: FontAwesomeIcons.faceAngry,
                               ),
                             ),
                             const PopupMenuDivider(),
                             PopupMenuItem(
-                              value: 'delete',
+                              value: 'profile',
                               child: CustomPopupMenuItemWidget(
-                                title: "Delete post",
-                                icon: FontAwesomeIcons.xmark,
-                                iconColor: AppColors.errorColor,
-                                titleColor: AppColors.errorColor,
+                                title: "Profile",
+                                icon: FontAwesomeIcons.person,
                               ),
                             ),
+                            if (widget.currentUser.userId ==
+                                widget.tweetDetailsEntity.tweet.userId) ...[
+                              const PopupMenuDivider(),
+                              PopupMenuItem(
+                                value: 'edit',
+                                child: CustomPopupMenuItemWidget(
+                                  title: "Edit",
+                                  icon: FontAwesomeIcons.penToSquare,
+                                ),
+                              ),
+                              const PopupMenuDivider(),
+                              PopupMenuItem(
+                                value: 'delete',
+                                child: CustomPopupMenuItemWidget(
+                                  title: "Delete post",
+                                  icon: FontAwesomeIcons.xmark,
+                                  iconColor: AppColors.errorColor,
+                                  titleColor: AppColors.errorColor,
+                                ),
+                              ),
+                            ],
                           ],
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                   if (widget.tweetDetailsEntity.tweet.content != null)
                     Column(

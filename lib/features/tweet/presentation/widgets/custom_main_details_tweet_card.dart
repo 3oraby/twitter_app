@@ -9,6 +9,7 @@ import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_int
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 class CustomMainDetailsTweetCard extends StatelessWidget {
   const CustomMainDetailsTweetCard({
@@ -35,29 +36,38 @@ class CustomMainDetailsTweetCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                BuildUserCircleAvatarImage(
-                  profilePicUrl: tweetDetailsEntity.user.profilePicUrl,
-                ),
-                const HorizontalGap(12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${tweetDetailsEntity.user.firstName} ${tweetDetailsEntity.user.lastName}",
-                      style: AppTextStyles.uberMoveBold18,
-                    ),
-                    const HorizontalGap(8),
-                    Text(
-                      tweetDetailsEntity.user.email,
-                      style: AppTextStyles.uberMoveMedium16
-                          .copyWith(color: AppColors.secondaryColor),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ],
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  UserProfileScreen.routeId,
+                  arguments: tweetDetailsEntity.user,
+                );
+              },
+              child: Row(
+                children: [
+                  BuildUserCircleAvatarImage(
+                    profilePicUrl: tweetDetailsEntity.user.profilePicUrl,
+                  ),
+                  const HorizontalGap(12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${tweetDetailsEntity.user.firstName} ${tweetDetailsEntity.user.lastName}",
+                        style: AppTextStyles.uberMoveBold18,
+                      ),
+                      const HorizontalGap(8),
+                      Text(
+                        tweetDetailsEntity.user.email,
+                        style: AppTextStyles.uberMoveMedium16
+                            .copyWith(color: AppColors.secondaryColor),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             const VerticalGap(12),
             Text(

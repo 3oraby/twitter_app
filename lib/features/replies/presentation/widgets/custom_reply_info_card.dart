@@ -10,6 +10,7 @@ import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/presentation/widgets/custom_reply_interactions_row.dart';
+import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 class CustomReplyInfoCard extends StatelessWidget {
   const CustomReplyInfoCard({
@@ -35,10 +36,19 @@ class CustomReplyInfoCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BuildUserCircleAvatarImage(
-              profilePicUrl:
-                  replyDetailsEntity.reply.replyAuthorData.profilePicUrl,
-              circleAvatarRadius: 20,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  UserProfileScreen.routeId,
+                  arguments: replyDetailsEntity.reply.replyAuthorData,
+                );
+              },
+              child: BuildUserCircleAvatarImage(
+                profilePicUrl:
+                    replyDetailsEntity.reply.replyAuthorData.profilePicUrl,
+                circleAvatarRadius: 20,
+              ),
             ),
             const HorizontalGap(8),
             Expanded(
@@ -47,9 +57,18 @@ class CustomReplyInfoCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        "${replyDetailsEntity.reply.replyAuthorData.firstName} ${replyDetailsEntity.reply.replyAuthorData.lastName}",
-                        style: AppTextStyles.uberMoveBold18,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            UserProfileScreen.routeId,
+                            arguments: replyDetailsEntity.reply.replyAuthorData,
+                          );
+                        },
+                        child: Text(
+                          "${replyDetailsEntity.reply.replyAuthorData.firstName} ${replyDetailsEntity.reply.replyAuthorData.lastName}",
+                          style: AppTextStyles.uberMoveBold18,
+                        ),
                       ),
                       const HorizontalGap(8),
                       Icon(
@@ -57,11 +76,21 @@ class CustomReplyInfoCard extends StatelessWidget {
                         size: 18,
                       ),
                       const HorizontalGap(8),
-                      Text(
-                        "${replyDetailsEntity.reply.commentAuthorData.firstName} ${replyDetailsEntity.reply.commentAuthorData.lastName}",
-                        style: AppTextStyles.uberMoveMedium16
-                            .copyWith(color: AppColors.secondaryColor),
-                        overflow: TextOverflow.ellipsis,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            UserProfileScreen.routeId,
+                            arguments:
+                                replyDetailsEntity.reply.commentAuthorData,
+                          );
+                        },
+                        child: Text(
+                          "${replyDetailsEntity.reply.commentAuthorData.firstName} ${replyDetailsEntity.reply.commentAuthorData.lastName}",
+                          style: AppTextStyles.uberMoveMedium16
+                              .copyWith(color: AppColors.secondaryColor),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
