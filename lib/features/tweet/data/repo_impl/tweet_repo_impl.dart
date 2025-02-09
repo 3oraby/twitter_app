@@ -192,27 +192,19 @@ class TweetRepoImpl extends TweetRepo {
   Future<Either<Failure, TweetDetailsEntity>> updateTweet({
     required String tweetId,
     required Map<String, dynamic> data,
-    required List<String>? oldMediaUrls,
+    required List<String>? constantMediaUrls,
+    required List<String>? removedMediaUrls,
     required List<File>? mediaFiles,
   }) async {
     try {
-      List<String> updatedMediaUrls = oldMediaUrls ?? [];
+      List<String> mediaUrls = constantMediaUrls ?? [];
+
+      if (removedMediaUrls != null && removedMediaUrls.isNotEmpty) {
+        await storageService.deleteFiles(removedMediaUrls);
+      }
+
       TweetDetailsEntity tweetDetailsEntity =
           TweetDetailsModel.fromJson(data).toEntity();
-      log("old-- $oldMediaUrls");
-      log("new-- ${tweetDetailsEntity.tweet.mediaUrl}");
-      if (oldMediaUrls != null && tweetDetailsEntity.tweet.mediaUrl != null) {
-        log("deleeeeeete");
-        List<String> removedMedia = oldMediaUrls
-            .where((url) =>
-                !(tweetDetailsEntity.tweet.mediaUrl as List).contains(url))
-            .toList();
-
-        if (removedMedia.isNotEmpty) {
-          await storageService.deleteFiles(removedMedia);
-          updatedMediaUrls.removeWhere((url) => removedMedia.contains(url));
-        }
-      }
 
       if (mediaFiles != null) {
         for (File file in mediaFiles) {
@@ -220,11 +212,11 @@ class TweetRepoImpl extends TweetRepo {
             file,
             BackendEndpoints.uploadFiles,
           );
-          updatedMediaUrls.add(fileUrl);
+          mediaUrls.add(fileUrl);
         }
       }
 
-      tweetDetailsEntity.tweet.mediaUrl = updatedMediaUrls;
+      tweetDetailsEntity.tweet.mediaUrl = mediaUrls;
       log("new tweet data after edit: ${TweetDetailsModel.fromEntity(tweetDetailsEntity).toJson()}");
 
       await databaseService.updateData(

@@ -22,7 +22,8 @@ abstract class TweetRepo {
   Future<Either<Failure, TweetDetailsEntity>> updateTweet({
     required String tweetId,
     required Map<String, dynamic> data,
-    required List<String>? oldMediaUrls,
+    required List<String>? constantMediaUrls,
+    required List<String>? removedMediaUrls,
     required List<File>? mediaFiles,
   });
 }

@@ -39,7 +39,9 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
   final TextEditingController textTweetController = TextEditingController();
   late UserEntity userEntity;
   List<File> mediaFiles = [];
-  late List<String>? networkMediaUrls;
+  List<String> removedMediaUrls = [];
+  List<File> constantMediaUrl = [];
+  List<String>? networkMediaUrls;
   bool _isPostButtonEnabled = false;
   bool isImageLoading = false;
 
@@ -50,7 +52,8 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
 
     if (widget.tweetDetails != null) {
       textTweetController.text = widget.tweetDetails!.tweet.content ?? '';
-      networkMediaUrls = widget.tweetDetails!.tweet.mediaUrl;
+      networkMediaUrls =
+          List.from(widget.tweetDetails!.tweet.mediaUrl as Iterable<dynamic>);
     }
 
     textTweetController.addListener(() {
@@ -92,6 +95,7 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
 
   void _onRemoveNetworkImageUrlPressed(int index) {
     setState(() {
+      removedMediaUrls.add(networkMediaUrls![index]);
       networkMediaUrls!.removeAt(index);
       _isPostButtonEnabled = textTweetController.text.trim().isNotEmpty ||
           networkMediaUrls!.isNotEmpty;
@@ -133,8 +137,9 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
       BlocProvider.of<UpdateTweetCubit>(context).updateTweet(
         tweetId: widget.tweetDetails!.tweetId,
         data: newTweetDetails.toJson(),
-        oldMediaUrls: widget.tweetDetails!.tweet.mediaUrl,
         mediaFiles: mediaFiles,
+        constantMediaUrls: networkMediaUrls,
+        removedMediaUrls: removedMediaUrls,
       );
     }
   }

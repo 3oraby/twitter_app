@@ -14,15 +14,17 @@ class UpdateTweetCubit extends Cubit<UpdateTweetState> {
   Future<void> updateTweet({
     required String tweetId,
     required Map<String, dynamic> data,
-    required List<String>? oldMediaUrls,
+    required List<String>? constantMediaUrls,
+    required List<String>? removedMediaUrls,
     required List<File>? mediaFiles,
   }) async {
     emit(UpdateTweetLoadingState());
     var result = await tweetRepo.updateTweet(
       tweetId: tweetId,
       data: data,
-      oldMediaUrls: oldMediaUrls,
       mediaFiles: mediaFiles,
+      constantMediaUrls: constantMediaUrls,
+      removedMediaUrls: removedMediaUrls,
     );
 
     result.fold(
