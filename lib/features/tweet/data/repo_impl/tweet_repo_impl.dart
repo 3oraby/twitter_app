@@ -197,10 +197,15 @@ class TweetRepoImpl extends TweetRepo {
   }) async {
     try {
       List<String> updatedMediaUrls = oldMediaUrls ?? [];
-
-      if (oldMediaUrls != null && data["mediaUrl"] != null) {
+      TweetDetailsEntity tweetDetailsEntity =
+          TweetDetailsModel.fromJson(data).toEntity();
+      log("old-- $oldMediaUrls");
+      log("new-- ${tweetDetailsEntity.tweet.mediaUrl}");
+      if (oldMediaUrls != null && tweetDetailsEntity.tweet.mediaUrl != null) {
+        log("deleeeeeete");
         List<String> removedMedia = oldMediaUrls
-            .where((url) => !(data["mediaUrl"] as List).contains(url))
+            .where((url) =>
+                !(tweetDetailsEntity.tweet.mediaUrl as List).contains(url))
             .toList();
 
         if (removedMedia.isNotEmpty) {
@@ -218,9 +223,6 @@ class TweetRepoImpl extends TweetRepo {
           updatedMediaUrls.add(fileUrl);
         }
       }
-
-      TweetDetailsEntity tweetDetailsEntity =
-          TweetDetailsModel.fromJson(data).toEntity();
 
       tweetDetailsEntity.tweet.mediaUrl = updatedMediaUrls;
       log("new tweet data after edit: ${TweetDetailsModel.fromEntity(tweetDetailsEntity).toJson()}");

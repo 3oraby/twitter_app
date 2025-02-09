@@ -39,6 +39,7 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
   final TextEditingController textTweetController = TextEditingController();
   late UserEntity userEntity;
   List<File> mediaFiles = [];
+  late List<String>? networkMediaUrls;
   bool _isPostButtonEnabled = false;
   bool isImageLoading = false;
 
@@ -49,6 +50,7 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
 
     if (widget.tweetDetails != null) {
       textTweetController.text = widget.tweetDetails!.tweet.content ?? '';
+      networkMediaUrls = widget.tweetDetails!.tweet.mediaUrl;
     }
 
     textTweetController.addListener(() {
@@ -88,6 +90,14 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
     });
   }
 
+  void _onRemoveNetworkImageUrlPressed(int index) {
+    setState(() {
+      networkMediaUrls!.removeAt(index);
+      _isPostButtonEnabled = textTweetController.text.trim().isNotEmpty ||
+          networkMediaUrls!.isNotEmpty;
+    });
+  }
+
   void _onPostButtonPressed(BuildContext context) async {
     setState(() {
       _isPostButtonEnabled = false;
@@ -106,10 +116,11 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
       );
     } else {
       TweetModel newTweetModel = TweetModel(
-          userId: userEntity.userId,
-          content: content,
-          createdAt: widget.tweetDetails!.tweet.createdAt,
-          updatedAt: Timestamp.now());
+        userId: userEntity.userId,
+        content: content,
+        createdAt: widget.tweetDetails!.tweet.createdAt,
+        updatedAt: Timestamp.now(),
+      );
 
       TweetDetailsModel newTweetDetails = TweetDetailsModel(
         tweetId: widget.tweetDetails!.tweetId,
@@ -218,7 +229,10 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
                       PreviewChosenMedia(
                         mediaFiles: mediaFiles,
                         onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
+                        onRemoveNetworkImageUrlPressed:
+                            _onRemoveNetworkImageUrlPressed,
                         isLoading: isImageLoading,
+                        networkMediaUrls: networkMediaUrls,
                       ),
                     ],
                   ),

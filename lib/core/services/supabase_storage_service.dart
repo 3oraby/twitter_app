@@ -43,10 +43,12 @@ class SupabaseStorageService extends StorageService {
   @override
   Future<void> deleteFiles(List<String> paths) async {
     try {
+      log("------------------------- delete file ------------------------");
       await _supabase.client.storage
           .from(SupabaseBucketsName.twitterImages)
           .remove(paths);
       log("Successfully deleted files: $paths");
+      log("--------------------------------------------------------------");
     } catch (e) {
       log("Error deleting files: $e");
       throw Exception("Failed to delete files from storage");
