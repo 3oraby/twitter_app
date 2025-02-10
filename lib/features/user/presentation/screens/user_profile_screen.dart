@@ -26,7 +26,7 @@ class UserProfileScreen extends StatelessWidget {
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           CustomSliverAppBar(
             backgroundColor: AppColors.twitterAccentColor,
-            expandedHeight: 200,
+            expandedHeight: 350,
             pinned: true,
             forceElevated: innerBoxIsScrolled,
             flexibleSpace: FlexibleSpaceBar(
@@ -35,7 +35,7 @@ class UserProfileScreen extends StatelessWidget {
                 clipBehavior: Clip.none,
                 children: [
                   Container(
-                    height: 80,
+                    height: 220,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       image: userEntity.coverPicUrl != null
@@ -47,8 +47,46 @@ class UserProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    left: 10,
-                    bottom: 20,
+                    left: AppConstants.horizontalPadding,
+                    bottom: 0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${userEntity.firstName ?? ''} ${userEntity.lastName ?? ''}",
+                          style: AppTextStyles.uberMoveBlack26,
+                        ),
+                        Text(
+                          "@${userEntity.email}",
+                          style: AppTextStyles.uberMoveMedium20.copyWith(
+                            color: AppColors.thirdColor,
+                          ),
+                        ),
+                        const VerticalGap(12),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.calendar_month,
+                              color: AppColors.thirdColor,
+                            ),
+                            const HorizontalGap(4),
+                            Text(
+                              "Joined ${DateFormat('MMMM yyyy').format(userEntity.joinedAt.toDate())}",
+                              style: AppTextStyles.uberMoveMedium18
+                                  .copyWith(color: AppColors.thirdColor),
+                            ),
+                          ],
+                        ),
+                        const VerticalGap(12),
+                        CustomUserFollowRelationShipsCount(
+                            userEntity: userEntity),
+                        const VerticalGap(12),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    left: AppConstants.horizontalPadding,
+                    bottom: 160,
                     child: BuildUserCircleAvatarImage(
                       profilePicUrl: userEntity.profilePicUrl,
                       circleAvatarRadius: 40,
@@ -56,7 +94,7 @@ class UserProfileScreen extends StatelessWidget {
                   ),
                   Positioned(
                     right: 16,
-                    bottom: 32,
+                    bottom: 160,
                     child: CustomContainerButton(
                       backgroundColor: Colors.white,
                       borderColor: AppColors.borderColor,
@@ -72,74 +110,33 @@ class UserProfileScreen extends StatelessWidget {
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppConstants.horizontalPadding,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${userEntity.firstName ?? ''} ${userEntity.lastName ?? ''}",
-                      style: AppTextStyles.uberMoveBlack26,
-                    ),
-                    Text(
-                      "@${userEntity.email}",
-                      style: AppTextStyles.uberMoveMedium20.copyWith(
-                        color: AppColors.thirdColor,
-                      ),
-                    ),
-                    const VerticalGap(12),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.calendar_month,
-                          color: AppColors.thirdColor,
-                        ),
-                        const HorizontalGap(4),
-                        Text(
-                          "Joined ${DateFormat('MMMM yyyy').format(userEntity.joinedAt.toDate())}",
-                          style: AppTextStyles.uberMoveMedium18
-                              .copyWith(color: AppColors.thirdColor),
-                        ),
-                      ],
-                    ),
-                    const VerticalGap(12),
-                    CustomUserFollowRelationShipsCount(userEntity: userEntity),
-                    const VerticalGap(12),
-                    DefaultTabController(
-                      length: 3,
-                      child: Column(
-                        children: [
-                          TabBar(
-                            indicatorColor: AppColors.twitterAccentColor,
-                            indicatorSize: TabBarIndicatorSize.label,
-                            labelStyle: AppTextStyles.uberMoveBold18,
-                            unselectedLabelStyle:
-                                AppTextStyles.uberMoveBold18.copyWith(
-                              color: AppColors.secondaryColor,
-                            ),
-                            tabs: const [
-                              Tab(text: "Posts"),
-                              Tab(text: "Media"),
-                              Tab(text: "Likes"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10000,
-                            child: ShowUserProfileScreenTabs(),
-                          ),
-                        ],
-                      ),
-                    ),
+        body: DefaultTabController(
+          length: 3,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.horizontalPadding,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TabBar(
+                  indicatorColor: AppColors.twitterAccentColor,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  labelStyle: AppTextStyles.uberMoveBold18,
+                  unselectedLabelStyle: AppTextStyles.uberMoveBold18.copyWith(
+                    color: AppColors.secondaryColor,
+                  ),
+                  tabs: const [
+                    Tab(text: "Posts"),
+                    Tab(text: "Media"),
+                    Tab(text: "Likes"),
                   ],
                 ),
-              ),
-            ],
+                Expanded(
+                  child: ShowUserProfileScreenTabs(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
