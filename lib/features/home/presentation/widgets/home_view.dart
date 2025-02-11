@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -69,9 +70,9 @@ class HomeView extends StatelessWidget {
               unselectedLabelStyle: AppTextStyles.uberMoveBold18.copyWith(
                 color: AppColors.secondaryColor,
               ),
-              tabs: const [
-                Tab(text: "For you"),
-                Tab(text: "Following"),
+              tabs: [
+                Tab(text: context.tr("For you")),
+                Tab(text: context.tr("Following")),
               ],
             ),
             ShowHomeTweetsBody(),

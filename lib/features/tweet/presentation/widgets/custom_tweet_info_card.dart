@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -132,15 +133,16 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                             PopupMenuItem(
                               value: 'not_interested',
                               child: CustomPopupMenuItemWidget(
-                                title: "Not interested in this post",
+                                title:
+                                    context.tr("Not interested in this post"),
                                 icon: FontAwesomeIcons.faceAngry,
                               ),
                             ),
                             const PopupMenuDivider(),
                             PopupMenuItem(
-                              value: 'profile',
+                              value: context.tr('profile'),
                               child: CustomPopupMenuItemWidget(
-                                title: "Profile",
+                                title: context.tr("Profile"),
                                 icon: FontAwesomeIcons.person,
                               ),
                             ),
@@ -150,7 +152,7 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                               PopupMenuItem(
                                 value: 'edit',
                                 child: CustomPopupMenuItemWidget(
-                                  title: "Edit",
+                                  title: context.tr("Edit"),
                                   icon: FontAwesomeIcons.penToSquare,
                                 ),
                               ),
@@ -158,7 +160,7 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                               PopupMenuItem(
                                 value: 'delete',
                                 child: CustomPopupMenuItemWidget(
-                                  title: "Delete post",
+                                  title: context.tr("Delete post"),
                                   icon: FontAwesomeIcons.xmark,
                                   iconColor: AppColors.errorColor,
                                   titleColor: AppColors.errorColor,
