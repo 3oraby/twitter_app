@@ -10,6 +10,7 @@ class CustomBackgroundIcon extends StatelessWidget {
     this.borderRadius = 30,
     this.contentPadding = 12,
     this.iconSize = 24,
+    this.onTap,
   });
 
   final IconData iconData;
@@ -18,18 +19,22 @@ class CustomBackgroundIcon extends StatelessWidget {
   final Color backgroundColor;
   final double borderRadius;
   final double contentPadding;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(contentPadding),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      child: Icon(
-        iconData,
-        color: iconColor,
-        size: iconSize,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(contentPadding),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        child: Icon(
+          iconData,
+          color: iconColor,
+          size: iconSize,
+        ),
       ),
     );
   }

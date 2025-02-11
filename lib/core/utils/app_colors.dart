@@ -14,4 +14,5 @@ class AppColors {
   static const Color twitterAccentColor = Colors.blue;
   static const Color lightTwitterAccentColor = Color(0xFF90CAF9);
   static const Color borderColor = Colors.grey;
+  static const Color iconsBackgroundColor = Color.fromARGB(255, 13, 79, 124);
 }

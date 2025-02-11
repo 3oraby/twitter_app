@@ -7,7 +7,7 @@ class CustomContainerButton extends StatelessWidget {
     required this.child,
     this.backgroundColor = AppColors.twitterAccentColor,
     this.internalHorizontalPadding = 16,
-    this.internalVerticalPadding = 6,
+    this.internalVerticalPadding = 16,
     this.borderRadius = 30,
     this.onPressed,
     this.height,
