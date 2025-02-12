@@ -83,7 +83,10 @@ class CustomMainDetailsTweetCard extends StatelessWidget {
               ),
             const VerticalGap(12),
             Text(
-              formatDateFromTimestamp(tweetDetailsEntity.tweet.createdAt),
+              formatDateFromTimestamp(
+                context: context,
+                timestamp: tweetDetailsEntity.tweet.createdAt,
+              ),
               style: AppTextStyles.uberMoveBold18
                   .copyWith(color: AppColors.thirdColor),
             ),

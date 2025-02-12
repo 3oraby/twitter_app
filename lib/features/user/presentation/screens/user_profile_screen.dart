@@ -114,13 +114,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
             ),
           ],
-          body: TabBarView(
-            children: [
-              ShowUserProfileScreenTabs(),
-              Center(child: Text("Media")),
-              Center(child: Text("Likes")),
-            ],
-          ),
+          body: ShowUserProfileScreenTabs(),
         ),
       ),
     );

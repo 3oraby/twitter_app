@@ -1,5 +1,4 @@
-
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -20,10 +19,10 @@ class ShowUserProfileTabBars extends StatelessWidget {
         unselectedLabelStyle: AppTextStyles.uberMoveBold18.copyWith(
           color: AppColors.secondaryColor,
         ),
-        tabs: const [
-          Tab(text: "Posts"),
-          Tab(text: "Media"),
-          Tab(text: "Likes"),
+        tabs: [
+          Tab(text: context.tr("Posts")),
+          Tab(text: context.tr("Media")),
+          Tab(text: context.tr("Likes")),
         ],
       ),
     );

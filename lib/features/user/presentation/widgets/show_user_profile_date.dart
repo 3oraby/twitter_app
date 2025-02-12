@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/helpers/functions/format_date_from_timestamp.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
@@ -17,6 +18,7 @@ class ShowUserProfileData extends StatelessWidget {
   });
 
   final UserEntity userEntity;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -35,8 +37,16 @@ class ShowUserProfileData extends StatelessWidget {
                 : null,
           ),
         ),
-        Positioned(
-          left: AppConstants.horizontalPadding,
+        PositionedDirectional(
+          start: AppConstants.horizontalPadding,
+          bottom: 220,
+          child: BuildUserCircleAvatarImage(
+            profilePicUrl: userEntity.profilePicUrl,
+            circleAvatarRadius: 40,
+          ),
+        ),
+        PositionedDirectional(
+          start: AppConstants.horizontalPadding,
           bottom: 50,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +70,11 @@ class ShowUserProfileData extends StatelessWidget {
                   ),
                   const HorizontalGap(4),
                   Text(
-                    "Joined ${DateFormat('MMMM yyyy').format(userEntity.joinedAt.toDate())}",
+                    "${context.tr("Joined")} ${formatDateFromTimestamp(
+                      context: context,
+                      timestamp: userEntity.joinedAt,
+                      monthYearOnly: true,
+                    )}",
                     style: AppTextStyles.uberMoveMedium18
                         .copyWith(color: AppColors.thirdColor),
                   ),
@@ -72,16 +86,8 @@ class ShowUserProfileData extends StatelessWidget {
             ],
           ),
         ),
-        Positioned(
-          left: AppConstants.horizontalPadding,
-          bottom: 220,
-          child: BuildUserCircleAvatarImage(
-            profilePicUrl: userEntity.profilePicUrl,
-            circleAvatarRadius: 40,
-          ),
-        ),
-        Positioned(
-          right: 16,
+        PositionedDirectional(
+          end: 16,
           bottom: 230,
           child: CustomContainerButton(
             internalVerticalPadding: 4,
@@ -89,7 +95,7 @@ class ShowUserProfileData extends StatelessWidget {
             borderColor: AppColors.borderColor,
             borderWidth: 1,
             child: Text(
-              "Edit profile",
+              context.tr("Edit profile"),
               style: AppTextStyles.uberMoveExtraBold16,
             ),
           ),
