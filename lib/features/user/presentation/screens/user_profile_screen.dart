@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
-import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_background_icon.dart';
-import 'package:twitter_app/core/widgets/custom_container_button.dart';
-import 'package:twitter_app/core/widgets/custom_user_follow_relation_ships_count.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
-import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/user/presentation/widgets/show_user_profile_date.dart';
 import 'package:twitter_app/features/user/presentation/widgets/show_user_profile_screen_tabs.dart';
+import 'package:twitter_app/features/user/presentation/widgets/show_user_profile_tab_bars.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key, required this.userEntity});
@@ -107,104 +104,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 const HorizontalGap(AppConstants.horizontalPadding),
               ],
               flexibleSpace: FlexibleSpaceBar(
-                background: Stack(
-                  alignment: Alignment.bottomCenter,
-                  clipBehavior: Clip.none,
-                  children: [
-                    Container(
-                      height: 280,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        image: widget.userEntity.coverPicUrl != null
-                            ? DecorationImage(
-                                image: NetworkImage(
-                                    widget.userEntity.coverPicUrl!),
-                                fit: BoxFit.cover,
-                              )
-                            : null,
-                      ),
-                    ),
-                    Positioned(
-                      left: AppConstants.horizontalPadding,
-                      bottom: 45,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${widget.userEntity.firstName ?? ''} ${widget.userEntity.lastName ?? ''}",
-                            style: AppTextStyles.uberMoveBlack26,
-                          ),
-                          Text(
-                            "@${widget.userEntity.email}",
-                            style: AppTextStyles.uberMoveMedium20.copyWith(
-                              color: AppColors.thirdColor,
-                            ),
-                          ),
-                          const VerticalGap(12),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.calendar_month,
-                                color: AppColors.thirdColor,
-                              ),
-                              const HorizontalGap(4),
-                              Text(
-                                "Joined ${DateFormat('MMMM yyyy').format(widget.userEntity.joinedAt.toDate())}",
-                                style: AppTextStyles.uberMoveMedium18
-                                    .copyWith(color: AppColors.thirdColor),
-                              ),
-                            ],
-                          ),
-                          const VerticalGap(12),
-                          CustomUserFollowRelationShipsCount(
-                              userEntity: widget.userEntity),
-                          const VerticalGap(12),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      left: AppConstants.horizontalPadding,
-                      bottom: 210,
-                      child: BuildUserCircleAvatarImage(
-                        profilePicUrl: widget.userEntity.profilePicUrl,
-                        circleAvatarRadius: 40,
-                      ),
-                    ),
-                    Positioned(
-                      right: 16,
-                      bottom: 230,
-                      child: CustomContainerButton(
-                        internalVerticalPadding: 4,
-                        backgroundColor: Colors.white,
-                        borderColor: AppColors.borderColor,
-                        borderWidth: 1,
-                        child: Text(
-                          "Edit profile",
-                          style: AppTextStyles.uberMoveExtraBold16,
-                        ),
-                      ),
-                    ),
-                  ],
+                background: ShowUserProfileData(
+                  userEntity: widget.userEntity,
                 ),
               ),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(48),
-                child: Container(
-                  color: Colors.white,
-                  child: TabBar(
-                    indicatorColor: AppColors.twitterAccentColor,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    labelStyle: AppTextStyles.uberMoveBold18,
-                    unselectedLabelStyle: AppTextStyles.uberMoveBold18.copyWith(
-                      color: AppColors.secondaryColor,
-                    ),
-                    tabs: const [
-                      Tab(text: "Posts"),
-                      Tab(text: "Media"),
-                      Tab(text: "Likes"),
-                    ],
-                  ),
-                ),
+                child: ShowUserProfileTabBars(),
               ),
             ),
           ],
