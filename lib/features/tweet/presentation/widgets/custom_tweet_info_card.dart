@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
@@ -44,6 +45,10 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
   void _handleNotInterested() {
     // Implement the action for "Not interested in this post"
     log('User selected: Not interested in this post');
+    showCustomSnackBar(
+      context,
+      "You marked this post as 'Not Interested'",
+    );
   }
 
   void _onUpdateTweetTap() {
@@ -130,14 +135,16 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                             }
                           },
                           itemBuilder: (context) => [
-                            PopupMenuItem(
-                              value: 'not_interested',
-                              child: CustomPopupMenuItemWidget(
-                                title:
-                                    context.tr("Not interested in this post"),
-                                icon: FontAwesomeIcons.faceAngry,
+                            if (widget.currentUser.userId !=
+                                widget.tweetDetailsEntity.tweet.userId)
+                              PopupMenuItem(
+                                value: 'not_interested',
+                                child: CustomPopupMenuItemWidget(
+                                  title:
+                                      context.tr("Not interested in this post"),
+                                  icon: FontAwesomeIcons.faceAngry,
+                                ),
                               ),
-                            ),
                             const PopupMenuDivider(),
                             PopupMenuItem(
                               value: context.tr('profile'),
