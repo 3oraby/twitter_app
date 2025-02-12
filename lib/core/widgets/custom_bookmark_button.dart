@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
-import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -10,17 +9,18 @@ import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/bookmark/data/models/bookmark_model.dart';
 import 'package:twitter_app/features/bookmark/domain/repos/bookmark_repo.dart';
 import 'package:twitter_app/features/bookmark/presentation/cubits/toggle_bookmarks_cubit/toggle_bookmarks_cubit.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
 class CustomBookmarkButton extends StatelessWidget {
   const CustomBookmarkButton({
     super.key,
-    required this.tweetId,
-    required this.originalAuthorId,
+    required this.currentUser,
+    required this.tweetDetailsEntity,
     this.isActive = false,
   });
 
-  final String tweetId;
-  final String originalAuthorId;
+  final TweetDetailsEntity tweetDetailsEntity;
+  final UserEntity currentUser;
   final bool isActive;
 
   @override
@@ -30,8 +30,8 @@ class CustomBookmarkButton extends StatelessWidget {
         bookmarkRepo: getIt<BookmarkRepo>(),
       ),
       child: BookmarkButtonBlocConsumerBody(
-        tweetId: tweetId,
-        originalAuthorId: originalAuthorId,
+        currentUser: currentUser,
+        tweetDetailsEntity: tweetDetailsEntity,
         isActive: isActive,
       ),
     );
@@ -41,12 +41,13 @@ class CustomBookmarkButton extends StatelessWidget {
 class BookmarkButtonBlocConsumerBody extends StatefulWidget {
   const BookmarkButtonBlocConsumerBody({
     super.key,
-    required this.tweetId,
-    required this.originalAuthorId,
+    required this.currentUser,
+    required this.tweetDetailsEntity,
     this.isActive = false,
   });
-  final String tweetId;
-  final String originalAuthorId;
+
+  final TweetDetailsEntity tweetDetailsEntity;
+  final UserEntity currentUser;
   final bool isActive;
   @override
   State<BookmarkButtonBlocConsumerBody> createState() =>
@@ -56,27 +57,34 @@ class BookmarkButtonBlocConsumerBody extends StatefulWidget {
 class _BookmarkButtonBlocConsumerBodyState
     extends State<BookmarkButtonBlocConsumerBody> {
   late bool isActive;
-  late UserEntity currentUser;
 
   @override
   void initState() {
     super.initState();
-    currentUser = getCurrentUserEntity();
     isActive = widget.isActive;
+  }
+
+  void updateTweetDetailsEntity() {
+    if (isActive) {
+      widget.tweetDetailsEntity.addToBookmarks();
+    } else {
+      widget.tweetDetailsEntity.removeFromBookmarks();
+    }
   }
 
   Future<bool?> _onToggleBookmarkButtonPressed(bool isBookmarked) async {
     BlocProvider.of<ToggleBookmarksCubit>(context).toggleBookmark(
       data: BookmarkModel(
-        tweetId: widget.tweetId,
-        userId: currentUser.userId,
-        originalAuthorId: widget.originalAuthorId,
+        tweetId: widget.tweetDetailsEntity.tweetId,
+        userId: widget.currentUser.userId,
+        originalAuthorId: widget.tweetDetailsEntity.tweet.userId,
         bookmarkedAt: Timestamp.now(),
       ).toJson(),
     );
     setState(() {
       isActive = !isBookmarked;
     });
+    updateTweetDetailsEntity();
     return !isBookmarked;
   }
 
@@ -89,6 +97,7 @@ class _BookmarkButtonBlocConsumerBodyState
           setState(() {
             isActive = !isActive;
           });
+          updateTweetDetailsEntity();
         }
       },
       builder: (context, state) {

@@ -3,28 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
-import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/tweet/data/models/retweet_model.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/tweet/domain/repos/retweet_repo.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/toggle_retweet_cubit/toggle_retweet_cubit.dart';
 
 class CustomRetweetButton extends StatelessWidget {
   const CustomRetweetButton({
     super.key,
-    required this.tweetId,
-    required this.originalAuthorId,
-    required this.retweetsCount,
+    required this.currentUser,
+    required this.tweetDetailsEntity,
     this.isActive = false,
   });
 
-  final String tweetId;
-  final String originalAuthorId;
-  final int retweetsCount;
+  final TweetDetailsEntity tweetDetailsEntity;
+  final UserEntity currentUser;
   final bool isActive;
 
   @override
@@ -34,9 +32,8 @@ class CustomRetweetButton extends StatelessWidget {
         retweetRepo: getIt<RetweetRepo>(),
       ),
       child: RetweetButtonBlocConsumerBody(
-        tweetId: tweetId,
-        originalAuthorId: originalAuthorId,
-        retweetsCount: retweetsCount,
+        tweetDetailsEntity: tweetDetailsEntity,
+        currentUser: currentUser,
         isActive: isActive,
       ),
     );
@@ -46,15 +43,13 @@ class CustomRetweetButton extends StatelessWidget {
 class RetweetButtonBlocConsumerBody extends StatefulWidget {
   const RetweetButtonBlocConsumerBody({
     super.key,
-    required this.tweetId,
-    required this.originalAuthorId,
-    required this.retweetsCount,
+    required this.currentUser,
+    required this.tweetDetailsEntity,
     this.isActive = false,
   });
-  final String tweetId;
-  final String originalAuthorId;
-  final int retweetsCount;
   final bool isActive;
+  final TweetDetailsEntity tweetDetailsEntity;
+  final UserEntity currentUser;
 
   @override
   State<RetweetButtonBlocConsumerBody> createState() =>
@@ -66,14 +61,12 @@ class _RetweetButtonBlocConsumerBodyState
   late bool isActive;
   late int retweetsCount;
   late int amount;
-  late UserEntity currentUser;
 
   @override
   void initState() {
     super.initState();
-    currentUser = getCurrentUserEntity();
     isActive = widget.isActive;
-    retweetsCount = widget.retweetsCount;
+    retweetsCount = widget.tweetDetailsEntity.tweet.retweetsCount;
     if (isActive) {
       amount = -1;
     } else {
@@ -81,12 +74,20 @@ class _RetweetButtonBlocConsumerBodyState
     }
   }
 
+  void updateTweetDetailsEntity() {
+    if (isActive) {
+      widget.tweetDetailsEntity.makeRetweet();
+    } else {
+      widget.tweetDetailsEntity.removeRetweet();
+    }
+  }
+
   Future<bool?> _onToggleRetweetButtonPressed(bool isRetweeted) async {
     BlocProvider.of<ToggleRetweetCubit>(context).toggleRetweet(
       data: RetweetModel(
-        tweetId: widget.tweetId,
-        userId: currentUser.userId,
-        originalAuthorId: widget.originalAuthorId,
+        tweetId: widget.tweetDetailsEntity.tweetId,
+        userId: widget.currentUser.userId,
+        originalAuthorId: widget.tweetDetailsEntity.tweet.userId,
         retweetedAt: Timestamp.now(),
       ).toJson(),
     );
@@ -95,6 +96,7 @@ class _RetweetButtonBlocConsumerBodyState
       retweetsCount += amount;
       amount *= -1;
     });
+    updateTweetDetailsEntity();
     return !isRetweeted;
   }
 
@@ -109,6 +111,7 @@ class _RetweetButtonBlocConsumerBodyState
           retweetsCount += amount;
           amount *= -1;
         });
+        updateTweetDetailsEntity();
       }
     }, builder: (context, state) {
       return LikeButton(

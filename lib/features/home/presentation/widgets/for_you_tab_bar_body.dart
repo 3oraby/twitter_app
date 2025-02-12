@@ -25,21 +25,15 @@ class ForYouTabBarBody extends StatefulWidget {
 }
 
 class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
-  late List<TweetDetailsEntity> tweets;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   int? removedTweetIndex;
-  @override
-  void initState() {
-    super.initState();
-    tweets = List.from(widget.tweets);
-  }
 
   void _refreshPage() {
     BlocProvider.of<GetTweetsCubit>(context).getTweets();
   }
 
   void _removeTweet(int index) {
-    final removedTweet = tweets[index];
+    final removedTweet = widget.tweets[index];
     _listKey.currentState?.removeItem(
       index,
       (context, animation) => SizeTransition(
@@ -65,7 +59,7 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
         } else if (state is DeleteTweetLoadedState) {
           if (removedTweetIndex != null) {
             setState(() {
-              tweets.removeAt(removedTweetIndex!);
+              widget.tweets.removeAt(removedTweetIndex!);
             });
           } else {
             log("can not delete the tweet");
@@ -74,14 +68,15 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
       },
       child: AnimatedList(
         key: _listKey,
-        initialItemCount: tweets.length,
+        initialItemCount: widget.tweets.length,
         itemBuilder: (context, index, animation) {
           return SizeTransition(
             sizeFactor: animation,
             child: Column(
+              key: ValueKey(widget.tweets[index].tweetId),
               children: [
                 CustomTweetInfoCard(
-                  tweetDetailsEntity: tweets[index],
+                  tweetDetailsEntity: widget.tweets[index],
                   currentUser: widget.currentUser,
                   onDeleteTweetTap: () {
                     log("delete the tweet at index $index");
@@ -92,13 +87,13 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
                     Navigator.pushNamed(
                       context,
                       ShowTweetCommentsScreen.routeId,
-                      arguments: tweets[index],
+                      arguments: widget.tweets[index],
                     ).then((value) {
                       _refreshPage();
                     });
                   },
                 ),
-                if (index != tweets.length - 1)
+                if (index != widget.tweets.length - 1)
                   const Divider(
                     color: AppColors.dividerColor,
                     height: 24,

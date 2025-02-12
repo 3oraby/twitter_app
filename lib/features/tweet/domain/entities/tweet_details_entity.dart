@@ -17,4 +17,32 @@ class TweetDetailsEntity {
     this.isRetweeted = false,
     this.isBookmarked = false,
   });
+
+  void addLike() {
+    isLiked = true;
+    tweet.likesCount++;
+  }
+
+  void removeLike() {
+    isLiked = false;
+    tweet.likesCount--;
+  }
+
+  void makeRetweet() {
+    isRetweeted = true;
+    tweet.retweetsCount++;
+  }
+
+  void removeRetweet() {
+    isRetweeted = false;
+    tweet.retweetsCount--;
+  }
+
+  void addToBookmarks() {
+    isBookmarked = true;
+  }
+
+  void removeFromBookmarks() {
+    isBookmarked = false;
+  }
 }

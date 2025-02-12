@@ -6,24 +6,21 @@ import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/widgets/custom_like_button_body.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_likes_repo.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/toggle_tweet_like_cubit/toggle_tweet_like_cubit.dart';
 
 class CustomTweetLikeButton extends StatelessWidget {
   const CustomTweetLikeButton({
     super.key,
-    required this.tweetId,
-    required this.originalAuthorId,
-    required this.likesCount,
     required this.currentUser,
+    required this.tweetDetailsEntity,
     this.isActive = false,
   });
 
-  final String tweetId;
-  final String originalAuthorId;
-  final int likesCount;
   final bool isActive;
   final UserEntity currentUser;
+  final TweetDetailsEntity tweetDetailsEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +29,7 @@ class CustomTweetLikeButton extends StatelessWidget {
         tweetLikesRepo: getIt<TweetLikesRepo>(),
       ),
       child: TweetLikeButtonBlocConsumerBody(
-        tweetId: tweetId,
-        originalAuthorId: originalAuthorId,
-        likesCount: likesCount,
+        tweetDetailsEntity: tweetDetailsEntity,
         currentUser: currentUser,
         isActive: isActive,
       ),
@@ -45,17 +40,13 @@ class CustomTweetLikeButton extends StatelessWidget {
 class TweetLikeButtonBlocConsumerBody extends StatefulWidget {
   const TweetLikeButtonBlocConsumerBody({
     super.key,
-    required this.tweetId,
-    required this.originalAuthorId,
-    required this.likesCount,
     required this.currentUser,
+    required this.tweetDetailsEntity,
     this.isActive = false,
   });
-  final String tweetId;
-  final String originalAuthorId;
-  final int likesCount;
   final bool isActive;
   final UserEntity currentUser;
+  final TweetDetailsEntity tweetDetailsEntity;
   @override
   State<TweetLikeButtonBlocConsumerBody> createState() =>
       _TweetLikeButtonBlocConsumerBodyState();
@@ -71,7 +62,7 @@ class _TweetLikeButtonBlocConsumerBodyState
   void initState() {
     super.initState();
     isActive = widget.isActive;
-    likesCount = widget.likesCount;
+    likesCount = widget.tweetDetailsEntity.tweet.likesCount;
     if (isActive) {
       amount = -1;
     } else {
@@ -79,12 +70,20 @@ class _TweetLikeButtonBlocConsumerBodyState
     }
   }
 
+  void updateTweetDetailsEntity() {
+    if (isActive) {
+      widget.tweetDetailsEntity.addLike();
+    } else {
+      widget.tweetDetailsEntity.removeLike();
+    }
+  }
+
   Future<bool?> _onToggleLikeButtonPressed(bool isLiked) async {
     BlocProvider.of<ToggleTweetLikeCubit>(context).toggleTweetLike(
       data: TweetLikesModel(
-        tweetId: widget.tweetId,
+        tweetId: widget.tweetDetailsEntity.tweetId,
         userId: widget.currentUser.userId,
-        originalAuthorId: widget.originalAuthorId,
+        originalAuthorId: widget.tweetDetailsEntity.tweet.userId,
         likedAt: Timestamp.now(),
       ).toJson(),
     );
@@ -93,6 +92,7 @@ class _TweetLikeButtonBlocConsumerBodyState
       likesCount += amount;
       amount *= -1;
     });
+    updateTweetDetailsEntity();
     return !isLiked;
   }
 
@@ -107,6 +107,7 @@ class _TweetLikeButtonBlocConsumerBodyState
             likesCount += amount;
             amount *= -1;
           });
+          updateTweetDetailsEntity();
         }
       },
       builder: (context, state) {

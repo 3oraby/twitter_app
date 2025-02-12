@@ -7,6 +7,8 @@ import 'package:twitter_app/core/services/custom_bloc_observer.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/services/shared_preferences_singleton.dart';
 import 'package:twitter_app/core/services/supabase_storage_service.dart';
+import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
+import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
 import 'package:twitter_app/twitter_app.dart';
 
 Future<void> main() async {
@@ -28,7 +30,12 @@ Future<void> main() async {
       fallbackLocale: const Locale('en'),
       startLocale: const Locale('en'),
       child: DevicePreview(
-        builder: (context) => const TwitterApp(),
+        builder: (context) => BlocProvider(
+          create: (context) => MakeNewTweetCubit(
+            tweetRepo: getIt<TweetRepo>(),
+          ),
+          child: const TwitterApp(),
+        ),
       ),
     ),
   );
