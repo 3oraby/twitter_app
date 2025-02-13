@@ -179,14 +179,9 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                     ),
                   ),
                   if (widget.tweetDetailsEntity.tweet.content != null)
-                    Column(
-                      children: [
-                        const VerticalGap(4),
-                        Text(
-                          widget.tweetDetailsEntity.tweet.content!,
-                          style: AppTextStyles.uberMoveRegular16,
-                        ),
-                      ],
+                    Text(
+                      widget.tweetDetailsEntity.tweet.content!,
+                      style: AppTextStyles.uberMoveRegular16,
                     ),
                   if (widget.tweetDetailsEntity.tweet.mediaUrl?.isNotEmpty ??
                       false)
