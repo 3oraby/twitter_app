@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -44,7 +44,6 @@ class CustomTweetInfoCard extends StatefulWidget {
 
 class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
   void _handleNotInterested() {
-    // Implement the action for "Not interested in this post"
     log('User selected: Not interested in this post');
     showCustomSnackBar(
       context,
@@ -99,74 +98,83 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                           ),
                         ),
                         const Spacer(),
-                        PopupMenuButton<String>(
+                        IconButton(
                           icon: Icon(
                             Icons.more_horiz,
                             color: AppColors.twitterAccentColor,
                           ),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(
-                            AppConstants.menusBorderRadius,
-                          ),
-                          onSelected: (value) {
-                            switch (value) {
-                              case 'not_interested':
-                                _handleNotInterested();
-                                break;
-                              case 'edit':
-                                widget.onEditTweetTap?.call();
-                                break;
-                              case 'profile':
-                                _onUserProfileTweetTap();
-                                break;
-                              case 'delete':
-                                widget.onDeleteTweetTap?.call();
-                                break;
-                              default:
-                                log('Unknown menu item selected');
-                            }
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CupertinoActionSheet(
+                                  actions: [
+                                    if (widget.currentUser.userId !=
+                                        widget.tweetDetailsEntity.tweet.userId)
+                                      CupertinoActionSheetAction(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          _handleNotInterested();
+                                        },
+                                        child: CustomPopupMenuItemWidget(
+                                          title: context.tr(
+                                              "Not interested in this post"),
+                                          icon: FontAwesomeIcons.faceAngry,
+                                        ),
+                                      ),
+                                    CupertinoActionSheetAction(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        _onUserProfileTweetTap();
+                                      },
+                                      child: CustomPopupMenuItemWidget(
+                                        title: context.tr("Profile"),
+                                        icon: FontAwesomeIcons.person,
+                                      ),
+                                    ),
+                                    if (widget.currentUser.userId ==
+                                        widget.tweetDetailsEntity.tweet
+                                            .userId) ...[
+                                      CupertinoActionSheetAction(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          widget.onEditTweetTap?.call();
+                                        },
+                                        child: CustomPopupMenuItemWidget(
+                                          title: context.tr("Edit"),
+                                          icon: FontAwesomeIcons.penToSquare,
+                                        ),
+                                      ),
+                                      CupertinoActionSheetAction(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          widget.onDeleteTweetTap?.call();
+                                        },
+                                        isDestructiveAction: true,
+                                        child: CustomPopupMenuItemWidget(
+                                          title: context.tr("Delete post"),
+                                          icon: FontAwesomeIcons.xmark,
+                                          iconColor: AppColors.errorColor,
+                                          titleColor: AppColors.errorColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                  cancelButton: CupertinoActionSheetAction(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           },
-                          itemBuilder: (context) => [
-                            if (widget.currentUser.userId !=
-                                widget.tweetDetailsEntity.tweet.userId)
-                              PopupMenuItem(
-                                value: 'not_interested',
-                                child: CustomPopupMenuItemWidget(
-                                  title:
-                                      context.tr("Not interested in this post"),
-                                  icon: FontAwesomeIcons.faceAngry,
-                                ),
-                              ),
-                            const PopupMenuDivider(),
-                            PopupMenuItem(
-                              value: context.tr('profile'),
-                              child: CustomPopupMenuItemWidget(
-                                title: context.tr("Profile"),
-                                icon: FontAwesomeIcons.person,
-                              ),
-                            ),
-                            if (widget.currentUser.userId ==
-                                widget.tweetDetailsEntity.tweet.userId) ...[
-                              const PopupMenuDivider(),
-                              PopupMenuItem(
-                                value: 'edit',
-                                child: CustomPopupMenuItemWidget(
-                                  title: context.tr("Edit"),
-                                  icon: FontAwesomeIcons.penToSquare,
-                                ),
-                              ),
-                              const PopupMenuDivider(),
-                              PopupMenuItem(
-                                value: 'delete',
-                                child: CustomPopupMenuItemWidget(
-                                  title: context.tr("Delete post"),
-                                  icon: FontAwesomeIcons.xmark,
-                                  iconColor: AppColors.errorColor,
-                                  titleColor: AppColors.errorColor,
-                                ),
-                              ),
-                            ],
-                          ],
                         ),
                       ],
                     ),
