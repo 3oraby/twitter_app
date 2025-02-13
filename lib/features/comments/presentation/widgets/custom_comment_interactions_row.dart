@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/helpers/functions/get_time_ago.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -24,7 +25,7 @@ class CustomCommentInteractionsRow extends StatelessWidget {
     return Row(
       children: [
         Text(
-          getTimeAgo(commentDetailsEntity.comment.createdAt),
+          getTimeAgo(commentDetailsEntity.comment.createdAt, context: context),
           style: AppTextStyles.uberMoveBold16.copyWith(
             color: AppColors.thirdColor,
           ),
@@ -35,7 +36,7 @@ class CustomCommentInteractionsRow extends StatelessWidget {
             onReplyButtonPressed(dartz.Left(commentDetailsEntity));
           },
           child: Text(
-            "Reply",
+            context.tr("Reply"),
             style: AppTextStyles.uberMoveExtraBold18.copyWith(
               color: AppColors.thirdColor,
             ),

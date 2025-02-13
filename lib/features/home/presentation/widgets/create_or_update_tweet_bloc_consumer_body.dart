@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -162,7 +163,7 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
               Navigator.pop(context);
             },
             child: Text(
-              "Cancel",
+              context.tr("Cancel"),
               style: AppTextStyles.uberMoveMedium20,
             ),
           ),
@@ -177,7 +178,9 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
           onPressed:
               _isPostButtonEnabled ? () => _onPostButtonPressed(context) : null,
           child: Text(
-            widget.tweetDetails == null ? "Post" : "Update",
+            widget.tweetDetails == null
+                ? context.tr("post_verb")
+                : context.tr("Update"),
             style: AppTextStyles.uberMoveMedium18.copyWith(color: Colors.white),
           ),
         ),
@@ -228,7 +231,7 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
                       MakeNewTweetTextField(
                         userEntity: userEntity,
                         textTweetController: textTweetController,
-                        hintText: "What`s happening?",
+                        hintText: context.tr("What`s happening?"),
                       ),
                       const VerticalGap(28),
                       PreviewChosenMedia(

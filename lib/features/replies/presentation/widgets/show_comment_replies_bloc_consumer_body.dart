@@ -1,5 +1,5 @@
-
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
@@ -95,7 +95,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
                         child: Row(
                           children: [
                             Text(
-                              "View ${widget.commentDetailsEntity.comment.repliesCount} replies",
+                              "${context.tr("View")} ${widget.commentDetailsEntity.comment.repliesCount} ${context.tr("replies")}",
                               style: AppTextStyles.uberMoveMedium16.copyWith(
                                 color: AppColors.thirdColor,
                               ),

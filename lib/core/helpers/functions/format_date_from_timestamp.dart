@@ -17,10 +17,11 @@ String formatDateFromTimestamp({
     if (monthYearOnly) {
       formatPattern = 'MMMM yyyy';
     } else if (includeHour) {
-      formatPattern = 'hh:mm a - yyyy-MM-dd';
+      formatPattern = 'hh:mm a . dd-MM-yyyy';
     } else {
-      formatPattern = 'yyyy-MM-dd';
+      formatPattern = 'dd-MM-yyyy';
     }
+
     final currentLocale =
         EasyLocalization.of(context)?.locale.languageCode ?? 'en';
 

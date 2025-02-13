@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
@@ -41,7 +42,7 @@ class ShowTweetCommentsScreen extends StatelessWidget {
         appBar: buildCustomAppBar(
           context,
           title: Text(
-            "Post",
+            context.tr("post_noun"),
             style: AppTextStyles.uberMoveBlack20,
           ),
         ),

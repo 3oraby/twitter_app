@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -64,7 +65,7 @@ class _ShowTweetCommentsListenerBodyState
       context: context,
       builder: (context) {
         return FilterBottomSheet(
-          sheetTitle: 'Sort Replies',
+          sheetTitle: context.tr('Sort Replies'),
           filters: AppConstants.commentFilters,
           selectedFilter: selectedCommentedFilter.value,
           onFilterSelected: (filter) {
@@ -146,7 +147,7 @@ class _ShowTweetCommentsListenerBodyState
                         child: Row(
                           children: [
                             Text(
-                              selectedCommentedFilter.value,
+                              context.tr(selectedCommentedFilter.value),
                               style: AppTextStyles.uberMoveBold18.copyWith(
                                 color: AppColors.thirdColor,
                               ),

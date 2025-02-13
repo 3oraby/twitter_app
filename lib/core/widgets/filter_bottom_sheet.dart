@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -50,7 +51,7 @@ class FilterBottomSheet extends StatelessWidget {
             return ListTile(
               contentPadding: EdgeInsets.all(0),
               title: Text(
-                filter,
+                context.tr(filter),
                 style: AppTextStyles.uberMoveBold18,
               ),
               trailing: selectedFilter == filter

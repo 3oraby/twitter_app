@@ -71,9 +71,16 @@ class CustomReplyInfoCard extends StatelessWidget {
                         ),
                       ),
                       const HorizontalGap(8),
-                      Icon(
-                        FontAwesomeIcons.play,
-                        size: 18,
+                      Transform(
+                        transform:
+                            Directionality.of(context) == TextDirection.rtl
+                                ? Matrix4.rotationY(3.1416)
+                                : Matrix4.identity(),
+                        alignment: Alignment.center,
+                        child: Icon(
+                          FontAwesomeIcons.play,
+                          size: 18,
+                        ),
                       ),
                       const HorizontalGap(8),
                       GestureDetector(
