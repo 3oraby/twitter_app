@@ -44,10 +44,9 @@ class CustomTweetInfoCard extends StatefulWidget {
 
 class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
   void _handleNotInterested() {
-    log('User selected: Not interested in this post');
     showCustomSnackBar(
       context,
-      "You marked this post as 'Not Interested'",
+      context.tr("You will see fewer posts like this."),
     );
   }
 
