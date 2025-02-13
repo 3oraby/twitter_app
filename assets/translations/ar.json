@@ -116,5 +116,8 @@
   "Replying to": "الرد على",
   "Post your reply...": "اكتب ردك...",
   "Post your comment": "انشر تعليقك",
-  "You will see fewer posts like this.": "سترى منشورات أقل من هذا النوع"
+  "You will see fewer posts like this.": "سترى منشورات أقل من هذا النوع",
+  "Failed to post the tweet": "فشل في نشر التغريدة",
+  "Failed to delete the tweet": "فشل في حذف التغريدة",
+  "Failed to update the tweet": "فشل في تحديث التغريدة"
 }

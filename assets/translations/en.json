@@ -116,5 +116,8 @@
   "Replying to": "Replying to",
   "Post your reply...": "Post your reply...",
   "Post your comment": "Post your comment",
-  "You will see fewer posts like this.":"You will see fewer posts like this."
+  "You will see fewer posts like this.": "You will see fewer posts like this.",
+  "Failed to post the tweet": "Failed to post the tweet",
+  "Failed to delete the tweet": "Failed to delete the tweet",
+  "Failed to update the tweet": "Failed to update the tweet"
 }

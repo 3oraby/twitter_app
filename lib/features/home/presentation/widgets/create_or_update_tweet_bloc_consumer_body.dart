@@ -10,6 +10,7 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/pick_image_from_gallery.dart';
+import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
@@ -193,16 +194,20 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
   Widget build(BuildContext context) {
     return BlocConsumer<UpdateTweetCubit, UpdateTweetState>(
       listener: (context, updateTweetState) {
-        if (updateTweetState is UpdateTweetLoadedState ||
-            updateTweetState is UpdateTweetFailureState) {
+        if (updateTweetState is UpdateTweetLoadedState) {
+          Navigator.pop(context);
+        } else if (updateTweetState is UpdateTweetFailureState) {
+          showCustomSnackBar(context, context.tr(updateTweetState.message));
           Navigator.pop(context);
         }
       },
       builder: (context, updateTweetState) {
         return BlocConsumer<MakeNewTweetCubit, MakeNewTweetState>(
           listener: (context, makeTweetState) {
-            if (makeTweetState is MakeNewTweetLoadedState ||
-                makeTweetState is MakeNewTweetFailureState) {
+            if (makeTweetState is MakeNewTweetLoadedState) {
+              Navigator.pop(context);
+            } else if (makeTweetState is MakeNewTweetFailureState) {
+              showCustomSnackBar(context, context.tr(makeTweetState.message));
               Navigator.pop(context);
             }
           },

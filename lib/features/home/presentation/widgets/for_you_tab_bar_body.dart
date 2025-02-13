@@ -30,26 +30,26 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   int? removedTweetIndex;
   int? updatedTweetIndex;
-
+  TweetDetailsEntity? removedTweet;
   void _refreshPage() {
     BlocProvider.of<GetTweetsCubit>(context).getTweets();
   }
 
   void _removeTweet(int index) {
-    final removedTweet = widget.tweets[index];
+    removedTweet = widget.tweets[index];
     _listKey.currentState?.removeItem(
       index,
       (context, animation) => SizeTransition(
         sizeFactor: animation,
         child: CustomTweetInfoCard(
-          tweetDetailsEntity: removedTweet,
+          tweetDetailsEntity: removedTweet!,
           currentUser: widget.currentUser,
         ),
       ),
       duration: const Duration(milliseconds: 300),
     );
     BlocProvider.of<DeleteTweetCubit>(context).deleteTweet(
-      tweetId: removedTweet.tweetId,
+      tweetId: removedTweet!.tweetId,
     );
   }
 
@@ -97,7 +97,7 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
                   tweetDetailsEntity: widget.tweets[index],
                   currentUser: widget.currentUser,
                   onDeleteTweetTap: () {
-                    log("delete the tweet at index //");
+                    log("delete the tweet at index $index");
                     removedTweetIndex = index;
                     _removeTweet(index);
                   },
