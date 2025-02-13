@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/delete_tweet_cubit/delete_tweet_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/get_tweets_cubit/get_tweets_cubit.dart';
+import 'package:twitter_app/features/tweet/presentation/cubits/update_tweet_cubit/update_tweet_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_info_card.dart';
 import 'package:twitter_app/features/comments/presentation/screens/show_tweet_comments_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
@@ -27,6 +29,7 @@ class ForYouTabBarBody extends StatefulWidget {
 class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   int? removedTweetIndex;
+  int? updatedTweetIndex;
 
   void _refreshPage() {
     BlocProvider.of<GetTweetsCubit>(context).getTweets();
@@ -52,20 +55,35 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DeleteTweetCubit, DeleteTweetState>(
-      listener: (context, state) {
-        if (state is DeleteTweetFailureState) {
-          showCustomSnackBar(context, state.message);
-        } else if (state is DeleteTweetLoadedState) {
-          if (removedTweetIndex != null) {
-            setState(() {
-              widget.tweets.removeAt(removedTweetIndex!);
-            });
-          } else {
-            log("can not delete the tweet");
-          }
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<DeleteTweetCubit, DeleteTweetState>(
+          listener: (context, state) {
+            if (state is DeleteTweetFailureState) {
+              showCustomSnackBar(context, state.message);
+            } else if (state is DeleteTweetLoadedState) {
+              if (removedTweetIndex != null) {
+                setState(() {
+                  widget.tweets.removeAt(removedTweetIndex!);
+                });
+              } else {
+                log("can not delete the tweet");
+              }
+            }
+          },
+        ),
+        BlocListener<UpdateTweetCubit, UpdateTweetState>(
+          listener: (context, state) {
+            if (state is UpdateTweetLoadedState) {
+              log("edit the tweet");
+              setState(() {
+                widget.tweets[updatedTweetIndex!] =
+                    state.updatedTweetDetailsEntity;
+              });
+            }
+          },
+        ),
+      ],
       child: AnimatedList(
         key: _listKey,
         initialItemCount: widget.tweets.length,
@@ -79,9 +97,18 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
                   tweetDetailsEntity: widget.tweets[index],
                   currentUser: widget.currentUser,
                   onDeleteTweetTap: () {
-                    log("delete the tweet at index $index");
+                    log("delete the tweet at index //");
                     removedTweetIndex = index;
                     _removeTweet(index);
+                  },
+                  onEditTweetTap: () {
+                    log('User selected: update tweet');
+                    Navigator.pushNamed(
+                      context,
+                      CreateOrUpdateTweetScreen.routeId,
+                      arguments: widget.tweets[index],
+                    );
+                    updatedTweetIndex = index;
                   },
                   onTweetTap: () {
                     Navigator.pushNamed(

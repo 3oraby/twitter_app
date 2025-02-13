@@ -10,7 +10,6 @@ import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_popup_menu_item_widget.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_interactions_row.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
@@ -27,6 +26,7 @@ class CustomTweetInfoCard extends StatefulWidget {
     this.mediaWidth = 250,
     this.onTweetTap,
     this.onDeleteTweetTap,
+    this.onEditTweetTap,
   });
 
   final TweetDetailsEntity tweetDetailsEntity;
@@ -36,6 +36,7 @@ class CustomTweetInfoCard extends StatefulWidget {
   final double mediaWidth;
   final VoidCallback? onTweetTap;
   final VoidCallback? onDeleteTweetTap;
+  final VoidCallback? onEditTweetTap;
 
   @override
   State<CustomTweetInfoCard> createState() => _CustomTweetInfoCardState();
@@ -48,15 +49,6 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
     showCustomSnackBar(
       context,
       "You marked this post as 'Not Interested'",
-    );
-  }
-
-  void _onUpdateTweetTap() {
-    log('User selected: update tweet');
-    Navigator.pushNamed(
-      context,
-      CreateOrUpdateTweetScreen.routeId,
-      arguments: widget.tweetDetailsEntity,
     );
   }
 
@@ -122,7 +114,7 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                                 _handleNotInterested();
                                 break;
                               case 'edit':
-                                _onUpdateTweetTap();
+                                widget.onEditTweetTap?.call();
                                 break;
                               case 'profile':
                                 _onUserProfileTweetTap();

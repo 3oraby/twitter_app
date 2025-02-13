@@ -30,17 +30,19 @@ class _ForYouTabBarHomeViewState extends State<ForYouTabBarHomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MakeNewTweetCubit, MakeNewTweetState>(
-      listener: (context, makeNewTweetState) {
-        if (makeNewTweetState is MakeNewTweetLoadedState) {
-          log("make new tweet");
-          setState(() {
-            setState(() {
-              tweets = [makeNewTweetState.tweetDetailsEntity, ...tweets];
-            });
-          });
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<MakeNewTweetCubit, MakeNewTweetState>(
+          listener: (context, makeNewTweetState) {
+            if (makeNewTweetState is MakeNewTweetLoadedState) {
+              log("make new tweet");
+              setState(() {
+                tweets = [makeNewTweetState.tweetDetailsEntity, ...tweets];
+              });
+            }
+          },
+        ),
+      ],
       child: BlocConsumer<GetTweetsCubit, GetTweetsState>(
         listener: (context, state) {
           if (state is GetTweetsLoadedState) {
