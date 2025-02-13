@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_text_form_field.dart';
@@ -26,7 +27,7 @@ class CollapsedMakeReplySection extends StatelessWidget {
         const HorizontalGap(16),
         Expanded(
           child: CustomTextFormFieldWidget(
-            hintText: "Post your reply",
+            hintText: context.tr("Post your reply"),
             contentPadding: 16,
             onTap: onTextFieldTap,
           ),

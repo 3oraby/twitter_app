@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -119,7 +120,7 @@ class _MakeNewCommentBlocConsumerBodyState
               Navigator.pop(context);
             },
             child: Text(
-              "Cancel",
+              context.tr("Cancel"),
               style: AppTextStyles.uberMoveMedium20,
             ),
           ),
@@ -134,7 +135,7 @@ class _MakeNewCommentBlocConsumerBodyState
           onPressed:
               _isPostButtonEnabled ? () => _onPostButtonPressed(context) : null,
           child: Text(
-            "Post",
+            context.tr("post_verb"),
             style: AppTextStyles.uberMoveMedium18.copyWith(color: Colors.white),
           ),
         ),

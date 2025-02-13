@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -142,8 +143,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
     } else if (widget.replyDetailsEntity != null) {
       ReplyModel replyModel = ReplyModel(
         commentId: widget.replyDetailsEntity!.commentId,
-        commentAuthorData:
-            widget.replyDetailsEntity!.reply.replyAuthorData,
+        commentAuthorData: widget.replyDetailsEntity!.reply.replyAuthorData,
         replyAuthorData: widget.currentUser,
         content: content,
         createdAt: Timestamp.now(),
@@ -203,7 +203,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
               const VerticalGap(10),
               Row(
                 children: [
-                  Text("Replying to"),
+                  Text(context.tr("Replying to")),
                   Text(
                     " @${widget.replyingToUserName}",
                     style: AppTextStyles.uberMoveMedium18
@@ -236,7 +236,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                     const VerticalGap(16),
                     CustomTextFormFieldWidget(
                       controller: textReplyController,
-                      hintText: "Post your reply...",
+                      hintText: context.tr("Post your reply..."),
                       focusNode: _focusNode,
                       maxLines: null,
                       contentPadding: 0,
@@ -272,7 +272,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                     onPressed:
                         _isReplyButtonEnabled ? _onReplyButtonPressed : null,
                     child: Text(
-                      "Reply",
+                      context.tr("Reply"),
                       style: AppTextStyles.uberMoveBold16.copyWith(
                         color: Colors.white,
                       ),

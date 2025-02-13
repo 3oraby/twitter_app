@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -61,7 +62,7 @@ class MakeNewCommentBody extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Replying to",
+                        context.tr("Replying to"),
                         style: AppTextStyles.uberMoveMedium16.copyWith(
                           color: AppColors.secondaryColor,
                         ),
@@ -78,7 +79,7 @@ class MakeNewCommentBody extends StatelessWidget {
                   MakeNewTweetTextField(
                     userEntity: currentUser,
                     textTweetController: textCommentController,
-                    hintText: "Post your comment",
+                  hintText: context.tr("Post your comment"),
                   ),
                   const VerticalGap(16),
                   PreviewChosenMedia(
