@@ -17,11 +17,13 @@ class CustomTweetsMenu extends StatefulWidget {
     required this.autherEntity,
     this.onDeleteTweetTap,
     this.onEditTweetTap,
+    this.showNotIntrestedOption = false,
   });
   final String currentUserId;
   final UserEntity autherEntity;
   final VoidCallback? onDeleteTweetTap;
   final VoidCallback? onEditTweetTap;
+  final bool showNotIntrestedOption;
 
   @override
   State<CustomTweetsMenu> createState() => _CustomTweetsMenuState();
@@ -57,7 +59,8 @@ class _CustomTweetsMenuState extends State<CustomTweetsMenu> {
           builder: (BuildContext context) {
             return CupertinoActionSheet(
               actions: [
-                if (widget.currentUserId != widget.autherEntity.userId)
+                if (widget.showNotIntrestedOption &&
+                    widget.currentUserId != widget.autherEntity.userId)
                   CupertinoActionSheetAction(
                     onPressed: () {
                       Navigator.pop(context);
@@ -109,7 +112,7 @@ class _CustomTweetsMenuState extends State<CustomTweetsMenu> {
                   Navigator.pop(context);
                 },
                 child: Text(
-                  'Cancel',
+                  context.tr('Cancel'),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

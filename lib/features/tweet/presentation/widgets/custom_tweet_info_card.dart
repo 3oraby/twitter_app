@@ -87,6 +87,7 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                         ),
                         const Spacer(),
                         CustomTweetsMenu(
+                          showNotIntrestedOption: true,
                           currentUserId: widget.currentUser.userId,
                           autherEntity: widget.tweetDetailsEntity.user,
                           onDeleteTweetTap: widget.onDeleteTweetTap,

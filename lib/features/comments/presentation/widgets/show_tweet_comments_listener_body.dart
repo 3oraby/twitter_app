@@ -164,6 +164,7 @@ class _ShowTweetCommentsListenerBodyState
                         height: 32,
                       ),
                       ShowTweetCommentsPart(
+                        currentUser: currentUser,
                         selectedCommentedFilter: selectedCommentedFilter,
                         tweetDetailsEntity: widget.tweetDetailsEntity,
                         onReplyButtonPressed: (entity) {
