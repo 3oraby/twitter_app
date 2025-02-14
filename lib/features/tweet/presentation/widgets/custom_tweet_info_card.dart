@@ -1,14 +1,10 @@
 import 'dart:developer';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
-import 'package:twitter_app/core/widgets/custom_popup_menu_item_widget.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
+import 'package:twitter_app/core/widgets/custom_tweets_menu.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_interactions_row.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
@@ -43,13 +39,6 @@ class CustomTweetInfoCard extends StatefulWidget {
 }
 
 class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
-  void _handleNotInterested() {
-    showCustomSnackBar(
-      context,
-      context.tr("You will see fewer posts like this."),
-    );
-  }
-
   void _onUserProfileTweetTap() {
     log('User selected: user profile');
     Navigator.pushNamed(
@@ -97,83 +86,11 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                           ),
                         ),
                         const Spacer(),
-                        IconButton(
-                          icon: Icon(
-                            Icons.more_horiz,
-                            color: AppColors.twitterAccentColor,
-                          ),
-                          onPressed: () {
-                            showCupertinoModalPopup(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CupertinoActionSheet(
-                                  actions: [
-                                    if (widget.currentUser.userId !=
-                                        widget.tweetDetailsEntity.tweet.userId)
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          _handleNotInterested();
-                                        },
-                                        child: CustomPopupMenuItemWidget(
-                                          title: context.tr(
-                                              "Not interested in this post"),
-                                          icon: FontAwesomeIcons.faceAngry,
-                                        ),
-                                      ),
-                                    CupertinoActionSheetAction(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        _onUserProfileTweetTap();
-                                      },
-                                      child: CustomPopupMenuItemWidget(
-                                        title: context.tr("Profile"),
-                                        icon: FontAwesomeIcons.person,
-                                      ),
-                                    ),
-                                    if (widget.currentUser.userId ==
-                                        widget.tweetDetailsEntity.tweet
-                                            .userId) ...[
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          widget.onEditTweetTap?.call();
-                                        },
-                                        child: CustomPopupMenuItemWidget(
-                                          title: context.tr("Edit"),
-                                          icon: FontAwesomeIcons.penToSquare,
-                                        ),
-                                      ),
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          widget.onDeleteTweetTap?.call();
-                                        },
-                                        isDestructiveAction: true,
-                                        child: CustomPopupMenuItemWidget(
-                                          title: context.tr("Delete post"),
-                                          icon: FontAwesomeIcons.xmark,
-                                          iconColor: AppColors.errorColor,
-                                          titleColor: AppColors.errorColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ],
-                                  cancelButton: CupertinoActionSheetAction(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      'Cancel',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
+                        CustomTweetsMenu(
+                          currentUserId: widget.currentUser.userId,
+                          autherEntity: widget.tweetDetailsEntity.user,
+                          onDeleteTweetTap: widget.onDeleteTweetTap,
+                          onEditTweetTap: widget.onEditTweetTap,
                         ),
                       ],
                     ),
