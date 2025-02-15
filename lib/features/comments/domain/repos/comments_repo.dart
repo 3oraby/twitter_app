@@ -14,4 +14,12 @@ abstract class CommentsRepo {
     required String tweetId,
     String? filter,
   });
+
+  Future<Either<Failure, CommentDetailsEntity>> updateComment({
+    required String commentId,
+    required Map<String, dynamic> data,
+    required List<String>? constantMediaUrls,
+    required List<String>? removedMediaUrls,
+    required List<File>? mediaFiles,
+  });
 }

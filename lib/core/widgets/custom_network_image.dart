@@ -42,7 +42,7 @@ class CustomNetworkImage extends StatelessWidget {
         height: height,
         child: Container(
           color: Colors.grey[300],
-          child: const Icon(Icons.error, color: Colors.red),
+          child: const Icon(Icons.error, color: Colors.red), 
         ),
       ),
     );

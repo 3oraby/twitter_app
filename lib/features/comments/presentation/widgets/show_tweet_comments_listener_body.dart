@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
+import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/filter_bottom_sheet.dart';
@@ -14,6 +15,7 @@ import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/make_new_comment_cubit/make_new_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/reply_media_files_cubit/reply_media_files_cubit.dart';
+import 'package:twitter_app/features/comments/presentation/cubits/update_comment_cubit/update_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_make_reply_section.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_tweet_comments_part.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
@@ -163,32 +165,35 @@ class _ShowTweetCommentsListenerBodyState
                         color: AppColors.dividerColor,
                         height: 32,
                       ),
-                      ShowTweetCommentsPart(
-                        currentUser: currentUser,
-                        selectedCommentedFilter: selectedCommentedFilter,
-                        tweetDetailsEntity: widget.tweetDetailsEntity,
-                        onReplyButtonPressed: (entity) {
-                          entity.fold(
-                            (commentDetailsEntity) {
-                              setState(() {
-                                isComment = false;
-                                isSectionExpanded = true;
-                                replyingToUserName = commentDetailsEntity
-                                    .comment.commentAuthorData.email;
-                                _commentDetailsEntity = commentDetailsEntity;
-                              });
-                            },
-                            (replyDetailsEntity) {
-                              setState(() {
-                                isComment = false;
-                                isSectionExpanded = true;
-                                replyingToUserName = replyDetailsEntity
-                                    .reply.commentAuthorData.email;
-                                _replyDetailsEntity = replyDetailsEntity;
-                              });
-                            },
-                          );
-                        },
+                      BlocProvider(
+                        create: (context) => getIt<UpdateCommentCubit>(),
+                        child: ShowTweetCommentsPart(
+                          currentUser: currentUser,
+                          selectedCommentedFilter: selectedCommentedFilter,
+                          tweetDetailsEntity: widget.tweetDetailsEntity,
+                          onReplyButtonPressed: (entity) {
+                            entity.fold(
+                              (commentDetailsEntity) {
+                                setState(() {
+                                  isComment = false;
+                                  isSectionExpanded = true;
+                                  replyingToUserName = commentDetailsEntity
+                                      .comment.commentAuthorData.email;
+                                  _commentDetailsEntity = commentDetailsEntity;
+                                });
+                              },
+                              (replyDetailsEntity) {
+                                setState(() {
+                                  isComment = false;
+                                  isSectionExpanded = true;
+                                  replyingToUserName = replyDetailsEntity
+                                      .reply.commentAuthorData.email;
+                                  _replyDetailsEntity = replyDetailsEntity;
+                                });
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),

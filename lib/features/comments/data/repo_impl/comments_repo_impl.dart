@@ -126,4 +126,48 @@ class CommentsRepoImpl extends CommentsRepo {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, CommentDetailsEntity>> updateComment({
+    required String commentId,
+    required Map<String, dynamic> data,
+    required List<String>? constantMediaUrls,
+    required List<String>? removedMediaUrls,
+    required List<File>? mediaFiles,
+  }) async {
+    try {
+      List<String> mediaUrls = constantMediaUrls ?? [];
+
+      if (removedMediaUrls != null && removedMediaUrls.isNotEmpty) {
+        await storageService.deleteFiles(removedMediaUrls);
+      }
+
+      CommentDetailsEntity commentDetailsEntity =
+          CommentDetailsModel.fromJson(data).toEntity();
+
+      if (mediaFiles != null) {
+        for (File file in mediaFiles) {
+          String fileUrl = await storageService.uploadFile(
+            file,
+            BackendEndpoints.uploadFiles,
+          );
+          mediaUrls.add(fileUrl);
+        }
+      }
+
+      commentDetailsEntity.comment.mediaUrl = mediaUrls;
+      log("new comment data after edit: ${CommentDetailsModel.fromEntity(commentDetailsEntity).toJson()}");
+
+      await databaseService.updateData(
+        path: BackendEndpoints.updateComment,
+        documentId: commentId,
+        data: CommentModel.fromEntity(commentDetailsEntity.comment).toJson(),
+      );
+
+      return right(commentDetailsEntity);
+    } catch (e) {
+      log("Exception in CommentRepoImpl.updateComment() ${e.toString()}");
+      return left(const ServerFailure(message: "Failed to update the comment"));
+    }
+  }
 }

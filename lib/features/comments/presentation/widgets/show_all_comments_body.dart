@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +8,7 @@ import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/make_new_comment_cubit/make_new_comment_cubit.dart';
+import 'package:twitter_app/features/comments/presentation/screens/update_comments_and_replies_screen.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_info_card.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 
@@ -28,7 +31,7 @@ class ShowAllCommentsBody extends StatefulWidget {
 
 class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
   late List<CommentDetailsEntity> comments;
-
+  int? updatedCommentIndex;
   @override
   void initState() {
     super.initState();
@@ -53,6 +56,15 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
               commentDetailsEntity: widget.comments[index],
               onReplyButtonPressed: widget.onReplyButtonPressed,
               currentUser: widget.currentUser,
+              onEditTweetTap: () {
+                log('User selected: update comment');
+                Navigator.pushNamed(
+                  context,
+                  UpdateCommentsAndRepliesScreen.routeId,
+                  arguments: widget.comments[index],
+                );
+                updatedCommentIndex = index;
+              },
             ),
             if (index != widget.comments.length - 1)
               const Divider(
