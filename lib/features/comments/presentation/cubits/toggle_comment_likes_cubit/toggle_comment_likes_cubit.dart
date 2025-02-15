@@ -14,7 +14,7 @@ class ToggleCommentLikesCubit extends Cubit<ToggleCommentLikesState> {
     var res = await commentLikesRepo.toggleCommentLikes(data: data);
     res.fold(
       (failure) => emit(ToggleCommentLikesFailureState(message: failure.message)),
-      (success) => emit(ToggleCommentLikesLoadedState()),
+      (likeId) => emit(ToggleCommentLikesLoadedState(toggledLikeId: likeId)),
     );
   }
 }

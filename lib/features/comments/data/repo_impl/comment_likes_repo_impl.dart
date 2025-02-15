@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:twitter_app/core/errors/failures.dart';
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
-import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/comments/data/models/comment_likes_model.dart';
 import 'package:twitter_app/features/comments/domain/repos/comment_likes_repo.dart';
@@ -15,11 +14,12 @@ class CommentLikesRepoImpl extends CommentLikesRepo {
   CommentLikesRepoImpl({required this.databaseService});
 
   @override
-  Future<Either<Failure, Success>> toggleCommentLikes(
+  Future<Either<Failure, String>> toggleCommentLikes(
       {required Map<String, dynamic> data}) async {
     try {
       CommentLikesModel commentLikesModel = CommentLikesModel.fromJson(data);
 
+      String likeId;
       var existingLike = await databaseService.getData(
         path: BackendEndpoints.getCommentLikes,
         queryConditions: [
@@ -35,7 +35,7 @@ class CommentLikesRepoImpl extends CommentLikesRepo {
       );
 
       if (existingLike.isEmpty) {
-        await databaseService.addData(
+        String? id = await databaseService.addData(
           path: BackendEndpoints.toggleCommentLikes,
           data: commentLikesModel.toJson(),
         );
@@ -46,6 +46,7 @@ class CommentLikesRepoImpl extends CommentLikesRepo {
           field: "likes",
           value: commentLikesModel.userId,
         );
+        likeId = id!;
       } else {
         await databaseService.deleteData(
           path: BackendEndpoints.toggleCommentLikes,
@@ -58,9 +59,10 @@ class CommentLikesRepoImpl extends CommentLikesRepo {
           field: "likes",
           value: commentLikesModel.userId,
         );
+        likeId = existingLike.first.id;
       }
 
-      return right(Success());
+      return right(likeId);
     } catch (e) {
       log("exception in CommentLikesRepoImpl.toggleCommentLikes() ${e.toString()}");
       return left(const ServerFailure(message: "Failed to toggle like"));

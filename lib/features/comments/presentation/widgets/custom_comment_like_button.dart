@@ -1,27 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/widgets/custom_like_button_body.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/data/models/comment_likes_model.dart';
+import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/domain/repos/comment_likes_repo.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/toggle_comment_likes_cubit/toggle_comment_likes_cubit.dart';
 
 class CustomCommentLikeButton extends StatelessWidget {
   const CustomCommentLikeButton({
     super.key,
-    required this.commentId,
-    required this.originalAuthorId,
-    required this.likesCount,
+    required this.commentDetailsEntity,
+    required this.currentUser,
     this.isActive = false,
   });
 
-  final String commentId;
-  final String originalAuthorId;
-  final int likesCount;
+  final UserEntity currentUser;
+  final CommentDetailsEntity commentDetailsEntity;
   final bool isActive;
 
   @override
@@ -31,10 +29,9 @@ class CustomCommentLikeButton extends StatelessWidget {
         commentLikesRepo: getIt<CommentLikesRepo>(),
       ),
       child: CommentLikeButtonBlocConsumerBody(
-        commentId: commentId,
-        originalAuthorId: originalAuthorId,
-        likesCount: likesCount,
         isActive: isActive,
+        commentDetailsEntity: commentDetailsEntity,
+        currentUser: currentUser,
       ),
     );
   }
@@ -43,14 +40,12 @@ class CustomCommentLikeButton extends StatelessWidget {
 class CommentLikeButtonBlocConsumerBody extends StatefulWidget {
   const CommentLikeButtonBlocConsumerBody({
     super.key,
-    required this.commentId,
-    required this.originalAuthorId,
-    required this.likesCount,
+    required this.commentDetailsEntity,
+    required this.currentUser,
     this.isActive = false,
   });
-  final String commentId;
-  final String originalAuthorId;
-  final int likesCount;
+  final UserEntity currentUser;
+  final CommentDetailsEntity commentDetailsEntity;
   final bool isActive;
   @override
   State<CommentLikeButtonBlocConsumerBody> createState() =>
@@ -62,14 +57,13 @@ class _CommentLikeButtonBlocConsumerBodyState
   late bool isActive;
   late int likesCount;
   late int amount;
-  late UserEntity currentUser;
+  String? toggledLikeId;
 
   @override
   void initState() {
     super.initState();
-    currentUser = getCurrentUserEntity();
     isActive = widget.isActive;
-    likesCount = widget.likesCount;
+    likesCount = widget.commentDetailsEntity.comment.likes?.length ?? 0;
     if (isActive) {
       amount = -1;
     } else {
@@ -77,12 +71,21 @@ class _CommentLikeButtonBlocConsumerBodyState
     }
   }
 
+  void updateCommentDetailsEntity(String likeId) {
+    if (isActive) {
+      widget.commentDetailsEntity.addLike(likeId);
+    } else {
+      widget.commentDetailsEntity.removeLike(likeId);
+    }
+  }
+
   Future<bool?> _onToggleLikeButtonPressed(bool isLiked) async {
     BlocProvider.of<ToggleCommentLikesCubit>(context).toggleCommentLikes(
       data: CommentLikesModel(
-        commentId: widget.commentId,
-        userId: currentUser.userId,
-        originalAuthorId: widget.originalAuthorId,
+        commentId: widget.commentDetailsEntity.commentId,
+        userId: widget.currentUser.userId,
+        originalAuthorId:
+            widget.commentDetailsEntity.comment.commentAuthorData.userId,
         likedAt: Timestamp.now(),
       ).toJson(),
     );
@@ -105,6 +108,9 @@ class _CommentLikeButtonBlocConsumerBodyState
             likesCount += amount;
             amount *= -1;
           });
+        } else if (state is ToggleCommentLikesLoadedState) {
+          toggledLikeId = state.toggledLikeId;
+          updateCommentDetailsEntity(state.toggledLikeId);
         }
       },
       builder: (context, state) {

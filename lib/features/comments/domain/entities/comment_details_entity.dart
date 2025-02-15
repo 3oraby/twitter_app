@@ -12,4 +12,14 @@ class CommentDetailsEntity {
     required this.comment,
     this.isLiked = false,
   });
+
+  void addLike(String likeId) {
+    isLiked = true;
+    comment.likes?.add(likeId);
+  }
+
+  void removeLike(String likeId) {
+    isLiked = false;
+    comment.likes?.remove(likeId);
+  }
 }

@@ -130,6 +130,7 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
                   Visibility(
                     visible: widget.showInteractionsRow,
                     child: CustomCommentInteractionsRow(
+                      currentUser: widget.currentUser,
                       commentDetailsEntity: widget.commentDetailsEntity,
                       onReplyButtonPressed: widget.onReplyButtonPressed,
                     ),
