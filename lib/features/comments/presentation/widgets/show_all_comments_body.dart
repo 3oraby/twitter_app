@@ -33,19 +33,13 @@ class ShowAllCommentsBody extends StatefulWidget {
 }
 
 class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
-  late List<CommentDetailsEntity> comments;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   CommentDetailsEntity? removedComment;
   int? updatedCommentIndex;
   int? removedCommentIndex;
-  @override
-  void initState() {
-    super.initState();
-    comments = widget.comments;
-  }
 
   void _removeComment(int index) {
-    removedComment = comments[index];
+    removedComment = widget.comments[index];
     _listKey.currentState?.removeItem(
       index,
       (context, animation) => SizeTransition(
@@ -73,7 +67,6 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           listener: (context, state) {
             if (state is MakeNewCommentLoadedState) {
               setState(() {
-                comments.insert(0, state.commentDetails);
                 widget.comments.insert(0, state.commentDetails);
               });
             }
@@ -86,7 +79,6 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
             } else if (state is DeleteCommentLoadedState) {
               if (removedCommentIndex != null) {
                 setState(() {
-                  comments.removeAt(removedCommentIndex!);
                   widget.comments.removeAt(removedCommentIndex!);
                 });
               } else {
@@ -99,7 +91,8 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           listener: (context, state) {
             if (state is UpdateCommentLoadedState) {
               setState(() {
-                comments[updatedCommentIndex!] = state.updatedCommentDetails;
+                widget.comments[updatedCommentIndex!] =
+                    state.updatedCommentDetails;
               });
             }
           },
@@ -113,6 +106,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
         itemBuilder: (context, index, animation) => SizeTransition(
           sizeFactor: animation,
           child: Column(
+            key: ValueKey(widget.comments[index].commentId),
             children: [
               const VerticalGap(24),
               CustomCommentInfoCard(
