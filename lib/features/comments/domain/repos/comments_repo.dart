@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:twitter_app/core/errors/failures.dart';
+import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 
 abstract class CommentsRepo {
@@ -21,5 +22,11 @@ abstract class CommentsRepo {
     required List<String>? constantMediaUrls,
     required List<String>? removedMediaUrls,
     required List<File>? mediaFiles,
+  });
+
+  Future<Either<Failure, Success>> deleteComment({
+    required String tweetId,
+    required String commentId,
+    List<String>? mediaFiles,
   });
 }

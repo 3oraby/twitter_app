@@ -7,6 +7,7 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
+import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/data/models/comment_details_model.dart';
@@ -168,6 +169,35 @@ class CommentsRepoImpl extends CommentsRepo {
     } catch (e) {
       log("Exception in CommentRepoImpl.updateComment() ${e.toString()}");
       return left(const ServerFailure(message: "Failed to update the comment"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Success>> deleteComment({
+    required String tweetId,
+    required String commentId,
+    List<String>? mediaFiles,
+  }) async {
+    try {
+      await databaseService.deleteData(
+        path: BackendEndpoints.deleteComment,
+        documentId: commentId,
+      );
+
+      if (mediaFiles != null && mediaFiles.isNotEmpty) {
+        await storageService.deleteFiles(mediaFiles);
+      }
+
+      await databaseService.decrementField(
+        path: BackendEndpoints.updateTweet,
+        documentId: tweetId,
+        field: "commentsCount",
+      );
+
+      return right(Success());
+    } catch (e) {
+      log("Exception in TweetRepoImpl.deleteTweet() ${e.toString()}");
+      return left(const ServerFailure(message: "Failed to delete the tweet"));
     }
   }
 }

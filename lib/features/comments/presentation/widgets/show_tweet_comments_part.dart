@@ -5,6 +5,7 @@ import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/domain/repos/comments_repo.dart';
+import 'package:twitter_app/features/comments/presentation/cubits/delete_comment_cubit/delete_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/get_tweet_comments_cubit/get_tweet_comments_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_all_comments_bloc_consumer_body.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
@@ -27,10 +28,19 @@ class ShowTweetCommentsPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetTweetCommentsCubit(
-        commentsRepo: getIt<CommentsRepo>(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => GetTweetCommentsCubit(
+            commentsRepo: getIt<CommentsRepo>(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DeleteCommentCubit(
+            commentsRepo: getIt<CommentsRepo>(),
+          ),
+        ),
+      ],
       child: ShowAllCommentsBlocConsumerBody(
         currentUser: currentUser,
         tweetId: tweetDetailsEntity.tweetId,
