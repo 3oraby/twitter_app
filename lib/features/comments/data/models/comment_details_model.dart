@@ -44,4 +44,18 @@ class CommentDetailsModel extends CommentDetailsEntity {
       isLiked: entity.isLiked,
     );
   }
+
+  CommentDetailsModel copyWith({
+    String? tweetId,
+    String? commentId,
+    CommentEntity? comment,
+    bool? isLiked,
+  }) {
+    return CommentDetailsModel(
+      tweetId: tweetId ?? this.tweetId,
+      commentId: commentId ?? this.commentId,
+      comment: comment ?? this.comment,
+      isLiked: isLiked ?? this.isLiked,
+    );
+  }
 }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,12 +10,14 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/pick_image_from_gallery.dart';
+import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/comments/data/models/comment_details_model.dart';
 import 'package:twitter_app/features/comments/data/models/comment_model.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/update_comment_cubit/update_comment_cubit.dart';
@@ -152,7 +155,27 @@ class _UpdateCommentsAndRepliesScreenState
       _isPostButtonEnabled = false;
     });
     final content = textContoller.text.trim();
-    if (widget.commentDetailsEntity != null) {}
+    if (widget.commentDetailsEntity != null) {
+      CommentModel newCommentModel =
+          CommentModel.fromEntity(widget.commentDetailsEntity!.comment)
+              .copyWith(
+        content: content,
+        updatedAt: Timestamp.now(),
+      );
+
+      CommentDetailsModel newCommentDetails =
+          CommentDetailsModel.fromEntity(widget.commentDetailsEntity!).copyWith(
+        comment: newCommentModel.toEntity(),
+      );
+
+      BlocProvider.of<UpdateCommentCubit>(context).updateComment(
+        commentId: widget.commentDetailsEntity!.commentId,
+        data: newCommentDetails.toJson(),
+        mediaFiles: mediaFiles,
+        constantMediaUrls: networkMediaUrls,
+        removedMediaUrls: removedMediaUrls,
+      );
+    }
   }
 
   @override
@@ -164,7 +187,14 @@ class _UpdateCommentsAndRepliesScreenState
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UpdateCommentCubit, UpdateCommentState>(
-      listener: (context, updateCommentState) {},
+      listener: (context, updateCommentState) {
+        if (updateCommentState is UpdateCommentLoadedState) {
+          Navigator.pop(context);
+        } else if (updateCommentState is UpdateCommentFailureState) {
+          showCustomSnackBar(context, context.tr(updateCommentState.message));
+          Navigator.pop(context);
+        }
+      },
       builder: (context, updateCommentState) => AbsorbPointer(
         absorbing: updateCommentState is UpdateCommentLoadingState,
         child: Scaffold(

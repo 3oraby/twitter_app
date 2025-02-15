@@ -76,4 +76,28 @@ class CommentModel extends CommentEntity {
       repliesCount: entity.repliesCount,
     );
   }
+
+  CommentModel copyWith({
+    String? tweetId,
+    UserModel? tweetAuthorData,
+    UserModel? commentAuthorData,
+    Timestamp? createdAt,
+    String? content,
+    List<String>? mediaUrl,
+    Timestamp? updatedAt,
+    dynamic likes,
+    dynamic repliesCount,
+  }) {
+    return CommentModel(
+      tweetId: tweetId ?? this.tweetId,
+      tweetAuthorData: tweetAuthorData ?? this.tweetAuthorData,
+      commentAuthorData: commentAuthorData ?? this.commentAuthorData,
+      createdAt: createdAt ?? this.createdAt,
+      content: content ?? this.content,
+      mediaUrl: mediaUrl ?? this.mediaUrl,
+      updatedAt: updatedAt ?? this.updatedAt,
+      likes: likes ?? this.likes,
+      repliesCount: repliesCount ?? this.repliesCount,
+    );
+  }
 }

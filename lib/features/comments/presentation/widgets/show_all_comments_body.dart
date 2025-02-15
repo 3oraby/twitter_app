@@ -8,6 +8,7 @@ import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/make_new_comment_cubit/make_new_comment_cubit.dart';
+import 'package:twitter_app/features/comments/presentation/cubits/update_comment_cubit/update_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/screens/update_comments_and_replies_screen.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_info_card.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
@@ -40,14 +41,27 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MakeNewCommentCubit, MakeNewCommentState>(
-      listener: (context, state) {
-        if (state is MakeNewCommentLoadedState) {
-          setState(() {
-            comments.insert(0, state.commentDetails);
-          });
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<MakeNewCommentCubit, MakeNewCommentState>(
+          listener: (context, state) {
+            if (state is MakeNewCommentLoadedState) {
+              setState(() {
+                comments.insert(0, state.commentDetails);
+              });
+            }
+          },
+        ),
+        BlocListener<UpdateCommentCubit, UpdateCommentState>(
+          listener: (context, state) {
+            if (state is UpdateCommentLoadedState){
+              setState(() {
+                comments[updatedCommentIndex!] = state.updatedCommentDetails;
+              });
+            }
+          },
+        ),
+      ],
       child: Column(
         children: [
           const VerticalGap(24),

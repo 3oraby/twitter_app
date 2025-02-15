@@ -13,7 +13,7 @@ class UpdateCommentCubit extends Cubit<UpdateCommentState> {
 
   final CommentsRepo commentsRepo;
   Future<void> updateComment({
-    required String tweetId,
+    required String commentId,
     required Map<String, dynamic> data,
     required List<String>? constantMediaUrls,
     required List<String>? removedMediaUrls,
@@ -21,7 +21,7 @@ class UpdateCommentCubit extends Cubit<UpdateCommentState> {
   }) async {
     emit(UpdateCommentLoadingState());
     var result = await commentsRepo.updateComment(
-      commentId: tweetId,
+      commentId: commentId,
       data: data,
       mediaFiles: mediaFiles,
       constantMediaUrls: constantMediaUrls,
