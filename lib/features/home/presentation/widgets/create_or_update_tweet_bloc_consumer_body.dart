@@ -121,21 +121,17 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
         mediaFiles: mediaFiles,
       );
     } else {
-      TweetModel newTweetModel = TweetModel(
-        userId: userEntity.userId,
+      TweetModel newTweetModel =
+          TweetModel.fromEntity(widget.tweetDetails!.tweet).copyWith(
         content: content,
-        createdAt: widget.tweetDetails!.tweet.createdAt,
         updatedAt: Timestamp.now(),
       );
 
-      TweetDetailsModel newTweetDetails = TweetDetailsModel(
-        tweetId: widget.tweetDetails!.tweetId,
+      TweetDetailsModel newTweetDetails =
+          TweetDetailsModel.fromEntity(widget.tweetDetails!).copyWith(
         tweet: newTweetModel.toEntity(),
-        user: widget.tweetDetails!.user,
-        isLiked: widget.tweetDetails!.isLiked,
-        isBookmarked: widget.tweetDetails!.isBookmarked,
-        isRetweeted: widget.tweetDetails!.isRetweeted,
       );
+
       BlocProvider.of<UpdateTweetCubit>(context).updateTweet(
         tweetId: widget.tweetDetails!.tweetId,
         data: newTweetDetails.toJson(),

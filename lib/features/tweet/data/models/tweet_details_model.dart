@@ -1,7 +1,8 @@
-
 import 'package:twitter_app/features/auth/data/models/user_model.dart';
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_model.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_entity.dart';
 
 class TweetDetailsModel extends TweetDetailsEntity {
   TweetDetailsModel({
@@ -53,6 +54,24 @@ class TweetDetailsModel extends TweetDetailsEntity {
       isLiked: entity.isLiked,
       isRetweeted: entity.isRetweeted,
       isBookmarked: entity.isBookmarked,
+    );
+  }
+
+  TweetDetailsModel copyWith({
+    String? tweetId,
+    TweetEntity? tweet,
+    UserEntity? user,
+    bool? isLiked,
+    bool? isRetweeted,
+    bool? isBookmarked,
+  }) {
+    return TweetDetailsModel(
+      tweetId: tweetId ?? this.tweetId,
+      tweet: tweet ?? this.tweet,
+      user: user ?? this.user,
+      isLiked: isLiked ?? this.isLiked,
+      isRetweeted: isRetweeted ?? this.isRetweeted,
+      isBookmarked: isBookmarked ?? this.isBookmarked,
     );
   }
 }

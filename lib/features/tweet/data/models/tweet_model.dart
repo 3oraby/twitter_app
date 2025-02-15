@@ -65,4 +65,26 @@ class TweetModel extends TweetEntity {
       retweetsCount: entity.retweetsCount,
     );
   }
+
+  TweetModel copyWith({
+    String? userId,
+    String? content,
+    List<String>? mediaUrl,
+    Timestamp? createdAt,
+    Timestamp? updatedAt,
+    int? likesCount,
+    int? commentsCount,
+    int? retweetsCount,
+  }) {
+    return TweetModel(
+      userId: userId ?? this.userId,
+      content: content ?? this.content,
+      mediaUrl: mediaUrl ?? this.mediaUrl,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      likesCount: likesCount ?? this.likesCount,
+      commentsCount: commentsCount ?? this.commentsCount,
+      retweetsCount: retweetsCount ?? this.retweetsCount,
+    );
+  }
 }
