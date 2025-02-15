@@ -107,6 +107,7 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                       children: [
                         const VerticalGap(8),
                         CustomShowTweetsMedia(
+                          key: ValueKey(widget.tweetDetailsEntity.tweetId),
                           mediaUrl: widget.tweetDetailsEntity.tweet.mediaUrl!,
                           mediaHeight: widget.mediaHeight,
                           mediaWidth: widget.mediaWidth,

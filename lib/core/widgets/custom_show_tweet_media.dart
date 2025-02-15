@@ -65,6 +65,7 @@ class SingleMediaWidget extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
         child: CustomNetworkImage(
+          key: ValueKey(mediaUrl),
           imageUrl: mediaUrl,
           height: mediaHeight,
           width: double.infinity,
@@ -107,6 +108,7 @@ class MultipleMediaWidget extends StatelessWidget {
                   borderRadius:
                       BorderRadius.circular(AppConstants.borderRadius),
                   child: CustomNetworkImage(
+                    key: ValueKey(url),
                     imageUrl: url,
                     height: mediaHeight,
                     width: mediaWidth,
