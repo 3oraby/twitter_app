@@ -19,10 +19,12 @@ class CustomReplyInfoCard extends StatelessWidget {
     super.key,
     required this.replyDetailsEntity,
     required this.currentUser,
+    required this.onReplyButtonPressed,
     this.showInteractionsRow = true,
     this.mediaHeight = 150,
     this.mediaWidth = 100,
-    required this.onReplyButtonPressed,
+    this.onDeleteReplyTap,
+    this.onEditReplyTap,
   });
   final ReplyDetailsEntity replyDetailsEntity;
   final UserEntity currentUser;
@@ -31,6 +33,9 @@ class CustomReplyInfoCard extends StatelessWidget {
   final double mediaWidth;
   final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
       onReplyButtonPressed;
+
+  final VoidCallback? onDeleteReplyTap;
+  final VoidCallback? onEditReplyTap;
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +111,8 @@ class CustomReplyInfoCard extends StatelessWidget {
                       CustomTweetsMenu(
                         currentUserId: currentUser.userId,
                         autherEntity: replyDetailsEntity.reply.replyAuthorData,
+                        onDeleteTweetTap: onDeleteReplyTap,
+                        onEditTweetTap: onEditReplyTap,
                       ),
                     ],
                   ),

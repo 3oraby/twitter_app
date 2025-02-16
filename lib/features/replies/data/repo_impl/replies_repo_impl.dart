@@ -7,6 +7,7 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/models/query_condition_model.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
+import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/replies/data/models/reply_details_model.dart';
@@ -112,6 +113,35 @@ class RepliesRepoImpl extends RepliesRepo {
             message:
                 "Unable to retrieve replies right now. Please try again later."),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, Success>> deleteReply({
+    required String commentId,
+    required String replyId,
+    List<String>? removedMediaFiles,
+  }) async {
+    try {
+      await databaseService.deleteData(
+        path: BackendEndpoints.deleteReply,
+        documentId: replyId,
+      );
+
+      if (removedMediaFiles != null && removedMediaFiles.isNotEmpty) {
+        await storageService.deleteFiles(removedMediaFiles);
+      }
+
+      await databaseService.decrementField(
+        path: BackendEndpoints.updateComment,
+        documentId: commentId,
+        field: "repliesCount",
+      );
+
+      return right(Success());
+    } catch (e) {
+      log("Exception in ReplyRepoImpl.deleteReply() ${e.toString()}");
+      return left(const ServerFailure(message: "Couldn't delete the reply."));
     }
   }
 }

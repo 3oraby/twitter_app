@@ -6,6 +6,7 @@ import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/repos/replies_repo.dart';
+import 'package:twitter_app/features/replies/presentation/cubits/delete_reply_cubit/delete_reply_cubit.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/get_comment_replies_cubit/get_comment_replies_cubit.dart';
 import 'package:twitter_app/features/replies/presentation/widgets/show_comment_replies_bloc_consumer_body.dart';
 
@@ -24,10 +25,19 @@ class ShowCommentRepliesPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetCommentRepliesCubit(
-        repliesRepo: getIt<RepliesRepo>(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => GetCommentRepliesCubit(
+            repliesRepo: getIt<RepliesRepo>(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DeleteReplyCubit(
+            repliesRepo: getIt<RepliesRepo>(),
+          ),
+        ),
+      ],
       child: ShowCommentRepliesBlocConsumerBody(
         currentUser: currentUser,
         commentDetailsEntity: commentDetailsEntity,

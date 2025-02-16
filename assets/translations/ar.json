@@ -131,5 +131,6 @@
   "Unable to send the reply right now. Please try again later.": "غير قادر على إرسال الرد الآن. يرجى المحاولة لاحقًا",
   "Unable to retrieve replies right now. Please try again later.": "غير قادر على استرجاع الردود الآن. يرجى المحاولة لاحقًا",
   "Failed to get user connections": "تعذر جلب قائمة الأشخاص المرتبطين بالمستخدم.",
-  "Failed to upload file": "تعذر رفع الملف."
+  "Failed to upload file": "تعذر رفع الملف.",
+  "Couldn't delete the reply.": "لم يتمكن من حذف الرد."
 }

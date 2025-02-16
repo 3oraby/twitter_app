@@ -23,4 +23,12 @@ class CommentEntity {
     this.likes,
     this.repliesCount = 0,
   });
+
+  void incrementRepliesCount() {
+    repliesCount++;
+  }
+
+  void decrementRepliesCount() {
+    repliesCount--;
+  }
 }

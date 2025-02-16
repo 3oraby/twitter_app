@@ -131,5 +131,6 @@
   "Unable to send the reply right now. Please try again later.": "Unable to send the reply right now. Please try again later.",
   "Unable to retrieve replies right now. Please try again later.": "Unable to retrieve replies right now. Please try again later.",
   "Failed to get user connections": "Failed to get user connections",
-  "Failed to upload file": "Failed to upload file"
+  "Failed to upload file": "Failed to upload file",
+  "Couldn't delete the reply.": "Couldn't delete the reply."
 }
