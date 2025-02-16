@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,7 +76,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
         BlocListener<DeleteCommentCubit, DeleteCommentState>(
           listener: (context, state) {
             if (state is DeleteCommentFailureState) {
-              showCustomSnackBar(context, state.message);
+              showCustomSnackBar(context, context.tr(state.message));
             } else if (state is DeleteCommentLoadedState) {
               if (removedCommentIndex != null) {
                 setState(() {

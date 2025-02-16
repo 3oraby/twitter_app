@@ -62,7 +62,7 @@ class _UserFollowersTabBarBlocConsumerBodyState
           );
         } else if (state is GetUserConnectionsFailureState) {
           return Center(
-            child: Text(state.message),
+            child: Text(context.tr(state.message)),
           );
         } else if (state is GetUserConnectionsLoadedState) {
           return UserFollowersTabBarBody(

@@ -62,7 +62,8 @@ class RetweetRepoImpl extends RetweetRepo {
       return right(Success());
     } catch (e) {
       log("exception in retweetRepoImpl.toggleRetweet() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to toggle retweet"));
+      return left(
+          const ServerFailure(message: "Couldn't update the retweet status."));
     }
   }
 }

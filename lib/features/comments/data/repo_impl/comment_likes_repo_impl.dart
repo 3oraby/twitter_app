@@ -65,7 +65,8 @@ class CommentLikesRepoImpl extends CommentLikesRepo {
       return right(likeId);
     } catch (e) {
       log("exception in CommentLikesRepoImpl.toggleCommentLikes() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to toggle like"));
+      return left(
+          const ServerFailure(message: "Couldn't update the like status."));
     }
   }
 }

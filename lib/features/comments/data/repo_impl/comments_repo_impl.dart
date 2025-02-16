@@ -65,7 +65,7 @@ class CommentsRepoImpl extends CommentsRepo {
       return Left(
         ServerFailure(
             message:
-                "Can not make the comment right now ,please try again later"),
+                "Unable to post the comment right now, please try again later."),
       );
     }
   }
@@ -123,7 +123,7 @@ class CommentsRepoImpl extends CommentsRepo {
       return Left(
         ServerFailure(
             message:
-                "Can not get the comments right now ,please try again later"),
+                "Unable to fetch comments right now, please try again later."),
       );
     }
   }
@@ -168,7 +168,7 @@ class CommentsRepoImpl extends CommentsRepo {
       return right(commentDetailsEntity);
     } catch (e) {
       log("Exception in CommentRepoImpl.updateComment() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to update the comment"));
+      return left(const ServerFailure(message: "Unable to update the comment. Please try again."));
     }
   }
 
@@ -197,7 +197,7 @@ class CommentsRepoImpl extends CommentsRepo {
       return right(Success());
     } catch (e) {
       log("Exception in TweetRepoImpl.deleteTweet() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to delete the tweet"));
+      return left(const ServerFailure(message: "Couldn't delete the comment."));
     }
   }
 }

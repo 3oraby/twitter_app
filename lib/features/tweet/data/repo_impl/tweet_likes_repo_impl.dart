@@ -62,7 +62,7 @@ class TweetLikesRepoImpl extends TweetLikesRepo {
       return right(Success());
     } catch (e) {
       log("exception in tweetLikesRepoImpl.addNewLike() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to toggle like"));
+      return left(const ServerFailure(message: "Couldn't update your like"));
     }
   }
 }

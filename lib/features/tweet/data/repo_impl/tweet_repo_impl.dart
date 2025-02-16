@@ -63,7 +63,8 @@ class TweetRepoImpl extends TweetRepo {
       return right(tweetDetailsModel.toEntity());
     } catch (e) {
       log("Exception in TweetRepoImpl.makeNewTweet() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to post the tweet"));
+      return left(const ServerFailure(
+          message: "Unable to post the tweet. Please try again."));
     }
   }
 
@@ -168,7 +169,8 @@ class TweetRepoImpl extends TweetRepo {
       return right(tweets);
     } catch (e) {
       log("Exception in TweetRepoImpl.getTweets() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to get the tweets"));
+      return left(const ServerFailure(
+          message: "Unable to retrieve tweets. Please try again."));
     }
   }
 
@@ -184,7 +186,7 @@ class TweetRepoImpl extends TweetRepo {
       return right(Success());
     } catch (e) {
       log("Exception in TweetRepoImpl.deleteTweet() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to delete the tweet"));
+      return left(const ServerFailure(message: "Couldn't delete the tweet."));
     }
   }
 
@@ -228,7 +230,8 @@ class TweetRepoImpl extends TweetRepo {
       return right(tweetDetailsEntity);
     } catch (e) {
       log("Exception in TweetRepoImpl.updateTweet() ${e.toString()}");
-      return left(const ServerFailure(message: "Failed to update the tweet"));
+      return left(const ServerFailure(
+          message: "Unable to update the tweet. Please try again."));
     }
   }
 }

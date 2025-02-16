@@ -19,7 +19,7 @@ class FilesRepoImpl extends FilesRepo {
       return Right(fileUrl);
     } catch (e) {
       log("error in FilesRepoImpl.uploadFile() ${e.toString()}");
-      return const Left(ServerFailure(message: "Failed to upload image"));
+      return const Left(ServerFailure(message: "Failed to upload file"));
     }
   }
 }

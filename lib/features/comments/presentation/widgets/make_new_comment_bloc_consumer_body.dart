@@ -155,7 +155,7 @@ class _MakeNewCommentBlocConsumerBodyState
       body: BlocConsumer<MakeNewCommentCubit, MakeNewCommentState>(
         listener: (context, state) {
           if (state is MakeNewCommentFailureState) {
-            showCustomSnackBar(context, state.message);
+            showCustomSnackBar(context, context.tr(state.message));
             setState(() {
               _isPostButtonEnabled = true;
             });

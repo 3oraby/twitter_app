@@ -117,7 +117,19 @@
   "Post your reply...": "اكتب ردك...",
   "Post your comment": "انشر تعليقك",
   "You will see fewer posts like this.": "سترى منشورات أقل من هذا النوع",
-  "Failed to post the tweet": "فشل في نشر التغريدة",
-  "Failed to delete the tweet": "فشل في حذف التغريدة",
-  "Failed to update the tweet": "فشل في تحديث التغريدة"
+  "Unable to retrieve tweets. Please try again.": "غير قادر على استرجاع التغريدات. يرجى المحاولة مرة أخرى",
+  "Unable to post the tweet. Please try again.": "غير قادر على نشر التغريدة. يرجى المحاولة مرة أخرى",
+  "Unable to update the tweet. Please try again.": "غير قادر على تحديث التغريدة. يرجى المحاولة مرة أخرى",
+  "Couldn't delete the tweet.": "تعذر حذف التغريدة.",
+  "Unable to update the bookmark status.": "غير قادر على تحديث حالة الإشارة المرجعية",
+  "Couldn't update the retweet status.": "تعذر تحديث حالة إعادة التغريد",
+  "Couldn't update the like status.": "تعذر تحديث حالة الإعجاب",
+  "Unable to fetch comments right now, please try again later.": "غير قادر على جلب التعليقات الآن، يرجى المحاولة لاحقًا",
+  "Unable to post the comment right now, please try again later.": "غير قادر على نشر التعليق الآن، يرجى المحاولة لاحقًا",
+  "Unable to update the comment. Please try again.": "غير قادر على تحديث التعليق. يرجى المحاولة مرة أخرى",
+  "Couldn't update your like": "تعذر تحديث إعجابك",
+  "Unable to send the reply right now. Please try again later.": "غير قادر على إرسال الرد الآن. يرجى المحاولة لاحقًا",
+  "Unable to retrieve replies right now. Please try again later.": "غير قادر على استرجاع الردود الآن. يرجى المحاولة لاحقًا",
+  "Failed to get user connections": "تعذر جلب قائمة الأشخاص المرتبطين بالمستخدم.",
+  "Failed to upload file": "تعذر رفع الملف."
 }

@@ -65,7 +65,7 @@ class RepliesRepoImpl extends RepliesRepo {
       return Left(
         ServerFailure(
             message:
-                "Can not make the reply right now ,please try again later"),
+                "Unable to send the reply right now. Please try again later."),
       );
     }
   }
@@ -105,7 +105,7 @@ class RepliesRepoImpl extends RepliesRepo {
       return Left(
         ServerFailure(
             message:
-                "Can not get the replies right now ,please try again later"),
+                "Unable to retrieve replies right now. Please try again later."),
       );
     }
   }

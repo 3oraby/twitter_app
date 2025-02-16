@@ -117,7 +117,19 @@
   "Post your reply...": "Post your reply...",
   "Post your comment": "Post your comment",
   "You will see fewer posts like this.": "You will see fewer posts like this.",
-  "Failed to post the tweet": "Failed to post the tweet",
-  "Failed to delete the tweet": "Failed to delete the tweet",
-  "Failed to update the tweet": "Failed to update the tweet"
+  "Unable to retrieve tweets. Please try again.": "Unable to retrieve tweets. Please try again.",
+  "Unable to post the tweet. Please try again.": "Unable to post the tweet. Please try again.",
+  "Unable to update the tweet. Please try again.": "Unable to update the tweet. Please try again.",
+  "Couldn't delete the tweet.": "Couldn't delete the tweet.",
+  "Unable to update the bookmark status.": "Unable to update the bookmark status.",
+  "Couldn't update the retweet status.": "Couldn't update the retweet status.",
+  "Couldn't update the like status.": "Couldn't update the like status.",
+  "Unable to fetch comments right now, please try again later.": "Unable to fetch comments right now, please try again later.",
+  "Unable to post the comment right now, please try again later.": "Unable to post the comment right now, please try again later.",
+  "Unable to update the comment. Please try again.": "Unable to update the comment. Please try again.",
+  "Couldn't update your like": "Couldn't update your like",
+  "Unable to send the reply right now. Please try again later.": "Unable to send the reply right now. Please try again later.",
+  "Unable to retrieve replies right now. Please try again later.": "Unable to retrieve replies right now. Please try again later.",
+  "Failed to get user connections": "Failed to get user connections",
+  "Failed to upload file": "Failed to upload file"
 }

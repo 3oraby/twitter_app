@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
@@ -93,7 +94,7 @@ class _BookmarkButtonBlocConsumerBodyState
     return BlocConsumer<ToggleBookmarksCubit, ToggleBookmarksState>(
       listener: (context, state) {
         if (state is ToggleBookmarksFailureState) {
-          showCustomSnackBar(context, state.message);
+          showCustomSnackBar(context, context.tr(state.message));
           setState(() {
             isActive = !isActive;
           });

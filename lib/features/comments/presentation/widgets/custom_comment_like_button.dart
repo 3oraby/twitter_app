@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
@@ -102,7 +103,7 @@ class _CommentLikeButtonBlocConsumerBodyState
     return BlocConsumer<ToggleCommentLikesCubit, ToggleCommentLikesState>(
       listener: (context, state) {
         if (state is ToggleCommentLikesFailureState) {
-          showCustomSnackBar(context, state.message);
+          showCustomSnackBar(context, context.tr(state.message));
           setState(() {
             isActive = !isActive;
             likesCount += amount;

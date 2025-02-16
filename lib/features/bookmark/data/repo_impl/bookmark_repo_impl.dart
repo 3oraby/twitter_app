@@ -49,7 +49,8 @@ class BookmarkRepoImpl extends BookmarkRepo {
       return right(Success());
     } catch (e) {
       log("Exception in BookmarkRepoImpl.toggleBookmark() ${e.toString()}");
-      return left(ServerFailure(message: "can not deal with bookmark flag"));
+      return left(
+          ServerFailure(message: "Unable to update the bookmark status."));
     }
   }
 }
