@@ -20,19 +20,19 @@ class CustomBlocObserver extends BlocObserver {
     }
   }
 
-  @override
-  void onCreate(BlocBase bloc) {
-    super.onCreate(bloc);
-    if (kDebugMode) {
-      log('${bloc.runtimeType} has been provided to the widget tree.');
-    }
-  }
+  // @override
+  // void onCreate(BlocBase bloc) {
+  //   super.onCreate(bloc);
+  //   if (kDebugMode) {
+  //     log('${bloc.runtimeType} has been provided to the widget tree.');
+  //   }
+  // }
 
-  @override
-  void onClose(BlocBase bloc) {
-    super.onClose(bloc);
-    if (kDebugMode) {
-      log("'${bloc.runtimeType} has been closed.')");
-    }
-  }
+  // @override
+  // void onClose(BlocBase bloc) {
+  //   super.onClose(bloc);
+  //   if (kDebugMode) {
+  //     log("'${bloc.runtimeType} has been closed.')");
+  //   }
+  // }
 }

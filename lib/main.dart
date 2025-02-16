@@ -7,6 +7,8 @@ import 'package:twitter_app/core/services/custom_bloc_observer.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/services/shared_preferences_singleton.dart';
 import 'package:twitter_app/core/services/supabase_storage_service.dart';
+import 'package:twitter_app/features/comments/domain/repos/comments_repo.dart';
+import 'package:twitter_app/features/comments/presentation/cubits/update_comment_cubit/update_comment_cubit.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/update_tweet_cubit/update_tweet_cubit.dart';
@@ -41,6 +43,11 @@ Future<void> main() async {
             BlocProvider(
               create: (context) => UpdateTweetCubit(
                 tweetRepo: getIt<TweetRepo>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => UpdateCommentCubit(
+                commentsRepo: getIt<CommentsRepo>(),
               ),
             ),
           ],

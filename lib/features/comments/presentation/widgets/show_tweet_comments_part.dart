@@ -7,7 +7,6 @@ import 'package:twitter_app/features/comments/domain/entities/comment_details_en
 import 'package:twitter_app/features/comments/domain/repos/comments_repo.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/delete_comment_cubit/delete_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/get_tweet_comments_cubit/get_tweet_comments_cubit.dart';
-import 'package:twitter_app/features/comments/presentation/cubits/update_comment_cubit/update_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_all_comments_bloc_consumer_body.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
@@ -40,9 +39,6 @@ class ShowTweetCommentsPart extends StatelessWidget {
           create: (context) => DeleteCommentCubit(
             commentsRepo: getIt<CommentsRepo>(),
           ),
-        ),
-        BlocProvider(
-          create: (context) => getIt<UpdateCommentCubit>(),
         ),
       ],
       child: ShowAllCommentsBlocConsumerBody(

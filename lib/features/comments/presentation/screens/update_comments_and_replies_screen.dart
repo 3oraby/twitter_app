@@ -11,7 +11,6 @@ import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/pick_image_from_gallery.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
-import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
@@ -38,12 +37,9 @@ class UpdateCommentsAndRepliesScreen extends StatelessWidget {
   final ReplyDetailsEntity? replyDetailsEntity;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<UpdateCommentCubit>(),
-      child: UpdateCommentsAndRepliesBlocConsumerBody(
-        commentDetailsEntity: commentDetailsEntity,
-        replyDetailsEntity: replyDetailsEntity,
-      ),
+    return UpdateCommentsAndRepliesBlocConsumerBody(
+      commentDetailsEntity: commentDetailsEntity,
+      replyDetailsEntity: replyDetailsEntity,
     );
   }
 }
