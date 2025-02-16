@@ -61,6 +61,9 @@ class _ShowCommentRepliesBlocConsumerBodyState
       child: BlocConsumer<GetCommentRepliesCubit, GetCommentRepliesState>(
         listener: (context, state) {
           if (state is GetCommentRepliesFailureState) {
+            setState(() {
+              isRepliesHidden = true;
+            });
             showCustomSnackBar(context, context.tr(state.message));
           } else if (state is GetCommentRepliesLoadedState) {
             setState(() {

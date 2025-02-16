@@ -76,6 +76,9 @@ class RepliesRepoImpl extends RepliesRepo {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
       List<ReplyDetailsEntity> replies = [];
+      List<String>? orderByFields = ["createdAt"];
+      List<bool>? descending = [false];
+
       List res = await databaseService.getData(
         path: BackendEndpoints.getReplies,
         queryConditions: [
@@ -84,6 +87,8 @@ class RepliesRepoImpl extends RepliesRepo {
             value: commentId,
           ),
         ],
+        orderByFields: orderByFields,
+        descending: descending,
       );
 
       replies = res.map((doc) {
