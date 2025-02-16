@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/widgets/wrong_route_page.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/auth/presentation/screens/add_user_profile_picture_screen.dart';
@@ -9,7 +7,6 @@ import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dar
 import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone_number_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signup_screen.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
-import 'package:twitter_app/features/comments/presentation/cubits/update_comment_cubit/update_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/screens/make_new_comment_screen.dart';
 import 'package:twitter_app/features/comments/presentation/screens/show_tweet_comments_screen.dart';
 import 'package:twitter_app/features/comments/presentation/screens/update_comments_and_replies_screen.dart';
@@ -79,13 +76,10 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case UpdateCommentsAndRepliesScreen.routeId:
       return MaterialPageRoute(builder: (context) {
         var argument = settings.arguments;
-        return BlocProvider.value(
-          value: getIt<UpdateCommentCubit>(),
-          child: argument is CommentDetailsEntity
-              ? UpdateCommentsAndRepliesScreen(commentDetailsEntity: argument)
-              : UpdateCommentsAndRepliesScreen(
-                  replyDetailsEntity: argument as ReplyDetailsEntity),
-        );
+        return argument is CommentDetailsEntity
+            ? UpdateCommentsAndRepliesScreen(commentDetailsEntity: argument)
+            : UpdateCommentsAndRepliesScreen(
+                replyDetailsEntity: argument as ReplyDetailsEntity);
       });
 
     default:
