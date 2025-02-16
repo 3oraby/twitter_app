@@ -6,6 +6,7 @@ import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/get_comment_replies_cubit/get_comment_replies_cubit.dart';
@@ -15,10 +16,12 @@ import 'package:twitter_app/features/replies/presentation/widgets/custom_reply_i
 class ShowCommentRepliesBlocConsumerBody extends StatefulWidget {
   const ShowCommentRepliesBlocConsumerBody({
     super.key,
+    required this.currentUser,
     required this.commentDetailsEntity,
     required this.onReplyButtonPressed,
   });
 
+  final UserEntity currentUser;
   final CommentDetailsEntity commentDetailsEntity;
   final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
       onReplyButtonPressed;
@@ -131,6 +134,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
                     : replies
                         .map(
                           (reply) => CustomReplyInfoCard(
+                            currentUser: widget.currentUser,
                             replyDetailsEntity: reply,
                             onReplyButtonPressed: widget.onReplyButtonPressed,
                           ),

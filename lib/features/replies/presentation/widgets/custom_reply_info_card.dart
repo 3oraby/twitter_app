@@ -5,8 +5,10 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_show_tweet_media.dart';
+import 'package:twitter_app/core/widgets/custom_tweets_menu.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/presentation/widgets/custom_reply_interactions_row.dart';
@@ -16,12 +18,14 @@ class CustomReplyInfoCard extends StatelessWidget {
   const CustomReplyInfoCard({
     super.key,
     required this.replyDetailsEntity,
+    required this.currentUser,
     this.showInteractionsRow = true,
     this.mediaHeight = 150,
     this.mediaWidth = 100,
     required this.onReplyButtonPressed,
   });
   final ReplyDetailsEntity replyDetailsEntity;
+  final UserEntity currentUser;
   final bool showInteractionsRow;
   final double mediaHeight;
   final double mediaWidth;
@@ -57,47 +61,51 @@ class CustomReplyInfoCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            UserProfileScreen.routeId,
-                            arguments: replyDetailsEntity.reply.replyAuthorData,
-                          );
-                        },
-                        child: Text(
-                          "${replyDetailsEntity.reply.replyAuthorData.firstName} ${replyDetailsEntity.reply.replyAuthorData.lastName}",
-                          style: AppTextStyles.uberMoveBold16,
+                      Expanded(
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return Row(
+                              children: [
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxWidth: constraints.maxWidth * 0.6,
+                                  ),
+                                  child: Text(
+                                    "${replyDetailsEntity.reply.replyAuthorData.firstName} ${replyDetailsEntity.reply.replyAuthorData.lastName}",
+                                    style: AppTextStyles.uberMoveBold16,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                const HorizontalGap(4),
+                                Transform(
+                                  transform: Directionality.of(context) ==
+                                          TextDirection.rtl
+                                      ? Matrix4.rotationY(3.1416)
+                                      : Matrix4.identity(),
+                                  alignment: Alignment.center,
+                                  child: Icon(FontAwesomeIcons.play, size: 18),
+                                ),
+                                const HorizontalGap(6),
+                                Flexible(
+                                  child: Text(
+                                    "${replyDetailsEntity.reply.commentAuthorData.firstName} ${replyDetailsEntity.reply.commentAuthorData.lastName}",
+                                    style:
+                                        AppTextStyles.uberMoveMedium14.copyWith(
+                                      color: AppColors.secondaryColor,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ),
-                      const HorizontalGap(4),
-                      Transform(
-                        transform:
-                            Directionality.of(context) == TextDirection.rtl
-                                ? Matrix4.rotationY(3.1416)
-                                : Matrix4.identity(),
-                        alignment: Alignment.center,
-                        child: Icon(
-                          FontAwesomeIcons.play,
-                          size: 18,
-                        ),
-                      ),
-                      const HorizontalGap(4),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            UserProfileScreen.routeId,
-                            arguments:
-                                replyDetailsEntity.reply.commentAuthorData,
-                          );
-                        },
-                        child: Text(
-                          "${replyDetailsEntity.reply.commentAuthorData.firstName} ${replyDetailsEntity.reply.commentAuthorData.lastName}",
-                          style: AppTextStyles.uberMoveMedium14
-                              .copyWith(color: AppColors.secondaryColor),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      CustomTweetsMenu(
+                        currentUserId: currentUser.userId,
+                        autherEntity: replyDetailsEntity.reply.replyAuthorData,
                       ),
                     ],
                   ),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
+import 'package:twitter_app/core/widgets/custom_background_icon.dart';
 import 'package:twitter_app/core/widgets/custom_popup_menu_item_widget.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
@@ -48,12 +49,11 @@ class _CustomTweetsMenuState extends State<CustomTweetsMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        Icons.more_horiz,
-        color: AppColors.twitterAccentColor,
-      ),
-      onPressed: () {
+    return CustomBackgroundIcon(
+      iconData: Icons.more_horiz,
+      iconColor: AppColors.twitterAccentColor,
+      contentPadding: 4,
+      onTap: () {
         showCupertinoModalPopup(
           context: context,
           builder: (BuildContext context) {

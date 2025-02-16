@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/domain/repos/replies_repo.dart';
@@ -11,10 +12,12 @@ import 'package:twitter_app/features/replies/presentation/widgets/show_comment_r
 class ShowCommentRepliesPart extends StatelessWidget {
   const ShowCommentRepliesPart({
     super.key,
+    required this.currentUser,
     required this.commentDetailsEntity,
     required this.onReplyButtonPressed,
   });
 
+  final UserEntity currentUser;
   final CommentDetailsEntity commentDetailsEntity;
   final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
       onReplyButtonPressed;
@@ -26,6 +29,7 @@ class ShowCommentRepliesPart extends StatelessWidget {
         repliesRepo: getIt<RepliesRepo>(),
       ),
       child: ShowCommentRepliesBlocConsumerBody(
+        currentUser: currentUser,
         commentDetailsEntity: commentDetailsEntity,
         onReplyButtonPressed: onReplyButtonPressed,
       ),
