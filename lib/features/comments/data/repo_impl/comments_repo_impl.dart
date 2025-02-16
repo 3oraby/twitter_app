@@ -168,7 +168,8 @@ class CommentsRepoImpl extends CommentsRepo {
       return right(commentDetailsEntity);
     } catch (e) {
       log("Exception in CommentRepoImpl.updateComment() ${e.toString()}");
-      return left(const ServerFailure(message: "Unable to update the comment. Please try again."));
+      return left(const ServerFailure(
+          message: "Unable to update the comment. Please try again."));
     }
   }
 
@@ -196,7 +197,7 @@ class CommentsRepoImpl extends CommentsRepo {
 
       return right(Success());
     } catch (e) {
-      log("Exception in TweetRepoImpl.deleteTweet() ${e.toString()}");
+      log("Exception in CommentRepoImpl.deleteComment() ${e.toString()}");
       return left(const ServerFailure(message: "Couldn't delete the comment."));
     }
   }

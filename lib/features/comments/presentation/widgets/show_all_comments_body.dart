@@ -53,7 +53,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
       ),
       duration: const Duration(milliseconds: 300),
     );
-    BlocProvider.of<DeleteCommentCubit>(context).deleteTweet(
+    BlocProvider.of<DeleteCommentCubit>(context).deleteComment(
       tweetId: removedComment!.tweetId,
       commentId: removedComment!.commentId,
       mediaFiles: removedComment!.comment.mediaUrl,
@@ -115,11 +115,11 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
                 onReplyButtonPressed: widget.onReplyButtonPressed,
                 currentUser: widget.currentUser,
                 onDeleteCommentTap: () {
-                  log("delete the tweet at index $index");
+                  log("delete the comment at index $index");
                   removedCommentIndex = index;
                   _removeComment(index);
                 },
-                onEditTweetTap: () {
+                onEditCommentTap: () {
                   log('User selected: update comment');
                   Navigator.pushNamed(
                     context,

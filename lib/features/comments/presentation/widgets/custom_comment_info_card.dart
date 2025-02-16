@@ -26,7 +26,7 @@ class CustomCommentInfoCard extends StatefulWidget {
     this.mediaHeight = 300,
     this.mediaWidth = 250,
     this.onDeleteCommentTap,
-    this.onEditTweetTap,
+    this.onEditCommentTap,
   });
   final CommentDetailsEntity commentDetailsEntity;
   final UserEntity currentUser;
@@ -36,7 +36,7 @@ class CustomCommentInfoCard extends StatefulWidget {
   final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
       onReplyButtonPressed;
   final VoidCallback? onDeleteCommentTap;
-  final VoidCallback? onEditTweetTap;
+  final VoidCallback? onEditCommentTap;
 
   @override
   State<CustomCommentInfoCard> createState() => _CustomCommentInfoCardState();
@@ -97,7 +97,7 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
                           autherEntity: widget
                               .commentDetailsEntity.comment.commentAuthorData,
                           onDeleteTweetTap: widget.onDeleteCommentTap,
-                          onEditTweetTap: widget.onEditTweetTap,
+                          onEditTweetTap: widget.onEditCommentTap,
                         )
                       ],
                     ),

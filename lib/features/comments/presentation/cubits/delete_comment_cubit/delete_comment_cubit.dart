@@ -9,7 +9,7 @@ class DeleteCommentCubit extends Cubit<DeleteCommentState> {
   }) : super(DeleteCommentInitial());
 
   final CommentsRepo commentsRepo;
-  Future<void> deleteTweet({
+  Future<void> deleteComment({
     required String tweetId,
     required String commentId,
     List<String>? mediaFiles,
