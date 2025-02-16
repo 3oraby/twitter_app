@@ -32,6 +32,12 @@ class _ShowCommentRepliesBlocConsumerBodyState
     extends State<ShowCommentRepliesBlocConsumerBody> {
   List<ReplyDetailsEntity> replies = [];
   bool isRepliesHidden = true;
+  bool isRepliesReached = false;
+  void _fetchCommentReplies() {
+    BlocProvider.of<GetCommentRepliesCubit>(context).getCommentReplies(
+      commentId: widget.commentDetailsEntity.commentId,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +47,13 @@ class _ShowCommentRepliesBlocConsumerBodyState
           if (makeNewReplyState.replyDetailsEntity.commentId ==
               widget.commentDetailsEntity.commentId) {
             setState(() {
-              replies.add(makeNewReplyState.replyDetailsEntity);
               isRepliesHidden = false;
               widget.commentDetailsEntity.comment.repliesCount += 1;
+              if (isRepliesReached) {
+                replies.add(makeNewReplyState.replyDetailsEntity);
+              } else {
+                _fetchCommentReplies();
+              }
             });
           }
         }
@@ -55,6 +65,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
           } else if (state is GetCommentRepliesLoadedState) {
             setState(() {
               replies.addAll(state.replies);
+              isRepliesReached = true;
             });
           }
         },
@@ -77,10 +88,9 @@ class _ShowCommentRepliesBlocConsumerBodyState
                     setState(() {
                       isRepliesHidden = false;
                     });
-                    BlocProvider.of<GetCommentRepliesCubit>(context)
-                        .getCommentReplies(
-                      commentId: widget.commentDetailsEntity.commentId,
-                    );
+                    if (!isRepliesReached) {
+                      _fetchCommentReplies();
+                    }
                   },
                   child: Row(
                     children: [

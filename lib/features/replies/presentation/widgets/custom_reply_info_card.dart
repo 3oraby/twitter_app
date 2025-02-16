@@ -67,10 +67,10 @@ class CustomReplyInfoCard extends StatelessWidget {
                         },
                         child: Text(
                           "${replyDetailsEntity.reply.replyAuthorData.firstName} ${replyDetailsEntity.reply.replyAuthorData.lastName}",
-                          style: AppTextStyles.uberMoveBold18,
+                          style: AppTextStyles.uberMoveBold16,
                         ),
                       ),
-                      const HorizontalGap(8),
+                      const HorizontalGap(4),
                       Transform(
                         transform:
                             Directionality.of(context) == TextDirection.rtl
@@ -82,7 +82,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                           size: 18,
                         ),
                       ),
-                      const HorizontalGap(8),
+                      const HorizontalGap(4),
                       GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(
@@ -94,7 +94,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                         },
                         child: Text(
                           "${replyDetailsEntity.reply.commentAuthorData.firstName} ${replyDetailsEntity.reply.commentAuthorData.lastName}",
-                          style: AppTextStyles.uberMoveMedium16
+                          style: AppTextStyles.uberMoveMedium14
                               .copyWith(color: AppColors.secondaryColor),
                           overflow: TextOverflow.ellipsis,
                         ),
