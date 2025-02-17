@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart' as dartz;
@@ -67,7 +69,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
             onReplyButtonPressed: (value) {},
           ),
         ),
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 350),
       );
 
       replies.removeAt(index);
@@ -90,10 +92,12 @@ class _ShowCommentRepliesBlocConsumerBodyState
             if (makeNewReplyState is MakeNewReplyLoadedState) {
               if (makeNewReplyState.replyDetailsEntity.commentId ==
                   widget.commentDetailsEntity.commentId) {
+                log("newReply");
                 setState(() {
                   isRepliesHidden = false;
                   widget.commentDetailsEntity.comment.incrementRepliesCount();
                   if (isRepliesReached) {
+                    _listKey.currentState?.insertItem(replies.length);
                     replies.add(makeNewReplyState.replyDetailsEntity);
                   } else {
                     _fetchCommentReplies();
@@ -137,7 +141,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
         },
         builder: (context, state) {
           if (state is GetCommentRepliesLoadingState) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(
                 color: AppColors.primaryColor,
               ),
@@ -160,8 +164,8 @@ class _ShowCommentRepliesBlocConsumerBodyState
                   },
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Divider(
+                      const Expanded(
+                        child: const Divider(
                           color: AppColors.thirdColor,
                         ),
                       ),
@@ -176,7 +180,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
                                 color: AppColors.thirdColor,
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.keyboard_arrow_down,
                               size: 20,
                               color: AppColors.thirdColor,
@@ -233,7 +237,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
                   },
                   child: Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         child: Divider(
                           color: AppColors.thirdColor,
                         ),
@@ -249,7 +253,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
                                 color: AppColors.thirdColor,
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.keyboard_arrow_up,
                               size: 20,
                               color: AppColors.thirdColor,
