@@ -142,6 +142,7 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
                     ),
                   ),
                   ShowCommentRepliesPart(
+                    key: ValueKey(widget.commentDetailsEntity.commentId),
                     currentUser: widget.currentUser,
                     commentDetailsEntity: widget.commentDetailsEntity,
                     onReplyButtonPressed: widget.onReplyButtonPressed,

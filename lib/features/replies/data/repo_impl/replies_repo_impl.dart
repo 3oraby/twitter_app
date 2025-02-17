@@ -63,7 +63,7 @@ class RepliesRepoImpl extends RepliesRepo {
       return right(replyDetailsEntity);
     } catch (e) {
       log("Exception in RepliesRepoImpl.makeNewReply() ${e.toString()}");
-      return Left(
+      return const Left(
         ServerFailure(
             message:
                 "Unable to send the reply right now. Please try again later."),
@@ -108,7 +108,7 @@ class RepliesRepoImpl extends RepliesRepo {
       return right(replies);
     } catch (e) {
       log("Exception in RepliesRepoImpl.getCommentReplies() ${e.toString()}");
-      return Left(
+      return const Left(
         ServerFailure(
             message:
                 "Unable to retrieve replies right now. Please try again later."),

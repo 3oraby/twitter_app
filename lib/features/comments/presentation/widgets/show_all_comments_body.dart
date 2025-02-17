@@ -45,7 +45,10 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
     super.initState();
     comments = List.from(widget.comments);
   }
+
   void _removeComment(int index) {
+    log("delete the comment at index $index");
+    removedCommentIndex = index;
     removedComment = comments[index];
     _listKey.currentState?.removeItem(
       index,
@@ -57,7 +60,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           onReplyButtonPressed: (value) {},
         ),
       ),
-      duration: const Duration(milliseconds: 350),
+      duration: const Duration(milliseconds: 400),
     );
     BlocProvider.of<DeleteCommentCubit>(context).deleteComment(
       tweetId: removedComment!.tweetId,
@@ -84,10 +87,17 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           listener: (context, state) {
             if (state is DeleteCommentFailureState) {
               showCustomSnackBar(context, context.tr(state.message));
+              if (removedCommentIndex != null && removedComment != null) {
+                _listKey.currentState?.insertItem(
+                  removedCommentIndex!,
+                  duration: const Duration(milliseconds: 400),
+                );
+              }
             } else if (state is DeleteCommentLoadedState) {
               if (removedCommentIndex != null) {
                 setState(() {
                   comments.removeAt(removedCommentIndex!);
+                  widget.comments.removeAt(removedCommentIndex!);
                 });
               } else {
                 log("can not delete the comment");
@@ -122,8 +132,6 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
                 onReplyButtonPressed: widget.onReplyButtonPressed,
                 currentUser: widget.currentUser,
                 onDeleteCommentTap: () {
-                  log("delete the comment at index $index");
-                  removedCommentIndex = index;
                   _removeComment(index);
                 },
                 onEditCommentTap: () {

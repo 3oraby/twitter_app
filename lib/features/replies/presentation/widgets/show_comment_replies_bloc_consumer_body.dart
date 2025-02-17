@@ -48,6 +48,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
   List<ReplyDetailsEntity> replies = [];
   bool isRepliesHidden = true;
   bool isRepliesReached = false;
+
   void _fetchCommentReplies() {
     BlocProvider.of<GetCommentRepliesCubit>(context).getCommentReplies(
       commentId: widget.commentDetailsEntity.commentId,
@@ -56,8 +57,9 @@ class _ShowCommentRepliesBlocConsumerBodyState
 
   void _removeReply(int index) {
     setState(() {
-      removedReply = replies[index];
+      log("delete the reply at $index ");
       removedReplyIndex = index;
+      removedReply = replies[index];
 
       _listKey.currentState?.removeItem(
         index,
@@ -72,15 +74,16 @@ class _ShowCommentRepliesBlocConsumerBodyState
         duration: const Duration(milliseconds: 350),
       );
 
-      replies.removeAt(index);
     });
     widget.commentDetailsEntity.comment.decrementRepliesCount();
 
-    BlocProvider.of<DeleteReplyCubit>(context).deleteReply(
-      replyId: removedReply!.replyId,
-      commentId: removedReply!.commentId,
-      removedMediaFiles: removedReply!.reply.mediaUrl,
-    );
+    if (removedReply != null) {
+      BlocProvider.of<DeleteReplyCubit>(context).deleteReply(
+        replyId: removedReply!.replyId,
+        commentId: removedReply!.commentId,
+        removedMediaFiles: removedReply!.reply.mediaUrl,
+      );
+    }
   }
 
   @override
@@ -121,6 +124,27 @@ class _ShowCommentRepliesBlocConsumerBodyState
                   log("can not update the comment");
                 }
               });
+            }
+          },
+        ),
+        BlocListener<DeleteReplyCubit, DeleteReplyState>(
+          listener: (context, state) {
+            if (state is DeleteReplyFailureState) {
+              showCustomSnackBar(context, context.tr(state.message));
+              if (removedReplyIndex != null && removedReply != null) {
+                _listKey.currentState?.insertItem(
+                  removedReplyIndex!,
+                  duration: const Duration(milliseconds: 400),
+                );
+              }
+            } else if (state is DeleteReplyLoadedState) {
+              if (removedReplyIndex != null) {
+                setState(() {
+                  replies.removeAt(removedReplyIndex!);
+                });
+              } else {
+                log("can not delete the reply");
+              }
             }
           },
         ),
@@ -208,8 +232,6 @@ class _ShowCommentRepliesBlocConsumerBodyState
                           replyDetailsEntity: replies[index],
                           onReplyButtonPressed: widget.onReplyButtonPressed,
                           onDeleteReplyTap: () {
-                            log("delete the reply at index ");
-                            removedReplyIndex = index;
                             _removeReply(index);
                           },
                           onEditReplyTap: () {

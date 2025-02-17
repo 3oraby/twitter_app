@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
+import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/delete_tweet_cubit/delete_tweet_cubit.dart';
@@ -38,6 +39,7 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
 
   void _removeTweet(int index) {
     removedTweet = widget.tweets[index];
+
     _listKey.currentState?.removeItem(
       index,
       (context, animation) => SizeTransition(
@@ -47,7 +49,7 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
           currentUser: widget.currentUser,
         ),
       ),
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 400),
     );
     BlocProvider.of<DeleteTweetCubit>(context).deleteTweet(
       tweetId: removedTweet!.tweetId,
@@ -94,6 +96,7 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
             child: Column(
               key: ValueKey(widget.tweets[index].tweetId),
               children: [
+                if (index == 0) const VerticalGap(16),
                 CustomTweetInfoCard(
                   tweetDetailsEntity: widget.tweets[index],
                   currentUser: widget.currentUser,
@@ -124,7 +127,7 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
                 if (index != widget.tweets.length - 1)
                   const Divider(
                     color: AppColors.dividerColor,
-                    height: 24,
+                    height: 36,
                   ),
               ],
             ),

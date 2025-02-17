@@ -62,7 +62,7 @@ class CommentsRepoImpl extends CommentsRepo {
       return right(commentDetailsModel.toEntity());
     } catch (e) {
       log("Exception in CommentsRepoImpl.makeNewComment() ${e.toString()}");
-      return Left(
+      return const Left(
         ServerFailure(
             message:
                 "Unable to post the comment right now, please try again later."),
@@ -120,7 +120,7 @@ class CommentsRepoImpl extends CommentsRepo {
       return right(comments);
     } catch (e) {
       log("Exception in CommentsRepoImpl.getTweetComments() ${e.toString()}");
-      return Left(
+      return const Left(
         ServerFailure(
             message:
                 "Unable to fetch comments right now, please try again later."),
