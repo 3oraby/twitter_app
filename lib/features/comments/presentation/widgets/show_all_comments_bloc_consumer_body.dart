@@ -59,7 +59,7 @@ class _ShowAllCommentsBlocConsumerBodyState
     return BlocBuilder<GetTweetCommentsCubit, GetTweetCommentsState>(
       builder: (context, state) {
         if (state is GetTweetCommentsEmptyState) {
-          return CustomEmptyBodyWidget(
+          return const CustomEmptyBodyWidget(
             mainLabel: "No comments yet! 💬",
             subLabel: "Be the first to share your thoughts 💡",
             showImage: false,
@@ -67,7 +67,7 @@ class _ShowAllCommentsBlocConsumerBodyState
         } else if (state is GetTweetCommentsFailureState) {
           return CustomFailureBodyWidget(message: state.message);
         } else if (state is GetTweetCommentsLoadingState) {
-          return CircularProgressIndicator(
+          return const CircularProgressIndicator(
             color: AppColors.primaryColor,
           );
         } else if (state is GetTweetCommentsLoadedState) {
@@ -77,7 +77,7 @@ class _ShowAllCommentsBlocConsumerBodyState
             onReplyButtonPressed: widget.onReplyButtonPressed,
           );
         }
-        return SizedBox();
+        return const SizedBox();
       },
     );
   }

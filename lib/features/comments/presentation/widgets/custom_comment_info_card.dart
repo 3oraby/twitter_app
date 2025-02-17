@@ -77,21 +77,27 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
                     onTap: _onUserProfileCommentTap,
                     child: Row(
                       children: [
-                        Text(
-                          "${widget.commentDetailsEntity.comment.commentAuthorData.firstName} ${widget.commentDetailsEntity.comment.commentAuthorData.lastName}",
-                          style: AppTextStyles.uberMoveBold18,
-                        ),
-                        const HorizontalGap(8),
-                        Flexible(
-                          child: Text(
-                            widget.commentDetailsEntity.comment
-                                .commentAuthorData.email,
-                            style: AppTextStyles.uberMoveMedium16
-                                .copyWith(color: AppColors.secondaryColor),
-                            overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Text(
+                                "${widget.commentDetailsEntity.comment.commentAuthorData.firstName} ${widget.commentDetailsEntity.comment.commentAuthorData.lastName}",
+                                style: AppTextStyles.uberMoveBold18,
+                              ),
+                              const HorizontalGap(8),
+                              Flexible(
+                                child: Text(
+                                  widget.commentDetailsEntity.comment
+                                      .commentAuthorData.email,
+                                  style: AppTextStyles.uberMoveMedium16
+                                      .copyWith(color: AppColors.secondaryColor),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const Spacer(),
+                        const HorizontalGap(8),
                         CustomTweetsMenu(
                           currentUserId: widget.currentUser.userId,
                           autherEntity: widget

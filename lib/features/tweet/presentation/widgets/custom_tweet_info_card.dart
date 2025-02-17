@@ -72,20 +72,26 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                     onTap: _onUserProfileTweetTap,
                     child: Row(
                       children: [
-                        Text(
-                          "${widget.tweetDetailsEntity.user.firstName} ${widget.tweetDetailsEntity.user.lastName}",
-                          style: AppTextStyles.uberMoveBold18,
-                        ),
-                        const HorizontalGap(8),
-                        Flexible(
-                          child: Text(
-                            widget.tweetDetailsEntity.user.email,
-                            style: AppTextStyles.uberMoveMedium16
-                                .copyWith(color: AppColors.secondaryColor),
-                            overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Text(
+                                "${widget.tweetDetailsEntity.user.firstName} ${widget.tweetDetailsEntity.user.lastName}",
+                                style: AppTextStyles.uberMoveBold18,
+                              ),
+                              const HorizontalGap(8),
+                              Flexible(
+                                child: Text(
+                                  widget.tweetDetailsEntity.user.email,
+                                  style: AppTextStyles.uberMoveMedium16
+                                      .copyWith(color: AppColors.secondaryColor),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const Spacer(),
+                        const HorizontalGap(8),
                         CustomTweetsMenu(
                           showNotIntrestedOption: true,
                           currentUserId: widget.currentUser.userId,

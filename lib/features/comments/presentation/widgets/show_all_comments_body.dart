@@ -35,12 +35,18 @@ class ShowAllCommentsBody extends StatefulWidget {
 
 class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  late List<CommentDetailsEntity> comments;
   CommentDetailsEntity? removedComment;
   int? updatedCommentIndex;
   int? removedCommentIndex;
 
+  @override
+  void initState() {
+    super.initState();
+    comments = List.from(widget.comments);
+  }
   void _removeComment(int index) {
-    removedComment = widget.comments[index];
+    removedComment = comments[index];
     _listKey.currentState?.removeItem(
       index,
       (context, animation) => SizeTransition(
@@ -51,7 +57,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           onReplyButtonPressed: (value) {},
         ),
       ),
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 350),
     );
     BlocProvider.of<DeleteCommentCubit>(context).deleteComment(
       tweetId: removedComment!.tweetId,
@@ -68,7 +74,8 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           listener: (context, state) {
             if (state is MakeNewCommentLoadedState) {
               setState(() {
-                widget.comments.insert(0, state.commentDetails);
+                _listKey.currentState?.insertItem(0);
+                comments.insert(0, state.commentDetails);
               });
             }
           },
@@ -80,7 +87,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
             } else if (state is DeleteCommentLoadedState) {
               if (removedCommentIndex != null) {
                 setState(() {
-                  widget.comments.removeAt(removedCommentIndex!);
+                  comments.removeAt(removedCommentIndex!);
                 });
               } else {
                 log("can not delete the comment");
@@ -103,15 +110,15 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
         key: _listKey,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        initialItemCount: widget.comments.length,
+        initialItemCount: comments.length,
         itemBuilder: (context, index, animation) => SizeTransition(
           sizeFactor: animation,
           child: Column(
-            key: ValueKey(widget.comments[index].commentId),
+            key: ValueKey(comments[index].commentId),
             children: [
               const VerticalGap(24),
               CustomCommentInfoCard(
-                commentDetailsEntity: widget.comments[index],
+                commentDetailsEntity: comments[index],
                 onReplyButtonPressed: widget.onReplyButtonPressed,
                 currentUser: widget.currentUser,
                 onDeleteCommentTap: () {
@@ -124,12 +131,12 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
                   Navigator.pushNamed(
                     context,
                     UpdateCommentsAndRepliesScreen.routeId,
-                    arguments: widget.comments[index],
+                    arguments: comments[index],
                   );
                   updatedCommentIndex = index;
                 },
               ),
-              if (index != widget.comments.length - 1)
+              if (index != comments.length - 1)
                 const Divider(
                   color: AppColors.dividerColor,
                   height: 24,
