@@ -9,18 +9,19 @@ import 'package:twitter_app/features/comments/domain/entities/comment_details_en
 import 'package:twitter_app/features/comments/presentation/cubits/get_tweet_comments_cubit/get_tweet_comments_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_all_comments_body.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
 class ShowAllCommentsBlocConsumerBody extends StatefulWidget {
   const ShowAllCommentsBlocConsumerBody({
     super.key,
-    required this.tweetId,
+    required this.tweetDetailsEntity,
     required this.onReplyButtonPressed,
     required this.selectedCommentedFilter,
     required this.currentUser,
   });
 
   final UserEntity currentUser;
-  final String tweetId;
+  final TweetDetailsEntity tweetDetailsEntity;
   final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
       onReplyButtonPressed;
   final ValueNotifier<String> selectedCommentedFilter;
@@ -49,7 +50,7 @@ class _ShowAllCommentsBlocConsumerBodyState
 
   void _fetchComments() {
     BlocProvider.of<GetTweetCommentsCubit>(context).getTweetComments(
-      tweetId: widget.tweetId,
+      tweetId: widget.tweetDetailsEntity.tweetId,
       filter: widget.selectedCommentedFilter.value,
     );
   }
@@ -72,6 +73,7 @@ class _ShowAllCommentsBlocConsumerBodyState
           );
         } else if (state is GetTweetCommentsLoadedState) {
           return ShowAllCommentsBody(
+            tweetDetailsEntity: widget.tweetDetailsEntity,
             currentUser: widget.currentUser,
             comments: state.comments,
             onReplyButtonPressed: widget.onReplyButtonPressed,

@@ -45,4 +45,12 @@ class TweetDetailsEntity {
   void removeFromBookmarks() {
     isBookmarked = false;
   }
+
+  void makeComment() {
+    tweet.commentsCount++;
+  }
+
+  void deleteComment() {
+    tweet.commentsCount--;
+  }
 }

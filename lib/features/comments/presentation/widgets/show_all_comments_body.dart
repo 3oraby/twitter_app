@@ -15,15 +15,18 @@ import 'package:twitter_app/features/comments/presentation/cubits/update_comment
 import 'package:twitter_app/features/comments/presentation/screens/update_comments_and_replies_screen.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/custom_comment_info_card.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
+import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
 class ShowAllCommentsBody extends StatefulWidget {
   const ShowAllCommentsBody({
     super.key,
+    required this.tweetDetailsEntity,
     required this.currentUser,
     required this.comments,
     required this.onReplyButtonPressed,
   });
 
+  final TweetDetailsEntity tweetDetailsEntity;
   final UserEntity currentUser;
   final List<CommentDetailsEntity> comments;
   final ValueChanged<dartz.Either<CommentDetailsEntity, ReplyDetailsEntity>>
@@ -79,6 +82,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
               setState(() {
                 _listKey.currentState?.insertItem(0);
                 comments.insert(0, state.commentDetails);
+                widget.tweetDetailsEntity.makeComment();
               });
             }
           },
@@ -96,6 +100,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
             } else if (state is DeleteCommentLoadedState) {
               if (removedCommentIndex != null) {
                 setState(() {
+                  widget.tweetDetailsEntity.deleteComment();
                   comments.removeAt(removedCommentIndex!);
                   widget.comments.removeAt(removedCommentIndex!);
                 });

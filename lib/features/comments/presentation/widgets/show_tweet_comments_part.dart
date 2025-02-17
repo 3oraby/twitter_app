@@ -43,7 +43,7 @@ class ShowTweetCommentsPart extends StatelessWidget {
       ],
       child: ShowAllCommentsBlocConsumerBody(
         currentUser: currentUser,
-        tweetId: tweetDetailsEntity.tweetId,
+        tweetDetailsEntity: tweetDetailsEntity,
         onReplyButtonPressed: onReplyButtonPressed,
         selectedCommentedFilter: selectedCommentedFilter,
       ),
