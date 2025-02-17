@@ -178,7 +178,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                contentPadding: EdgeInsets.all(0),
+                contentPadding: const EdgeInsets.all(0),
                 leading: BuildUserCircleAvatarImage(
                   profilePicUrl: widget.currentUser.profilePicUrl,
                   circleAvatarRadius: 20,
@@ -194,7 +194,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                   return Visibility(
                     visible: newCommentState is MakeNewCommentLoadingState ||
                         newReplyState is MakeNewReplyLoadingState,
-                    child: LinearProgressIndicator(
+                    child: const LinearProgressIndicator(
                       color: AppColors.twitterAccentColor,
                     ),
                   );
@@ -220,8 +220,8 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                   ),
                 ),
                 padding: mediaFiles.isNotEmpty
-                    ? EdgeInsets.all(16)
-                    : EdgeInsets.symmetric(horizontal: 8),
+                    ? const EdgeInsets.all(16)
+                    : const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
                     Visibility(
@@ -258,14 +258,12 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                 children: [
                   GestureDetector(
                     onTap: _onAddImagePressed,
-                    child: CustomBackgroundIcon(
+                    child: const CustomBackgroundIcon(
                       iconData: Icons.add_a_photo,
-                      iconColor: AppColors.primaryColor,
                     ),
                   ),
                   CustomContainerButton(
                     internalVerticalPadding: 6,
-                    internalHorizontalPadding: 16,
                     backgroundColor: _isReplyButtonEnabled
                         ? AppColors.twitterAccentColor
                         : AppColors.lightTwitterAccentColor,
