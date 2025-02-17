@@ -109,6 +109,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                         ),
                       ),
                       CustomTweetsMenu(
+                        key: ValueKey(replyDetailsEntity.replyId),
                         currentUserId: currentUser.userId,
                         autherEntity: replyDetailsEntity.reply.replyAuthorData,
                         onDeleteTweetTap: onDeleteReplyTap,

@@ -24,7 +24,10 @@ import 'package:twitter_app/features/comments/presentation/cubits/update_comment
 import 'package:twitter_app/features/home/presentation/widgets/custom_floating_action_button.dart';
 import 'package:twitter_app/features/home/presentation/widgets/make_new_tweet_text_field.dart';
 import 'package:twitter_app/features/home/presentation/widgets/preview_chosen_media.dart';
+import 'package:twitter_app/features/replies/data/models/reply_details_model.dart';
+import 'package:twitter_app/features/replies/data/models/reply_model.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
+import 'package:twitter_app/features/replies/presentation/cubits/update_reply_cubit.dart/update_reply_cubit.dart';
 
 class UpdateCommentsAndRepliesScreen extends StatelessWidget {
   const UpdateCommentsAndRepliesScreen({
@@ -199,6 +202,25 @@ class _UpdateCommentsAndRepliesBlocConsumerBodyState
         constantMediaUrls: networkMediaUrls,
         removedMediaUrls: removedMediaUrls,
       );
+    } else {
+      ReplyModel newReplyModel =
+          ReplyModel.fromEntity(widget.replyDetailsEntity!.reply).copyWith(
+        content: content,
+        updatedAt: Timestamp.now(),
+      );
+
+      ReplyDetailsModel newReplyDetails =
+          ReplyDetailsModel.fromEntity(widget.replyDetailsEntity!).copyWith(
+        reply: newReplyModel.toEntity(),
+      );
+
+      BlocProvider.of<UpdateReplyCubit>(context).updateReply(
+        replyId: widget.replyDetailsEntity!.replyId,
+        data: newReplyDetails.toJson(),
+        mediaFiles: mediaFiles,
+        constantMediaUrls: networkMediaUrls,
+        removedMediaUrls: removedMediaUrls,
+      );
     }
   }
 
@@ -210,54 +232,70 @@ class _UpdateCommentsAndRepliesBlocConsumerBodyState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UpdateCommentCubit, UpdateCommentState>(
-      listener: (context, updateCommentState) {
-        if (updateCommentState is UpdateCommentLoadedState) {
+    return BlocConsumer<UpdateReplyCubit, UpdateReplyState>(
+      listener: (context, updateReplyState) {
+        if (updateReplyState is UpdateReplyLoadedState) {
           Navigator.pop(context);
-        } else if (updateCommentState is UpdateCommentFailureState) {
-          showCustomSnackBar(context, context.tr(updateCommentState.message));
+        } else if (updateReplyState is UpdateReplyFailureState) {
+          showCustomSnackBar(context, context.tr(updateReplyState.message));
           Navigator.pop(context);
         }
       },
-      builder: (context, updateCommentState) => AbsorbPointer(
-        absorbing: updateCommentState is UpdateCommentLoadingState,
-        child: Scaffold(
-          appBar: _buildAppBar(),
-          floatingActionButton: CustomFloatingActionButton(
-            iconData: Icons.add_a_photo,
-            onPressed: _onAddImagePressed,
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: AppConstants.horizontalPadding),
-            child: ListView(
-              children: [
-                Visibility(
-                  visible: updateCommentState is UpdateCommentLoadingState,
-                  child: LinearProgressIndicator(
-                    color: AppColors.twitterAccentColor,
-                  ),
+      builder: (context, updateReplyState) {
+        return BlocConsumer<UpdateCommentCubit, UpdateCommentState>(
+          listener: (context, updateCommentState) {
+            if (updateCommentState is UpdateCommentLoadedState) {
+              Navigator.pop(context);
+            } else if (updateCommentState is UpdateCommentFailureState) {
+              showCustomSnackBar(
+                  context, context.tr(updateCommentState.message));
+              Navigator.pop(context);
+            }
+          },
+          builder: (context, updateCommentState) => AbsorbPointer(
+            absorbing: updateCommentState is UpdateCommentLoadingState ||
+                updateReplyState is UpdateReplyLoadingState,
+            child: Scaffold(
+              appBar: _buildAppBar(),
+              floatingActionButton: CustomFloatingActionButton(
+                iconData: Icons.add_a_photo,
+                onPressed: _onAddImagePressed,
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.horizontalPadding),
+                child: ListView(
+                  children: [
+                    Visibility(
+                      visible:
+                          updateCommentState is UpdateCommentLoadingState ||
+                              updateReplyState is UpdateReplyLoadingState,
+                      child: LinearProgressIndicator(
+                        color: AppColors.twitterAccentColor,
+                      ),
+                    ),
+                    const VerticalGap(6),
+                    MakeNewTweetTextField(
+                      userEntity: userEntity,
+                      textTweetController: textContoller,
+                      hintText: context.tr("What`s happening?"),
+                    ),
+                    const VerticalGap(28),
+                    PreviewChosenMedia(
+                      mediaFiles: mediaFiles,
+                      onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
+                      onRemoveNetworkImageUrlPressed:
+                          _onRemoveNetworkImageUrlPressed,
+                      isLoading: isImageLoading,
+                      networkMediaUrls: networkMediaUrls,
+                    ),
+                  ],
                 ),
-                const VerticalGap(6),
-                MakeNewTweetTextField(
-                  userEntity: userEntity,
-                  textTweetController: textContoller,
-                  hintText: context.tr("What`s happening?"),
-                ),
-                const VerticalGap(28),
-                PreviewChosenMedia(
-                  mediaFiles: mediaFiles,
-                  onRemoveImageButtonPressed: _onRemoveImageButtonPressed,
-                  onRemoveNetworkImageUrlPressed:
-                      _onRemoveNetworkImageUrlPressed,
-                  isLoading: isImageLoading,
-                  networkMediaUrls: networkMediaUrls,
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

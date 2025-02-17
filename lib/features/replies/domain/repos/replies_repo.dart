@@ -20,4 +20,12 @@ abstract class RepliesRepo {
     required String replyId,
     List<String>? removedMediaFiles,
   });
+
+  Future<Either<Failure, ReplyDetailsEntity>> updateReply({
+    required String replyId,
+    required Map<String, dynamic> data,
+    required List<String>? constantMediaUrls,
+    required List<String>? removedMediaUrls,
+    required List<File>? mediaFiles,
+  });
 }

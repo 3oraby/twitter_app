@@ -1,5 +1,6 @@
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/data/models/reply_model.dart';
+import 'package:twitter_app/features/replies/domain/entities/reply_entity.dart';
 
 class ReplyDetailsModel extends ReplyDetailsEntity {
   ReplyDetailsModel({
@@ -22,7 +23,7 @@ class ReplyDetailsModel extends ReplyDetailsEntity {
     return {
       'commentId': commentId,
       'replyId': replyId,
-      'reply': (reply as ReplyModel).toJson(),
+      'reply': ReplyModel.fromEntity(reply).toJson(),
       'isLiked': isLiked,
     };
   }
@@ -42,6 +43,20 @@ class ReplyDetailsModel extends ReplyDetailsEntity {
       replyId: replyId,
       reply: reply,
       isLiked: isLiked,
+    );
+  }
+
+  ReplyDetailsModel copyWith({
+    String? commentId,
+    String? replyId,
+    ReplyEntity? reply,
+    bool? isLiked,
+  }) {
+    return ReplyDetailsModel(
+      commentId: commentId ?? this.commentId,
+      replyId: replyId ?? this.replyId,
+      reply: reply ?? this.reply,
+      isLiked: isLiked ?? this.isLiked,
     );
   }
 }

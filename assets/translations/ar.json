@@ -132,5 +132,6 @@
   "Unable to retrieve replies right now. Please try again later.": "غير قادر على استرجاع الردود الآن. يرجى المحاولة لاحقًا",
   "Failed to get user connections": "تعذر جلب قائمة الأشخاص المرتبطين بالمستخدم.",
   "Failed to upload file": "تعذر رفع الملف.",
-  "Couldn't delete the reply.": "لم يتمكن من حذف الرد."
+  "Couldn't delete the reply.": "لم يتمكن من حذف الرد.",
+  "Unable to update the reply. Please try again.": "تعذر تحديث الرد. يرجى المحاولة مرة أخرى."
 }

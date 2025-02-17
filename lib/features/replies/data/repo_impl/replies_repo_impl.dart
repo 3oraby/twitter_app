@@ -144,4 +144,49 @@ class RepliesRepoImpl extends RepliesRepo {
       return left(const ServerFailure(message: "Couldn't delete the reply."));
     }
   }
+
+  @override
+  Future<Either<Failure, ReplyDetailsEntity>> updateReply({
+    required String replyId,
+    required Map<String, dynamic> data,
+    required List<String>? constantMediaUrls,
+    required List<String>? removedMediaUrls,
+    required List<File>? mediaFiles,
+  }) async {
+    try {
+      List<String> mediaUrls = constantMediaUrls ?? [];
+
+      if (removedMediaUrls != null && removedMediaUrls.isNotEmpty) {
+        await storageService.deleteFiles(removedMediaUrls);
+      }
+
+      ReplyDetailsEntity replyDetailsEntity =
+          ReplyDetailsModel.fromJson(data).toEntity();
+
+      if (mediaFiles != null) {
+        for (File file in mediaFiles) {
+          String fileUrl = await storageService.uploadFile(
+            file,
+            BackendEndpoints.uploadFiles,
+          );
+          mediaUrls.add(fileUrl);
+        }
+      }
+
+      replyDetailsEntity.reply.mediaUrl = mediaUrls;
+      log("new reply data after edit: ${ReplyDetailsModel.fromEntity(replyDetailsEntity).toJson()}");
+
+      await databaseService.updateData(
+        path: BackendEndpoints.updateReply,
+        documentId: replyId,
+        data: ReplyModel.fromEntity(replyDetailsEntity.reply).toJson(),
+      );
+
+      return right(replyDetailsEntity);
+    } catch (e) {
+      log("Exception in RepliesRepoImpl.updateReply() ${e.toString()}");
+      return left(const ServerFailure(
+          message: "Unable to update the reply. Please try again."));
+    }
+  }
 }

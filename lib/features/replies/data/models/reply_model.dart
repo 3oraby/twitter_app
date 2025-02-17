@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_entity.dart';
 import 'package:twitter_app/features/auth/data/models/user_model.dart';
 
@@ -65,6 +66,28 @@ class ReplyModel extends ReplyEntity {
       mediaUrl: mediaUrl,
       likes: likes,
       updatedAt: updatedAt,
+    );
+  }
+
+  ReplyModel copyWith({
+    String? commentId,
+    UserEntity? commentAuthorData,
+    UserEntity? replyAuthorData,
+    Timestamp? createdAt,
+    String? content,
+    List<String>? mediaUrl,
+    List<dynamic>? likes,
+    Timestamp? updatedAt,
+  }) {
+    return ReplyModel(
+      commentId: commentId ?? this.commentId,
+      commentAuthorData: commentAuthorData ?? this.commentAuthorData,
+      replyAuthorData: replyAuthorData ?? this.replyAuthorData,
+      createdAt: createdAt ?? this.createdAt,
+      content: content ?? this.content,
+      mediaUrl: mediaUrl ?? this.mediaUrl,
+      likes: likes ?? this.likes,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

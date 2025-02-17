@@ -11,10 +11,12 @@ import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
+import 'package:twitter_app/features/comments/presentation/screens/update_comments_and_replies_screen.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/delete_reply_cubit/delete_reply_cubit.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/get_comment_replies_cubit/get_comment_replies_cubit.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/make_new_reply_cubit/make_new_reply_cubit.dart';
+import 'package:twitter_app/features/replies/presentation/cubits/update_reply_cubit.dart/update_reply_cubit.dart';
 import 'package:twitter_app/features/replies/presentation/widgets/custom_reply_info_card.dart';
 
 class ShowCommentRepliesBlocConsumerBody extends StatefulWidget {
@@ -81,23 +83,44 @@ class _ShowCommentRepliesBlocConsumerBodyState
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MakeNewReplyCubit, MakeNewReplyState>(
-      listener: (context, makeNewReplyState) {
-        if (makeNewReplyState is MakeNewReplyLoadedState) {
-          if (makeNewReplyState.replyDetailsEntity.commentId ==
-              widget.commentDetailsEntity.commentId) {
-            setState(() {
-              isRepliesHidden = false;
-              widget.commentDetailsEntity.comment.incrementRepliesCount();
-              if (isRepliesReached) {
-                replies.add(makeNewReplyState.replyDetailsEntity);
-              } else {
-                _fetchCommentReplies();
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<MakeNewReplyCubit, MakeNewReplyState>(
+          listener: (context, makeNewReplyState) {
+            if (makeNewReplyState is MakeNewReplyLoadedState) {
+              if (makeNewReplyState.replyDetailsEntity.commentId ==
+                  widget.commentDetailsEntity.commentId) {
+                setState(() {
+                  isRepliesHidden = false;
+                  widget.commentDetailsEntity.comment.incrementRepliesCount();
+                  if (isRepliesReached) {
+                    replies.add(makeNewReplyState.replyDetailsEntity);
+                  } else {
+                    _fetchCommentReplies();
+                  }
+                });
               }
-            });
-          }
-        }
-      },
+            }
+          },
+        ),
+        BlocListener<UpdateReplyCubit, UpdateReplyState>(
+          listener: (context, state) {
+            if (state is UpdateReplyFailureState) {
+              showCustomSnackBar(context, context.tr(state.message));
+            } else if (state is UpdateReplyLoadedState) {
+              setState(() {
+                log("indexxxxx => $updatedReplyIndex");
+                if (updatedReplyIndex != null) {
+                  log("not null");
+                  replies[updatedReplyIndex!] = state.updatedReplyDetails;
+                } else {
+                  log("can not update the comment");
+                }
+              });
+            }
+          },
+        ),
+      ],
       child: BlocConsumer<GetCommentRepliesCubit, GetCommentRepliesState>(
         listener: (context, state) {
           if (state is GetCommentRepliesFailureState) {
@@ -181,11 +204,19 @@ class _ShowCommentRepliesBlocConsumerBodyState
                           replyDetailsEntity: replies[index],
                           onReplyButtonPressed: widget.onReplyButtonPressed,
                           onDeleteReplyTap: () {
-                            log("delete the reply at index $index");
+                            log("delete the reply at index ");
                             removedReplyIndex = index;
                             _removeReply(index);
                           },
-                          onEditReplyTap: () {},
+                          onEditReplyTap: () {
+                            log('User selected: update reply');
+                            Navigator.pushNamed(
+                              context,
+                              UpdateCommentsAndRepliesScreen.routeId,
+                              arguments: replies[index],
+                            );
+                            updatedReplyIndex = index;
+                          },
                         ),
                         const VerticalGap(16),
                       ],
