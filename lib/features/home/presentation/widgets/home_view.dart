@@ -75,7 +75,7 @@ class HomeView extends StatelessWidget {
                 Tab(text: context.tr("Following")),
               ],
             ),
-            ShowHomeTweetsBody(),
+            const ShowHomeTweetsBody(),
           ],
         ),
       ),

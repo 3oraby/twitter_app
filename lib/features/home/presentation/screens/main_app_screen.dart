@@ -19,7 +19,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomAppDrawer(),
+      drawer: currentIndex == 0 ? const CustomAppDrawer() : null,
       bottomNavigationBar: CustomBottomNavigationBar(
         onTabChange: (index) {
           setState(() {
@@ -27,12 +27,14 @@ class _MainAppScreenState extends State<MainAppScreen> {
           });
         },
       ),
-      floatingActionButton: CustomFloatingActionButton(
-        iconData: Icons.add,
-        onPressed: () {
-          Navigator.pushNamed(context, CreateOrUpdateTweetScreen.routeId);
-        },
-      ),
+      floatingActionButton: currentIndex == 0
+          ? CustomFloatingActionButton(
+              iconData: Icons.add,
+              onPressed: () {
+                Navigator.pushNamed(context, CreateOrUpdateTweetScreen.routeId);
+              },
+            )
+          : null,
       body: MainAppBody(
         currentIndex: currentIndex,
       ),

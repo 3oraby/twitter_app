@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:twitter_app/features/home/presentation/widgets/home_view.dart';
 import 'package:twitter_app/features/home/presentation/widgets/notification_view.dart';
 import 'package:twitter_app/features/home/presentation/widgets/search_view.dart';
-import 'package:twitter_app/features/home/presentation/widgets/setting_view.dart';
+import 'package:twitter_app/features/settings/presentation/widgets/setting_view.dart';
 
 class MainAppBody extends StatelessWidget {
   const MainAppBody({

@@ -31,9 +31,9 @@ class _SplashScreenState extends State<SplashScreen>
 
   FutureOr<Null> _navigateToNextPage() {
     if (getIt<FirebaseAuthService>().isUserLoggedIn()) {
-      Navigator.pushNamed(context, MainAppScreen.routeId);
+      Navigator.pushReplacementNamed(context, MainAppScreen.routeId);
     } else {
-      Navigator.pushNamed(context, SignInScreen.routeId);
+      Navigator.pushReplacementNamed(context, SignInScreen.routeId);
     }
   }
 

@@ -15,6 +15,7 @@ import 'package:twitter_app/features/home/presentation/screens/main_app_screen.d
 import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
+import 'package:twitter_app/features/settings/presentation/screens/your_account_screen.dart';
 import 'package:twitter_app/features/splash/presentation/screens/splash_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
@@ -81,6 +82,11 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
             : UpdateCommentsAndRepliesScreen(
                 replyDetailsEntity: argument as ReplyDetailsEntity);
       });
+
+    case YourAccountScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => const YourAccountScreen(),
+      );
 
     default:
       return MaterialPageRoute(
