@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
+import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
@@ -79,10 +80,12 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
         BlocListener<MakeNewCommentCubit, MakeNewCommentState>(
           listener: (context, state) {
             if (state is MakeNewCommentLoadedState) {
+              log("make new comment state ");
               setState(() {
                 _listKey.currentState?.insertItem(0);
                 comments.insert(0, state.commentDetails);
                 widget.tweetDetailsEntity.makeComment();
+                widget.comments.insert(0, state.commentDetails);
               });
             }
           },
@@ -121,43 +124,49 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           },
         ),
       ],
-      child: AnimatedList(
-        key: _listKey,
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        initialItemCount: comments.length,
-        itemBuilder: (context, index, animation) => SizeTransition(
-          sizeFactor: animation,
-          child: Column(
-            key: ValueKey(comments[index].commentId),
-            children: [
-              const VerticalGap(24),
-              CustomCommentInfoCard(
-                commentDetailsEntity: comments[index],
-                onReplyButtonPressed: widget.onReplyButtonPressed,
-                currentUser: widget.currentUser,
-                onDeleteCommentTap: () {
-                  _removeComment(index);
-                },
-                onEditCommentTap: () {
-                  log('User selected: update comment');
-                  Navigator.pushNamed(
-                    context,
-                    UpdateCommentsAndRepliesScreen.routeId,
-                    arguments: comments[index],
-                  );
-                  updatedCommentIndex = index;
-                },
-              ),
-              if (index != comments.length - 1)
-                const Divider(
-                  color: AppColors.dividerColor,
-                  height: 24,
+      child: comments.isEmpty
+          ? const CustomEmptyBodyWidget(
+              mainLabel: "No comments yet! 💬",
+              subLabel: "Be the first to share your thoughts 💡",
+              showImage: false,
+            )
+          : AnimatedList(
+              key: _listKey,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              initialItemCount: comments.length,
+              itemBuilder: (context, index, animation) => SizeTransition(
+                sizeFactor: animation,
+                child: Column(
+                  key: ValueKey(comments[index].commentId),
+                  children: [
+                    const VerticalGap(24),
+                    CustomCommentInfoCard(
+                      commentDetailsEntity: comments[index],
+                      onReplyButtonPressed: widget.onReplyButtonPressed,
+                      currentUser: widget.currentUser,
+                      onDeleteCommentTap: () {
+                        _removeComment(index);
+                      },
+                      onEditCommentTap: () {
+                        log('User selected: update comment');
+                        Navigator.pushNamed(
+                          context,
+                          UpdateCommentsAndRepliesScreen.routeId,
+                          arguments: comments[index],
+                        );
+                        updatedCommentIndex = index;
+                      },
+                    ),
+                    if (index != comments.length - 1)
+                      const Divider(
+                        color: AppColors.dividerColor,
+                        height: 24,
+                      ),
+                  ],
                 ),
-            ],
-          ),
-        ),
-      ),
+              ),
+            ),
     );
   }
 }

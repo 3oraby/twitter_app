@@ -22,13 +22,7 @@ class GetTweetCommentsCubit extends Cubit<GetTweetCommentsState> {
     );
     res.fold(
       (failure) => emit(GetTweetCommentsFailureState(message: failure.message)),
-      (comments) {
-        if (comments.isEmpty) {
-          emit(GetTweetCommentsEmptyState());
-        } else {
-          emit(GetTweetCommentsLoadedState(comments: comments));
-        }
-      },
+      (comments) => emit(GetTweetCommentsLoadedState(comments: comments)),
     );
   }
 }

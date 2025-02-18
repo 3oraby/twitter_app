@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
-import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/core/widgets/custom_failure_body_widget.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
@@ -59,13 +58,7 @@ class _ShowAllCommentsBlocConsumerBodyState
   Widget build(BuildContext context) {
     return BlocBuilder<GetTweetCommentsCubit, GetTweetCommentsState>(
       builder: (context, state) {
-        if (state is GetTweetCommentsEmptyState) {
-          return const CustomEmptyBodyWidget(
-            mainLabel: "No comments yet! 💬",
-            subLabel: "Be the first to share your thoughts 💡",
-            showImage: false,
-          );
-        } else if (state is GetTweetCommentsFailureState) {
+        if (state is GetTweetCommentsFailureState) {
           return CustomFailureBodyWidget(message: state.message);
         } else if (state is GetTweetCommentsLoadingState) {
           return const CircularProgressIndicator(
