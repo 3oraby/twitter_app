@@ -202,7 +202,15 @@ class TweetRepoImpl extends TweetRepo {
       List<String> mediaUrls = constantMediaUrls ?? [];
 
       if (removedMediaUrls != null && removedMediaUrls.isNotEmpty) {
-        await storageService.deleteFiles(removedMediaUrls);
+        List<String> cleanedPaths = removedMediaUrls.map((url) {
+          return url.replaceFirst(
+              "https://ohbgfbpjtbzfvpgsfret.supabase.co/storage/v1/object/public/twitter_images/",
+              "");
+        }).toList();
+
+        log(cleanedPaths.toString());
+
+        await storageService.deleteFiles(cleanedPaths);
       }
 
       TweetDetailsEntity tweetDetailsEntity =

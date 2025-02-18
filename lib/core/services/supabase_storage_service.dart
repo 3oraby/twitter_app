@@ -44,14 +44,37 @@ class SupabaseStorageService extends StorageService {
   Future<void> deleteFiles(List<String> paths) async {
     try {
       log("------------------------- delete file ------------------------");
+
+      // Convert the public URLs to upload paths
+      List<String> uploadPaths = paths
+          .map((url) => convertPublicUrlToUploadPath(
+                publicUrl: url,
+                bucketName: SupabaseBucketsName.twitterImages,
+              ))
+          .toList();
+
+      // Delete the files using the upload paths
       await _supabase.client.storage
           .from(SupabaseBucketsName.twitterImages)
-          .remove(paths);
-      log("Successfully deleted files: $paths");
+          .remove(uploadPaths);
+
+      log("Successfully deleted files: $uploadPaths");
       log("--------------------------------------------------------------");
     } catch (e) {
       log("Error deleting files: $e");
       throw Exception("Failed to delete files from storage");
     }
+  }
+
+  String convertPublicUrlToUploadPath({
+    required String publicUrl,
+    required String bucketName,
+  }) {
+    Uri uri = Uri.parse(publicUrl);
+    String uploadPath = uri.path.split("public/").last;
+    uploadPath = uploadPath.replaceFirst("$bucketName/", "");
+    uploadPath = Uri.decodeComponent(uploadPath);
+
+    return uploadPath;
   }
 }
