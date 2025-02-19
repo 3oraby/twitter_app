@@ -15,6 +15,7 @@ import 'package:twitter_app/features/home/presentation/screens/main_app_screen.d
 import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
+import 'package:twitter_app/features/settings/presentation/screens/user_account_information_screen.dart';
 import 'package:twitter_app/features/settings/presentation/screens/your_account_screen.dart';
 import 'package:twitter_app/features/splash/presentation/screens/splash_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
@@ -86,6 +87,10 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case YourAccountScreen.routeId:
       return MaterialPageRoute(
         builder: (context) => const YourAccountScreen(),
+      );
+    case UserAccountInformationScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => const UserAccountInformationScreen(),
       );
 
     default:

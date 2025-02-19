@@ -6,6 +6,7 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/settings/domain/entities/setting_item_entity.dart';
+import 'package:twitter_app/features/settings/presentation/screens/user_account_information_screen.dart';
 import 'package:twitter_app/features/settings/presentation/widgets/custom_setting_item.dart';
 
 class YourAccountScreen extends StatelessWidget {
@@ -55,8 +56,10 @@ class YourAccountScreen extends StatelessWidget {
                     subTitleText: settingItemEntity.subTitleText,
                     onPressed: () {
                       switch (settingItemEntity.titleText) {
-                        case "Account Info":
-                          print("Navigate to Account Info Page");
+                        case "Account information":
+                          Navigator.pushNamed(
+                              context, UserAccountInformationScreen.routeId);
+
                           break;
                         case "Privacy":
                           print("Navigate to Privacy Settings");
