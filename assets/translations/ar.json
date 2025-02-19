@@ -133,5 +133,7 @@
   "Failed to get user connections": "تعذر جلب قائمة الأشخاص المرتبطين بالمستخدم.",
   "Failed to upload file": "تعذر رفع الملف.",
   "Couldn't delete the reply.": "لم يتمكن من حذف الرد.",
-  "Unable to update the reply. Please try again.": "تعذر تحديث الرد. يرجى المحاولة مرة أخرى."
+  "Unable to update the reply. Please try again.": "تعذر تحديث الرد. يرجى المحاولة مرة أخرى.",
+  "No tweets available": "لا توجد تغريدات متاحة",
+  "Follow more users to see tweets here": "تابع المزيد من المستخدمين لرؤية التغريدات هنا"
 }

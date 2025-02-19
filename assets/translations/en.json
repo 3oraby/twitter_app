@@ -133,5 +133,7 @@
   "Failed to get user connections": "Failed to get user connections",
   "Failed to upload file": "Failed to upload file",
   "Couldn't delete the reply.": "Couldn't delete the reply.",
-  "Unable to update the reply. Please try again.": "Unable to update the reply. Please try again."
+  "Unable to update the reply. Please try again.": "Unable to update the reply. Please try again.",
+  "No tweets available": "No tweets available",
+  "Follow more users to see tweets here": "Follow more users to see tweets here"
 }

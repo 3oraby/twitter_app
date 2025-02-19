@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
+import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
@@ -87,53 +88,60 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
           },
         ),
       ],
-      child: AnimatedList(
-        key: _listKey,
-        initialItemCount: widget.tweets.length,
-        itemBuilder: (context, index, animation) {
-          return SizeTransition(
-            sizeFactor: animation,
-            child: Column(
-              key: ValueKey(widget.tweets[index].tweetId),
-              children: [
-                if (index == 0) const VerticalGap(16),
-                CustomTweetInfoCard(
-                  tweetDetailsEntity: widget.tweets[index],
-                  currentUser: widget.currentUser,
-                  onDeleteTweetTap: () {
-                    log("delete the tweet at index $index");
-                    removedTweetIndex = index;
-                    _removeTweet(index);
-                  },
-                  onEditTweetTap: () {
-                    log('User selected: update tweet');
-                    Navigator.pushNamed(
-                      context,
-                      CreateOrUpdateTweetScreen.routeId,
-                      arguments: widget.tweets[index],
-                    );
-                    updatedTweetIndex = index;
-                  },
-                  onTweetTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      ShowTweetCommentsScreen.routeId,
-                      arguments: widget.tweets[index],
-                    ).then((value) {
-                      _refreshPage();
-                    });
-                  },
-                ),
-                if (index != widget.tweets.length - 1)
-                  const Divider(
-                    color: AppColors.dividerColor,
-                    height: 36,
+      child: widget.tweets.isEmpty
+          ? Center(
+              child: CustomEmptyBodyWidget(
+                mainLabel: context.tr("No tweets available"),
+                subLabel: context.tr("Follow more users to see tweets here"),
+              ),
+            )
+          : AnimatedList(
+              key: _listKey,
+              initialItemCount: widget.tweets.length,
+              itemBuilder: (context, index, animation) {
+                return SizeTransition(
+                  sizeFactor: animation,
+                  child: Column(
+                    key: ValueKey(widget.tweets[index].tweetId),
+                    children: [
+                      if (index == 0) const VerticalGap(16),
+                      CustomTweetInfoCard(
+                        tweetDetailsEntity: widget.tweets[index],
+                        currentUser: widget.currentUser,
+                        onDeleteTweetTap: () {
+                          log("delete the tweet at index $index");
+                          removedTweetIndex = index;
+                          _removeTweet(index);
+                        },
+                        onEditTweetTap: () {
+                          log('User selected: update tweet');
+                          Navigator.pushNamed(
+                            context,
+                            CreateOrUpdateTweetScreen.routeId,
+                            arguments: widget.tweets[index],
+                          );
+                          updatedTweetIndex = index;
+                        },
+                        onTweetTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ShowTweetCommentsScreen.routeId,
+                            arguments: widget.tweets[index],
+                          ).then((value) {
+                            _refreshPage();
+                          });
+                        },
+                      ),
+                      if (index != widget.tweets.length - 1)
+                        const Divider(
+                          color: AppColors.dividerColor,
+                          height: 36,
+                        ),
+                    ],
                   ),
-              ],
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

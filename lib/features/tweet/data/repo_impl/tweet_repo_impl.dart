@@ -78,6 +78,9 @@ class TweetRepoImpl extends TweetRepo {
       List res = await databaseService.getData(
         path: BackendEndpoints.getTweets,
       );
+      if (res.isEmpty){
+        return right([]);
+      }
 
       List likes = await databaseService.getData(
         path: BackendEndpoints.getTweetLikes,
