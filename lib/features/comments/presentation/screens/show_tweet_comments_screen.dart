@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
-import 'package:twitter_app/features/comments/domain/repos/comments_repo.dart';
-import 'package:twitter_app/features/comments/presentation/cubits/make_new_comment_cubit/make_new_comment_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/reply_media_files_cubit/reply_media_files_cubit.dart';
 import 'package:twitter_app/features/comments/presentation/widgets/show_tweet_comments_listener_body.dart';
 import 'package:twitter_app/features/replies/domain/repos/replies_repo.dart';
@@ -26,11 +24,6 @@ class ShowTweetCommentsScreen extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => ReplyMediaFilesCubit(),
-        ),
-        BlocProvider(
-          create: (context) => MakeNewCommentCubit(
-            commentsRepo: getIt<CommentsRepo>(),
-          ),
         ),
         BlocProvider(
           create: (context) => MakeNewReplyCubit(
