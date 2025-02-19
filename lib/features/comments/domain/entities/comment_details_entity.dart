@@ -1,3 +1,4 @@
+
 import 'package:twitter_app/features/comments/domain/entities/comment_entity.dart';
 
 class CommentDetailsEntity {
@@ -15,11 +16,13 @@ class CommentDetailsEntity {
 
   void addLike(String likeId) {
     isLiked = true;
-    comment.likes?.add(likeId);
+    comment.likes ??= [];
+    comment.likes!.add(likeId);
   }
 
   void removeLike(String likeId) {
     isLiked = false;
-    comment.likes?.remove(likeId);
+    comment.likes ??= [];
+    comment.likes!.remove(likeId);
   }
 }
