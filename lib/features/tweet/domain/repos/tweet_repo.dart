@@ -17,6 +17,7 @@ abstract class TweetRepo {
 
   Future<Either<Failure, Success>> deleteTweet({
     required String tweetId,
+    List<String>? mediaFiles,
   });
 
   Future<Either<Failure, TweetDetailsEntity>> updateTweet({

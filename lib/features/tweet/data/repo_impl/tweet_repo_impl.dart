@@ -78,7 +78,7 @@ class TweetRepoImpl extends TweetRepo {
       List res = await databaseService.getData(
         path: BackendEndpoints.getTweets,
       );
-      if (res.isEmpty){
+      if (res.isEmpty) {
         return right([]);
       }
 
@@ -178,14 +178,19 @@ class TweetRepoImpl extends TweetRepo {
   }
 
   @override
-  Future<Either<Failure, Success>> deleteTweet(
-      {required String tweetId}) async {
+  Future<Either<Failure, Success>> deleteTweet({
+    required String tweetId,
+    List<String>? mediaFiles,
+  }) async {
     try {
       await databaseService.deleteData(
         path: BackendEndpoints.deleteTweet,
         documentId: tweetId,
       );
-
+      if (mediaFiles != null && mediaFiles.isNotEmpty) {
+        await storageService.deleteFiles(mediaFiles);
+      }
+      
       return right(Success());
     } catch (e) {
       log("Exception in TweetRepoImpl.deleteTweet() ${e.toString()}");

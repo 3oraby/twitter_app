@@ -12,9 +12,13 @@ class DeleteTweetCubit extends Cubit<DeleteTweetState> {
 
   Future<void> deleteTweet({
     required String tweetId,
+    List<String>? mediaFiles,
   }) async {
     emit(DeleteTweetLoadingState());
-    var res = await tweetRepo.deleteTweet(tweetId: tweetId);
+    var res = await tweetRepo.deleteTweet(
+      tweetId: tweetId,
+      mediaFiles: mediaFiles,
+    );
     res.fold(
       (failure) => emit(DeleteTweetFailureState(message: failure.message)),
       (success) => emit(DeleteTweetLoadedState()),

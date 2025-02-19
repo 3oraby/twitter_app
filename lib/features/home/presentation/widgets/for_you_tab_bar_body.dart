@@ -65,6 +65,7 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
     );
     BlocProvider.of<DeleteTweetCubit>(context).deleteTweet(
       tweetId: removedTweet!.tweetId,
+      mediaFiles: removedTweet!.tweet.mediaUrl,
     );
   }
 
@@ -162,8 +163,7 @@ class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
                           color: AppColors.dividerColor,
                           height: 36,
                         ),
-                      if (index == tweets.length - 1)
-                        const VerticalGap(24)  
+                      if (index == tweets.length - 1) const VerticalGap(24)
                     ],
                   ),
                 );
