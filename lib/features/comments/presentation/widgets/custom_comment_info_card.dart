@@ -48,7 +48,7 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
     Navigator.pushNamed(
       context,
       UserProfileScreen.routeId,
-      arguments: widget.commentDetailsEntity.comment.commentAuthorData,
+      arguments: widget.commentDetailsEntity.commentAuthorData,
     );
   }
 
@@ -63,8 +63,8 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
             GestureDetector(
               onTap: _onUserProfileCommentTap,
               child: BuildUserCircleAvatarImage(
-                profilePicUrl: widget.commentDetailsEntity.comment
-                    .commentAuthorData.profilePicUrl,
+                profilePicUrl:
+                    widget.commentDetailsEntity.commentAuthorData.profilePicUrl,
                 circleAvatarRadius: 20,
               ),
             ),
@@ -81,16 +81,17 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
                           child: Row(
                             children: [
                               Text(
-                                "${widget.commentDetailsEntity.comment.commentAuthorData.firstName} ${widget.commentDetailsEntity.comment.commentAuthorData.lastName}",
+                                "${widget.commentDetailsEntity.commentAuthorData.firstName} ${widget.commentDetailsEntity.commentAuthorData.lastName}",
                                 style: AppTextStyles.uberMoveBold18,
                               ),
                               const HorizontalGap(8),
                               Flexible(
                                 child: Text(
-                                  widget.commentDetailsEntity.comment
-                                      .commentAuthorData.email,
+                                  widget.commentDetailsEntity.commentAuthorData
+                                      .email,
                                   style: AppTextStyles.uberMoveMedium16
-                                      .copyWith(color: AppColors.secondaryColor),
+                                      .copyWith(
+                                          color: AppColors.secondaryColor),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -100,8 +101,8 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
                         const HorizontalGap(8),
                         CustomTweetsMenu(
                           currentUserId: widget.currentUser.userId,
-                          autherEntity: widget
-                              .commentDetailsEntity.comment.commentAuthorData,
+                          autherEntity:
+                              widget.commentDetailsEntity.commentAuthorData,
                           onDeleteTweetTap: widget.onDeleteCommentTap,
                           onEditTweetTap: widget.onEditCommentTap,
                         )

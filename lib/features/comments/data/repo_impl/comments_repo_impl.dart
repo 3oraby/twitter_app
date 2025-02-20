@@ -9,6 +9,7 @@ import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
 import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
+import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/data/models/comment_details_model.dart';
 import 'package:twitter_app/features/comments/data/models/comment_model.dart';
@@ -29,6 +30,7 @@ class CommentsRepoImpl extends CommentsRepo {
     required List<File>? mediaFiles,
   }) async {
     try {
+      final UserEntity currentUser = getCurrentUserEntity();
       CommentModel commentModel = CommentModel.fromJson(data);
 
       List<String> mediaUrl = [];
@@ -57,6 +59,7 @@ class CommentsRepoImpl extends CommentsRepo {
       CommentDetailsModel commentDetailsModel = CommentDetailsModel(
         tweetId: commentModel.tweetId,
         commentId: id!,
+        commentAuthorData: currentUser,
         comment: commentModel.toEntity(),
       );
       return right(commentDetailsModel.toEntity());
@@ -104,8 +107,33 @@ class CommentsRepoImpl extends CommentsRepo {
         descending: descending,
       );
 
+      Set<String> userIds = res
+          .map((doc) => CommentModel.fromJson(doc.data()).commentAuthorId)
+          .toSet();
+
+      List userDocs = [];
+      if (userIds.isNotEmpty) {
+        userDocs = await databaseService.getData(
+          path: BackendEndpoints.getUserData,
+          queryConditions: [
+            QueryCondition(
+              field: "userId",
+              operator: QueryOperator.whereIn,
+              value: userIds.toList(),
+            ),
+          ],
+        );
+      }
+
       comments = res.map((doc) {
         CommentModel commentModel = CommentModel.fromJson(doc.data());
+
+        var userDoc = userDocs.firstWhere(
+          (userDoc) => userDoc.data()['userId'] == commentModel.commentAuthorId,
+        );
+
+        UserModel userModel = UserModel.fromJson(userDoc.data());
+
         bool isCommentLikedByCurrentUser =
             commentModel.likes?.contains(currentUser.userId) ?? false;
 
@@ -113,6 +141,7 @@ class CommentsRepoImpl extends CommentsRepo {
           tweetId: commentModel.tweetId,
           commentId: doc.id,
           comment: commentModel,
+          commentAuthorData: userModel.toEntity(),
           isLiked: isCommentLikedByCurrentUser,
         );
         return commentDetailsModel.toEntity();

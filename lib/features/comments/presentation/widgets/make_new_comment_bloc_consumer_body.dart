@@ -91,8 +91,8 @@ class _MakeNewCommentBlocConsumerBodyState
 
     CommentModel commentModel = CommentModel(
       tweetId: widget.tweetDetailsEntity.tweetId,
-      tweetAuthorData: widget.tweetDetailsEntity.user,
-      commentAuthorData: currentUser,
+      commentAuthorId: currentUser.userId,
+      tweetAuthorId: widget.tweetDetailsEntity.user.userId,
       content: content,
       createdAt: Timestamp.now(),
     );

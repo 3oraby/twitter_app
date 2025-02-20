@@ -1,9 +1,10 @@
-
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_entity.dart';
 
 class CommentDetailsEntity {
   final String tweetId;
   final String commentId;
+  final UserEntity commentAuthorData;
   final CommentEntity comment;
   bool isLiked;
 
@@ -11,6 +12,7 @@ class CommentDetailsEntity {
     required this.tweetId,
     required this.commentId,
     required this.comment,
+    required this.commentAuthorData,
     this.isLiked = false,
   });
 

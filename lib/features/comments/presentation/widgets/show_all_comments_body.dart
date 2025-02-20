@@ -87,7 +87,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
                 widget.tweetDetailsEntity.makeComment();
                 widget.comments.insert(0, state.commentDetails);
               });
-              for (CommentDetailsEntity commentDetailsEntity in comments){
+              for (CommentDetailsEntity commentDetailsEntity in comments) {
                 log(commentDetailsEntity.comment.likes.toString());
               }
             }

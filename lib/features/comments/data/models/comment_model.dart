@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_entity.dart';
 
 class CommentModel extends CommentEntity {
   CommentModel({
     required super.tweetId,
-    required super.tweetAuthorData,
-    required super.commentAuthorData,
+    required super.tweetAuthorId,
+    required super.commentAuthorId,
     required super.createdAt,
     super.content,
     super.mediaUrl,
@@ -18,8 +17,8 @@ class CommentModel extends CommentEntity {
   Map<String, dynamic> toJson() {
     return {
       'tweetId': tweetId,
-      'tweetAuthorData': UserModel.fromEntity(tweetAuthorData).toJson(),
-      'commentAuthorData': UserModel.fromEntity(commentAuthorData).toJson(),
+      'tweetAuthorId': tweetAuthorId,
+      'commentAuthorId': commentAuthorId,
       'content': content,
       'mediaUrl': mediaUrl,
       'updatedAt': updatedAt,
@@ -32,12 +31,10 @@ class CommentModel extends CommentEntity {
   factory CommentModel.fromJson(Map<String, dynamic> json) {
     return CommentModel(
       tweetId: json['tweetId'] as String,
-      tweetAuthorData:
-          UserModel.fromJson(json['tweetAuthorData'] as Map<String, dynamic>)
-              .toEntity(),
-      commentAuthorData:
-          UserModel.fromJson(json['commentAuthorData'] as Map<String, dynamic>)
-              .toEntity(),
+      tweetAuthorId:
+          json['tweetAuthorId'],
+      commentAuthorId:
+          json['commentAuthorId'],
       createdAt: json['createdAt'] as Timestamp,
       content: json['content'] as String?,
       mediaUrl: (json['mediaUrl'] as List<dynamic>?)
@@ -52,8 +49,8 @@ class CommentModel extends CommentEntity {
   CommentEntity toEntity() {
     return CommentEntity(
       tweetId: tweetId,
-      tweetAuthorData: tweetAuthorData,
-      commentAuthorData: commentAuthorData,
+      tweetAuthorId: tweetAuthorId,
+      commentAuthorId: commentAuthorId,
       createdAt: createdAt,
       content: content,
       mediaUrl: mediaUrl,
@@ -66,8 +63,8 @@ class CommentModel extends CommentEntity {
   factory CommentModel.fromEntity(CommentEntity entity) {
     return CommentModel(
       tweetId: entity.tweetId,
-      tweetAuthorData: entity.tweetAuthorData,
-      commentAuthorData: entity.commentAuthorData,
+      tweetAuthorId: entity.tweetAuthorId,
+      commentAuthorId: entity.commentAuthorId,
       createdAt: entity.createdAt,
       content: entity.content,
       mediaUrl: entity.mediaUrl,
@@ -79,8 +76,8 @@ class CommentModel extends CommentEntity {
 
   CommentModel copyWith({
     String? tweetId,
-    UserModel? tweetAuthorData,
-    UserModel? commentAuthorData,
+    String? tweetAuthorId,
+    String? commentAuthorId,
     Timestamp? createdAt,
     String? content,
     List<String>? mediaUrl,
@@ -90,8 +87,8 @@ class CommentModel extends CommentEntity {
   }) {
     return CommentModel(
       tweetId: tweetId ?? this.tweetId,
-      tweetAuthorData: tweetAuthorData ?? this.tweetAuthorData,
-      commentAuthorData: commentAuthorData ?? this.commentAuthorData,
+      tweetAuthorId: tweetAuthorId ?? this.tweetAuthorId,
+      commentAuthorId: commentAuthorId ?? this.commentAuthorId,
       createdAt: createdAt ?? this.createdAt,
       content: content ?? this.content,
       mediaUrl: mediaUrl ?? this.mediaUrl,

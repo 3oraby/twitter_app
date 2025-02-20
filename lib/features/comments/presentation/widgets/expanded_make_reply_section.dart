@@ -117,8 +117,8 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
     if (widget.isComment) {
       CommentModel commentModel = CommentModel(
         tweetId: widget.tweetDetailsEntity!.tweetId,
-        tweetAuthorData: widget.tweetDetailsEntity!.user,
-        commentAuthorData: widget.currentUser,
+        tweetAuthorId: widget.tweetDetailsEntity!.user.userId,
+        commentAuthorId: widget.currentUser.userId,
         content: content,
         createdAt: Timestamp.now(),
       );
@@ -130,7 +130,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
       ReplyModel replyModel = ReplyModel(
         commentId: widget.commentDetailsEntity!.commentId,
         commentAuthorData:
-            widget.commentDetailsEntity!.comment.commentAuthorData,
+            widget.commentDetailsEntity!.commentAuthorData,
         replyAuthorData: widget.currentUser,
         content: content,
         createdAt: Timestamp.now(),

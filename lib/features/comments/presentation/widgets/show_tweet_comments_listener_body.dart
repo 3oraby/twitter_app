@@ -174,7 +174,7 @@ class _ShowTweetCommentsListenerBodyState
                                 isComment = false;
                                 isSectionExpanded = true;
                                 replyingToUserName = commentDetailsEntity
-                                    .comment.commentAuthorData.email;
+                                    .commentAuthorData.email;
                                 _commentDetailsEntity = commentDetailsEntity;
                               });
                             },

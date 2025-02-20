@@ -86,7 +86,7 @@ class _CommentLikeButtonBlocConsumerBodyState
         commentId: widget.commentDetailsEntity.commentId,
         userId: widget.currentUser.userId,
         originalAuthorId:
-            widget.commentDetailsEntity.comment.commentAuthorData.userId,
+            widget.commentDetailsEntity.commentAuthorData.userId,
         likedAt: Timestamp.now(),
       ).toJson(),
     );

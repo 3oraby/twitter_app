@@ -1,3 +1,4 @@
+import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_entity.dart';
 
@@ -6,6 +7,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
     required super.tweetId,
     required super.commentId,
     required super.comment,
+    required super.commentAuthorData,
     super.isLiked,
   });
 
@@ -15,6 +17,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
       'commentId': commentId,
       'comment': comment,
       'isLiked': isLiked,
+      'commentAuthorData': commentAuthorData,
     };
   }
 
@@ -23,6 +26,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
       tweetId: json['tweetId'] as String,
       commentId: json['commentId'] as String,
       comment: json['comment'] as CommentEntity,
+      commentAuthorData: json['commentAuthorData'],
       isLiked: json['isLiked'] as bool? ?? false,
     );
   }
@@ -33,6 +37,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
       commentId: commentId,
       comment: comment,
       isLiked: isLiked,
+      commentAuthorData: commentAuthorData,
     );
   }
 
@@ -41,6 +46,7 @@ class CommentDetailsModel extends CommentDetailsEntity {
       tweetId: entity.tweetId,
       commentId: entity.commentId,
       comment: entity.comment,
+      commentAuthorData: entity.commentAuthorData,
       isLiked: entity.isLiked,
     );
   }
@@ -49,12 +55,14 @@ class CommentDetailsModel extends CommentDetailsEntity {
     String? tweetId,
     String? commentId,
     CommentEntity? comment,
+    UserEntity? commentAuthorData,
     bool? isLiked,
   }) {
     return CommentDetailsModel(
       tweetId: tweetId ?? this.tweetId,
       commentId: commentId ?? this.commentId,
       comment: comment ?? this.comment,
+      commentAuthorData: commentAuthorData ?? this.commentAuthorData,
       isLiked: isLiked ?? this.isLiked,
     );
   }
