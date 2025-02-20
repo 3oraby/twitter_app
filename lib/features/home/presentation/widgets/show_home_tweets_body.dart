@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
+import 'package:twitter_app/core/widgets/keep_alive_tab.dart';
 import 'package:twitter_app/features/home/presentation/widgets/following_tab_bar_home_view.dart';
 import 'package:twitter_app/features/home/presentation/widgets/for_you_tab_bar_home_view.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
@@ -27,11 +28,11 @@ class ShowHomeTweetsBody extends StatelessWidget {
           ),
         ),
       ],
-      child: Expanded(
-        child: const TabBarView(
+      child: const Expanded(
+        child: TabBarView(
           children: [
-            ForYouTabBarHomeView(),
-            FollowingTabBarHomeView(),
+            KeepAliveTab(child: ForYouTabBarHomeView()),
+            KeepAliveTab(child: FollowingTabBarHomeView()),
           ],
         ),
       ),
