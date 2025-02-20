@@ -7,6 +7,8 @@ import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_logout_button.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/settings/data/models/update_user_screen_arguments_model.dart';
+import 'package:twitter_app/features/settings/presentation/screens/update_user_information_screen.dart';
 import 'package:twitter_app/features/settings/presentation/widgets/custom_user_information_item.dart';
 import 'package:twitter_app/features/settings/presentation/widgets/joined_on_date_info.dart';
 
@@ -28,6 +30,16 @@ class _UserAccountInformationScreenState
   void initState() {
     super.initState();
     currentUser = getCurrentUserEntity();
+  }
+
+  _navigateToUpdateDataScreen({
+    required UpdateUserScreenArgumentsModel arguments,
+  }) {
+    Navigator.pushNamed(
+      context,
+      UpdateUserInformationScreen.routeId,
+      arguments: arguments,
+    );
   }
 
   @override
@@ -70,34 +82,69 @@ class _UserAccountInformationScreenState
               ),
               child: JoinedOnDateInfo(joinedAt: currentUser.joinedAt),
             ),
-            CustomUserInformationItem(  
+            CustomUserInformationItem(
               title: "Email",
               value: currentUser.email,
             ),
             CustomUserInformationItem(
               title: "First Name",
               value: currentUser.firstName ?? '',
-              onTap: () {},
+              onTap: () {
+                _navigateToUpdateDataScreen(
+                  arguments: UpdateUserScreenArgumentsModel(
+                    title: "First Name",
+                    currentValue: currentUser.firstName ?? '',
+                  ),
+                );
+              },
             ),
             CustomUserInformationItem(
               title: "Last Name",
               value: currentUser.lastName ?? '',
-              onTap: () {},
+              onTap: () {
+                _navigateToUpdateDataScreen(
+                  arguments: UpdateUserScreenArgumentsModel(
+                    title: "Last Name",
+                    currentValue: currentUser.lastName ?? '',
+                  ),
+                );
+              },
             ),
             CustomUserInformationItem(
               title: "Bio",
-              value: currentUser.bio ?? "None",
-              onTap: () {},
+              value: currentUser.bio ?? "Add",
+              onTap: () {
+                _navigateToUpdateDataScreen(
+                  arguments: UpdateUserScreenArgumentsModel(
+                    title: "Bio",
+                    currentValue: currentUser.bio ?? 'None',
+                  ),
+                );
+              },
             ),
             CustomUserInformationItem(
               title: "Age",
               value: currentUser.age.toString(),
-              onTap: () {},
+              onTap: () {
+                _navigateToUpdateDataScreen(
+                  arguments: UpdateUserScreenArgumentsModel(
+                    title: "Age",
+                    currentValue: currentUser.age.toString(),
+                  ),
+                );
+              },
             ),
             CustomUserInformationItem(
-              title: "Phone",
+              title: "Phone number",
               value: currentUser.phoneNumber ?? "Add",
-              onTap: () {},
+              onTap: () {
+                _navigateToUpdateDataScreen(
+                  arguments: UpdateUserScreenArgumentsModel(
+                    title: "Phone number",
+                    currentValue: currentUser.phoneNumber ?? '',
+                  ),
+                );
+              },
             ),
             const VerticalGap(8),
             const Center(child: CustomLogOutButton()),
