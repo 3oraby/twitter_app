@@ -8,6 +8,7 @@ import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/utils/validators.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
 import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
@@ -52,6 +53,7 @@ class _UpdateUserInformationBlocConsumerBodyState
     extends State<UpdateUserInformationBlocConsumerBody> {
   bool isDoneButtonEnabled = false;
   TextEditingController textEditingController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   late UserEntity currentUser;
 
   @override
@@ -147,7 +149,11 @@ class _UpdateUserInformationBlocConsumerBodyState
                         ? AppColors.twitterAccentColor
                         : AppColors.lightTwitterAccentColor,
                     onPressed: isDoneButtonEnabled
-                        ? () => _onDoneButtonPressed()
+                        ? () {
+                            if (_formKey.currentState!.validate()) {
+                              _onDoneButtonPressed();
+                            }
+                          }
                         : null,
                     child: Text(
                       "Done",
@@ -190,39 +196,58 @@ class _UpdateUserInformationBlocConsumerBodyState
                         "New",
                         style: AppTextStyles.uberMoveExtraBold20,
                       ),
-                      TextFormField(
-                        controller: textEditingController,
-                        maxLength: switch (widget.arguments.title) {
-                          "Bio" => 50,
-                          "Phone number" => 11,
-                          "Age" => 3,
-                          _ => 25
-                        },
-                        keyboardType: switch (widget.arguments.title) {
-                          "Age" => TextInputType.number,
-                          "Phone number" => TextInputType.phone,
-                          _ => TextInputType.text,
-                        },
-                        decoration: InputDecoration(
-                          hintText: widget.arguments.title,
-                          hintStyle: AppTextStyles.uberMoveMedium18.copyWith(
-                            color: AppColors.thirdColor,
-                          ),
-                          border: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 0.5,
-                              color: AppColors.dividerColor,
+                      Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: textEditingController,
+                          maxLength: switch (widget.arguments.title) {
+                            "Bio" => 50,
+                            "Phone number" => 11,
+                            "Age" => 3,
+                            _ => 25
+                          },
+                          keyboardType: switch (widget.arguments.title) {
+                            "Age" => TextInputType.number,
+                            "Phone number" => TextInputType.phone,
+                            _ => TextInputType.text,
+                          },
+                          validator: (value) {
+                            if (value == widget.arguments.currentValue) {
+                              return "Please enter a new value different from the current one.";
+                            }
+
+                            switch (widget.arguments.title) {
+                              case "Age":
+                                return Validators.validateAge(context, value);
+                              case "Phone number":
+                                return Validators.validatePhoneNumber(
+                                    context, value);
+                              default:
+                                return Validators.validateNormalText(
+                                    context, value);
+                            }
+                          },
+                          decoration: InputDecoration(
+                            hintText: widget.arguments.title,
+                            hintStyle: AppTextStyles.uberMoveMedium18.copyWith(
+                              color: AppColors.thirdColor,
                             ),
-                          ),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 0.5,
-                              color: AppColors.dividerColor,
+                            border: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 0.5,
+                                color: AppColors.dividerColor,
+                              ),
                             ),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 0.5,
+                                color: AppColors.dividerColor,
+                              ),
+                            ),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
                             ),
                           ),
                         ),
