@@ -14,6 +14,7 @@ import 'package:twitter_app/core/widgets/custom_background_icon.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
 import 'package:twitter_app/core/widgets/custom_text_form_field.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/data/models/comment_model.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
@@ -129,28 +130,33 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
     } else if (widget.commentDetailsEntity != null) {
       ReplyModel replyModel = ReplyModel(
         commentId: widget.commentDetailsEntity!.commentId,
-        commentAuthorData:
-            widget.commentDetailsEntity!.commentAuthorData,
-        replyAuthorData: widget.currentUser,
+        commentAuthorId: widget.commentDetailsEntity!.commentAuthorData.userId,
+        replyAuthorId: widget.currentUser.userId,
         content: content,
         createdAt: Timestamp.now(),
       );
 
       BlocProvider.of<MakeNewReplyCubit>(context).makeNewReply(
         data: replyModel.toJson(),
+        commentAuthorData:
+            UserModel.fromEntity(widget.commentDetailsEntity!.commentAuthorData)
+                .toJson(),
         mediaFiles: mediaFiles,
       );
     } else if (widget.replyDetailsEntity != null) {
       ReplyModel replyModel = ReplyModel(
         commentId: widget.replyDetailsEntity!.commentId,
-        commentAuthorData: widget.replyDetailsEntity!.reply.replyAuthorData,
-        replyAuthorData: widget.currentUser,
+        commentAuthorId: widget.replyDetailsEntity!.reply.replyAuthorId,
+        replyAuthorId: widget.currentUser.userId,
         content: content,
         createdAt: Timestamp.now(),
       );
 
       BlocProvider.of<MakeNewReplyCubit>(context).makeNewReply(
         data: replyModel.toJson(),
+        commentAuthorData:
+            UserModel.fromEntity(widget.replyDetailsEntity!.replyAuthorData)
+                .toJson(),
         mediaFiles: mediaFiles,
       );
     }

@@ -13,12 +13,14 @@ class MakeNewReplyCubit extends Cubit<MakeNewReplyState> {
 
   Future<void> makeNewReply({
     required Map<String, dynamic> data,
+    required Map<String, dynamic> commentAuthorData,
     required List<File>? mediaFiles,
   }) async {
     emit(MakeNewReplyLoadingState());
     var res = await repliesRepo.makeNewReply(
       data: data,
       mediaFiles: mediaFiles,
+      commentAuthorData: commentAuthorData,
     );
 
     res.fold(

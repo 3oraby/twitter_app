@@ -24,7 +24,7 @@ class CustomReplyInteractionsRow extends StatelessWidget {
     return Row(
       children: [
         Text(
-          getTimeAgo(replyDetailsEntity.reply.createdAt,context: context),
+          getTimeAgo(replyDetailsEntity.reply.createdAt, context: context),
           style: AppTextStyles.uberMoveBold16.copyWith(
             color: AppColors.thirdColor,
           ),
@@ -41,10 +41,10 @@ class CustomReplyInteractionsRow extends StatelessWidget {
             ),
           ),
         ),
-        Spacer(),
+        const Spacer(),
         CustomReplyLikeButton(
           replyId: replyDetailsEntity.replyId,
-          originalAuthorId: replyDetailsEntity.reply.replyAuthorData.userId,
+          originalAuthorId: replyDetailsEntity.replyAuthorData.userId,
           likesCount: replyDetailsEntity.reply.likes?.length ?? 0,
           isActive: replyDetailsEntity.isLiked,
         ),

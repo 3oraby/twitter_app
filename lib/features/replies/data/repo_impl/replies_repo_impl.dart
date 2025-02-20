@@ -9,6 +9,7 @@ import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/storage_service.dart';
 import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
+import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/replies/data/models/reply_details_model.dart';
 import 'package:twitter_app/features/replies/data/models/reply_model.dart';
@@ -25,10 +26,14 @@ class RepliesRepoImpl extends RepliesRepo {
   });
 
   @override
-  Future<Either<Failure, ReplyDetailsEntity>> makeNewReply(
-      {required Map<String, dynamic> data,
-      required List<File>? mediaFiles}) async {
+  Future<Either<Failure, ReplyDetailsEntity>> makeNewReply({
+    required Map<String, dynamic> data,
+    required Map<String, dynamic> commentAuthorData,
+    required List<File>? mediaFiles,
+  }) async {
     try {
+      final UserEntity currentUser = getCurrentUserEntity();
+
       ReplyModel replyModel = ReplyModel.fromJson(data);
 
       List<String> mediaUrl = [];
@@ -57,6 +62,8 @@ class RepliesRepoImpl extends RepliesRepo {
       ReplyDetailsEntity replyDetailsEntity = ReplyDetailsEntity(
         commentId: replyModel.commentId,
         replyId: id!,
+        replyAuthorData: currentUser,
+        commentAuthorData: UserModel.fromJson(commentAuthorData).toEntity(),
         reply: replyModel.toEntity(),
       );
 
@@ -92,8 +99,58 @@ class RepliesRepoImpl extends RepliesRepo {
         descending: descending,
       );
 
+      Set<String> repliesUserIds = res
+          .map((doc) => ReplyModel.fromJson(doc.data()).replyAuthorId)
+          .toSet();
+
+      List repliesUserDocs = [];
+      if (repliesUserIds.isNotEmpty) {
+        repliesUserDocs = await databaseService.getData(
+          path: BackendEndpoints.getUserData,
+          queryConditions: [
+            QueryCondition(
+              field: "userId",
+              operator: QueryOperator.whereIn,
+              value: repliesUserIds.toList(),
+            ),
+          ],
+        );
+      }
+
+      Set<String> commentUserIds = res
+          .map((doc) => ReplyModel.fromJson(doc.data()).commentAuthorId)
+          .toSet();
+
+      List commentUserDocs = [];
+      if (commentUserIds.isNotEmpty) {
+        commentUserDocs = await databaseService.getData(
+          path: BackendEndpoints.getUserData,
+          queryConditions: [
+            QueryCondition(
+              field: "userId",
+              operator: QueryOperator.whereIn,
+              value: commentUserIds.toList(),
+            ),
+          ],
+        );
+      }
+
       replies = res.map((doc) {
         ReplyModel replyModel = ReplyModel.fromJson(doc.data());
+
+        var replyUserDoc = repliesUserDocs.firstWhere(
+          (userDoc) => userDoc.data()['userId'] == replyModel.replyAuthorId,
+        );
+
+        UserModel replyAuthorModel = UserModel.fromJson(replyUserDoc.data());
+
+        var commentUserDoc = commentUserDocs.firstWhere(
+          (userDoc) => userDoc.data()['userId'] == replyModel.commentAuthorId,
+        );
+
+        UserModel commentAuthorModel =
+            UserModel.fromJson(commentUserDoc.data());
+
         bool isReplyLikedByCurrentUser =
             replyModel.likes?.contains(currentUser.userId) ?? false;
 
@@ -101,6 +158,8 @@ class RepliesRepoImpl extends RepliesRepo {
           commentId: replyModel.commentId,
           replyId: doc.id,
           reply: replyModel.toEntity(),
+          replyAuthorData: replyAuthorModel.toEntity(),
+          commentAuthorData: commentAuthorModel.toEntity(),
           isLiked: isReplyLikedByCurrentUser,
         );
         return replyDetailsModel.toEntity();

@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 
 class ReplyEntity {
   final String commentId;
-  final UserEntity commentAuthorData;
-  final UserEntity replyAuthorData;
+  final String commentAuthorId;
+  final String replyAuthorId;
   String? content;
   List<String>? mediaUrl;
   Timestamp? updatedAt;
@@ -13,8 +12,8 @@ class ReplyEntity {
 
   ReplyEntity({
     required this.commentId,
-    required this.commentAuthorData,
-    required this.replyAuthorData,
+    required this.commentAuthorId,
+    required this.replyAuthorId,
     required this.createdAt,
     this.content,
     this.mediaUrl,

@@ -11,9 +11,12 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/screens/update_comments_and_replies_screen.dart';
+import 'package:twitter_app/features/replies/data/models/reply_details_model.dart';
+import 'package:twitter_app/features/replies/data/models/reply_model.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/delete_reply_cubit/delete_reply_cubit.dart';
 import 'package:twitter_app/features/replies/presentation/cubits/get_comment_replies_cubit/get_comment_replies_cubit.dart';
@@ -73,7 +76,6 @@ class _ShowCommentRepliesBlocConsumerBodyState
         ),
         duration: const Duration(milliseconds: 350),
       );
-
     });
     widget.commentDetailsEntity.comment.decrementRepliesCount();
 
@@ -88,6 +90,12 @@ class _ShowCommentRepliesBlocConsumerBodyState
 
   @override
   Widget build(BuildContext context) {
+    for (ReplyDetailsEntity replyDetailsEntity in replies) {
+      log("replyDetailsEntity ==> ${ReplyDetailsModel.fromEntity(replyDetailsEntity).toJson()}");
+      log("replyModel ==> ${ReplyModel.fromEntity(replyDetailsEntity.reply).toJson()}");
+      log("commentUserModel ==> ${UserModel.fromEntity(replyDetailsEntity.commentAuthorData).toJson()}");
+      log("replyUserModel ==> ${UserModel.fromEntity(replyDetailsEntity.replyAuthorData).toJson()}");
+    }
     return MultiBlocListener(
       listeners: [
         BlocListener<MakeNewReplyCubit, MakeNewReplyState>(

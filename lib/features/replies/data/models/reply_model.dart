@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_entity.dart';
-import 'package:twitter_app/features/auth/data/models/user_model.dart';
 
 class ReplyModel extends ReplyEntity {
   ReplyModel({
     required super.commentId,
-    required super.commentAuthorData,
-    required super.replyAuthorData,
+    required super.commentAuthorId,
+    required super.replyAuthorId,
     required super.createdAt,
     super.content,
     super.mediaUrl,
@@ -18,8 +16,8 @@ class ReplyModel extends ReplyEntity {
   factory ReplyModel.fromJson(Map<String, dynamic> json) {
     return ReplyModel(
       commentId: json['commentId'],
-      commentAuthorData: UserModel.fromJson(json['commentAuthorData']),
-      replyAuthorData: UserModel.fromJson(json['replyAuthorData']),
+      commentAuthorId: json['commentAuthorId'],
+      replyAuthorId: json['replyAuthorId'],
       createdAt: json['createdAt'] as Timestamp,
       content: json['content'],
       mediaUrl: (json['mediaUrl'] as List<dynamic>?)
@@ -33,8 +31,8 @@ class ReplyModel extends ReplyEntity {
   Map<String, dynamic> toJson() {
     return {
       'commentId': commentId,
-      'commentAuthorData': UserModel.fromEntity(commentAuthorData).toJson(),
-      'replyAuthorData': UserModel.fromEntity(replyAuthorData).toJson(),
+      'commentAuthorId': commentAuthorId,
+      'replyAuthorId': replyAuthorId,
       'createdAt': createdAt,
       'content': content,
       'mediaUrl': mediaUrl,
@@ -46,8 +44,8 @@ class ReplyModel extends ReplyEntity {
   factory ReplyModel.fromEntity(ReplyEntity entity) {
     return ReplyModel(
       commentId: entity.commentId,
-      commentAuthorData: entity.commentAuthorData,
-      replyAuthorData: entity.replyAuthorData,
+      commentAuthorId: entity.commentAuthorId,
+      replyAuthorId: entity.replyAuthorId,
       createdAt: entity.createdAt,
       content: entity.content,
       mediaUrl: entity.mediaUrl,
@@ -59,8 +57,8 @@ class ReplyModel extends ReplyEntity {
   ReplyEntity toEntity() {
     return ReplyEntity(
       commentId: commentId,
-      commentAuthorData: commentAuthorData,
-      replyAuthorData: replyAuthorData,
+      commentAuthorId: commentAuthorId,
+      replyAuthorId: replyAuthorId,
       createdAt: createdAt,
       content: content,
       mediaUrl: mediaUrl,
@@ -71,8 +69,8 @@ class ReplyModel extends ReplyEntity {
 
   ReplyModel copyWith({
     String? commentId,
-    UserEntity? commentAuthorData,
-    UserEntity? replyAuthorData,
+    String? commentAuthorId,
+    String? replyAuthorId,
     Timestamp? createdAt,
     String? content,
     List<String>? mediaUrl,
@@ -81,8 +79,8 @@ class ReplyModel extends ReplyEntity {
   }) {
     return ReplyModel(
       commentId: commentId ?? this.commentId,
-      commentAuthorData: commentAuthorData ?? this.commentAuthorData,
-      replyAuthorData: replyAuthorData ?? this.replyAuthorData,
+      commentAuthorId: commentAuthorId ?? this.commentAuthorId,
+      replyAuthorId: replyAuthorId ?? this.replyAuthorId,
       createdAt: createdAt ?? this.createdAt,
       content: content ?? this.content,
       mediaUrl: mediaUrl ?? this.mediaUrl,

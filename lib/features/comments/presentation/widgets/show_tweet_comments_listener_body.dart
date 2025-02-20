@@ -152,7 +152,7 @@ class _ShowTweetCommentsListenerBodyState
                                 color: AppColors.thirdColor,
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: AppColors.thirdColor,
                             ),
@@ -182,8 +182,8 @@ class _ShowTweetCommentsListenerBodyState
                               setState(() {
                                 isComment = false;
                                 isSectionExpanded = true;
-                                replyingToUserName = replyDetailsEntity
-                                    .reply.commentAuthorData.email;
+                                replyingToUserName =
+                                    replyDetailsEntity.commentAuthorData.email;
                                 _replyDetailsEntity = replyDetailsEntity;
                               });
                             },

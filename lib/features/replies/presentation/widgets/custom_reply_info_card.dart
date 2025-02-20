@@ -50,12 +50,11 @@ class CustomReplyInfoCard extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   UserProfileScreen.routeId,
-                  arguments: replyDetailsEntity.reply.replyAuthorData,
+                  arguments: replyDetailsEntity.replyAuthorData,
                 );
               },
               child: BuildUserCircleAvatarImage(
-                profilePicUrl:
-                    replyDetailsEntity.reply.replyAuthorData.profilePicUrl,
+                profilePicUrl: replyDetailsEntity.replyAuthorData.profilePicUrl,
                 circleAvatarRadius: 20,
               ),
             ),
@@ -76,7 +75,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                                     maxWidth: constraints.maxWidth * 0.6,
                                   ),
                                   child: Text(
-                                    "${replyDetailsEntity.reply.replyAuthorData.firstName} ${replyDetailsEntity.reply.replyAuthorData.lastName}",
+                                    "${replyDetailsEntity.replyAuthorData.firstName} ${replyDetailsEntity.replyAuthorData.lastName}",
                                     style: AppTextStyles.uberMoveBold16,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -89,12 +88,12 @@ class CustomReplyInfoCard extends StatelessWidget {
                                       ? Matrix4.rotationY(3.1416)
                                       : Matrix4.identity(),
                                   alignment: Alignment.center,
-                                  child: Icon(FontAwesomeIcons.play, size: 18),
+                                  child: const Icon(FontAwesomeIcons.play, size: 18),
                                 ),
                                 const HorizontalGap(6),
                                 Flexible(
                                   child: Text(
-                                    "${replyDetailsEntity.reply.commentAuthorData.firstName} ${replyDetailsEntity.reply.commentAuthorData.lastName}",
+                                    "${replyDetailsEntity.commentAuthorData.firstName} ${replyDetailsEntity.commentAuthorData.lastName}",
                                     style:
                                         AppTextStyles.uberMoveMedium14.copyWith(
                                       color: AppColors.secondaryColor,
@@ -111,7 +110,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                       CustomTweetsMenu(
                         key: ValueKey(replyDetailsEntity.replyId),
                         currentUserId: currentUser.userId,
-                        autherEntity: replyDetailsEntity.reply.replyAuthorData,
+                        autherEntity: replyDetailsEntity.replyAuthorData,
                         onDeleteTweetTap: onDeleteReplyTap,
                         onEditTweetTap: onEditReplyTap,
                       ),

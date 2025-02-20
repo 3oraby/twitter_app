@@ -8,6 +8,7 @@ import 'package:twitter_app/features/replies/domain/entities/reply_details_entit
 abstract class RepliesRepo {
   Future<Either<Failure, ReplyDetailsEntity>> makeNewReply({
     required Map<String, dynamic> data,
+    required Map<String, dynamic> commentAuthorData,
     required List<File>? mediaFiles,
   });
 
