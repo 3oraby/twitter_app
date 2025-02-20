@@ -39,7 +39,11 @@ class _UserAccountInformationScreenState
       context,
       UpdateUserInformationScreen.routeId,
       arguments: arguments,
-    );
+    ).then((_) {
+      setState(() {
+        currentUser = getCurrentUserEntity();
+      });
+    });
   }
 
   @override
@@ -54,7 +58,7 @@ class _UserAccountInformationScreenState
               style: AppTextStyles.uberMoveBlack20,
             ),
             Text(
-              "@${getCurrentUserEntity().email}",
+              "@${currentUser.email}",
               style: AppTextStyles.uberMoveMedium16
                   .copyWith(color: AppColors.thirdColor),
             ),
