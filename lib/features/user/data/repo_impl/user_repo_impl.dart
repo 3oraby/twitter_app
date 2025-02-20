@@ -71,6 +71,8 @@ class UserRepoImpl extends UserRepo {
         documentId: documentId,
         data: data,
       );
+
+      await saveUserDataInPrefs(user: UserModel.fromJson(data).toEntity());
       return right(Success());
     } catch (e) {
       log("error in updataUserData service in userRepoImpl");

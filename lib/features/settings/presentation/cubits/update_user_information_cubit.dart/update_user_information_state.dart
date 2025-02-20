@@ -10,8 +10,8 @@ final class UpdateUserInformationLoadingState
 final class UpdateUserInformationLoadedState
     extends UpdateUserInformationState {}
 
-final class UpdateUserInformationFailure extends UpdateUserInformationState {
+final class UpdateUserInformationFailureState extends UpdateUserInformationState {
   final String message;
 
-  UpdateUserInformationFailure({required this.message});
+  UpdateUserInformationFailureState({required this.message});
 }

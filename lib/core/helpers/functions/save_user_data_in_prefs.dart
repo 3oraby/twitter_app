@@ -9,9 +9,9 @@ import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 Future<void> saveUserDataInPrefs({
   required UserEntity user,
 }) async {
-  log('execute saveUserDataInPrefs()');
+  log('save user data in prefs');
   var jsonData = jsonEncode(UserModel.fromEntity(user).toJson());
-  log("user data: $jsonData");
+  log("new user data after save it: $jsonData");
   await SharedPreferencesSingleton.setString(
       LocalStorageDataNames.kUserData, jsonData);
 }

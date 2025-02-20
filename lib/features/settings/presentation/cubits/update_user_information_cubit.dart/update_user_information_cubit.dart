@@ -18,7 +18,7 @@ class UpdateUserInformationCubit extends Cubit<UpdateUserInformationState> {
     var res = await userRepo.updateUserData(data: data, documentId: documentId);
     res.fold(
       (failure) => emit(
-        UpdateUserInformationFailure(message: failure.message),
+        UpdateUserInformationFailureState(message: failure.message),
       ),
       (success) => emit(UpdateUserInformationLoadedState()),
     );
