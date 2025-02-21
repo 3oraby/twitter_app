@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:twitter_app/core/errors/failures.dart';
+import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/save_user_data_in_prefs.dart';
 import 'package:twitter_app/core/services/database_service.dart';
 import 'package:twitter_app/core/services/firebase_auth_service.dart';
@@ -65,18 +66,21 @@ class UserRepoImpl extends UserRepo {
     required String documentId,
   }) async {
     try {
-      log('execute UserRepoImpl.updateUserData()');
+      log('new data to update user ==> $data');
       await databaseService.updateData(
         path: BackendEndpoints.updateUserData,
         documentId: documentId,
         data: data,
       );
+      final UserEntity currentUser = getCurrentUserEntity();
 
-      await saveUserDataInPrefs(user: UserModel.fromJson(data).toEntity());
+      await saveUserDataInPrefs(
+          user: UserModel.fromEntity(currentUser).copyWithJson(data));
+
       return right(Success());
     } catch (e) {
-      log("error in updataUserData service in userRepoImpl");
-      return left(ServerFailure(message: e.toString()));
+      log("error in updataUserData service in userRepoImpl ${e.toString()}");
+      return left(const ServerFailure(message: "Can not update your data"));
     }
   }
 }

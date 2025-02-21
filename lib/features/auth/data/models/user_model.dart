@@ -40,8 +40,7 @@ class UserModel extends UserEntity {
       nFollowers: data['nFollowers'] ?? 0,
       joinedAt: data['joinedAt'] is Timestamp
           ? data['joinedAt'] as Timestamp
-          : Timestamp.fromDate(DateTime.parse(data[
-              'joinedAt'])), 
+          : Timestamp.fromDate(DateTime.parse(data['joinedAt'])),
     );
   }
 
@@ -87,8 +86,7 @@ class UserModel extends UserEntity {
       nFollowers: json['nFollowers'] ?? 0,
       joinedAt: json['joinedAt'] is Timestamp
           ? json['joinedAt'] as Timestamp
-          : Timestamp.fromDate(
-              DateTime.parse(json['joinedAt'])), 
+          : Timestamp.fromDate(DateTime.parse(json['joinedAt'])),
     );
   }
 
@@ -129,6 +127,26 @@ class UserModel extends UserEntity {
       nFollowing: nFollowing,
       nFollowers: nFollowers,
       joinedAt: joinedAt,
+    );
+  }
+
+  UserModel copyWithJson(Map<String, dynamic> newData) {
+    final updatedData = toJson()..addAll(newData);
+    return UserModel(
+      userId: updatedData['userId'],
+      firstName: updatedData['firstName'],
+      lastName: updatedData['lastName'],
+      email: updatedData['email'],
+      age: updatedData['age'],
+      gender: Gender.values[updatedData['gender']],
+      phoneNumber: updatedData['phoneNumber'],
+      profilePicUrl: updatedData['profilePicUrl'],
+      coverPicUrl: updatedData['coverPicUrl'],
+      bio: updatedData['bio'],
+      pinnedTweetId: updatedData['pinnedTweetId'],
+      nFollowing: updatedData['nFollowing'],
+      nFollowers: updatedData['nFollowers'],
+      joinedAt: Timestamp.fromDate(DateTime.parse(updatedData['joinedAt'])),
     );
   }
 }

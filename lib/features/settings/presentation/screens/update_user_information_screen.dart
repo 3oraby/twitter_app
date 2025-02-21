@@ -10,7 +10,6 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/utils/validators.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
-import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/settings/data/models/update_user_screen_arguments_model.dart';
 import 'package:twitter_app/features/settings/presentation/cubits/update_user_information_cubit.dart/update_user_information_cubit.dart';
@@ -73,36 +72,36 @@ class _UpdateUserInformationBlocConsumerBodyState
     });
     final content = textEditingController.text.trim();
 
-    UserEntity newUserData;
-
+    Map<String, dynamic> newData;
     switch (widget.arguments.title) {
       case "First Name":
-        newUserData = currentUser.copyWith(
-          firstName: content,
-        );
+        newData = {
+          "firstName": content,
+        };
+
       case "Last Name":
-        newUserData = currentUser.copyWith(
-          lastName: content,
-        );
+        newData = {
+          "lastName": content,
+        };
       case "Bio":
-        newUserData = currentUser.copyWith(
-          bio: content,
-        );
+        newData = {
+          "bio": content,
+        };
       case "Phone number":
-        newUserData = currentUser.copyWith(
-          phoneNumber: content,
-        );
+        newData = {
+          "phoneNumber": content,
+        };
       case "Age":
-        newUserData = currentUser.copyWith(
-          age: int.parse(content),
-        );
+        newData = {
+          "age": int.parse(content),
+        };
       default:
-        newUserData = currentUser;
+        newData = {};
     }
 
     BlocProvider.of<UpdateUserInformationCubit>(context).updateUserData(
       documentId: currentUser.userId,
-      data: UserModel.fromEntity(newUserData).toJson(),
+      data: newData,
     );
   }
 
