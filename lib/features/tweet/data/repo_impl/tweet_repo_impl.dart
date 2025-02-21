@@ -11,6 +11,7 @@ import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/core/utils/backend_endpoints.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/bookmark/data/models/bookmark_model.dart';
+import 'package:twitter_app/features/tweet/data/models/get_tweets_filter_option_model.dart';
 import 'package:twitter_app/features/tweet/data/models/retweet_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_details_model.dart';
 import 'package:twitter_app/features/tweet/data/models/tweet_likes_model.dart';
@@ -70,19 +71,14 @@ class TweetRepoImpl extends TweetRepo {
 
   @override
   Future<Either<Failure, List<TweetDetailsEntity>>> getTweets({
-    bool? isForFollowingOnly,
-    bool? includeLikedTweets,
-    bool? includeUserTweets,
-    bool? includeTweetsWithImages,
-    bool? includeBookmarkedTweets,
-    bool? includeRetweetedTweets,
+    required GetTweetsFilterOptionModel tweetFilterOption,
   }) async {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
       List<TweetDetailsEntity> tweets = [];
       List<QueryCondition> tweetConditions = [];
 
-      if (isForFollowingOnly == true) {
+      if (tweetFilterOption.isForFollowingOnly) {
         List followingList = await databaseService.getData(
           path: BackendEndpoints.toggleFollowRelationShip,
           queryConditions: [
@@ -103,16 +99,20 @@ class TweetRepoImpl extends TweetRepo {
         ));
       }
 
-      if (includeUserTweets == true) {
+      if (tweetFilterOption.includeUserTweets) {
         tweetConditions.add(QueryCondition(
           field: "userId",
           value: currentUser.userId,
         ));
       }
 
-      if (includeTweetsWithImages == true) {
+      if (tweetFilterOption.includeTweetsWithImages) {
         tweetConditions.add(QueryCondition(
-          field: "mediaUrls",
+          field: "userId",
+          value: currentUser.userId,
+        ));
+        tweetConditions.add(QueryCondition(
+          field: "mediaUrl",
           operator: QueryOperator.isNotEqualTo,
           value: [],
         ));
@@ -138,7 +138,7 @@ class TweetRepoImpl extends TweetRepo {
       List retweets = await fetchUserData(BackendEndpoints.getRetweets);
       List bookmarks = await fetchUserData(BackendEndpoints.getBookMarks);
 
-      if (includeLikedTweets == true) {
+      if (tweetFilterOption.includeLikedTweets) {
         Set<String> likedTweetIds = likes
             .map((like) => TweetLikesModel.fromJson(like.data()).tweetId)
             .toSet();
@@ -147,7 +147,7 @@ class TweetRepoImpl extends TweetRepo {
             tweetDocs.where((doc) => likedTweetIds.contains(doc.id)).toList();
       }
 
-      if (includeBookmarkedTweets == true) {
+      if (tweetFilterOption.includeBookmarkedTweets) {
         Set<String> bookmarkedTweetIds = bookmarks
             .map((bookmark) => BookmarkModel.fromJson(bookmark.data()).tweetId)
             .toSet();
@@ -157,7 +157,7 @@ class TweetRepoImpl extends TweetRepo {
             .toList();
       }
 
-      if (includeRetweetedTweets == true) {
+      if (tweetFilterOption.includeRetweetedTweets) {
         Set<String> retweetedTweetIds = retweets
             .map((retweet) => RetweetModel.fromJson(retweet.data()).tweetId)
             .toSet();
@@ -170,7 +170,7 @@ class TweetRepoImpl extends TweetRepo {
       if (tweetDocs.isEmpty) {
         return right([]);
       }
-      
+
       Set<String> userIds =
           tweetDocs.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
       List userDocs = await databaseService.getData(
@@ -210,7 +210,7 @@ class TweetRepoImpl extends TweetRepo {
 
       return right(tweets);
     } catch (e) {
-      log("Exception in TweetRepoImpl.getTweets() \${e.toString()}");
+      log("Exception in TweetRepoImpl.getTweets() ${e.toString()}");
       return left(const ServerFailure(
           message: "Unable to retrieve tweets. Please try again."));
     }

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twitter_app/features/tweet/data/models/get_tweets_filter_option_model.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
 
@@ -9,21 +10,12 @@ class GetTweetsCubit extends Cubit<GetTweetsState> {
   final TweetRepo tweetRepo;
 
   Future<void> getTweets({
-    bool? isForFollowingOnly,
-    bool? includeLikedTweets,
-    bool? includeUserTweets,
-    bool? includeTweetsWithImages,
-    bool? includeBookmarkedTweets,
-    bool? includeRetweetedTweets,
+    GetTweetsFilterOptionModel tweetFilterOption =
+        const GetTweetsFilterOptionModel(),
   }) async {
     emit(GetTweetsLoadingState());
     var result = await tweetRepo.getTweets(
-      isForFollowingOnly: isForFollowingOnly,
-      includeLikedTweets: includeLikedTweets,
-      includeUserTweets: includeUserTweets,
-      includeTweetsWithImages: includeTweetsWithImages,
-      includeBookmarkedTweets: includeBookmarkedTweets,
-      includeRetweetedTweets: includeRetweetedTweets,
+      tweetFilterOption: tweetFilterOption,
     );
     result.fold(
       (failure) => emit(GetTweetsFailureState(message: failure.message)),

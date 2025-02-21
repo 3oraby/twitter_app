@@ -15,9 +15,7 @@ class _ForYouTabBarHomeViewState extends State<ForYouTabBarHomeView> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<GetTweetsCubit>(context).getTweets(
-      includeRetweetedTweets: true,
-    );
+    BlocProvider.of<GetTweetsCubit>(context).getTweets();
   }
 
   @override
