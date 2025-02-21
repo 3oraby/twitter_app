@@ -8,14 +8,37 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
+import 'package:twitter_app/core/widgets/keep_alive_tab.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/home/presentation/widgets/show_home_tweets_body.dart';
+import 'package:twitter_app/features/home/presentation/widgets/following_tab_bar_home_view.dart';
+import 'package:twitter_app/features/home/presentation/widgets/for_you_tab_bar_home_view.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({
     super.key,
   });
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   AppBar buildHomeAppBar({
     required BuildContext context,
   }) {
@@ -64,6 +87,7 @@ class HomeView extends StatelessWidget {
               context: context,
             ),
             TabBar(
+              controller: _tabController,
               indicatorColor: AppColors.twitterAccentColor,
               indicatorSize: TabBarIndicatorSize.label,
               labelStyle: AppTextStyles.uberMoveBold18,
@@ -75,7 +99,15 @@ class HomeView extends StatelessWidget {
                 Tab(text: context.tr("Following")),
               ],
             ),
-            const ShowHomeTweetsBody(),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const [
+                  KeepAliveTab(child: ForYouTabBarHomeView()),
+                  KeepAliveTab(child: FollowingTabBarHomeView()),
+                ],
+              ),
+            ),
           ],
         ),
       ),

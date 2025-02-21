@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
-import 'package:twitter_app/core/widgets/keep_alive_tab.dart';
-import 'package:twitter_app/features/home/presentation/widgets/following_tab_bar_home_view.dart';
-import 'package:twitter_app/features/home/presentation/widgets/for_you_tab_bar_home_view.dart';
+import 'package:twitter_app/features/tweet/data/models/get_tweets_filter_option_model.dart';
 import 'package:twitter_app/features/tweet/domain/repos/tweet_repo.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/delete_tweet_cubit/delete_tweet_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/get_tweets_cubit/get_tweets_cubit.dart';
+import 'package:twitter_app/features/tweet/presentation/widgets/show_tweet_feed_bloc_builder_body.dart';
 
-class ShowHomeTweetsBody extends StatelessWidget {
-  const ShowHomeTweetsBody({
+class CustomShowTweetFeed extends StatelessWidget {
+  const CustomShowTweetFeed({
     super.key,
+    this.tweetFilterOption = const GetTweetsFilterOptionModel(),
   });
+  final GetTweetsFilterOptionModel tweetFilterOption;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +29,8 @@ class ShowHomeTweetsBody extends StatelessWidget {
           ),
         ),
       ],
-      child: const Expanded(
-        child: TabBarView(
-          children: [
-            KeepAliveTab(child: ForYouTabBarHomeView()),
-            KeepAliveTab(child: FollowingTabBarHomeView()),
-          ],
-        ),
+      child: ShowTweetFeedBlocBuilderBody(
+        tweetFilterOption: tweetFilterOption,
       ),
     );
   }

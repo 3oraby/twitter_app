@@ -17,8 +17,8 @@ import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_inf
 import 'package:twitter_app/features/comments/presentation/screens/show_tweet_comments_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
 
-class ForYouTabBarBody extends StatefulWidget {
-  const ForYouTabBarBody({
+class ShowTweetFeedBody extends StatefulWidget {
+  const ShowTweetFeedBody({
     super.key,
     required this.tweets,
   });
@@ -26,10 +26,10 @@ class ForYouTabBarBody extends StatefulWidget {
   final List<TweetDetailsEntity> tweets;
 
   @override
-  State<ForYouTabBarBody> createState() => _ForYouTabBarBodyState();
+  State<ShowTweetFeedBody> createState() => _ShowTweetFeedBodyState();
 }
 
-class _ForYouTabBarBodyState extends State<ForYouTabBarBody> {
+class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
   late UserEntity currentUser;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   int? removedTweetIndex;
