@@ -52,14 +52,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverAppBar(
               pinned: true,
-              floating: false,
               backgroundColor: AppColors.twitterAccentColor,
               expandedHeight: 400,
               title: _showAppBarTitle
@@ -108,13 +107,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   userEntity: widget.userEntity,
                 ),
               ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(48),
+              bottom: const PreferredSize(
+                preferredSize: Size.fromHeight(48),
                 child: ShowUserProfileTabBars(),
               ),
             ),
           ],
-          body: ShowUserProfileScreenTabs(),
+          body: const ShowUserProfileScreenTabs(),
         ),
       ),
     );

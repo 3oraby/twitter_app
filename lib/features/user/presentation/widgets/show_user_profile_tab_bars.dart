@@ -23,6 +23,7 @@ class ShowUserProfileTabBars extends StatelessWidget {
           Tab(text: context.tr("Posts")),
           Tab(text: context.tr("Media")),
           Tab(text: context.tr("Likes")),
+          Tab(text: context.tr("Retweets")),
         ],
       ),
     );
