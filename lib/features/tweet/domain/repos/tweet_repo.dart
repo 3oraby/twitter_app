@@ -16,6 +16,8 @@ abstract class TweetRepo {
     bool? includeLikedTweets,
     bool? includeUserTweets,
     bool? includeTweetsWithImages,
+    bool? includeBookmarkedTweets,
+    bool? includeRetweetedTweets,
   });
 
   Future<Either<Failure, Success>> deleteTweet({

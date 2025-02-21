@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -17,7 +16,7 @@ class _ForYouTabBarHomeViewState extends State<ForYouTabBarHomeView> {
   void initState() {
     super.initState();
     BlocProvider.of<GetTweetsCubit>(context).getTweets(
-      isForFollowingOnly: true,
+      includeRetweetedTweets: true,
     );
   }
 

@@ -13,6 +13,8 @@ class GetTweetsCubit extends Cubit<GetTweetsState> {
     bool? includeLikedTweets,
     bool? includeUserTweets,
     bool? includeTweetsWithImages,
+    bool? includeBookmarkedTweets,
+    bool? includeRetweetedTweets,
   }) async {
     emit(GetTweetsLoadingState());
     var result = await tweetRepo.getTweets(
@@ -20,6 +22,8 @@ class GetTweetsCubit extends Cubit<GetTweetsState> {
       includeLikedTweets: includeLikedTweets,
       includeUserTweets: includeUserTweets,
       includeTweetsWithImages: includeTweetsWithImages,
+      includeBookmarkedTweets: includeBookmarkedTweets,
+      includeRetweetedTweets: includeRetweetedTweets,
     );
     result.fold(
       (failure) => emit(GetTweetsFailureState(message: failure.message)),

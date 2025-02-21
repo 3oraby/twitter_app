@@ -74,6 +74,8 @@ class TweetRepoImpl extends TweetRepo {
     bool? includeLikedTweets,
     bool? includeUserTweets,
     bool? includeTweetsWithImages,
+    bool? includeBookmarkedTweets,
+    bool? includeRetweetedTweets,
   }) async {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
@@ -102,28 +104,18 @@ class TweetRepoImpl extends TweetRepo {
       }
 
       if (includeUserTweets == true) {
-        tweetConditions.add(
-          QueryCondition(
-            field: "userId",
-            value: currentUser.userId,
-          ),
-        );
+        tweetConditions.add(QueryCondition(
+          field: "userId",
+          value: currentUser.userId,
+        ));
       }
 
       if (includeTweetsWithImages == true) {
-        tweetConditions.add(
-          QueryCondition(
-            field: "userId",
-            value: currentUser.userId,
-          ),
-        );
-        tweetConditions.add(
-          QueryCondition(
-            field: "mediaUrl",
-            operator: QueryOperator.isNotEqualTo,
-            value: [],
-          ),
-        );
+        tweetConditions.add(QueryCondition(
+          field: "mediaUrls",
+          operator: QueryOperator.isNotEqualTo,
+          value: [],
+        ));
       }
 
       List tweetDocs = await databaseService.getData(
@@ -155,6 +147,30 @@ class TweetRepoImpl extends TweetRepo {
             tweetDocs.where((doc) => likedTweetIds.contains(doc.id)).toList();
       }
 
+      if (includeBookmarkedTweets == true) {
+        Set<String> bookmarkedTweetIds = bookmarks
+            .map((bookmark) => BookmarkModel.fromJson(bookmark.data()).tweetId)
+            .toSet();
+
+        tweetDocs = tweetDocs
+            .where((doc) => bookmarkedTweetIds.contains(doc.id))
+            .toList();
+      }
+
+      if (includeRetweetedTweets == true) {
+        Set<String> retweetedTweetIds = retweets
+            .map((retweet) => RetweetModel.fromJson(retweet.data()).tweetId)
+            .toSet();
+
+        tweetDocs = tweetDocs
+            .where((doc) => retweetedTweetIds.contains(doc.id))
+            .toList();
+      }
+
+      if (tweetDocs.isEmpty) {
+        return right([]);
+      }
+      
       Set<String> userIds =
           tweetDocs.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
       List userDocs = await databaseService.getData(
@@ -194,7 +210,7 @@ class TweetRepoImpl extends TweetRepo {
 
       return right(tweets);
     } catch (e) {
-      log("Exception in TweetRepoImpl.getTweets() ${e.toString()}");
+      log("Exception in TweetRepoImpl.getTweets() \${e.toString()}");
       return left(const ServerFailure(
           message: "Unable to retrieve tweets. Please try again."));
     }
