@@ -71,104 +71,127 @@ class TweetRepoImpl extends TweetRepo {
   @override
   Future<Either<Failure, List<TweetDetailsEntity>>> getTweets({
     bool? isForFollowingOnly,
+    bool? includeLikedTweets,
+    bool? includeUserTweets,
+    bool? includeTweetsWithImages,
   }) async {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
       List<TweetDetailsEntity> tweets = [];
-      List res = await databaseService.getData(
-        path: BackendEndpoints.getTweets,
-      );
-      if (res.isEmpty) {
-        return right([]);
+      List<QueryCondition> tweetConditions = [];
+
+      if (isForFollowingOnly == true) {
+        List followingList = await databaseService.getData(
+          path: BackendEndpoints.toggleFollowRelationShip,
+          queryConditions: [
+            QueryCondition(field: "followingId", value: currentUser.userId),
+          ],
+        );
+
+        Set<String> followingUserIds = followingList
+            .map((doc) => doc.data()['followedId'] as String)
+            .toSet();
+
+        if (followingUserIds.isEmpty) return right([]);
+
+        tweetConditions.add(QueryCondition(
+          field: "userId",
+          operator: QueryOperator.whereIn,
+          value: followingUserIds.toList(),
+        ));
       }
 
-      List likes = await databaseService.getData(
-        path: BackendEndpoints.getTweetLikes,
-        queryConditions: [
+      if (includeUserTweets == true) {
+        tweetConditions.add(
           QueryCondition(
             field: "userId",
             value: currentUser.userId,
           ),
-        ],
+        );
+      }
+
+      if (includeTweetsWithImages == true) {
+        tweetConditions.add(
+          QueryCondition(
+            field: "userId",
+            value: currentUser.userId,
+          ),
+        );
+        tweetConditions.add(
+          QueryCondition(
+            field: "mediaUrl",
+            operator: QueryOperator.isNotEqualTo,
+            value: [],
+          ),
+        );
+      }
+
+      List tweetDocs = await databaseService.getData(
+        path: BackendEndpoints.getTweets,
+        queryConditions: tweetConditions.isNotEmpty ? tweetConditions : null,
       );
 
-      List retweets = await databaseService.getData(
-        path: BackendEndpoints.getRetweets,
-        queryConditions: [
-          QueryCondition(
-            field: "userId",
-            value: currentUser.userId,
-          ),
-        ],
-      );
+      if (tweetDocs.isEmpty) return right([]);
 
-      List bookmarks = await databaseService.getData(
-        path: BackendEndpoints.getBookMarks,
-        queryConditions: [
-          QueryCondition(
-            field: "userId",
-            value: currentUser.userId,
-          ),
-        ],
-      );
+      Future<List> fetchUserData(String path) async {
+        return await databaseService.getData(
+          path: path,
+          queryConditions: [
+            QueryCondition(field: "userId", value: currentUser.userId)
+          ],
+        );
+      }
+
+      List likes = await fetchUserData(BackendEndpoints.getTweetLikes);
+      List retweets = await fetchUserData(BackendEndpoints.getRetweets);
+      List bookmarks = await fetchUserData(BackendEndpoints.getBookMarks);
+
+      if (includeLikedTweets == true) {
+        Set<String> likedTweetIds = likes
+            .map((like) => TweetLikesModel.fromJson(like.data()).tweetId)
+            .toSet();
+
+        tweetDocs =
+            tweetDocs.where((doc) => likedTweetIds.contains(doc.id)).toList();
+      }
 
       Set<String> userIds =
-          res.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
+          tweetDocs.map((doc) => TweetModel.fromMap(doc.data()).userId).toSet();
       List userDocs = await databaseService.getData(
         path: BackendEndpoints.getUserData,
         queryConditions: [
           QueryCondition(
-            field: "userId",
-            operator: QueryOperator.whereIn,
-            value: userIds.toList(),
-          ),
+              field: "userId",
+              operator: QueryOperator.whereIn,
+              value: userIds.toList()),
         ],
       );
 
-      tweets = res.map((doc) {
+      tweets = tweetDocs.map((doc) {
         TweetModel tweetModel = TweetModel.fromMap(doc.data());
 
-        var userDoc = userDocs.firstWhere(
-          (userDoc) => userDoc.data()['userId'] == tweetModel.userId,
-        );
+        Map<String, dynamic> userData = userDocs
+            .firstWhere(
+                (userDoc) => userDoc.data()['userId'] == tweetModel.userId)
+            .data();
 
-        Map<String, dynamic> userData = userDoc.data();
+        bool isLiked = likes.any(
+            (like) => TweetLikesModel.fromJson(like.data()).tweetId == doc.id);
+        bool isRetweeted = retweets.any((retweet) =>
+            RetweetModel.fromJson(retweet.data()).tweetId == doc.id);
+        bool isBookmarked = bookmarks.any((bookmark) =>
+            BookmarkModel.fromJson(bookmark.data()).tweetId == doc.id);
 
-        Set<String> tweetIdsLikedByCurrentUser = likes
-            .map(
-              (doc) => TweetLikesModel.fromJson(doc.data()).tweetId,
-            )
-            .toSet();
-        bool isLikedByCurrentUser = tweetIdsLikedByCurrentUser.contains(doc.id);
-
-        Set<String> tweetIdsRetweetedByCurrentUser = retweets
-            .map(
-              (doc) => RetweetModel.fromJson(doc.data()).tweetId,
-            )
-            .toSet();
-
-        bool isRetweetedByCurrentUser =
-            tweetIdsRetweetedByCurrentUser.contains(doc.id);
-
-        Set<String> tweetIdsBookmarkedByCurrentUser = bookmarks
-            .map(
-              (doc) => BookmarkModel.fromJson(doc.data()).tweetId,
-            )
-            .toSet();
-
-        bool isBookmarkedByCurrentUser =
-            tweetIdsBookmarkedByCurrentUser.contains(doc.id);
-        Map<String, dynamic> data = {
+        return TweetDetailsModel.fromJson({
           'tweetId': doc.id,
           'tweet': tweetModel.toJson(),
           'user': userData,
-          'isLiked': isLikedByCurrentUser,
-          'isRetweeted': isRetweetedByCurrentUser,
-          'isBookmarked': isBookmarkedByCurrentUser,
-        };
-
-        return TweetDetailsModel.fromJson(data);
+          'isLiked': isLiked,
+          'isRetweeted': isRetweeted,
+          'isBookmarked': isBookmarked,
+        });
       }).toList();
+
       return right(tweets);
     } catch (e) {
       log("Exception in TweetRepoImpl.getTweets() ${e.toString()}");
@@ -190,7 +213,7 @@ class TweetRepoImpl extends TweetRepo {
       if (mediaFiles != null && mediaFiles.isNotEmpty) {
         await storageService.deleteFiles(mediaFiles);
       }
-      
+
       return right(Success());
     } catch (e) {
       log("Exception in TweetRepoImpl.deleteTweet() ${e.toString()}");

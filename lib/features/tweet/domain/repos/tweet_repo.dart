@@ -13,6 +13,9 @@ abstract class TweetRepo {
 
   Future<Either<Failure, List<TweetDetailsEntity>>> getTweets({
     bool? isForFollowingOnly,
+    bool? includeLikedTweets,
+    bool? includeUserTweets,
+    bool? includeTweetsWithImages,
   });
 
   Future<Either<Failure, Success>> deleteTweet({
