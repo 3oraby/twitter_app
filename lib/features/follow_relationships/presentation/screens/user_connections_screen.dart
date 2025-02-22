@@ -4,6 +4,7 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_sliver_app_bar.dart';
+import 'package:twitter_app/core/widgets/keep_alive_tab.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/widgets/user_followers_tab_bar_view.dart';
@@ -74,17 +75,25 @@ class _UserConnectionsScreenState extends State<UserConnectionsScreen> {
                 ),
                 tabs: [
                   Tab(text: context.tr("Followers")),
-                  Tab(text: context.tr("Following")),
+                  Tab(
+                    text: currentUser.userId == widget.targetUser.userId
+                        ? context.tr("accounts_current_user_follow")
+                        : context.tr("Following_noun"),
+                  ),
                 ],
               ),
               Expanded(
                 child: TabBarView(
                   children: [
-                    UserFollowersTabBarView(
-                      targetUserId: widget.targetUser.userId,
+                    KeepAliveTab(
+                      child: UserFollowersTabBarView(
+                        targetUserId: widget.targetUser.userId,
+                      ),
                     ),
-                    UserFollowingsTabBarView(
-                      targetUserId: widget.targetUser.userId,
+                    KeepAliveTab(
+                      child: UserFollowingsTabBarView(
+                        targetUserId: widget.targetUser.userId,
+                      ),
                     ),
                   ],
                 ),

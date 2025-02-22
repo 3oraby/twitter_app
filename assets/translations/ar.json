@@ -74,7 +74,9 @@
   "Notifications": "الإشعارات",
   "Suggestions": "اقتراحات",
   "Follow": "متابعة",
-  "Following": "متابع",
+  "accounts_current_user_follow":"الحسابات التي تتابعها",
+  "Following_verb": "متابع",
+  "Following_noun": "الحسابات التي يتابعها",
   "Suggested for you": "مقترح لك",
   "Connect": "متابعة",
   "Failed to follow user. Please try again later.": "فشل في متابعة المستخدم. يرجى المحاولة لاحقًا.",
@@ -135,5 +137,9 @@
   "Couldn't delete the reply.": "لم يتمكن من حذف الرد.",
   "Unable to update the reply. Please try again.": "تعذر تحديث الرد. يرجى المحاولة مرة أخرى.",
   "No tweets available": "لا توجد تغريدات متاحة",
-  "Follow more users to see tweets here": "تابع المزيد من المستخدمين لرؤية التغريدات هنا"
+  "Follow more users to see tweets here": "تابع المزيد من المستخدمين لرؤية التغريدات هنا",
+  "No Followers Found": "لم يتم العثور على متابعين",
+  "This user has no followers yet.": "هذا المستخدم ليس لديه أي متابعين بعد.",
+  "No Followings Found": "لم يتم العثور على حسابات يتابعها المستخدم ",
+  "This user is not following anyone yet.": "هذا المستخدم لا يتابع أي شخص بعد."
 }

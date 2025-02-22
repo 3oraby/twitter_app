@@ -75,6 +75,9 @@
   "Suggestions": "Suggestions",
   "Follow": "Follow",
   "Following": "Following",
+  "accounts_current_user_follow": "Following",
+  "Following_verb": "Following",
+  "Following_noun": "Following",
   "Suggested for you": "Suggested for you",
   "Connect": "Connect",
   "Failed to follow user. Please try again later.": "Failed to follow user. Please try again later.",
@@ -135,5 +138,9 @@
   "Couldn't delete the reply.": "Couldn't delete the reply.",
   "Unable to update the reply. Please try again.": "Unable to update the reply. Please try again.",
   "No tweets available": "No tweets available",
-  "Follow more users to see tweets here": "Follow more users to see tweets here"
+  "Follow more users to see tweets here": "Follow more users to see tweets here",
+  "No Followers Found": "No Followers Found",
+  "This user has no followers yet.": "This user has no followers yet.",
+  "No Followings Found": "No Followings Found",
+  "This user is not following anyone yet.": "This user is not following anyone yet."
 }

@@ -80,17 +80,26 @@ class _UserFollowingsTabBarBlocConsumerBodyState
             currentUser: currentUser,
           );
         } else if (state is GetUserConnectionsEmptyState) {
+          bool isCurrentUser = currentUser.userId == widget.targetUserId;
+
           return CustomEmptyBodyWidget(
-            mainLabel: context.tr("No Followings Yet!"),
-            subLabel: context.tr(
-                "You are not following anyone yet. Explore accounts and start connecting."),
-            buttonDescription: context.tr("Discover Accounts"),
-            onButtonPressed: () {
-              Navigator.pushNamed(
-                context,
-                FollowersSuggestionScreen.routeId,
-              );
-            },
+            mainLabel: isCurrentUser
+                ? context.tr("No Followings Yet!")
+                : context.tr("No Followings Found"),
+            subLabel: isCurrentUser
+                ? context.tr(
+                    "You are not following anyone yet. Explore accounts and start connecting.")
+                : context.tr("This user is not following anyone yet."),
+            buttonDescription:
+                isCurrentUser ? context.tr("Discover Accounts") : null,
+            onButtonPressed: isCurrentUser
+                ? () {
+                    Navigator.pushNamed(
+                      context,
+                      FollowersSuggestionScreen.routeId,
+                    );
+                  }
+                : null,
           );
         }
         return const SizedBox();

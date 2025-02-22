@@ -80,18 +80,27 @@ class _UserFollowersTabBarBlocConsumerBodyState
             currentUser: currentUser,
           );
         } else if (state is GetUserConnectionsEmptyState) {
+          bool isCurrentUser = currentUser.userId == widget.targetUserId;
+
           return CustomEmptyBodyWidget(
-            mainLabel: context.tr("No Followers Yet!"),
-            subLabel: context.tr(
-                "It looks like no one is following you right now. Share your profile to gain followers."),
-            buttonDescription: context.tr("back to home"),
-            onButtonPressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                MainAppScreen.routeId,
-                (route) => false,
-              );
-            },
+            mainLabel: isCurrentUser
+                ? context.tr("No Followers Yet!")
+                : context.tr("No Followers Found"),
+            subLabel: isCurrentUser
+                ? context.tr(
+                    "It looks like no one is following you right now. Share your profile to gain followers.")
+                : context.tr("This user has no followers yet."),
+            buttonDescription:
+                isCurrentUser ? context.tr("Back to Home") : null,
+            onButtonPressed: isCurrentUser
+                ? () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      MainAppScreen.routeId,
+                      (route) => false,
+                    );
+                  }
+                : null,
           );
         }
         return const SizedBox();

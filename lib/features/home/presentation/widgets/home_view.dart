@@ -96,7 +96,7 @@ class _HomeViewState extends State<HomeView>
               ),
               tabs: [
                 Tab(text: context.tr("For you")),
-                Tab(text: context.tr("Following")),
+                Tab(text: context.tr("accounts_current_user_follow")),
               ],
             ),
             Expanded(

@@ -116,7 +116,7 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
               fit: BoxFit.scaleDown,
               child: Text(
                 isActive
-                    ? context.tr("Following")
+                    ? context.tr("Following_verb")
                     : isFollowBack
                         ? context.tr("Follow back")
                         : context.tr("Follow"),
