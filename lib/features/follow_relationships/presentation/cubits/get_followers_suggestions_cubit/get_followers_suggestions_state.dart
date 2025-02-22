@@ -8,6 +8,9 @@ final class GetFollowersSuggestionsInitial
 final class GetFollowersSuggestionsLoadingState
     extends GetFollowersSuggestionsState {}
 
+final class GetFollowersSuggestionsEmptyState
+    extends GetFollowersSuggestionsState {}
+
 final class GetFollowersSuggestionsLoadedState
     extends GetFollowersSuggestionsState {
   final List<UserEntity> suggestionUsers;

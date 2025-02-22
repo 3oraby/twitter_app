@@ -74,7 +74,7 @@
   "Notifications": "الإشعارات",
   "Suggestions": "اقتراحات",
   "Follow": "متابعة",
-  "accounts_current_user_follow":"الحسابات التي تتابعها",
+  "accounts_current_user_follow": "الحسابات التي تتابعها",
   "Following_verb": "متابع",
   "Following_noun": "الحسابات التي يتابعها",
   "Suggested for you": "مقترح لك",
@@ -141,5 +141,7 @@
   "No Followers Found": "لم يتم العثور على متابعين",
   "This user has no followers yet.": "هذا المستخدم ليس لديه أي متابعين بعد.",
   "No Followings Found": "لم يتم العثور على حسابات يتابعها المستخدم ",
-  "This user is not following anyone yet.": "هذا المستخدم لا يتابع أي شخص بعد."
+  "This user is not following anyone yet.": "هذا المستخدم لا يتابع أي شخص بعد.",
+  "No Suggestions Available": "لا توجد اقتراحات متاحة",
+  "There are no suggested accounts for you to follow at the moment. Check back later or explore more users.": "لا يوجد حاليًا أي حسابات مقترحة لمتابعتها. تحقق لاحقًا أو استكشف المزيد من المستخدمين."
 }

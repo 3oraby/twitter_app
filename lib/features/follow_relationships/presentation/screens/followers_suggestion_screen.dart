@@ -7,6 +7,7 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/follow_relationships/domain/repos/follow_repo.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/cubits/get_followers_suggestions_cubit/get_followers_suggestions_cubit.dart';
@@ -67,6 +68,12 @@ class _FollowersSuggestionsBlocConsumerBodyState
         if (state is GetFollowersSuggestionsLoadedState) {
           return FollowersSuggestionsBody(
             suggestionUsers: state.suggestionUsers,
+          );
+        } else if (state is GetFollowersSuggestionsEmptyState) {
+          return CustomEmptyBodyWidget(
+            mainLabel: context.tr("No Suggestions Available"),
+            subLabel: context.tr(
+                "There are no suggested accounts for you to follow at the moment. Check back later or explore more users."),
           );
         } else if (state is GetFollowersSuggestionsLoadingState) {
           return const Center(

@@ -16,10 +16,16 @@ class GetFollowersSuggestionsCubit extends Cubit<GetFollowersSuggestionsState> {
       currentUserId: currentUserId,
     );
     result.fold(
-      (failure) =>
-          emit(GetFollowersSuggestionsFailureState(message: failure.message)),
-      (suggestionUsers) => emit(
-          GetFollowersSuggestionsLoadedState(suggestionUsers: suggestionUsers)),
-    );
+        (failure) =>
+            emit(GetFollowersSuggestionsFailureState(message: failure.message)),
+        (suggestionUsers) {
+      if (suggestionUsers.isEmpty) {
+        emit(GetFollowersSuggestionsEmptyState());
+      } else {
+        emit(GetFollowersSuggestionsLoadedState(
+          suggestionUsers: suggestionUsers,
+        ));
+      }
+    });
   }
 }
