@@ -4,7 +4,6 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_toggle_follow_button.dart';
-import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
@@ -32,57 +31,35 @@ class UserInfoCard extends StatelessWidget {
           arguments: user,
         );
       },
-      child: Column(
-        children: [
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: BuildUserCircleAvatarImage(
-              profilePicUrl: user.profilePicUrl,
-            ),
-            title: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: context.locale == const Locale("en")
-                  ? Alignment.centerLeft
-                  : Alignment.centerRight,
-              child: Text(
-                "${user.firstName} ${user.lastName}",
-                style: AppTextStyles.uberMoveExtraBold18,
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        isThreeLine: true,
+        leading: BuildUserCircleAvatarImage(
+          profilePicUrl: user.profilePicUrl,
+        ),
+        title: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${user.firstName} ${user.lastName}",
+                    style: AppTextStyles.uberMoveExtraBold18,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    user.email,
+                    style: AppTextStyles.uberMoveBold18.copyWith(
+                      color: AppColors.secondaryColor,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  user.email,
-                  style: AppTextStyles.uberMoveBold16.copyWith(
-                    color: AppColors.secondaryColor,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const VerticalGap(4),
-                Visibility(
-                  visible: showFollowsYouLabel,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.highlightBackgroundColor,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      context.tr("Follows you"),
-                      style: AppTextStyles.uberMoveBold14.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            trailing: Visibility(
+            Visibility(
               visible: user.userId != currentUserId,
               child: CustomToggleFollowButton(
                 followedId: user.userId,
@@ -91,17 +68,38 @@ class UserInfoCard extends StatelessWidget {
                 useFollowBack: showFollowsYouLabel,
               ),
             ),
-          ),
-          if (user.bio != null)
-            Row(
-              children: [
-                Text(
-                  user.bio!,
-                  style: AppTextStyles.uberMoveMedium18,
+          ],
+        ),
+        subtitle: Column(
+          spacing: 4,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Visibility(
+              visible: showFollowsYouLabel,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 2,
                 ),
-              ],
-            )
-        ],
+                decoration: BoxDecoration(
+                  color: AppColors.highlightBackgroundColor,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  context.tr("Follows you"),
+                  style: AppTextStyles.uberMoveBold14.copyWith(
+                    color: AppColors.secondaryColor,
+                  ),
+                ),
+              ),
+            ),
+            if (user.bio != null)
+              Text(
+                user.bio!,
+                style: AppTextStyles.uberMoveMedium16,
+              ),
+          ],
+        ),
       ),
     );
   }
