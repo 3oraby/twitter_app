@@ -11,12 +11,14 @@ class GetUserConnectionsCubit extends Cubit<GetUserConnectionsState> {
   final FollowRepo followRepo;
 
   Future<void> getUserConnections({
-    required String currentUserId,
+    required String targetUserId,
     required bool isFetchingFollowers,
   }) async {
     emit(GetUserConnectionsLoadingState());
     var res = await followRepo.getUserConnections(
-        currentUserId: currentUserId, isFetchingFollowers: isFetchingFollowers);
+      targetUserId: targetUserId,
+      isFetchingFollowers: isFetchingFollowers,
+    );
     res.fold(
         (failure) =>
             emit(GetUserConnectionsFailureState(message: failure.message)),

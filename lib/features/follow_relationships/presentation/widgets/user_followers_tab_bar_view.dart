@@ -15,22 +15,32 @@ import 'package:twitter_app/features/follow_relationships/presentation/widgets/u
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 
 class UserFollowersTabBarView extends StatelessWidget {
-  const UserFollowersTabBarView({super.key});
+  const UserFollowersTabBarView({
+    super.key,
+    required this.targetUserId,
+  });
 
+  final String targetUserId;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GetUserConnectionsCubit(
         followRepo: getIt<FollowRepo>(),
       ),
-      child: const UserFollowersTabBarBlocConsumerBody(),
+      child: UserFollowersTabBarBlocConsumerBody(
+        targetUserId: targetUserId,
+      ),
     );
   }
 }
 
 class UserFollowersTabBarBlocConsumerBody extends StatefulWidget {
-  const UserFollowersTabBarBlocConsumerBody({super.key});
+  const UserFollowersTabBarBlocConsumerBody({
+    super.key,
+    required this.targetUserId,
+  });
 
+  final String targetUserId;
   @override
   State<UserFollowersTabBarBlocConsumerBody> createState() =>
       _UserFollowersTabBarBlocConsumerBodyState();
@@ -44,7 +54,7 @@ class _UserFollowersTabBarBlocConsumerBodyState
     super.initState();
     currentUser = getCurrentUserEntity();
     BlocProvider.of<GetUserConnectionsCubit>(context).getUserConnections(
-      currentUserId: currentUser.userId,
+      targetUserId: widget.targetUserId,
       isFetchingFollowers: true,
     );
   }

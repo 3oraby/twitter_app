@@ -39,7 +39,6 @@ class _FollowersSuggestionsBodyState extends State<FollowersSuggestionsBody> {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   context.tr("Suggested for you"),

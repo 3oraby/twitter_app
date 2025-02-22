@@ -15,7 +15,7 @@ abstract class FollowRepo {
   });
 
   Future<Either<Failure, List<UserWithFollowStatusEntity>>> getUserConnections({
-    required String currentUserId,
+    required String targetUserId,
     required bool isFetchingFollowers,
   });
 }

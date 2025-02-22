@@ -64,27 +64,26 @@ class FollowRepoImpl extends FollowRepo {
 
   @override
   Future<Either<Failure, List<UserWithFollowStatusEntity>>> getUserConnections({
-    required String currentUserId,
+    required String targetUserId,
     required bool isFetchingFollowers,
   }) async {
     try {
-      List followersRelationships = await databaseService.getData(
+      final UserEntity currentUser = getCurrentUserEntity();
+
+      List followersRelationships = [];
+      List followingsRelationships = [];
+
+      followersRelationships = await databaseService.getData(
         path: BackendEndpoints.toggleFollowRelationShip,
         queryConditions: [
-          QueryCondition(
-            field: "followedId",
-            value: currentUserId,
-          ),
+          QueryCondition(field: "followedId", value: targetUserId),
         ],
       );
 
-      List followingsRelationships = await databaseService.getData(
+      followingsRelationships = await databaseService.getData(
         path: BackendEndpoints.toggleFollowRelationShip,
         queryConditions: [
-          QueryCondition(
-            field: "followingId",
-            value: currentUserId,
-          ),
+          QueryCondition(field: "followingId", value: targetUserId),
         ],
       );
 
@@ -117,30 +116,56 @@ class FollowRepoImpl extends FollowRepo {
         ],
       );
 
+      Set<String> targetFollowersSet = followersRelationships
+          .map((doc) =>
+              FollowingRelationshipModel.fromJson(doc.data()).followingId)
+          .toSet();
+
+      Set<String> targetFollowingsSet = followingsRelationships
+          .map((doc) =>
+              FollowingRelationshipModel.fromJson(doc.data()).followedId)
+          .toSet();
+
+      Set<String> currentUserFollowersSet = {};
+      Set<String> currentUserFollowingsSet = {};
+
+      if (targetUserId != currentUser.userId) {
+        List currentUserFollowers = await databaseService.getData(
+          path: BackendEndpoints.toggleFollowRelationShip,
+          queryConditions: [
+            QueryCondition(field: "followedId", value: currentUser.userId),
+          ],
+        );
+
+        List currentUserFollowings = await databaseService.getData(
+          path: BackendEndpoints.toggleFollowRelationShip,
+          queryConditions: [
+            QueryCondition(field: "followingId", value: currentUser.userId),
+          ],
+        );
+
+        currentUserFollowersSet = currentUserFollowers
+            .map((doc) =>
+                FollowingRelationshipModel.fromJson(doc.data()).followingId)
+            .toSet();
+
+        currentUserFollowingsSet = currentUserFollowings
+            .map((doc) =>
+                FollowingRelationshipModel.fromJson(doc.data()).followedId)
+            .toSet();
+      } else {
+        currentUserFollowersSet = targetFollowersSet;
+        currentUserFollowingsSet = targetFollowingsSet;
+      }
+
       List<UserWithFollowStatusEntity> userConnections = res.map((doc) {
         UserEntity user = UserModel.fromJson(doc.data()).toEntity();
-        bool isFollowingCurrentUser;
-        bool isFollowedByCurrentUser;
 
-        if (isFetchingFollowers) {
-          isFollowingCurrentUser = true;
-          isFollowedByCurrentUser = followingsRelationships.any(
-            (relationship) {
-              FollowingRelationshipModel followingRelationshipModel =
-                  FollowingRelationshipModel.fromJson(relationship.data());
-              return followingRelationshipModel.followedId == user.userId;
-            },
-          );
-        } else {
-          isFollowedByCurrentUser = true;
-          isFollowingCurrentUser = followersRelationships.any(
-            (relationship) {
-              FollowingRelationshipModel followingRelationshipModel =
-                  FollowingRelationshipModel.fromJson(relationship.data());
-              return followingRelationshipModel.followingId == user.userId;
-            },
-          );
-        }
+        bool isFollowedByCurrentUser =
+            currentUserFollowingsSet.contains(user.userId);
+
+        bool isFollowingCurrentUser =
+            currentUserFollowersSet.contains(user.userId);
 
         return UserWithFollowStatusModel(
           user: UserModel.fromEntity(user),

@@ -18,7 +18,11 @@ class CustomUserFollowRelationShipsCount extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, UserConnectionsScreen.routeId);
+        Navigator.pushNamed(
+          context,
+          UserConnectionsScreen.routeId,
+          arguments: userEntity,
+        );
       },
       child: Row(
         children: [

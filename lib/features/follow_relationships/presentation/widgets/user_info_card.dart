@@ -6,6 +6,7 @@ import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_toggle_follow_button.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 class UserInfoCard extends StatelessWidget {
   const UserInfoCard({
@@ -25,7 +26,11 @@ class UserInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // go to this user profile screen
+        Navigator.pushNamed(
+          context,
+          UserProfileScreen.routeId,
+          arguments: user,
+        );
       },
       child: Column(
         children: [
@@ -77,16 +82,18 @@ class UserInfoCard extends StatelessWidget {
                 ),
               ],
             ),
-            trailing: CustomToggleFollowButton(
-              followedId: user.userId,
-              followingId: currentUserId,
-              isActive: isActiveFollowButton,
-              useFollowBack: showFollowsYouLabel,
+            trailing: Visibility(
+              visible: user.userId != currentUserId,
+              child: CustomToggleFollowButton(
+                followedId: user.userId,
+                followingId: currentUserId,
+                isActive: isActiveFollowButton,
+                useFollowBack: showFollowsYouLabel,
+              ),
             ),
           ),
           if (user.bio != null)
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   user.bio!,

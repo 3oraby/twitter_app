@@ -114,7 +114,6 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
           child: Center(
             child: FittedBox(
               fit: BoxFit.scaleDown,
-              alignment: Alignment.center,
               child: Text(
                 isActive
                     ? context.tr("Following")

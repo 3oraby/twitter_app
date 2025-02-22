@@ -57,7 +57,9 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
       );
     case UserConnectionsScreen.routeId:
       return MaterialPageRoute(
-        builder: (context) => const UserConnectionsScreen(),
+        builder: (context) => UserConnectionsScreen(
+          targetUser: settings.arguments as UserEntity,
+        ),
       );
     case MakeNewCommentScreen.routeId:
       return MaterialPageRoute(

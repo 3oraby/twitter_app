@@ -10,9 +10,13 @@ import 'package:twitter_app/features/follow_relationships/presentation/widgets/u
 import 'package:twitter_app/features/follow_relationships/presentation/widgets/user_followings_tab_bar_view.dart';
 
 class UserConnectionsScreen extends StatefulWidget {
-  const UserConnectionsScreen({super.key});
+  const UserConnectionsScreen({
+    super.key,
+    required this.targetUser,
+  });
 
   static const String routeId = "kUserConnectionScreen";
+  final UserEntity targetUser;
 
   @override
   State<UserConnectionsScreen> createState() => _UserConnectionsScreenState();
@@ -36,7 +40,7 @@ class _UserConnectionsScreenState extends State<UserConnectionsScreen> {
           CustomSliverAppBar(
             forceElevated: innerBoxIsScrolled,
             title: Text(
-              "${currentUser.firstName} ${currentUser.lastName}",
+              "${widget.targetUser.firstName} ${widget.targetUser.lastName}",
               style: AppTextStyles.uberMoveBlack20,
             ),
             actions: [
@@ -73,11 +77,15 @@ class _UserConnectionsScreenState extends State<UserConnectionsScreen> {
                   Tab(text: context.tr("Following")),
                 ],
               ),
-              const Expanded(
+              Expanded(
                 child: TabBarView(
                   children: [
-                    UserFollowersTabBarView(),
-                    UserFollowingsTabBarView(),
+                    UserFollowersTabBarView(
+                      targetUserId: widget.targetUser.userId,
+                    ),
+                    UserFollowingsTabBarView(
+                      targetUserId: widget.targetUser.userId,
+                    ),
                   ],
                 ),
               ),
