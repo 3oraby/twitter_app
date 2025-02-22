@@ -12,10 +12,12 @@ class GetTweetsCubit extends Cubit<GetTweetsState> {
   Future<void> getTweets({
     GetTweetsFilterOptionModel tweetFilterOption =
         const GetTweetsFilterOptionModel(),
+    String? targetUserId,
   }) async {
     emit(GetTweetsLoadingState());
     var result = await tweetRepo.getTweets(
       tweetFilterOption: tweetFilterOption,
+      targetUserId: targetUserId,
     );
     result.fold(
       (failure) => emit(GetTweetsFailureState(message: failure.message)),

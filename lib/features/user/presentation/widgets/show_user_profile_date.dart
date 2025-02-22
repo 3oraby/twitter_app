@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/format_date_from_timestamp.dart';
+import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
@@ -64,7 +65,7 @@ class ShowUserProfileData extends StatelessWidget {
               const VerticalGap(12),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_month,
                     color: AppColors.thirdColor,
                   ),
@@ -86,17 +87,20 @@ class ShowUserProfileData extends StatelessWidget {
             ],
           ),
         ),
-        PositionedDirectional(
-          end: 16,
-          bottom: 230,
-          child: CustomContainerButton(
-            internalVerticalPadding: 4,
-            backgroundColor: Colors.white,
-            borderColor: AppColors.borderColor,
-            borderWidth: 1,
-            child: Text(
-              context.tr("Edit profile"),
-              style: AppTextStyles.uberMoveExtraBold16,
+        Visibility(
+          visible: userEntity.userId == getCurrentUserEntity().userId,
+          child: PositionedDirectional(
+            end: 16,
+            bottom: 230,
+            child: CustomContainerButton(
+              internalVerticalPadding: 4,
+              backgroundColor: Colors.white,
+              borderColor: AppColors.borderColor,
+              borderWidth: 1,
+              child: Text(
+                context.tr("Edit profile"),
+                style: AppTextStyles.uberMoveExtraBold16,
+              ),
             ),
           ),
         ),

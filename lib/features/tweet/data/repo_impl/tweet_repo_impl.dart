@@ -72,17 +72,23 @@ class TweetRepoImpl extends TweetRepo {
   @override
   Future<Either<Failure, List<TweetDetailsEntity>>> getTweets({
     required GetTweetsFilterOptionModel tweetFilterOption,
+    String? targetUserId,
   }) async {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
       List<TweetDetailsEntity> tweets = [];
       List<QueryCondition> tweetConditions = [];
 
+      targetUserId ??= currentUser.userId;
+
       if (tweetFilterOption.isForFollowingOnly) {
         List followingList = await databaseService.getData(
           path: BackendEndpoints.toggleFollowRelationShip,
           queryConditions: [
-            QueryCondition(field: "followingId", value: currentUser.userId),
+            QueryCondition(
+              field: "followingId",
+              value: targetUserId,
+            ),
           ],
         );
 
@@ -102,14 +108,14 @@ class TweetRepoImpl extends TweetRepo {
       if (tweetFilterOption.includeUserTweets) {
         tweetConditions.add(QueryCondition(
           field: "userId",
-          value: currentUser.userId,
+          value: targetUserId,
         ));
       }
 
       if (tweetFilterOption.includeTweetsWithImages) {
         tweetConditions.add(QueryCondition(
           field: "userId",
-          value: currentUser.userId,
+          value: targetUserId,
         ));
         tweetConditions.add(QueryCondition(
           field: "mediaUrl",
@@ -129,7 +135,7 @@ class TweetRepoImpl extends TweetRepo {
         return await databaseService.getData(
           path: path,
           queryConditions: [
-            QueryCondition(field: "userId", value: currentUser.userId)
+            QueryCondition(field: "userId", value: targetUserId)
           ],
         );
       }

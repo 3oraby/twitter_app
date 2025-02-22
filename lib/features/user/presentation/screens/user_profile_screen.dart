@@ -113,7 +113,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
             ),
           ],
-          body: const ShowUserProfileScreenTabs(),
+          body: ShowUserProfileScreenTabs(
+            targetUserId: widget.userEntity.userId,
+          ),
         ),
       ),
     );

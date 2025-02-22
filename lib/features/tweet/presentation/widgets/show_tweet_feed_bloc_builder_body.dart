@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -10,9 +9,12 @@ class ShowTweetFeedBlocBuilderBody extends StatefulWidget {
   const ShowTweetFeedBlocBuilderBody({
     super.key,
     this.tweetFilterOption = const GetTweetsFilterOptionModel(),
+    this.targetUserId,
   });
 
   final GetTweetsFilterOptionModel tweetFilterOption;
+  final String? targetUserId;
+
   @override
   State<ShowTweetFeedBlocBuilderBody> createState() =>
       _ShowTweetFeedBlocBuilderBodyState();
@@ -25,6 +27,7 @@ class _ShowTweetFeedBlocBuilderBodyState
     super.initState();
     BlocProvider.of<GetTweetsCubit>(context).getTweets(
       tweetFilterOption: widget.tweetFilterOption,
+      targetUserId: widget.targetUserId,
     );
   }
 

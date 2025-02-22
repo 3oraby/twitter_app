@@ -3,12 +3,18 @@ import 'package:twitter_app/features/tweet/data/models/get_tweets_filter_option_
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_show_tweet_feed.dart';
 
 class UserProfilePostsTab extends StatelessWidget {
-  const UserProfilePostsTab({super.key});
+  const UserProfilePostsTab({
+    super.key,
+    this.targetUserId,
+  });
+
+  final String? targetUserId;
 
   @override
   Widget build(BuildContext context) {
-    return const CustomShowTweetFeed(
-      tweetFilterOption: GetTweetsFilterOptionModel(
+    return CustomShowTweetFeed(
+      targetUserId: targetUserId,
+      tweetFilterOption: const GetTweetsFilterOptionModel(
         includeUserTweets: true,
       ),
     );

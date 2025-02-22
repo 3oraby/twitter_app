@@ -7,21 +7,38 @@ import 'package:twitter_app/features/user/presentation/widgets/user_profile_post
 import 'package:twitter_app/features/user/presentation/widgets/user_profile_retweets_tab.dart';
 
 class ShowUserProfileScreenTabs extends StatelessWidget {
-  const ShowUserProfileScreenTabs({super.key});
+  const ShowUserProfileScreenTabs({
+    super.key,
+    this.targetUserId,
+  });
+
+  final String? targetUserId;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(
+    return Padding(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppConstants.horizontalPadding,
         vertical: AppConstants.topPadding,
       ),
       child: TabBarView(
         children: [
-          KeepAliveTab(child: UserProfilePostsTab()),
-          KeepAliveTab(child: UserProfileMediaTab()),
-          KeepAliveTab(child: UserProfileLikesTab()),
-          KeepAliveTab(child: UserProfileRetweetsTab()),
+          KeepAliveTab(
+              child: UserProfilePostsTab(
+            targetUserId: targetUserId,
+          )),
+          KeepAliveTab(
+              child: UserProfileMediaTab(
+            targetUserId: targetUserId,
+          )),
+          KeepAliveTab(
+              child: UserProfileLikesTab(
+            targetUserId: targetUserId,
+          )),
+          KeepAliveTab(
+              child: UserProfileRetweetsTab(
+            targetUserId: targetUserId,
+          )),
         ],
       ),
     );

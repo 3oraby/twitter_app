@@ -11,8 +11,10 @@ class CustomShowTweetFeed extends StatelessWidget {
   const CustomShowTweetFeed({
     super.key,
     this.tweetFilterOption = const GetTweetsFilterOptionModel(),
+    this.targetUserId,
   });
   final GetTweetsFilterOptionModel tweetFilterOption;
+  final String? targetUserId;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class CustomShowTweetFeed extends StatelessWidget {
       ],
       child: ShowTweetFeedBlocBuilderBody(
         tweetFilterOption: tweetFilterOption,
+        targetUserId: targetUserId,
       ),
     );
   }
