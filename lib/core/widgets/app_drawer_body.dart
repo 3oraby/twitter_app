@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_drawer_list_tile_option.dart';
 import 'package:twitter_app/core/widgets/custom_logout_button.dart';
 import 'package:twitter_app/core/widgets/drawer_user_info.dart';
 import 'package:twitter_app/core/widgets/language_selection_switch.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 class AppDrawerBody extends StatelessWidget {
   const AppDrawerBody({
@@ -15,10 +17,11 @@ class AppDrawerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(  
+    return Drawer(
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
+            vertical: AppConstants.verticalDrawerPadding,
             horizontal: AppConstants.horizontalDrawerPadding,
           ),
           child: Column(
@@ -31,7 +34,13 @@ class AppDrawerBody extends StatelessWidget {
               CustomDrawerListTileOption(
                 title: context.tr("Profile"),
                 iconData: Icons.person_2_outlined,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    UserProfileScreen.routeId,
+                    arguments: getCurrentUserEntity(),
+                  );
+                },
               ),
               const VerticalGap(8),
               CustomDrawerListTileOption(

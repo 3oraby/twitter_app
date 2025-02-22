@@ -50,7 +50,7 @@ class _DrawerUserInfoState extends State<DrawerUserInfo> {
                     Text(
                       "${userEntity.firstName} ${userEntity.lastName}",
                       style: AppTextStyles.uberMoveBold22,
-                      overflow: TextOverflow.visible,
+                      overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                     const VerticalGap(4),

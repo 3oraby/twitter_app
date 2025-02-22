@@ -8,7 +8,8 @@ class AppConstants {
   static const double bottomSheetBorderRadius = 28;
   static const double menusBorderRadius = 24;
   static const double horizontalPadding = 12;
-  static const double horizontalDrawerPadding = 24;
+  static const double horizontalDrawerPadding = 18;
+  static const double verticalDrawerPadding = 36;
   static const double topPadding = 16;
   static const double bottomPadding = 36;
   static const double contentTextFieldPadding = 22;
