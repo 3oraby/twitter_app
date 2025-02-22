@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -9,6 +7,7 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/settings/domain/entities/setting_item_entity.dart';
+import 'package:twitter_app/features/settings/presentation/screens/display_and_languages_screen.dart';
 import 'package:twitter_app/features/settings/presentation/screens/your_account_screen.dart';
 import 'package:twitter_app/features/settings/presentation/widgets/custom_setting_item.dart';
 
@@ -63,10 +62,11 @@ class SettingView extends StatelessWidget {
                     titleText: settingItemEntity.titleText,
                     subTitleText: settingItemEntity.subTitleText,
                     onPressed: () {
-                      if (index == 0){
+                      if (index == 0) {
                         Navigator.pushNamed(context, YourAccountScreen.routeId);
-                      }else{
-                        log(index.toString());
+                      } else {
+                        Navigator.pushNamed(
+                            context, DisplayAndLanguagesScreen.routeId);
                       }
                     },
                   );

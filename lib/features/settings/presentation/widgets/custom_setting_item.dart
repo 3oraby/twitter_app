@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -25,11 +26,11 @@ class CustomSettingItem extends StatelessWidget {
         leadingIconData,
       ),
       title: Text(
-        titleText,
+        context.tr(titleText),
         style: AppTextStyles.uberMoveBlack20,
       ),
       subtitle: Text(
-        subTitleText,
+        context.tr(subTitleText),
         style: AppTextStyles.uberMoveRegular16
             .copyWith(color: AppColors.thirdColor),
         overflow: TextOverflow.ellipsis,

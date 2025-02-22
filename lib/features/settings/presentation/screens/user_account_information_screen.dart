@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
@@ -54,7 +55,7 @@ class _UserAccountInformationScreenState
         title: Column(
           children: [
             Text(
-              "Account",
+              context.tr("Account"),
               style: AppTextStyles.uberMoveBlack20,
             ),
             Text(
@@ -116,12 +117,12 @@ class _UserAccountInformationScreenState
             ),
             CustomUserInformationItem(
               title: "Bio",
-              value: currentUser.bio ?? "Add",
+              value: currentUser.bio ?? context.tr("Add"),
               onTap: () {
                 _navigateToUpdateDataScreen(
                   arguments: UpdateUserScreenArgumentsModel(
                     title: "Bio",
-                    currentValue: currentUser.bio ?? 'None',
+                    currentValue: currentUser.bio ?? context.tr('None'),
                   ),
                 );
               },
@@ -140,7 +141,7 @@ class _UserAccountInformationScreenState
             ),
             CustomUserInformationItem(
               title: "Phone number",
-              value: currentUser.phoneNumber ?? "Add",
+              value: currentUser.phoneNumber ?? context.tr("Add"),
               onTap: () {
                 _navigateToUpdateDataScreen(
                   arguments: UpdateUserScreenArgumentsModel(

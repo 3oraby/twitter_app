@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/helpers/functions/format_date_from_timestamp.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -22,7 +23,7 @@ class JoinedOnDateInfo extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                "Joined on: ",
+                context.tr("Joined on: "),
                 style: AppTextStyles.uberMoveBold20,
               ),
               Text(

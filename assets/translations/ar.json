@@ -143,5 +143,37 @@
   "No Followings Found": "لم يتم العثور على حسابات يتابعها المستخدم ",
   "This user is not following anyone yet.": "هذا المستخدم لا يتابع أي شخص بعد.",
   "No Suggestions Available": "لا توجد اقتراحات متاحة",
-  "There are no suggested accounts for you to follow at the moment. Check back later or explore more users.": "لا يوجد حاليًا أي حسابات مقترحة لمتابعتها. تحقق لاحقًا أو استكشف المزيد من المستخدمين."
+  "There are no suggested accounts for you to follow at the moment. Check back later or explore more users.": "لا يوجد حاليًا أي حسابات مقترحة لمتابعتها. تحقق لاحقًا أو استكشف المزيد من المستخدمين.",
+  "Choose Your Language": "اختر لغتك",
+  "Select the language you’d like to use in the app. You can change this anytime in settings.": "حدد اللغة التي تريد استخدامها في التطبيق. يمكنك تغييرها في أي وقت من الإعدادات.",
+  "English": "الإنجليزية",
+  "Arabic": "العربية",
+  "Language changed successfully!": "تم تغيير اللغة بنجاح!",
+  "You can select the language you want to use in the app for a more comfortable and seamless experience.": "يمكنك تحديد اللغة التي تريد استخدامها في التطبيق للحصول على تجربة أكثر راحة وسلاسة.",
+  "Display and Languages": "العرض واللغات",
+  "Language": "اللغة",
+  "Changing language...": "جاري تغيير اللغة...",
+  "Done": "تم",
+  "Current": "الحالي",
+  "New": "الجديد",
+  "Your profile has been updated successfully! 🎉": "تم تحديث ملفك الشخصي بنجاح! 🎉",
+  "Account": "الحساب",
+  "Bio": "السيرة الذاتية",
+  "Phone number": "رقم الهاتف",
+  "Add": "إضافة",
+  "None": "لا شيء",
+  "Your Account": "حسابك",
+  "See information about your account and learn about your account deactivation options": "اطلع على معلومات حسابك وتعرف على خيارات تعطيل الحساب",
+  "Your account": "حسابك",
+  "See information about your account , download an achieve of your data , or learn about your account deactivation options": "اطلع على معلومات حسابك، قم بتنزيل أرشيف بياناتك، أو تعرف على خيارات تعطيل الحساب",
+  "display and languages": "العرض واللغات",
+  "Manage how X content it displayed to you": "إدارة كيفية عرض محتوى X لك",
+  "Account information": "معلومات الحساب",
+  "See your account information like your phone number and email address": "اطلع على معلومات حسابك مثل رقم هاتفك وعنوان بريدك الإلكتروني",
+  "Change your password": "تغيير كلمة المرور",
+  "Change your password at any time": "قم بتغيير كلمة المرور في أي وقت",
+  "Deactiviate your account": "تعطيل حسابك",
+  "Find out how you can deactiviate your account": "اكتشف كيفية تعطيل حسابك",
+  "Joined on: ": "انضم في: ",
+  "Please enter a new value different from the current one.": "يرجى إدخال قيمة جديدة مختلفة عن الحالية."
 }

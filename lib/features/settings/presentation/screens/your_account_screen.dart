@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
@@ -22,7 +23,7 @@ class YourAccountScreen extends StatelessWidget {
         title: Column(
           children: [
             Text(
-              "Your Account",
+              context.tr("Your Account"),
               style: AppTextStyles.uberMoveBlack20,
             ),
             Text(
@@ -40,7 +41,8 @@ class YourAccountScreen extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "See information about your account and learn about your account deactivation options",
+              context.tr(
+                  "See information about your account and learn about your account deactivation options"),
               style: AppTextStyles.uberMoveMedium18.copyWith(
                 color: AppColors.thirdColor,
               ),
@@ -62,13 +64,10 @@ class YourAccountScreen extends StatelessWidget {
 
                           break;
                         case "Privacy":
-                          print("Navigate to Privacy Settings");
                           break;
                         case "Logout":
-                          print("Logout the user");
                           break;
                         default:
-                          print("No action defined");
                       }
                     },
                   ),

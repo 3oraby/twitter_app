@@ -110,8 +110,8 @@ class _UpdateUserInformationBlocConsumerBodyState
     return BlocConsumer<UpdateUserInformationCubit, UpdateUserInformationState>(
       listener: (context, state) {
         if (state is UpdateUserInformationLoadedState) {
-          showCustomSnackBar(
-              context, "Your profile has been updated successfully! 🎉");
+          showCustomSnackBar(context,
+              context.tr("Your profile has been updated successfully! 🎉"));
           Navigator.pop(context);
         } else if (state is UpdateUserInformationFailureState) {
           showCustomSnackBar(context, context.tr(state.message));
@@ -139,7 +139,7 @@ class _UpdateUserInformationBlocConsumerBodyState
                     ),
                   ),
                   Text(
-                    "Update ${widget.arguments.title}",
+                    "${context.tr("Update")} ${context.tr(widget.arguments.title)}",
                     style: AppTextStyles.uberMoveBlack20,
                   ),
                   CustomContainerButton(
@@ -155,7 +155,7 @@ class _UpdateUserInformationBlocConsumerBodyState
                           }
                         : null,
                     child: Text(
-                      "Done",
+                      context.tr("Done"),
                       style: AppTextStyles.uberMoveMedium18
                           .copyWith(color: Colors.white),
                     ),
@@ -184,7 +184,7 @@ class _UpdateUserInformationBlocConsumerBodyState
                     spacing: 16,
                     children: [
                       Text(
-                        "Current",
+                        context.tr("Current"),
                         style: AppTextStyles.uberMoveExtraBold20,
                       ),
                       Text(
@@ -192,7 +192,7 @@ class _UpdateUserInformationBlocConsumerBodyState
                         style: AppTextStyles.uberMoveRegular18,
                       ),
                       Text(
-                        "New",
+                        context.tr("New"),
                         style: AppTextStyles.uberMoveExtraBold20,
                       ),
                       Form(
@@ -200,7 +200,7 @@ class _UpdateUserInformationBlocConsumerBodyState
                         child: TextFormField(
                           controller: textEditingController,
                           maxLength: switch (widget.arguments.title) {
-                            "Bio" => 50,
+                            "Bio" => 80,
                             "Phone number" => 11,
                             "Age" => 3,
                             _ => 25
@@ -212,7 +212,8 @@ class _UpdateUserInformationBlocConsumerBodyState
                           },
                           validator: (value) {
                             if (value == widget.arguments.currentValue) {
-                              return "Please enter a new value different from the current one.";
+                              return context.tr(
+                                  "Please enter a new value different from the current one.");
                             }
 
                             switch (widget.arguments.title) {
@@ -227,7 +228,7 @@ class _UpdateUserInformationBlocConsumerBodyState
                             }
                           },
                           decoration: InputDecoration(
-                            hintText: widget.arguments.title,
+                            hintText: context.tr(widget.arguments.title),
                             hintStyle: AppTextStyles.uberMoveMedium18.copyWith(
                               color: AppColors.thirdColor,
                             ),

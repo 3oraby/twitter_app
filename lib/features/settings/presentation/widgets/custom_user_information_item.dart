@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -24,7 +25,7 @@ class CustomUserInformationItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            title,
+            context.tr(title),
             style: AppTextStyles.uberMoveExtraBold20.copyWith(
               color: onTap == null ? Colors.grey[600] : Colors.black,
             ),
