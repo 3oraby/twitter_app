@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_tab_bar.dart';
 import 'package:twitter_app/core/widgets/keep_alive_tab.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/search/presentation/widgets/custom_search_text_field.dart';
 import 'package:twitter_app/features/search/presentation/widgets/show_users_search_result_view.dart';
+import 'package:twitter_app/features/tweet/presentation/widgets/custom_show_tweet_feed.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   const SearchResultsScreen({
@@ -81,9 +81,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     KeepAliveTab(
                         child: ShowUsersSearchResultView(query: widget.query)),
                     KeepAliveTab(
-                        child: Container(
-                      color: AppColors.lightTwitterAccentColor,
-                    ))
+                      child: CustomShowTweetFeed(
+                        query: widget.query,
+                      ),
+                    )
                   ],
                 ),
               ),

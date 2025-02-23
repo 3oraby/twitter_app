@@ -73,6 +73,7 @@ class TweetRepoImpl extends TweetRepo {
   Future<Either<Failure, List<TweetDetailsEntity>>> getTweets({
     required GetTweetsFilterOptionModel tweetFilterOption,
     String? targetUserId,
+    String? query,
   }) async {
     try {
       final UserEntity currentUser = getCurrentUserEntity();
@@ -114,13 +115,22 @@ class TweetRepoImpl extends TweetRepo {
 
       if (tweetFilterOption.includeTweetsWithImages) {
         tweetConditions.add(QueryCondition(
-          field: "userId",
-          value: targetUserId,
-        ));
-        tweetConditions.add(QueryCondition(
           field: "mediaUrl",
           operator: QueryOperator.isNotEqualTo,
           value: [],
+        ));
+      }
+
+      if (query != null && query.isNotEmpty) {
+        tweetConditions.add(QueryCondition(
+          field: "content",
+          operator: QueryOperator.greaterThanOrEqualTo,
+          value: query,
+        ));
+        tweetConditions.add(QueryCondition(
+          field: "content",
+          operator: QueryOperator.lessThan,
+          value: '$query\uf8ff',
         ));
       }
 

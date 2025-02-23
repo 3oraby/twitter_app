@@ -15,6 +15,7 @@ abstract class TweetRepo {
   Future<Either<Failure, List<TweetDetailsEntity>>> getTweets({
     required GetTweetsFilterOptionModel tweetFilterOption,
     String? targetUserId,
+    String? query,
   });
 
   Future<Either<Failure, Success>> deleteTweet({

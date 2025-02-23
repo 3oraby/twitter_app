@@ -101,7 +101,6 @@ class UsersSearchRepoImpl extends UsersSearchRepo {
               FollowingRelationshipModel.fromJson(doc.data()).followedId)
           .toSet();
 
-      // Convert results to List<UserWithFollowStatusEntity>
       List<UserWithFollowStatusEntity> usersWithStatus = userDocs.map((doc) {
         UserEntity user = UserModel.fromJson(doc.data()).toEntity();
 

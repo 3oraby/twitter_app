@@ -13,11 +13,13 @@ class GetTweetsCubit extends Cubit<GetTweetsState> {
     GetTweetsFilterOptionModel tweetFilterOption =
         const GetTweetsFilterOptionModel(),
     String? targetUserId,
+    String? query,
   }) async {
     emit(GetTweetsLoadingState());
     var result = await tweetRepo.getTweets(
       tweetFilterOption: tweetFilterOption,
       targetUserId: targetUserId,
+      query: query,
     );
     result.fold(
       (failure) => emit(GetTweetsFailureState(message: failure.message)),

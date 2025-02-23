@@ -10,10 +10,12 @@ class ShowTweetFeedBlocBuilderBody extends StatefulWidget {
     super.key,
     this.tweetFilterOption = const GetTweetsFilterOptionModel(),
     this.targetUserId,
+    this.query,
   });
 
   final GetTweetsFilterOptionModel tweetFilterOption;
   final String? targetUserId;
+  final String? query;
 
   @override
   State<ShowTweetFeedBlocBuilderBody> createState() =>
@@ -28,6 +30,7 @@ class _ShowTweetFeedBlocBuilderBodyState
     BlocProvider.of<GetTweetsCubit>(context).getTweets(
       tweetFilterOption: widget.tweetFilterOption,
       targetUserId: widget.targetUserId,
+      query: widget.query,
     );
   }
 
