@@ -6,8 +6,11 @@ class BackendEndpoints {
   static const String updateUserData = 'users';
   static const String getUserConnections = "users";
   static const String getSuggestionFollowers = "users";
+  static const String getUsers = "users";
+
   static const String uploadFiles = 'UploadFiles';
   static const String toggleFollowRelationShip = "followRelationShips";
+
   // tweets
   static const String makeNewTweet = "tweets";
   static const String getTweets = "tweets";

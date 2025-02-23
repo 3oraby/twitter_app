@@ -15,6 +15,8 @@ import 'package:twitter_app/features/home/presentation/screens/main_app_screen.d
 import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/screens/followers_suggestion_screen.dart';
 import 'package:twitter_app/features/replies/domain/entities/reply_details_entity.dart';
+import 'package:twitter_app/features/search/presentation/screens/search_results_screen.dart';
+import 'package:twitter_app/features/search/presentation/screens/search_screen.dart';
 import 'package:twitter_app/features/settings/data/models/update_user_screen_arguments_model.dart';
 import 'package:twitter_app/features/settings/presentation/screens/change_app_language_screen.dart';
 import 'package:twitter_app/features/settings/presentation/screens/display_and_languages_screen.dart';
@@ -110,6 +112,17 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => UpdateUserInformationScreen(
           arguments: settings.arguments as UpdateUserScreenArgumentsModel,
+        ),
+      );
+
+    case SearchScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => const SearchScreen(),
+      );
+    case SearchResultsScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => SearchResultsScreen(
+          query: settings.arguments as String,
         ),
       );
 
