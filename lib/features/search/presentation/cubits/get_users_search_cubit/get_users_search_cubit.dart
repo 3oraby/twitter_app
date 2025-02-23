@@ -13,7 +13,7 @@ class GetUsersSearchCubit extends Cubit<GetUsersSearchState> {
 
   Future<void> getUsersSearch({
     required String query,
-    required int limit,
+    int? limit,
   }) async {
     emit(GetUsersSearchLoadingState());
     var res = await usersSearchRepo.searchUsers(

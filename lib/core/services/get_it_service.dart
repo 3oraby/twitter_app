@@ -19,6 +19,8 @@ import 'package:twitter_app/features/replies/data/repo_impl/replies_repo_impl.da
 import 'package:twitter_app/features/replies/data/repo_impl/reply_likes_repo_impl.dart';
 import 'package:twitter_app/features/replies/domain/repos/replies_repo.dart';
 import 'package:twitter_app/features/replies/domain/repos/reply_likes_repo.dart';
+import 'package:twitter_app/features/search/data/repo_impl/users_search_repo_impl.dart';
+import 'package:twitter_app/features/search/domain/repos/users_search_repo.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/retweet_repo_impl.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/tweet_likes_repo_impl.dart';
 import 'package:twitter_app/features/tweet/data/repo_impl/tweet_repo_impl.dart';
@@ -89,5 +91,9 @@ void setupGetIt() {
   getIt.registerSingleton<RepliesRepo>(RepliesRepoImpl(
     databaseService: getIt<DatabaseService>(),
     storageService: getIt<StorageService>(),
+  ));
+
+  getIt.registerSingleton<UsersSearchRepo>(UsersSearchRepoImpl(
+    databaseService: getIt<DatabaseService>(),
   ));
 }

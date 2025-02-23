@@ -17,7 +17,7 @@ class UsersSearchRepoImpl extends UsersSearchRepo {
   @override
   Future<Either<Failure, List<UserEntity>>> searchUsers({
     required String query,
-    required int limit,
+    int? limit,
   }) async {
     try {
       List<QueryCondition> conditionsFirstName = [
@@ -50,6 +50,7 @@ class UsersSearchRepoImpl extends UsersSearchRepo {
         path: BackendEndpoints.getUsers,
         queryConditions: conditionsFirstName,
         orderByFields: ["firstName"],
+        descending: [false],
         limit: limit,
       );
 
@@ -57,6 +58,7 @@ class UsersSearchRepoImpl extends UsersSearchRepo {
         path: BackendEndpoints.getUsers,
         queryConditions: conditionsLastName,
         orderByFields: ["lastName"],
+        descending: [false],
         limit: limit,
       );
 
