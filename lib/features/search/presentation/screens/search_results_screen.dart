@@ -8,6 +8,7 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/follow_relationships/domain/entities/user_with_follow_status_entity.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/widgets/user_info_card.dart';
 import 'package:twitter_app/features/search/domain/repos/users_search_repo.dart';
 import 'package:twitter_app/features/search/presentation/cubits/get_users_search_cubit/get_users_search_cubit.dart';
@@ -57,7 +58,7 @@ class _SearchResultsBlocConsumerBodyState
     super.initState();
     currentUser = getCurrentUserEntity();
     BlocProvider.of<GetUsersSearchCubit>(context).getUsersSearch(
-      query: widget.query.toLowerCase().trim(),
+      query: widget.query.trim(),
     );
   }
 
@@ -94,15 +95,17 @@ class _SearchResultsBlocConsumerBodyState
                   child: Text(state.message),
                 );
               } else if (state is GetUsersSearchLoadedState) {
-                List<UserEntity> users = state.users;
+                List<UserWithFollowStatusEntity> users = state.users;
                 return ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: users.length,
                   separatorBuilder: (context, index) => const VerticalGap(16),
                   itemBuilder: (context, index) => UserInfoCard(
-                    user: users[index],
+                    user: users[index].user,
                     currentUserId: currentUser.userId,
+                    isActiveFollowButton: users[index].isFollowedByCurrentUser,
+                    showFollowsYouLabel: users[index].isFollowingCurrentUser,
                   ),
                 );
               }

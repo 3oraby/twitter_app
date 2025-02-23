@@ -9,7 +9,7 @@ final class GetUsersSearchLoadingState extends GetUsersSearchState {}
 final class GetUsersSearchEmptyState extends GetUsersSearchState {}
 
 final class GetUsersSearchLoadedState extends GetUsersSearchState {
-  final List<UserEntity> users;
+  final List<UserWithFollowStatusEntity> users;
 
   GetUsersSearchLoadedState({required this.users});
 }

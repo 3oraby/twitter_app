@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/follow_relationships/domain/entities/user_with_follow_status_entity.dart';
 import 'package:twitter_app/features/search/domain/repos/users_search_repo.dart';
 
 part 'get_users_search_state.dart';
