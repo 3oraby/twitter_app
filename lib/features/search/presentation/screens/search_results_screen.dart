@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -52,14 +53,22 @@ class SearchResultsBlocConsumerBody extends StatefulWidget {
 class _SearchResultsBlocConsumerBodyState
     extends State<SearchResultsBlocConsumerBody> {
   late UserEntity currentUser;
+  TextEditingController textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     currentUser = getCurrentUserEntity();
+    textController.text = widget.query;
     BlocProvider.of<GetUsersSearchCubit>(context).getUsersSearch(
       query: widget.query.trim(),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textController.dispose();
   }
 
   @override
@@ -74,6 +83,7 @@ class _SearchResultsBlocConsumerBodyState
           buildCustomAppBar(
             context,
             title: CustomSearchTextField(
+              textController: textController,
               hintText: widget.query,
             ),
           ),
@@ -86,9 +96,9 @@ class _SearchResultsBlocConsumerBodyState
                   ),
                 );
               } else if (state is GetUsersSearchEmptyState) {
-                return const CustomEmptyBodyWidget(
-                  mainLabel: "no search",
-                  subLabel: "there is no results",
+                return CustomEmptyBodyWidget(
+                  mainLabel: context.tr("No Results Found"),
+                  subLabel: context.tr("Try searching for something else!"),
                 );
               } else if (state is GetUsersSearchFailureState) {
                 return Center(

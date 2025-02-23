@@ -7,13 +7,16 @@ class CustomSearchTextField extends StatelessWidget {
     super.key,
     this.onSubmitted,
     this.hintText = "Search",
+    this.textController,
   });
 
   final void Function(String?)? onSubmitted;
+  final TextEditingController? textController;
   final String hintText;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: textController,
       onSubmitted: onSubmitted,
       decoration: InputDecoration(
         filled: true,
