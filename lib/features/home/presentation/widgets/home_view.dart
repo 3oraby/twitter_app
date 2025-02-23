@@ -5,7 +5,7 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_svgs.dart';
-import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/widgets/custom_tab_bar.dart';
 import 'package:twitter_app/core/widgets/keep_alive_tab.dart';
 import 'package:twitter_app/core/widgets/leading_app_bar_user_image.dart';
 import 'package:twitter_app/features/home/presentation/widgets/following_tab_bar_home_view.dart';
@@ -71,14 +71,8 @@ class _HomeViewState extends State<HomeView>
             buildHomeAppBar(
               context: context,
             ),
-            TabBar(
+            CustomTabBar(
               controller: _tabController,
-              indicatorColor: AppColors.twitterAccentColor,
-              indicatorSize: TabBarIndicatorSize.label,
-              labelStyle: AppTextStyles.uberMoveBold18,
-              unselectedLabelStyle: AppTextStyles.uberMoveBold18.copyWith(
-                color: AppColors.secondaryColor,
-              ),
               tabs: [
                 Tab(text: context.tr("For you")),
                 Tab(text: context.tr("accounts_current_user_follow")),
@@ -99,3 +93,4 @@ class _HomeViewState extends State<HomeView>
     );
   }
 }
+

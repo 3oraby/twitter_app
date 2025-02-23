@@ -8,8 +8,10 @@ class CustomSearchTextField extends StatelessWidget {
     this.onSubmitted,
     this.hintText = "Search",
     this.textController,
+    this.onTap,
   });
 
+  final VoidCallback? onTap;
   final void Function(String?)? onSubmitted;
   final TextEditingController? textController;
   final String hintText;
@@ -18,6 +20,7 @@ class CustomSearchTextField extends StatelessWidget {
     return TextField(
       controller: textController,
       onSubmitted: onSubmitted,
+      onTap: onTap,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.textFieldBackgroundColor,

@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
-import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/widgets/custom_tab_bar.dart';
 
 class ShowUserProfileTabBars extends StatelessWidget {
   const ShowUserProfileTabBars({
@@ -12,13 +11,7 @@ class ShowUserProfileTabBars extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: TabBar(
-        indicatorColor: AppColors.twitterAccentColor,
-        indicatorSize: TabBarIndicatorSize.label,
-        labelStyle: AppTextStyles.uberMoveBold18,
-        unselectedLabelStyle: AppTextStyles.uberMoveBold18.copyWith(
-          color: AppColors.secondaryColor,
-        ),
+      child: CustomTabBar(
         tabs: [
           Tab(text: context.tr("Posts")),
           Tab(text: context.tr("Media")),

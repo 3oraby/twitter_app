@@ -6,12 +6,10 @@ import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart'
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
-import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/follow_relationships/domain/entities/user_with_follow_status_entity.dart';
 import 'package:twitter_app/features/follow_relationships/domain/repos/follow_repo.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/cubits/get_user_connections_cubit/get_user_connections_cubit.dart';
-import 'package:twitter_app/features/follow_relationships/presentation/widgets/user_info_card.dart';
+import 'package:twitter_app/features/follow_relationships/presentation/widgets/custom_show_users_list.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 
 class UserFollowersTabBarView extends StatelessWidget {
@@ -75,9 +73,14 @@ class _UserFollowersTabBarBlocConsumerBodyState
             child: Text(context.tr(state.message)),
           );
         } else if (state is GetUserConnectionsLoadedState) {
-          return UserFollowersTabBarBody(
-            userConnections: state.userConnections,
-            currentUser: currentUser,
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.horizontalPadding,
+            ),
+            child: CustomShowUsersList(
+              userConnections: state.userConnections,
+              currentUser: currentUser,
+            ),
           );
         } else if (state is GetUserConnectionsEmptyState) {
           bool isCurrentUser = currentUser.userId == widget.targetUserId;
@@ -105,38 +108,6 @@ class _UserFollowersTabBarBlocConsumerBodyState
         }
         return const SizedBox();
       },
-    );
-  }
-}
-
-class UserFollowersTabBarBody extends StatelessWidget {
-  const UserFollowersTabBarBody({
-    super.key,
-    required this.userConnections,
-    required this.currentUser,
-  });
-
-  final List<UserWithFollowStatusEntity> userConnections;
-  final UserEntity currentUser;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppConstants.horizontalPadding,
-      ),
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: userConnections.length,
-        separatorBuilder: (context, index) => const VerticalGap(24),
-        itemBuilder: (context, index) => UserInfoCard(
-          user: userConnections[index].user,
-          currentUserId: currentUser.userId,
-          showFollowsYouLabel: userConnections[index].isFollowingCurrentUser,
-          isActiveFollowButton: userConnections[index].isFollowedByCurrentUser,
-        ),
-      ),
     );
   }
 }

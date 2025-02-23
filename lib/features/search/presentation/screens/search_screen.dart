@@ -4,11 +4,16 @@ import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/features/search/presentation/screens/search_results_screen.dart';
 import 'package:twitter_app/features/search/presentation/widgets/custom_search_text_field.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
   static const String routeId = 'kSearchScreen';
 
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
