@@ -115,6 +115,10 @@ class TweetRepoImpl extends TweetRepo {
 
       if (tweetFilterOption.includeTweetsWithImages) {
         tweetConditions.add(QueryCondition(
+          field: "userId",
+          value: targetUserId,
+        ));
+        tweetConditions.add(QueryCondition(
           field: "mediaUrl",
           operator: QueryOperator.isNotEqualTo,
           value: [],
