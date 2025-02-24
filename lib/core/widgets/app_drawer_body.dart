@@ -8,6 +8,7 @@ import 'package:twitter_app/core/widgets/custom_logout_button.dart';
 import 'package:twitter_app/core/widgets/drawer_user_info.dart';
 import 'package:twitter_app/core/widgets/language_selection_switch.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
+import 'package:twitter_app/features/bookmark/presentation/screens/user_bookmarks_screen.dart';
 import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 class AppDrawerBody extends StatelessWidget {
@@ -46,7 +47,9 @@ class AppDrawerBody extends StatelessWidget {
               CustomDrawerListTileOption(
                 title: context.tr("Bookmarks"),
                 iconData: Icons.bookmark_border,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, UserBookmarksScreen.routeId);
+                },
               ),
               const VerticalGap(8),
               CustomDrawerListTileOption(

@@ -6,6 +6,7 @@ import 'package:twitter_app/features/auth/presentation/screens/complete_user_pro
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_with_phone_number_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signup_screen.dart';
+import 'package:twitter_app/features/bookmark/presentation/screens/user_bookmarks_screen.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/screens/make_new_comment_screen.dart';
 import 'package:twitter_app/features/comments/presentation/screens/show_tweet_comments_screen.dart';
@@ -115,6 +116,10 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
         ),
       );
 
+    case UserBookmarksScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => const UserBookmarksScreen(),
+      );
     case SearchScreen.routeId:
       return MaterialPageRoute(
         builder: (context) => const SearchScreen(),
