@@ -79,6 +79,7 @@ class TweetRepoImpl extends TweetRepo {
       final UserEntity currentUser = getCurrentUserEntity();
       List<TweetDetailsEntity> tweets = [];
       List<QueryCondition> tweetConditions = [];
+      bool isForCurrentUser = targetUserId == null;
 
       targetUserId ??= currentUser.userId;
 
@@ -138,6 +139,33 @@ class TweetRepoImpl extends TweetRepo {
         ));
       }
 
+      // if (!isForCurrentUser && tweetFilterOption.includeLikedTweets) {
+      //   List targetUserLikes = await databaseService.getData(
+      //     path: BackendEndpoints.getTweetLikes,
+      //     queryConditions: [
+      //       QueryCondition(
+      //         field: "userId",
+      //         value: targetUserId,
+      //       )
+      //     ],
+      //   );
+
+      //   Set<String> tweetIds = targetUserLikes
+      //       .map((doc) => TweetLikesModel.fromJson(doc.data()).tweetId)
+      //       .toSet();
+
+      //   List tweetDocs = await databaseService.getData(
+      //     path: BackendEndpoints.getTweets,
+      //     queryConditions: [
+      //       QueryCondition(
+      //         field: field,
+      //         operator: QueryOperator.whereIn,
+      //         value: tweetIds,
+      //       ),
+      //     ],
+      //   );
+      // }
+
       List tweetDocs = await databaseService.getData(
         path: BackendEndpoints.getTweets,
         queryConditions: tweetConditions.isNotEmpty ? tweetConditions : null,
@@ -149,7 +177,10 @@ class TweetRepoImpl extends TweetRepo {
         return await databaseService.getData(
           path: path,
           queryConditions: [
-            QueryCondition(field: "userId", value: targetUserId)
+            QueryCondition(
+              field: "userId",
+              value: currentUser.userId,
+            )
           ],
         );
       }
@@ -159,18 +190,53 @@ class TweetRepoImpl extends TweetRepo {
       List bookmarks = await fetchUserData(BackendEndpoints.getBookMarks);
 
       if (tweetFilterOption.includeLikedTweets) {
-        Set<String> likedTweetIds = likes
-            .map((like) => TweetLikesModel.fromJson(like.data()).tweetId)
-            .toSet();
+        Set<String> likedTweetIds;
+        if (isForCurrentUser) {
+          likedTweetIds = likes
+              .map(
+                  (retweet) => TweetLikesModel.fromJson(retweet.data()).tweetId)
+              .toSet();
+        } else {
+          List targetUserLikes = await databaseService.getData(
+            path: BackendEndpoints.getTweetLikes,
+            queryConditions: [
+              QueryCondition(
+                field: "userId",
+                value: targetUserId,
+              )
+            ],
+          );
+
+          likedTweetIds = targetUserLikes
+              .map((doc) => TweetLikesModel.fromJson(doc.data()).tweetId)
+              .toSet();
+        }
 
         tweetDocs =
             tweetDocs.where((doc) => likedTweetIds.contains(doc.id)).toList();
       }
 
       if (tweetFilterOption.includeBookmarkedTweets) {
-        Set<String> bookmarkedTweetIds = bookmarks
-            .map((bookmark) => BookmarkModel.fromJson(bookmark.data()).tweetId)
-            .toSet();
+        Set<String> bookmarkedTweetIds;
+        if (isForCurrentUser) {
+          bookmarkedTweetIds = bookmarks
+              .map((retweet) => BookmarkModel.fromJson(retweet.data()).tweetId)
+              .toSet();
+        } else {
+          List targetUserBookmarks = await databaseService.getData(
+            path: BackendEndpoints.getBookMarks,
+            queryConditions: [
+              QueryCondition(
+                field: "userId",
+                value: targetUserId,
+              )
+            ],
+          );
+
+          bookmarkedTweetIds = targetUserBookmarks
+              .map((doc) => BookmarkModel.fromJson(doc.data()).tweetId)
+              .toSet();
+        }
 
         tweetDocs = tweetDocs
             .where((doc) => bookmarkedTweetIds.contains(doc.id))
@@ -178,9 +244,26 @@ class TweetRepoImpl extends TweetRepo {
       }
 
       if (tweetFilterOption.includeRetweetedTweets) {
-        Set<String> retweetedTweetIds = retweets
-            .map((retweet) => RetweetModel.fromJson(retweet.data()).tweetId)
-            .toSet();
+        Set<String> retweetedTweetIds;
+        if (isForCurrentUser) {
+          retweetedTweetIds = retweets
+              .map((retweet) => RetweetModel.fromJson(retweet.data()).tweetId)
+              .toSet();
+        } else {
+          List targetUserRetweets = await databaseService.getData(
+            path: BackendEndpoints.getRetweets,
+            queryConditions: [
+              QueryCondition(
+                field: "userId",
+                value: targetUserId,
+              )
+            ],
+          );
+
+          retweetedTweetIds = targetUserRetweets
+              .map((doc) => RetweetModel.fromJson(doc.data()).tweetId)
+              .toSet();
+        }
 
         tweetDocs = tweetDocs
             .where((doc) => retweetedTweetIds.contains(doc.id))
