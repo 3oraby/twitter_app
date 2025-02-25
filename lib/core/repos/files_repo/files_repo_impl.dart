@@ -22,4 +22,21 @@ class FilesRepoImpl extends FilesRepo {
       return const Left(ServerFailure(message: "Failed to upload file"));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> updateFile({
+    required String oldFileUrl,
+    required File file,
+  }) async {
+    try {
+      String fileUrl = await storageService.updateFile(
+        oldFileUrl: oldFileUrl,
+        newFile: file,
+      );
+      return Right(fileUrl);
+    } catch (e) {
+      log("error in FilesRepoImpl.updateFile() ${e.toString()}");
+      return const Left(ServerFailure(message: "Failed to update file"));
+    }
+  }
 }

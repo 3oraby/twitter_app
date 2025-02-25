@@ -11,9 +11,9 @@ import 'package:twitter_app/core/repos/files_repo/files_repo.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/widgets/custom_modal_progress_hud.dart';
-import 'package:twitter_app/features/auth/presentation/cubits/add_user_profile_picture_cubit/add_user_profile_picture_cubit.dart';
 import 'package:twitter_app/features/auth/presentation/widgets/add_user_profile_picture_body.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
+import 'package:twitter_app/features/user/data/repo_impl/set_user_profile_picture_cubit/set_user_profile_picture_cubit.dart';
 import 'package:twitter_app/features/user/domain/repo_interface/user_repo.dart';
 
 class AddUserProfilePictureScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _AddUserProfilePictureScreenState
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddUserProfilePictureCubit(
+      create: (context) => SetUserProfilePictureCubit(
         filesRepo: getIt<FilesRepo>(),
         userRepo: getIt<UserRepo>(),
       ),
@@ -51,11 +51,11 @@ class AddUserProfilePictureBlocConsumerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AddUserProfilePictureCubit, AddUserProfilePictureState>(
+    return BlocConsumer<SetUserProfilePictureCubit, SetUserProfilePictureState>(
       listener: (context, state) {
-        if (state is AddUserProfilePictureFailureState) {
+        if (state is SetUserProfilePictureFailureState) {
           showCustomSnackBar(context, state.message);
-        } else if (state is AddUserProfilePictureLoadedState) {
+        } else if (state is SetUserProfilePictureLoadedState) {
           log("image uploaded successfully");
           showSuccessAuthModalBottomSheet(
             context: context,
@@ -75,7 +75,7 @@ class AddUserProfilePictureBlocConsumerBody extends StatelessWidget {
       },
       builder: (context, state) {
         return CustomModalProgressHUD(
-          inAsyncCall: state is AddUserProfilePictureLoadingState,
+          inAsyncCall: state is SetUserProfilePictureLoadingState,
           child: const AddUserProfilePictureBody(),
         );
       },

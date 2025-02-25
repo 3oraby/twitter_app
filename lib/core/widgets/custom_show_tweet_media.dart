@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/helpers/functions/open_full_screen_gallery.dart';
 import 'package:twitter_app/core/widgets/custom_network_image.dart';
-import 'package:twitter_app/features/tweet/presentation/screens/full_screen_gallery.dart';
 
 class CustomShowTweetsMedia extends StatelessWidget {
   const CustomShowTweetsMedia({
@@ -21,28 +21,23 @@ class CustomShowTweetsMedia extends StatelessWidget {
       return SingleMediaWidget(
         mediaUrl: mediaUrl.first,
         mediaHeight: mediaHeight,
-        onTap: () => openFullScreenGallery(context, 0),
+        onTap: () => openFullScreenGallery(
+          context,
+          mediaUrl: mediaUrl,
+        ),
       );
     } else {
       return MultipleMediaWidget(
         mediaUrl: mediaUrl,
         mediaHeight: mediaHeight,
         mediaWidth: mediaWidth,
-        onTap: (index) => openFullScreenGallery(context, index),
+        onTap: (index) => openFullScreenGallery(
+          context,
+          mediaUrl: mediaUrl,
+          initialIndex: index,
+        ),
       );
     }
-  }
-
-  void openFullScreenGallery(BuildContext context, int initialIndex) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FullScreenGallery(
-          mediaUrls: mediaUrl,
-          initialIndex: initialIndex,
-        ),
-      ),
-    );
   }
 }
 

@@ -26,6 +26,7 @@ import 'package:twitter_app/features/settings/presentation/screens/user_account_
 import 'package:twitter_app/features/settings/presentation/screens/your_account_screen.dart';
 import 'package:twitter_app/features/splash/presentation/screens/splash_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/user/presentation/screens/update_user_profile_picture_screen.dart';
 import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
 
 Route<dynamic> onGenerateRoutes(RouteSettings settings) {
@@ -129,6 +130,10 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
         builder: (context) => SearchResultsScreen(
           query: settings.arguments as String,
         ),
+      );
+    case UpdateUserProfilePictureScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => const UpdateUserProfilePictureScreen(),
       );
 
     default:

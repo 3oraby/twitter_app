@@ -5,7 +5,7 @@ import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_background_icon.dart';
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/user/presentation/widgets/show_user_profile_date.dart';
+import 'package:twitter_app/features/user/presentation/widgets/show_user_profile_data.dart';
 import 'package:twitter_app/features/user/presentation/widgets/show_user_profile_screen_tabs.dart';
 import 'package:twitter_app/features/user/presentation/widgets/show_user_profile_tab_bars.dart';
 

@@ -179,5 +179,11 @@
   "Joined on: ": "Joined on: ",
   "Please enter a new value different from the current one.": "Please enter a new value different from the current one.",
   "Try searching for something else!": "Try searching for something else!",
-  "No Results Found": "No Results Found"
+  "No Results Found": "No Results Found",
+  "Save": "Save",
+  "Delete profile picture": "Delete profile picture",
+  "Select profile picture": "Select profile picture",
+  "See profile picture": "See profile picture",
+  "Save photo": "Save photo",
+  "Your profile picture has been updated! 🎉": "Your profile picture has been updated! 🎉"
 }

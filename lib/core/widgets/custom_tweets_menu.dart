@@ -113,7 +113,7 @@ class _CustomTweetsMenuState extends State<CustomTweetsMenu> {
                 },
                 child: Text(
                   context.tr('Cancel'),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),

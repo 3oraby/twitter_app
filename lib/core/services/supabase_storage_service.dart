@@ -45,7 +45,6 @@ class SupabaseStorageService extends StorageService {
     try {
       log("------------------------- delete file ------------------------");
 
-      // Convert the public URLs to upload paths
       List<String> uploadPaths = paths
           .map((url) => convertPublicUrlToUploadPath(
                 publicUrl: url,
@@ -53,7 +52,6 @@ class SupabaseStorageService extends StorageService {
               ))
           .toList();
 
-      // Delete the files using the upload paths
       await _supabase.client.storage
           .from(SupabaseBucketsName.twitterImages)
           .remove(uploadPaths);
@@ -76,5 +74,40 @@ class SupabaseStorageService extends StorageService {
     uploadPath = Uri.decodeComponent(uploadPath);
 
     return uploadPath;
+  }
+
+  @override
+  Future<String> updateFile({
+    required String oldFileUrl,
+    required File newFile,
+  }) async {
+    try {
+      log("------------------------- update file ------------------------");
+
+      String uploadPath = convertPublicUrlToUploadPath(
+        publicUrl: oldFileUrl,
+        bucketName: SupabaseBucketsName.twitterImages,
+      );
+
+      log("upload path: $uploadPath");
+
+      await _supabase.client.storage
+          .from(SupabaseBucketsName.twitterImages)
+          .update(
+            uploadPath,
+            newFile,
+          );
+
+      String newPublicFileUrl = _supabase.client.storage
+          .from(SupabaseBucketsName.twitterImages)
+          .getPublicUrl(uploadPath);
+
+      log("Successfully update file: $newPublicFileUrl");
+      log("--------------------------------------------------------------");
+      return newPublicFileUrl;
+    } catch (e) {
+      log("Error update files: $e");
+      throw Exception("Failed to update file from storage");
+    }
   }
 }

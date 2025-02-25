@@ -177,5 +177,11 @@
   "Joined on: ": "انضم في: ",
   "Please enter a new value different from the current one.": "يرجى إدخال قيمة جديدة مختلفة عن الحالية.",
   "Try searching for something else!": "جرب البحث عن شيء آخر!",
-  "No Results Found": "لم يتم العثور على نتائج"
+  "No Results Found": "لم يتم العثور على نتائج",
+  "Save": "حفظ",
+  "Delete profile picture": "حذف صورة الملف الشخصي",
+  "Select profile picture": "اختيار صورة الملف الشخصي",
+  "See profile picture": "عرض صورة الملف الشخصي",
+  "Save photo": "حفظ الصورة",
+  "Your profile picture has been updated! 🎉": "تم تحديث صورة ملفك الشخصي! 🎉"
 }

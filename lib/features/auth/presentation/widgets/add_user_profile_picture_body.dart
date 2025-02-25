@@ -15,8 +15,8 @@ import 'package:twitter_app/core/widgets/custom_background_icon.dart';
 import 'package:twitter_app/core/widgets/custom_trigger_button.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
+import 'package:twitter_app/features/user/data/repo_impl/set_user_profile_picture_cubit/set_user_profile_picture_cubit.dart';
 
-import '../cubits/add_user_profile_picture_cubit/add_user_profile_picture_cubit.dart';
 
 class AddUserProfilePictureBody extends StatefulWidget {
   const AddUserProfilePictureBody({super.key});
@@ -33,8 +33,8 @@ class _AddUserProfilePictureBodyState extends State<AddUserProfilePictureBody> {
 
   void _onSaveAndProceedButtonPressed() {
     if (_isImageUploaded) {
-      BlocProvider.of<AddUserProfilePictureCubit>(context)
-          .addUserProfilePicture(
+      BlocProvider.of<SetUserProfilePictureCubit>(context)
+          .setUserProfilePicture(
         file: fileImage!,
       );
     } else {
