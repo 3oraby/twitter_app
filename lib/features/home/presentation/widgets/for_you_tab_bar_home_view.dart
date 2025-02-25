@@ -7,6 +7,8 @@ class ForYouTabBarHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CustomShowTweetFeed(
+      mainLabelEmptyBody: "Nothing to see here yet",
+      subLabelEmptyBody: "Start following users to get personalized tweets",
     );
   }
 }

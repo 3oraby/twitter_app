@@ -29,6 +29,8 @@ class UserBookmarksScreen extends StatelessWidget {
           tweetFilterOption: GetTweetsFilterOptionModel(
             includeBookmarkedTweets: true,
           ),
+          mainLabelEmptyBody: "No bookmarks yet 📌",
+          subLabelEmptyBody: "Save tweets to revisit them later 🔖",
         ),
       ),
     );

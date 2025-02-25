@@ -83,6 +83,8 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     KeepAliveTab(
                       child: CustomShowTweetFeed(
                         query: widget.query,
+                        mainLabelEmptyBody: "No Results Found",
+                        subLabelEmptyBody: "Try searching for something else!",
                       ),
                     )
                   ],

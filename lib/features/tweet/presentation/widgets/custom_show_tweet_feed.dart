@@ -8,14 +8,19 @@ import 'package:twitter_app/features/tweet/presentation/cubits/get_tweets_cubit/
 import 'package:twitter_app/features/tweet/presentation/widgets/show_tweet_feed_bloc_builder_body.dart';
 
 class CustomShowTweetFeed extends StatelessWidget {
-  const CustomShowTweetFeed(
-      {super.key,
-      this.tweetFilterOption = const GetTweetsFilterOptionModel(),
-      this.targetUserId,
-      this.query});
+  const CustomShowTweetFeed({
+    super.key,
+    this.tweetFilterOption = const GetTweetsFilterOptionModel(),
+    this.targetUserId,
+    this.query,
+    required this.mainLabelEmptyBody,
+    required this.subLabelEmptyBody,
+  });
   final GetTweetsFilterOptionModel tweetFilterOption;
   final String? targetUserId;
   final String? query;
+  final String mainLabelEmptyBody;
+  final String subLabelEmptyBody;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +41,8 @@ class CustomShowTweetFeed extends StatelessWidget {
         tweetFilterOption: tweetFilterOption,
         targetUserId: targetUserId,
         query: query,
+        mainLabelEmptyBody: mainLabelEmptyBody,
+        subLabelEmptyBody: subLabelEmptyBody,
       ),
     );
   }

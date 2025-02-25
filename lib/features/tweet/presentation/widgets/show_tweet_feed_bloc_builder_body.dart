@@ -11,12 +11,15 @@ class ShowTweetFeedBlocBuilderBody extends StatefulWidget {
     this.tweetFilterOption = const GetTweetsFilterOptionModel(),
     this.targetUserId,
     this.query,
+    required this.mainLabelEmptyBody,
+    required this.subLabelEmptyBody,
   });
 
   final GetTweetsFilterOptionModel tweetFilterOption;
   final String? targetUserId;
   final String? query;
-
+  final String mainLabelEmptyBody;
+  final String subLabelEmptyBody;
   @override
   State<ShowTweetFeedBlocBuilderBody> createState() =>
       _ShowTweetFeedBlocBuilderBodyState();
@@ -51,6 +54,8 @@ class _ShowTweetFeedBlocBuilderBodyState
         } else if (state is GetTweetsLoadedState) {
           return ShowTweetFeedBody(
             tweets: state.tweets,
+            mainLabelEmptyBody: widget.mainLabelEmptyBody,
+            subLabelEmptyBody: widget.subLabelEmptyBody,
           );
         }
         return const SizedBox();

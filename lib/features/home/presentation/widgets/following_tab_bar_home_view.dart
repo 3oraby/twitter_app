@@ -11,6 +11,8 @@ class FollowingTabBarHomeView extends StatelessWidget {
       tweetFilterOption: GetTweetsFilterOptionModel(
         isForFollowingOnly: true,
       ),
+      mainLabelEmptyBody: "No tweets available",
+      subLabelEmptyBody: "Follow more users to see tweets here",
     );
   }
 }

@@ -21,9 +21,13 @@ class ShowTweetFeedBody extends StatefulWidget {
   const ShowTweetFeedBody({
     super.key,
     required this.tweets,
+    required this.mainLabelEmptyBody,
+    required this.subLabelEmptyBody,
   });
 
   final List<TweetDetailsEntity> tweets;
+  final String mainLabelEmptyBody;
+  final String subLabelEmptyBody;
 
   @override
   State<ShowTweetFeedBody> createState() => _ShowTweetFeedBodyState();
@@ -117,11 +121,16 @@ class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
         ),
       ],
       child: widget.tweets.isEmpty
-          ? Center(
-              child: CustomEmptyBodyWidget(
-                mainLabel: context.tr("No tweets available"),
-                subLabel: context.tr("Follow more users to see tweets here"),
-              ),
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SingleChildScrollView(
+                  child: CustomEmptyBodyWidget(
+                    mainLabel: context.tr(widget.mainLabelEmptyBody),
+                    subLabel: context.tr(widget.subLabelEmptyBody),
+                  ),
+                ),
+              ],
             )
           : AnimatedList(
               key: _listKey,
