@@ -21,7 +21,7 @@ import 'package:twitter_app/core/widgets/custom_background_icon.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
-import 'package:twitter_app/features/user/data/repo_impl/set_user_profile_picture_cubit/set_user_profile_picture_cubit.dart';
+import 'package:twitter_app/features/user/presentation/cubits/set_user_profile_picture_cubit/set_user_profile_picture_cubit.dart';
 import 'package:twitter_app/features/user/domain/repo_interface/user_repo.dart';
 import 'package:image_picker/image_picker.dart';
 
