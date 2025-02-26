@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/widgets/custom_tab_bar.dart';
@@ -51,47 +50,41 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppConstants.horizontalPadding,
-            vertical: AppConstants.topPadding,
-          ),
-          child: Column(
-            spacing: 4,
-            children: [
-              buildCustomAppBar(
-                context,
-                title: CustomSearchTextField(
-                  textController: textController,
-                  hintText: widget.query,
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
+        body: Column(
+          spacing: 4,
+          children: [
+            buildCustomAppBar(
+              context,
+              title: CustomSearchTextField(
+                textController: textController,
+                hintText: widget.query,
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
-              const CustomTabBar(
-                tabs: [
-                  Tab(text: "People"),
-                  Tab(text: "Tweets"),
+            ),
+            const CustomTabBar(
+              tabs: [
+                Tab(text: "People"),
+                Tab(text: "Tweets"),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  KeepAliveTab(
+                      child: ShowUsersSearchResultView(query: widget.query)),
+                  KeepAliveTab(
+                    child: CustomShowTweetFeed(
+                      query: widget.query,
+                      mainLabelEmptyBody: "No Results Found",
+                      subLabelEmptyBody: "Try searching for something else!",
+                    ),
+                  )
                 ],
               ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    KeepAliveTab(
-                        child: ShowUsersSearchResultView(query: widget.query)),
-                    KeepAliveTab(
-                      child: CustomShowTweetFeed(
-                        query: widget.query,
-                        mainLabelEmptyBody: "No Results Found",
-                        subLabelEmptyBody: "Try searching for something else!",
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
