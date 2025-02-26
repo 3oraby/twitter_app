@@ -222,5 +222,7 @@
   "Something went wrong. Please try again later.": "حدث خطأ ما. يرجى المحاولة لاحقًا.",
   "Current password": "كلمة المرور الحالية",
   "New password": "كلمة المرور الجديدة",
-  "Confirm new password": "تأكيد كلمة المرور الجديدة"
+  "Confirm new password": "تأكيد كلمة المرور الجديدة",
+  "Enter your current password": "أدخل كلمة المرور الحالية",
+  "Re-enter your new password": "أعد إدخال كلمة المرور الجديدة"
 }

@@ -224,5 +224,7 @@
   "Something went wrong. Please try again later.": "Something went wrong. Please try again later.",
   "Current password": "Current password",
   "New password": "New password",
-  "Confirm new password": "Confirm new password"
+  "Confirm new password": "Confirm new password",
+  "Enter your current password": "Enter your current password",
+  "Re-enter your new password": "Re-enter your new password"
 }

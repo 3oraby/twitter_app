@@ -8,13 +8,14 @@ import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
+import 'package:twitter_app/core/utils/validators.dart';
 import 'package:twitter_app/core/widgets/custom_container_button.dart';
+import 'package:twitter_app/core/widgets/password_text_form_field.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/settings/presentation/cubits/change_password_cubit/change_password_cubit.dart';
-import 'package:twitter_app/features/settings/presentation/widgets/custom_update_user_data_text_field.dart';
 
 class ChangeYourPasswordScreen extends StatelessWidget {
   const ChangeYourPasswordScreen({super.key});
@@ -142,8 +143,7 @@ class _ChangeYourPasswordBlocConsumerBodyState
             ),
             body: Form(
               key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
                   state is ChangePasswordLoadingState
                       ? const LinearProgressIndicator(
@@ -165,48 +165,44 @@ class _ChangeYourPasswordBlocConsumerBodyState
                           context.tr("Current password"),
                           style: AppTextStyles.uberMoveExtraBold20,
                         ),
-                        CustomUpdateUserDataTextField(
-                          textEditingController: currentPasswordController,
-                          hintText: "Enter your current password",
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Current password cannot be empty";
-                            }
-                            return null;
-                          },
+                        const VerticalGap(8),
+                        PasswordTextFieldWidget(
+                          controller: currentPasswordController,
+                          hintText: context.tr("Enter your current password"),
+                          validator: (value) =>
+                              Validators.validatePassword(context, value),
                         ),
-                        const SizedBox(height: 16),
+                        const VerticalGap(28),
                         Text(
                           context.tr("New password"),
                           style: AppTextStyles.uberMoveExtraBold20,
                         ),
-                        CustomUpdateUserDataTextField(
-                          textEditingController: newPasswordController,
-                          hintText: "Enter your new password",
+                        const VerticalGap(8),
+                        PasswordTextFieldWidget(
+                          controller: newPasswordController,
+                          hintText: context.tr("Enter your new password"),
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "New password cannot be empty";
-                            }
                             if (value == currentPasswordController.text) {
-                              return "New password must be different from the current password";
+                              return "New password must be different from the current password".tr();
                             }
-                            return null;
+                            return Validators.validatePassword(context, value);
                           },
                         ),
-                        const VerticalGap(16),
+                        const VerticalGap(28),
                         Text(
                           context.tr("Confirm new password"),
                           style: AppTextStyles.uberMoveExtraBold20,
                         ),
-                        CustomUpdateUserDataTextField(
-                          textEditingController: confirmNewPasswordController,
-                          hintText: "Re-enter your new password",
+                        const VerticalGap(8),
+                        PasswordTextFieldWidget(
+                          controller: confirmNewPasswordController,
+                          hintText: context.tr("Re-enter your new password"),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please confirm your new password";
+                              return "Please confirm your new password".tr();
                             }
                             if (value != newPasswordController.text) {
-                              return "Passwords do not match";
+                              return "Passwords do not match".tr();
                             }
                             return null;
                           },
@@ -223,5 +219,3 @@ class _ChangeYourPasswordBlocConsumerBodyState
     );
   }
 }
-
-
