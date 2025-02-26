@@ -20,6 +20,7 @@ import 'package:twitter_app/features/search/presentation/screens/search_results_
 import 'package:twitter_app/features/search/presentation/screens/search_screen.dart';
 import 'package:twitter_app/features/settings/data/models/update_user_screen_arguments_model.dart';
 import 'package:twitter_app/features/settings/presentation/screens/change_app_language_screen.dart';
+import 'package:twitter_app/features/settings/presentation/screens/change_your_password_screen.dart';
 import 'package:twitter_app/features/settings/presentation/screens/display_and_languages_screen.dart';
 import 'package:twitter_app/features/settings/presentation/screens/update_user_information_screen.dart';
 import 'package:twitter_app/features/settings/presentation/screens/user_account_information_screen.dart';
@@ -134,6 +135,10 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case UpdateUserProfilePictureScreen.routeId:
       return MaterialPageRoute(
         builder: (context) => const UpdateUserProfilePictureScreen(),
+      );
+    case ChangeYourPasswordScreen.routeId:
+      return MaterialPageRoute(
+        builder: (context) => const ChangeYourPasswordScreen(),
       );
 
     default:

@@ -66,7 +66,60 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  Future<Either<Failure, User>> createUserWithPhoneNumber() {
-    throw UnimplementedError();
+  Future<Either<Failure, Success>> changePassword({
+    required String email,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try {
+      User? user = firebaseAuthService.firebaseAuth.currentUser;
+
+      if (user == null) {
+        log("No user is currently signed in.");
+        return left(const ServerFailure(
+            message:
+                "Cannot change your password because you are not signed in."));
+      }
+
+      AuthCredential credential =
+          EmailAuthProvider.credential(email: email, password: oldPassword);
+      await user.reauthenticateWithCredential(credential);
+
+      await user.updatePassword(newPassword);
+
+      return right(Success());
+    } on FirebaseAuthException catch (e) {
+      log("Error in authRepoImpl.changePassword : ${e.code}");
+
+      String errorMessage;
+      switch (e.code) {
+        case 'invalid-credential':
+          errorMessage = "Your current password is incorrect.";
+          break;
+        case 'weak-password':
+          errorMessage =
+              "Your new password is too weak. Please choose a stronger password.";
+          break;
+        case 'requires-recent-login':
+          errorMessage =
+              "For security reasons, please log in again before changing your password.";
+          break;
+        case 'network-request-failed':
+          errorMessage =
+              "Network error! Please check your internet connection and try again.";
+          break;
+        case 'too-many-requests':
+          errorMessage = "Too many failed attempts. Please try again later.";
+          break;
+        default:
+          errorMessage = "An unexpected error occurred. Please try again.";
+      }
+
+      return left(ServerFailure(message: errorMessage));
+    } catch (e) {
+      log("Unexpected error in authRepoImpl.changePassword : ${e.toString()}");
+      return left(const ServerFailure(
+          message: "Something went wrong. Please try again later."));
+    }
   }
 }

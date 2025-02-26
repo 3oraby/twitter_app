@@ -7,6 +7,7 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/settings/domain/entities/setting_item_entity.dart';
+import 'package:twitter_app/features/settings/presentation/screens/change_your_password_screen.dart';
 import 'package:twitter_app/features/settings/presentation/screens/user_account_information_screen.dart';
 import 'package:twitter_app/features/settings/presentation/widgets/custom_setting_item.dart';
 
@@ -63,9 +64,11 @@ class YourAccountScreen extends StatelessWidget {
                               context, UserAccountInformationScreen.routeId);
 
                           break;
-                        case "Privacy":
+                        case "Change your password":
+                          Navigator.pushNamed(
+                              context, ChangeYourPasswordScreen.routeId);
                           break;
-                        case "Logout":
+                        case "Deactiviate your account":
                           break;
                         default:
                       }

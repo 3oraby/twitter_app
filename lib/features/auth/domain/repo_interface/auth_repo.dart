@@ -10,8 +10,13 @@ abstract class AuthRepo {
   Future<Either<Failure, User>> signInWithEmailAndPassword(
       {required String email, required String password});
 
-  Future<Either<Failure, User>> createUserWithPhoneNumber();
   Future<Either<Failure, Success>> logOut();
 
   User getCurrentFirebaseAuthUser();
+
+  Future<Either<Failure, Success>> changePassword({
+    required String email,
+    required String oldPassword,
+    required String newPassword,
+  });
 }
