@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_svgs.dart';
@@ -63,32 +62,28 @@ class _HomeViewState extends State<HomeView>
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: AppConstants.horizontalPadding),
-        child: Column(
-          children: [
-            buildHomeAppBar(
-              context: context,
-            ),
-            CustomTabBar(
+      child: Column(
+        children: [
+          buildHomeAppBar(
+            context: context,
+          ),
+          CustomTabBar(
+            controller: _tabController,
+            tabs: [
+              Tab(text: context.tr("For you")),
+              Tab(text: context.tr("accounts_current_user_follow")),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
               controller: _tabController,
-              tabs: [
-                Tab(text: context.tr("For you")),
-                Tab(text: context.tr("accounts_current_user_follow")),
+              children: const [
+                KeepAliveTab(child: ForYouTabBarHomeView()),
+                KeepAliveTab(child: FollowingTabBarHomeView()),
               ],
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: const [
-                  KeepAliveTab(child: ForYouTabBarHomeView()),
-                  KeepAliveTab(child: FollowingTabBarHomeView()),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

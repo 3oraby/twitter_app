@@ -2,10 +2,12 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
+import 'package:twitter_app/core/widgets/custom_scroll_bar.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
@@ -43,6 +45,8 @@ class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
   int? updatedTweetIndex;
   TweetDetailsEntity? removedTweet;
   late List<TweetDetailsEntity> tweets;
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -121,68 +125,93 @@ class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
       ],
       child: widget.tweets.isEmpty
           ? widget.isCenteredEmptyState
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SingleChildScrollView(
-                      child: CustomEmptyBodyWidget(
-                        mainLabel: context.tr(widget.mainLabelEmptyBody),
-                        subLabel: context.tr(widget.subLabelEmptyBody),
-                      ),
-                    ),
-                  ],
-                )
-              : SingleChildScrollView(
-                  child: CustomEmptyBodyWidget(
-                    mainLabel: context.tr(widget.mainLabelEmptyBody),
-                    subLabel: context.tr(widget.subLabelEmptyBody),
-                  ),
-                )
-          : AnimatedList(
-              key: _listKey,
-              initialItemCount: tweets.length,
-              itemBuilder: (context, index, animation) {
-                return SizeTransition(
-                  sizeFactor: animation,
+              ? RefreshIndicator(
+                  onRefresh: () async {
+                    widget.onRefreshPage();
+                  },
                   child: Column(
-                    key: ValueKey(tweets[index].tweetId),
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (index == 0) const VerticalGap(16),
-                      CustomTweetInfoCard(
-                        tweetDetailsEntity: tweets[index],
-                        currentUser: currentUser,
-                        onDeleteTweetTap: () {
-                          _removeTweet(index);
-                        },
-                        onEditTweetTap: () {
-                          log('User selected: update tweet');
-                          Navigator.pushNamed(
-                            context,
-                            CreateOrUpdateTweetScreen.routeId,
-                            arguments: tweets[index],
-                          );
-                          updatedTweetIndex = index;
-                        },
-                        onTweetTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            ShowTweetCommentsScreen.routeId,
-                            arguments: tweets[index],
-                          ).then((value) {
-                            widget.onRefreshPage.call();
-                          });
-                        },
-                      ),
-                      if (index != tweets.length - 1)
-                        const Divider(
-                          color: AppColors.dividerColor,
-                          height: 36,
+                      SingleChildScrollView(
+                        child: CustomEmptyBodyWidget(
+                          mainLabel: context.tr(widget.mainLabelEmptyBody),
+                          subLabel: context.tr(widget.subLabelEmptyBody),
                         ),
-                      if (index == tweets.length - 1) const VerticalGap(24)
+                      ),
                     ],
                   ),
-                );
-              },
+                )
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    widget.onRefreshPage();
+                  },
+                  child: SingleChildScrollView(
+                    child: CustomEmptyBodyWidget(
+                      mainLabel: context.tr(widget.mainLabelEmptyBody),
+                      subLabel: context.tr(widget.subLabelEmptyBody),
+                    ),
+                  ),
+                )
+          : CustomScrollBar(
+              controller: _scrollController,
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  widget.onRefreshPage();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.horizontalPadding,
+                  ),
+                  child: AnimatedList(
+                    key: _listKey,
+                    controller: _scrollController,
+                    initialItemCount: tweets.length,
+                    itemBuilder: (context, index, animation) {
+                      return SizeTransition(
+                        sizeFactor: animation,
+                        child: Column(
+                          key: ValueKey(tweets[index].tweetId),
+                          children: [
+                            if (index == 0) const VerticalGap(16),
+                            CustomTweetInfoCard(
+                              tweetDetailsEntity: tweets[index],
+                              currentUser: currentUser,
+                              onDeleteTweetTap: () {
+                                _removeTweet(index);
+                              },
+                              onEditTweetTap: () {
+                                log('User selected: update tweet');
+                                Navigator.pushNamed(
+                                  context,
+                                  CreateOrUpdateTweetScreen.routeId,
+                                  arguments: tweets[index],
+                                );
+                                updatedTweetIndex = index;
+                              },
+                              onTweetTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  ShowTweetCommentsScreen.routeId,
+                                  arguments: tweets[index],
+                                ).then((value) {
+                                  widget.onRefreshPage.call();
+                                });
+                              },
+                            ),
+                            if (index != tweets.length - 1)
+                              const Divider(
+                                color: AppColors.dividerColor,
+                                height: 36,
+                              ),
+                            if (index == tweets.length - 1)
+                              const VerticalGap(24)
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
             ),
     );
   }

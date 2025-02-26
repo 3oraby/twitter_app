@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/widgets/keep_alive_tab.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
@@ -32,39 +31,33 @@ class _ShowUserProfileScreenTabsState extends State<ShowUserProfileScreenTabs> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppConstants.horizontalPadding,
-        vertical: AppConstants.topPadding,
-      ),
-      child: TabBarView(
-        children: [
-          KeepAliveTab(
-            child: UserProfilePostsTab(
-              targetUserId: widget.targetUserId,
-              currentUserId: currentUser.userId,
-            ),
+    return TabBarView(
+      children: [
+        KeepAliveTab(
+          child: UserProfilePostsTab(
+            targetUserId: widget.targetUserId,
+            currentUserId: currentUser.userId,
           ),
-          KeepAliveTab(
-            child: UserProfileMediaTab(
-              targetUserId: widget.targetUserId,
-              currentUserId: currentUser.userId,
-            ),
+        ),
+        KeepAliveTab(
+          child: UserProfileMediaTab(
+            targetUserId: widget.targetUserId,
+            currentUserId: currentUser.userId,
           ),
-          KeepAliveTab(
-            child: UserProfileLikesTab(
-              targetUserId: widget.targetUserId,
-              currentUserId: currentUser.userId,
-            ),
+        ),
+        KeepAliveTab(
+          child: UserProfileLikesTab(
+            targetUserId: widget.targetUserId,
+            currentUserId: currentUser.userId,
           ),
-          KeepAliveTab(
-            child: UserProfileRetweetsTab(
-              targetUserId: widget.targetUserId,
-              currentUserId: currentUser.userId,
-            ),
+        ),
+        KeepAliveTab(
+          child: UserProfileRetweetsTab(
+            targetUserId: widget.targetUserId,
+            currentUserId: currentUser.userId,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
