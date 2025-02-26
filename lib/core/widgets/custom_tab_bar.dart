@@ -7,14 +7,26 @@ class CustomTabBar extends StatelessWidget {
     super.key,
     required this.tabs,
     this.controller,
+    this.isScrollable = false,
+    this.tabAlignment,
+    this.labelPadding,
+    this.padding,
   });
 
   final List<Widget> tabs;
   final TabController? controller;
+  final bool isScrollable;
+  final TabAlignment? tabAlignment;
+  final EdgeInsetsGeometry? labelPadding;
+  final EdgeInsetsGeometry? padding;
   @override
   Widget build(BuildContext context) {
     return TabBar(
       controller: controller,
+      isScrollable: isScrollable,
+      tabAlignment: tabAlignment,
+      labelPadding: labelPadding,
+      padding: padding,
       indicatorColor: AppColors.twitterAccentColor,
       indicatorSize: TabBarIndicatorSize.label,
       labelStyle: AppTextStyles.uberMoveBold18,

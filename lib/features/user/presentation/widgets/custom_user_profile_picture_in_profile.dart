@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/open_full_screen_gallery.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
 import 'package:twitter_app/core/widgets/custom_popup_menu_item_widget.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
@@ -46,7 +45,7 @@ class CustomUserProfilePictureInProfile extends StatelessWidget {
                   icon: FontAwesomeIcons.circleUser,
                 ),
               ),
-            if (userEntity.userId == getCurrentUserEntity().userId) ...[
+            if (userEntity.userId == getCurrentUserEntity().userId)
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.pop(context);
@@ -58,19 +57,6 @@ class CustomUserProfilePictureInProfile extends StatelessWidget {
                   icon: FontAwesomeIcons.image,
                 ),
               ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                isDestructiveAction: true,
-                child: CustomPopupMenuItemWidget(
-                  title: context.tr("Delete profile picture"),
-                  icon: FontAwesomeIcons.xmark,
-                  iconColor: AppColors.errorColor,
-                  titleColor: AppColors.errorColor,
-                ),
-              ),
-            ]
           ],
           cancelButton: CupertinoActionSheetAction(
             onPressed: () {

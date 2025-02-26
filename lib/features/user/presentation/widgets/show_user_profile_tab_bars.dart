@@ -12,6 +12,9 @@ class ShowUserProfileTabBars extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: CustomTabBar(
+        isScrollable: true,
+        tabAlignment: TabAlignment.start,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 30),
         tabs: [
           Tab(text: context.tr("Posts")),
           Tab(text: context.tr("Media")),
