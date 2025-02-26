@@ -30,6 +30,10 @@ class _ShowTweetFeedBlocBuilderBodyState
   @override
   void initState() {
     super.initState();
+    _refreshPage();
+  }
+
+  void _refreshPage() {
     BlocProvider.of<GetTweetsCubit>(context).getTweets(
       tweetFilterOption: widget.tweetFilterOption,
       targetUserId: widget.targetUserId,
@@ -56,6 +60,10 @@ class _ShowTweetFeedBlocBuilderBodyState
             tweets: state.tweets,
             mainLabelEmptyBody: widget.mainLabelEmptyBody,
             subLabelEmptyBody: widget.subLabelEmptyBody,
+            onRefreshPage: _refreshPage,
+            isCenteredEmptyState:
+                widget.tweetFilterOption.includeBookmarkedTweets ||
+                    widget.tweetFilterOption.isForFollowingOnly,
           );
         }
         return const SizedBox();

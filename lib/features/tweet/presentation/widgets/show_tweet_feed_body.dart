@@ -10,7 +10,6 @@ import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/home/presentation/screens/create_or_update_tweet_screen.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/delete_tweet_cubit/delete_tweet_cubit.dart';
-import 'package:twitter_app/features/tweet/presentation/cubits/get_tweets_cubit/get_tweets_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/make_new_tweet_cubits/make_new_tweet_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/update_tweet_cubit/update_tweet_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_info_card.dart';
@@ -23,11 +22,15 @@ class ShowTweetFeedBody extends StatefulWidget {
     required this.tweets,
     required this.mainLabelEmptyBody,
     required this.subLabelEmptyBody,
+    required this.onRefreshPage,
+    this.isCenteredEmptyState = false,
   });
 
   final List<TweetDetailsEntity> tweets;
   final String mainLabelEmptyBody;
   final String subLabelEmptyBody;
+  final VoidCallback onRefreshPage;
+  final bool isCenteredEmptyState;
 
   @override
   State<ShowTweetFeedBody> createState() => _ShowTweetFeedBodyState();
@@ -45,10 +48,6 @@ class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
     super.initState();
     tweets = List.from(widget.tweets);
     currentUser = getCurrentUserEntity();
-  }
-
-  void _refreshPage() {
-    BlocProvider.of<GetTweetsCubit>(context).getTweets();
   }
 
   void _removeTweet(int index) {
@@ -121,17 +120,24 @@ class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
         ),
       ],
       child: widget.tweets.isEmpty
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SingleChildScrollView(
+          ? widget.isCenteredEmptyState
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SingleChildScrollView(
+                      child: CustomEmptyBodyWidget(
+                        mainLabel: context.tr(widget.mainLabelEmptyBody),
+                        subLabel: context.tr(widget.subLabelEmptyBody),
+                      ),
+                    ),
+                  ],
+                )
+              : SingleChildScrollView(
                   child: CustomEmptyBodyWidget(
                     mainLabel: context.tr(widget.mainLabelEmptyBody),
                     subLabel: context.tr(widget.subLabelEmptyBody),
                   ),
-                ),
-              ],
-            )
+                )
           : AnimatedList(
               key: _listKey,
               initialItemCount: tweets.length,
@@ -163,7 +169,7 @@ class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
                             ShowTweetCommentsScreen.routeId,
                             arguments: tweets[index],
                           ).then((value) {
-                            _refreshPage();
+                            widget.onRefreshPage.call();
                           });
                         },
                       ),

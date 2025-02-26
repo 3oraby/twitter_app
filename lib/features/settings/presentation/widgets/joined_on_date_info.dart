@@ -19,22 +19,18 @@ class JoinedOnDateInfo extends StatelessWidget {
       children: [
         const Icon(Icons.calendar_today, color: Colors.blueGrey, size: 24),
         const HorizontalGap(12),
+        Text(
+          context.tr("Joined on: "),
+          style: AppTextStyles.uberMoveBold20,
+        ),
         Expanded(
-          child: Row(
-            children: [
-              Text(
-                context.tr("Joined on: "),
-                style: AppTextStyles.uberMoveBold20,
-              ),
-              Text(
-                formatDateFromTimestamp(
-                  context: context,
-                  timestamp: joinedAt,
-                ),
-                style: AppTextStyles.uberMoveMedium18,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+          child: Text(
+            formatDateFromTimestamp(
+              context: context,
+              timestamp: joinedAt,
+            ),
+            style: AppTextStyles.uberMoveMedium18,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

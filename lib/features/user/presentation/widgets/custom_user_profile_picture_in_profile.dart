@@ -1,8 +1,8 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/open_full_screen_gallery.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/build_user_circle_avatar_image.dart';
@@ -46,30 +46,31 @@ class CustomUserProfilePictureInProfile extends StatelessWidget {
                   icon: FontAwesomeIcons.circleUser,
                 ),
               ),
-            CupertinoActionSheetAction(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(
-                    context, UpdateUserProfilePictureScreen.routeId);
-              },
-              child: CustomPopupMenuItemWidget(
-                title: context.tr("Select profile picture"),
-                icon: FontAwesomeIcons.image,
+            if (userEntity.userId == getCurrentUserEntity().userId) ...[
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                      context, UpdateUserProfilePictureScreen.routeId);
+                },
+                child: CustomPopupMenuItemWidget(
+                  title: context.tr("Select profile picture"),
+                  icon: FontAwesomeIcons.image,
+                ),
               ),
-            ),
-            CupertinoActionSheetAction(
-              onPressed: () {
-                Navigator.pop(context);
-                // widget.onDeleteTweetTap?.call();
-              },
-              isDestructiveAction: true,
-              child: CustomPopupMenuItemWidget(
-                title: context.tr("Delete profile picture"),
-                icon: FontAwesomeIcons.xmark,
-                iconColor: AppColors.errorColor,
-                titleColor: AppColors.errorColor,
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                isDestructiveAction: true,
+                child: CustomPopupMenuItemWidget(
+                  title: context.tr("Delete profile picture"),
+                  icon: FontAwesomeIcons.xmark,
+                  iconColor: AppColors.errorColor,
+                  titleColor: AppColors.errorColor,
+                ),
               ),
-            ),
+            ]
           ],
           cancelButton: CupertinoActionSheetAction(
             onPressed: () {

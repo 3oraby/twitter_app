@@ -38,6 +38,7 @@ class UserInfoCard extends StatelessWidget {
           profilePicUrl: user.profilePicUrl,
         ),
         title: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Column(

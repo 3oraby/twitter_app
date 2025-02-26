@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
@@ -11,15 +10,29 @@ import 'package:twitter_app/core/widgets/custom_user_follow_relation_ships_count
 import 'package:twitter_app/core/widgets/horizontal_gap.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
+import 'package:twitter_app/features/settings/presentation/screens/user_account_information_screen.dart';
 import 'package:twitter_app/features/user/presentation/widgets/custom_user_profile_picture_in_profile.dart';
 
-class ShowUserProfileData extends StatelessWidget {
+class ShowUserProfileData extends StatefulWidget {
   const ShowUserProfileData({
     super.key,
     required this.userEntity,
   });
 
   final UserEntity userEntity;
+
+  @override
+  State<ShowUserProfileData> createState() => _ShowUserProfileDataState();
+}
+
+class _ShowUserProfileDataState extends State<ShowUserProfileData> {
+  late UserEntity userEntity;
+
+  @override
+  void initState() {
+    super.initState();
+    userEntity = widget.userEntity;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +100,17 @@ class ShowUserProfileData extends StatelessWidget {
             end: 16,
             bottom: 230,
             child: CustomContainerButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                        context, UserAccountInformationScreen.routeId)
+                    .then(
+                  (value) {
+                    setState(() {
+                      userEntity = getCurrentUserEntity();
+                    });
+                  },
+                );
+              },
               internalVerticalPadding: 4,
               backgroundColor: Colors.white,
               borderColor: AppColors.borderColor,

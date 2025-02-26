@@ -31,12 +31,13 @@ class Validators {
   }
 
   static String? validatePhoneNumber(BuildContext context, String? value) {
-    const String phonePattern = r'^\+?[0-9]{10,15}$';
+    const String phonePattern = r'^\+?[0-9]{11}$';
     final RegExp regex = RegExp(phonePattern);
+
     if (value == null || value.isEmpty) {
       return context.tr("Phone number is required");
     } else if (!regex.hasMatch(value)) {
-      return context.tr("Please enter a valid phone number");
+      return context.tr("Phone number must be exactly 11 digits");
     }
     return null;
   }
