@@ -120,6 +120,7 @@ class _ShowAllCommentsBodyState extends State<ShowAllCommentsBody> {
           listener: (context, state) {
             if (state is UpdateCommentLoadedState) {
               setState(() {
+                comments[updatedCommentIndex!] = state.updatedCommentDetails;
                 widget.comments[updatedCommentIndex!] =
                     state.updatedCommentDetails;
               });

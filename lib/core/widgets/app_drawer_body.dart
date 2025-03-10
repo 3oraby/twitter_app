@@ -6,7 +6,6 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_drawer_list_tile_option.dart';
 import 'package:twitter_app/core/widgets/custom_logout_button.dart';
 import 'package:twitter_app/core/widgets/drawer_user_info.dart';
-import 'package:twitter_app/core/widgets/language_selection_switch.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/bookmark/presentation/screens/user_bookmarks_screen.dart';
 import 'package:twitter_app/features/user/presentation/screens/user_profile_screen.dart';
@@ -64,7 +63,6 @@ class AppDrawerBody extends StatelessWidget {
               const CustomLogOutButton(),
               const Spacer(),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
                     padding: EdgeInsets.zero,
@@ -76,8 +74,6 @@ class AppDrawerBody extends StatelessWidget {
                   ),
                 ],
               ),
-              const LanguageSelectionSwitch(),
-              const VerticalGap(24),
             ],
           ),
         ),

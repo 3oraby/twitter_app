@@ -124,34 +124,20 @@ class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
         ),
       ],
       child: widget.tweets.isEmpty
-          ? widget.isCenteredEmptyState
-              ? RefreshIndicator(
-                  onRefresh: () async {
-                    widget.onRefreshPage();
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SingleChildScrollView(
-                        child: CustomEmptyBodyWidget(
-                          mainLabel: context.tr(widget.mainLabelEmptyBody),
-                          subLabel: context.tr(widget.subLabelEmptyBody),
-                        ),
-                      ),
-                    ],
+          ? RefreshIndicator(
+              onRefresh: () async {
+                widget.onRefreshPage();
+              },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  CustomEmptyBodyWidget(
+                    mainLabel: context.tr(widget.mainLabelEmptyBody),
+                    subLabel: context.tr(widget.subLabelEmptyBody),
                   ),
-                )
-              : RefreshIndicator(
-                  onRefresh: () async {
-                    widget.onRefreshPage();
-                  },
-                  child: SingleChildScrollView(
-                    child: CustomEmptyBodyWidget(
-                      mainLabel: context.tr(widget.mainLabelEmptyBody),
-                      subLabel: context.tr(widget.subLabelEmptyBody),
-                    ),
-                  ),
-                )
+                ],
+              ),
+            )
           : CustomScrollBar(
               controller: _scrollController,
               child: RefreshIndicator(
