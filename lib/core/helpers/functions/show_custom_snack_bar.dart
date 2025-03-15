@@ -4,8 +4,10 @@ import 'package:twitter_app/core/utils/app_colors.dart';
 void showCustomSnackBar(
   BuildContext context,
   String message, {
-  Color backgroundColor = AppColors.primaryColor,
+  Color? backgroundColor,
 }) {
+  final theme = Theme.of(context);
+
   final snackBar = SnackBar(
     content: Text(
       message,
@@ -17,7 +19,10 @@ void showCustomSnackBar(
     ),
     showCloseIcon: true,
     duration: const Duration(seconds: 3),
-    backgroundColor: backgroundColor,
+    backgroundColor: backgroundColor ??
+        (theme.brightness == Brightness.dark
+            ? theme.colorScheme.primaryContainer
+            : AppColors.primaryColor),
   );
 
   ScaffoldMessenger.of(context)

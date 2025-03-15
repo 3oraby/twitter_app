@@ -15,7 +15,7 @@ class CustomLogOutButton extends StatelessWidget {
       },
       child: Text(
         context.tr("Log Out"),
-        style: AppTextStyles.uberMoveBold20.copyWith(
+        style: AppTextStyles.uberMoveBold(context,20).copyWith(
           color: AppColors.errorColor,
         ),
       ),

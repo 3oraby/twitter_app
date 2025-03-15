@@ -70,6 +70,8 @@ class CustomTextFormFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return TextFormField(
       controller: controller,
       focusNode: focusNode,
@@ -78,16 +80,28 @@ class CustomTextFormFieldWidget extends StatelessWidget {
       onFieldSubmitted: onFieldSubmitted,
       validator: validator,
       keyboardType: keyboardType,
-      style: textStyle ?? AppTextStyles.uberMoveBold16,
+      style: textStyle ??
+          AppTextStyles.uberMoveBold(context, 16).copyWith(
+            color: AppColors.primaryColor,
+          ),
       inputFormatters: inputFormatters,
       maxLines: maxLines,
       enabled: isEnabled,
       onTap: onTap,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: labelStyle ?? AppTextStyles.uberMoveBold16,
+        labelStyle: labelStyle ??
+            AppTextStyles.uberMoveBold(context, 16).copyWith(
+              color: AppColors.primaryColor,
+            ),
+        floatingLabelStyle: AppTextStyles.uberMoveBold(context, 16).copyWith(
+          color: AppColors.primaryColor,
+        ),
         hintText: hintText,
-        hintStyle: hintStyle ?? AppTextStyles.uberMoveBold16,
+        hintStyle: hintStyle ??
+            AppTextStyles.uberMoveBold(context, 16).copyWith(
+              color: AppColors.primaryColor,
+            ),
         helperText: helperText,
         errorText: errorText,
         prefixIcon: prefixIcon,
@@ -105,7 +119,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
           borderSide: BorderSide(
             color: focusedBorderColor,
             width: focusedBorderWidth,
-          ), // Focused border color
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),

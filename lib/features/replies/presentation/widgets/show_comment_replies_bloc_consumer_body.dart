@@ -197,7 +197,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
                           children: [
                             Text(
                               "${context.tr("View")} ${widget.commentDetailsEntity.comment.repliesCount} ${context.tr("replies")}",
-                              style: AppTextStyles.uberMoveMedium16.copyWith(
+                              style: AppTextStyles.uberMoveMedium(context,16).copyWith(
                                 color: AppColors.thirdColor,
                               ),
                             ),
@@ -268,7 +268,7 @@ class _ShowCommentRepliesBlocConsumerBodyState
                           children: [
                             Text(
                               "Hide",
-                              style: AppTextStyles.uberMoveMedium16.copyWith(
+                              style: AppTextStyles.uberMoveMedium(context,16).copyWith(
                                 color: AppColors.thirdColor,
                               ),
                             ),

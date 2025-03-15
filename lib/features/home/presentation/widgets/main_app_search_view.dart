@@ -36,7 +36,7 @@ class MainAppSearchView extends StatelessWidget {
               ),
               Text(
                 "Search",
-                style: AppTextStyles.uberMoveMedium20.copyWith(
+                style: AppTextStyles.uberMoveMedium(context,20).copyWith(
                   color: AppColors.thirdColor,
                 ),
               ),

@@ -140,12 +140,12 @@ class _UpdateUserProfilePictureBlocConsumerBodyState
                   },
                   child: Text(
                     context.tr("Cancel"),
-                    style: AppTextStyles.uberMoveMedium20,
+                    style: AppTextStyles.uberMoveMedium(context,20),
                   ),
                 ),
                 Text(
                   context.tr("Edit profile"),
-                  style: AppTextStyles.uberMoveBlack20,
+                  style: AppTextStyles.uberMoveBlack(context,20),
                 ),
                 CustomContainerButton(
                   internalVerticalPadding: 4,
@@ -159,7 +159,7 @@ class _UpdateUserProfilePictureBlocConsumerBodyState
                       : null,
                   child: Text(
                     context.tr("Save"),
-                    style: AppTextStyles.uberMoveMedium18
+                    style: AppTextStyles.uberMoveMedium(context,18)
                         .copyWith(color: Colors.white),
                   ),
                 ),
@@ -181,7 +181,7 @@ class _UpdateUserProfilePictureBlocConsumerBodyState
                 const VerticalGap(16),
                 Text(
                   context.tr("Update your profile picture"),
-                  style: AppTextStyles.uberMoveBlack30,
+                  style: AppTextStyles.uberMoveBlack(context,30),
                 ),
                 const VerticalGap(48),
                 Skeletonizer(

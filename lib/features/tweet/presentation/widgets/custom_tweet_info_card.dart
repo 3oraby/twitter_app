@@ -77,13 +77,13 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                             children: [
                               Text(
                                 "${widget.tweetDetailsEntity.user.firstName} ${widget.tweetDetailsEntity.user.lastName}",
-                                style: AppTextStyles.uberMoveBold18,
+                                style: AppTextStyles.uberMoveBold(context,18),
                               ),
                               const HorizontalGap(8),
                               Flexible(
                                 child: Text(
                                   widget.tweetDetailsEntity.user.email,
-                                  style: AppTextStyles.uberMoveMedium16
+                                  style: AppTextStyles.uberMoveMedium(context,16)
                                       .copyWith(color: AppColors.secondaryColor),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -105,7 +105,7 @@ class _CustomTweetInfoCardState extends State<CustomTweetInfoCard> {
                   if (widget.tweetDetailsEntity.tweet.content != null)
                     Text(
                       widget.tweetDetailsEntity.tweet.content!,
-                      style: AppTextStyles.uberMoveRegular16,
+                      style: AppTextStyles.uberMoveRegular(context,16),
                     ),
                   if (widget.tweetDetailsEntity.tweet.mediaUrl?.isNotEmpty ??
                       false)

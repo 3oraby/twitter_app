@@ -63,13 +63,13 @@ class MakeNewCommentBody extends StatelessWidget {
                     children: [
                       Text(
                         context.tr("Replying to"),
-                        style: AppTextStyles.uberMoveMedium16.copyWith(
+                        style: AppTextStyles.uberMoveMedium(context,16).copyWith(
                           color: AppColors.secondaryColor,
                         ),
                       ),
                       Text(
                         " @${tweetDetailsEntity.user.email}",
-                        style: AppTextStyles.uberMoveMedium16.copyWith(
+                        style: AppTextStyles.uberMoveMedium(context,16).copyWith(
                           color: AppColors.twitterAccentColor,
                         ),
                       ),

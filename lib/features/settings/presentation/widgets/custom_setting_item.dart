@@ -27,11 +27,11 @@ class CustomSettingItem extends StatelessWidget {
       ),
       title: Text(
         context.tr(titleText),
-        style: AppTextStyles.uberMoveBlack20,
+        style: AppTextStyles.uberMoveBlack(context,20),
       ),
       subtitle: Text(
         context.tr(subTitleText),
-        style: AppTextStyles.uberMoveRegular16
+        style: AppTextStyles.uberMoveRegular(context,16)
             .copyWith(color: AppColors.thirdColor),
         overflow: TextOverflow.ellipsis,
         maxLines: 3,

@@ -60,7 +60,7 @@ class _SignUpBodyState extends State<SignUpBody> {
               CustomTriggerButton(
                 buttonDescription: Text(
                   context.tr("SignUp"),
-                  style: AppTextStyles.uberMoveBold22
+                  style: AppTextStyles.uberMoveBold(context,22)
                       .copyWith(color: Colors.white),
                 ),
                 onPressed: () {

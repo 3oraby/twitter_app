@@ -29,7 +29,7 @@ class CustomCommentInteractionsRow extends StatelessWidget {
       children: [
         Text(
           getTimeAgo(commentDetailsEntity.comment.createdAt, context: context),
-          style: AppTextStyles.uberMoveBold16.copyWith(
+          style: AppTextStyles.uberMoveBold(context,16).copyWith(
             color: AppColors.thirdColor,
           ),
         ),
@@ -40,12 +40,12 @@ class CustomCommentInteractionsRow extends StatelessWidget {
           },
           child: Text(
             context.tr("Reply"),
-            style: AppTextStyles.uberMoveExtraBold18.copyWith(
+            style: AppTextStyles.uberMoveExtraBold(context,18).copyWith(
               color: AppColors.thirdColor,
             ),
           ),
         ),
-        Spacer(),
+        const Spacer(),
         CustomCommentLikeButton(
           commentDetailsEntity: commentDetailsEntity,
           currentUser: currentUser,

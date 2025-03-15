@@ -161,7 +161,7 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
             },
             child: Text(
               context.tr("Cancel"),
-              style: AppTextStyles.uberMoveMedium20,
+              style: AppTextStyles.uberMoveMedium(context,20),
             ),
           ),
         ],
@@ -178,7 +178,7 @@ class _CreateOrUpdateTweetBlocConsumerBodyState
             widget.tweetDetails == null
                 ? context.tr("post_verb")
                 : context.tr("Update"),
-            style: AppTextStyles.uberMoveMedium18.copyWith(color: Colors.white),
+            style: AppTextStyles.uberMoveMedium(context,18).copyWith(color: Colors.white),
           ),
         ),
         const HorizontalGap(AppConstants.horizontalPadding),

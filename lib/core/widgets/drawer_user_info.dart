@@ -49,14 +49,14 @@ class _DrawerUserInfoState extends State<DrawerUserInfo> {
                   children: [
                     Text(
                       "${userEntity.firstName} ${userEntity.lastName}",
-                      style: AppTextStyles.uberMoveBold22,
+                      style: AppTextStyles.uberMoveBold(context,22),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                     const VerticalGap(4),
                     Text(
                       userEntity.email,
-                      style: AppTextStyles.uberMoveMedium16.copyWith(
+                      style: AppTextStyles.uberMoveMedium(context,16).copyWith(
                         color: AppColors.secondaryColor,
                       ),
                     )

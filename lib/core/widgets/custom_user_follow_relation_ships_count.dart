@@ -30,11 +30,11 @@ class CustomUserFollowRelationShipsCount extends StatelessWidget {
             children: [
               Text(
                 userEntity.nFollowing.toString(),
-                style: AppTextStyles.uberMoveBold16,
+                style: AppTextStyles.uberMoveBold(context,16),
               ),
               Text(
                 context.tr(" Following"),
-                style: AppTextStyles.uberMoveMedium16.copyWith(
+                style: AppTextStyles.uberMoveMedium(context,16).copyWith(
                   color: AppColors.thirdColor,
                 ),
               ),
@@ -45,11 +45,11 @@ class CustomUserFollowRelationShipsCount extends StatelessWidget {
             children: [
               Text(
                 userEntity.nFollowers.toString(),
-                style: AppTextStyles.uberMoveBold16,
+                style: AppTextStyles.uberMoveBold(context,16),
               ),
               Text(
                 context.tr(" Followers"),
-                style: AppTextStyles.uberMoveMedium16.copyWith(
+                style: AppTextStyles.uberMoveMedium(context,16).copyWith(
                   color: AppColors.thirdColor,
                 ),
               ),

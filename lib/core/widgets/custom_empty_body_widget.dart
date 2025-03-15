@@ -45,24 +45,23 @@ class CustomEmptyBodyWidget extends StatelessWidget {
             Text(
               mainLabel,
               textAlign: TextAlign.center,
-              style: AppTextStyles.uberMoveBold26,
+              style: AppTextStyles.uberMoveBold(context,26),
             ),
             const VerticalGap(10),
             Text(
               subLabel,
               textAlign: TextAlign.center,
-              style: AppTextStyles.uberMoveMedium20
+              style: AppTextStyles.uberMoveMedium(context,20)
                   .copyWith(color: AppColors.secondaryColor),
             ),
             const VerticalGap(30),
             if (buttonDescription != null)
               CustomContainerButton(
-                backgroundColor: AppColors.primaryColor,
                 borderRadius: AppConstants.borderRadius,
                 onPressed: onButtonPressed,
                 child: Text(
                   buttonDescription!,
-                  style: AppTextStyles.uberMoveBold16
+                  style: AppTextStyles.uberMoveBold(context,16)
                       .copyWith(color: Colors.white),
                 ),
               ),

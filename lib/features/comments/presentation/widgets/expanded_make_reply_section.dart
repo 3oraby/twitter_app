@@ -212,7 +212,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                   Text(context.tr("Replying to")),
                   Text(
                     " @${widget.replyingToUserName}",
-                    style: AppTextStyles.uberMoveMedium18
+                    style: AppTextStyles.uberMoveMedium(context,18)
                         .copyWith(color: AppColors.twitterAccentColor),
                   ),
                 ],
@@ -250,7 +250,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                       borderColor: Colors.white,
                       focusedBorderWidth: 0,
                       focusedBorderColor: Colors.white,
-                      hintStyle: AppTextStyles.uberMoveBold20.copyWith(
+                      hintStyle: AppTextStyles.uberMoveBold(context,20).copyWith(
                         color: AppColors.secondaryColor,
                       ),
                       onFieldSubmitted: widget.onFieldSubmitted,
@@ -277,7 +277,7 @@ class _ExpandedMakeReplySectionState extends State<ExpandedMakeReplySection> {
                         _isReplyButtonEnabled ? _onReplyButtonPressed : null,
                     child: Text(
                       context.tr("Reply"),
-                      style: AppTextStyles.uberMoveBold16.copyWith(
+                      style: AppTextStyles.uberMoveBold(context,16).copyWith(
                         color: Colors.white,
                       ),
                     ),

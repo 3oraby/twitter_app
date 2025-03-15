@@ -14,7 +14,7 @@ class SignInWithPhoneNumberScreen extends StatelessWidget {
         context,
         title: Text(
           context.tr("Enter Your Mobile Number"),
-          style: AppTextStyles.uberMoveBold24,
+          style: AppTextStyles.uberMoveBold(context,24),
         ),
         centerTitle: false,
       ),

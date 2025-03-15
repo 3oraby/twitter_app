@@ -42,7 +42,7 @@ class _FollowersSuggestionsBodyState extends State<FollowersSuggestionsBody> {
               children: [
                 Text(
                   context.tr("Suggested for you"),
-                  style: AppTextStyles.uberMoveBlack24,
+                  style: AppTextStyles.uberMoveBlack(context,24),
                 ),
               ],
             ),

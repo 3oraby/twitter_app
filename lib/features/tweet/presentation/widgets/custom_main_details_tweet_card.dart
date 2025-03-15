@@ -55,12 +55,12 @@ class CustomMainDetailsTweetCard extends StatelessWidget {
                     children: [
                       Text(
                         "${tweetDetailsEntity.user.firstName} ${tweetDetailsEntity.user.lastName}",
-                        style: AppTextStyles.uberMoveBold18,
+                        style: AppTextStyles.uberMoveBold(context,18),
                       ),
                       const HorizontalGap(8),
                       Text(
                         tweetDetailsEntity.user.email,
-                        style: AppTextStyles.uberMoveMedium16
+                        style: AppTextStyles.uberMoveMedium(context,16)
                             .copyWith(color: AppColors.secondaryColor),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -72,7 +72,7 @@ class CustomMainDetailsTweetCard extends StatelessWidget {
             const VerticalGap(12),
             Text(
               tweetDetailsEntity.tweet.content ?? '',
-              style: AppTextStyles.uberMoveRegular16,
+              style: AppTextStyles.uberMoveRegular(context,16),
             ),
             const VerticalGap(12),
             if (tweetDetailsEntity.tweet.mediaUrl?.isNotEmpty ?? false)
@@ -87,7 +87,7 @@ class CustomMainDetailsTweetCard extends StatelessWidget {
                 context: context,
                 timestamp: tweetDetailsEntity.tweet.createdAt,
               ),
-              style: AppTextStyles.uberMoveBold18
+              style: AppTextStyles.uberMoveBold(context,18)
                   .copyWith(color: AppColors.thirdColor),
             ),
             const VerticalGap(12),

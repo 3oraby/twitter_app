@@ -29,8 +29,8 @@ class CustomTabBar extends StatelessWidget {
       padding: padding,
       indicatorColor: AppColors.twitterAccentColor,
       indicatorSize: TabBarIndicatorSize.label,
-      labelStyle: AppTextStyles.uberMoveBold18,
-      unselectedLabelStyle: AppTextStyles.uberMoveBold18.copyWith(
+      labelStyle: AppTextStyles.uberMoveBold(context,18),
+      unselectedLabelStyle: AppTextStyles.uberMoveBold(context,18).copyWith(
         color: AppColors.secondaryColor,
       ),
       tabs: tabs,

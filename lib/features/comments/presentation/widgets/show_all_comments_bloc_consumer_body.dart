@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/widgets/custom_failure_body_widget.dart';
+import 'package:twitter_app/core/widgets/custom_loading_body.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/comments/domain/entities/comment_details_entity.dart';
 import 'package:twitter_app/features/comments/presentation/cubits/get_tweet_comments_cubit/get_tweet_comments_cubit.dart';
@@ -61,9 +61,7 @@ class _ShowAllCommentsBlocConsumerBodyState
         if (state is GetTweetCommentsFailureState) {
           return CustomFailureBodyWidget(message: state.message);
         } else if (state is GetTweetCommentsLoadingState) {
-          return const CircularProgressIndicator(
-            color: AppColors.primaryColor,
-          );
+          return const CustomLoadingBody();
         } else if (state is GetTweetCommentsLoadedState) {
           return ShowAllCommentsBody(
             tweetDetailsEntity: widget.tweetDetailsEntity,

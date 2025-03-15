@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -29,7 +28,9 @@ class SocialSignInButton extends StatelessWidget {
           const HorizontalGap(16),
           Text(
             description,
-            style: AppTextStyles.uberMoveBold18,
+            style: AppTextStyles.uberMoveBold(context, 18).copyWith(
+              color: AppColors.primaryColor,
+            ),
           ),
         ],
       ),

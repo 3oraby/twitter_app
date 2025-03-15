@@ -89,6 +89,8 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return BlocConsumer<ToggleFollowRelationShipCubit,
         ToggleFollowRelationShipState>(
       listener: (context, state) {
@@ -107,7 +109,9 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
           internalHorizontalPadding: 0,
           borderColor: AppColors.borderColor,
           borderWidth: 1,
-          backgroundColor: isActive ? Colors.white : AppColors.primaryColor,
+          backgroundColor: isDarkMode
+              ? (isActive ? Colors.black : Colors.white)
+              : (isActive ? Colors.white : AppColors.primaryColor),
           onPressed: state is ToggleFollowRelationShipLoadingState
               ? null
               : _toggleFollow,
@@ -120,8 +124,10 @@ class _CustomToggleFollowButtonBlocConsumerBodyState
                     : isFollowBack
                         ? context.tr("Follow back")
                         : context.tr("Follow"),
-                style: AppTextStyles.uberMoveBold14.copyWith(
-                  color: isActive ? Colors.black : Colors.white,
+                style: AppTextStyles.uberMoveBold(context, 14).copyWith(
+                  color: isDarkMode
+                      ? (isActive ? Colors.white : Colors.black)
+                      : (isActive ? Colors.black : Colors.white),
                 ),
               ),
             ),

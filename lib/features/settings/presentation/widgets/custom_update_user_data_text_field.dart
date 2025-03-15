@@ -21,7 +21,7 @@ class CustomUpdateUserDataTextField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: AppTextStyles.uberMoveMedium18.copyWith(
+        hintStyle: AppTextStyles.uberMoveMedium(context,18).copyWith(
           color: AppColors.thirdColor,
         ),
         border: const UnderlineInputBorder(

@@ -42,7 +42,7 @@ class _UserConnectionsScreenState extends State<UserConnectionsScreen> {
             forceElevated: innerBoxIsScrolled,
             title: Text(
               "${widget.targetUser.firstName} ${widget.targetUser.lastName}",
-              style: AppTextStyles.uberMoveBlack20,
+              style: AppTextStyles.uberMoveBlack(context,20),
             ),
             actions: [
               IconButton(
@@ -53,7 +53,6 @@ class _UserConnectionsScreenState extends State<UserConnectionsScreen> {
                 icon: const Icon(
                   Icons.person_add_alt_1_outlined,
                   size: 34,
-                  color: AppColors.primaryColor,
                 ),
               ),
             ],
@@ -69,8 +68,8 @@ class _UserConnectionsScreenState extends State<UserConnectionsScreen> {
               TabBar(
                 indicatorColor: AppColors.twitterAccentColor,
                 indicatorSize: TabBarIndicatorSize.label,
-                labelStyle: AppTextStyles.uberMoveBold18,
-                unselectedLabelStyle: AppTextStyles.uberMoveBold18.copyWith(
+                labelStyle: AppTextStyles.uberMoveBold(context,18),
+                unselectedLabelStyle: AppTextStyles.uberMoveBold(context,18).copyWith(
                   color: AppColors.secondaryColor,
                 ),
                 tabs: [

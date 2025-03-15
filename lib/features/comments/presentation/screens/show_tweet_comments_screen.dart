@@ -36,7 +36,7 @@ class ShowTweetCommentsScreen extends StatelessWidget {
           context,
           title: Text(
             context.tr("post_noun"),
-            style: AppTextStyles.uberMoveBlack20,
+            style: AppTextStyles.uberMoveBlack(context,20),
           ),
         ),
         body: ShowTweetCommentsListenerBody(

@@ -67,13 +67,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       children: [
                         Text(
                           "${widget.userEntity.firstName ?? ''} ${widget.userEntity.lastName ?? ''}",
-                          style: AppTextStyles.uberMoveBold18.copyWith(
+                          style: AppTextStyles.uberMoveBold(context,18).copyWith(
                             color: Colors.white,
                           ),
                         ),
                         Text(
                           "@${widget.userEntity.email}",
-                          style: AppTextStyles.uberMoveRegular16.copyWith(
+                          style: AppTextStyles.uberMoveRegular(context,16).copyWith(
                             color: Colors.white,
                           ),
                         )

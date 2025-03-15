@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
+import 'package:twitter_app/core/widgets/custom_loading_body.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/follow_relationships/domain/repos/follow_repo.dart';
 import 'package:twitter_app/features/follow_relationships/presentation/cubits/get_followers_suggestions_cubit/get_followers_suggestions_cubit.dart';
@@ -28,7 +28,7 @@ class FollowersSuggestionScreen extends StatelessWidget {
           context,
           title: Text(
             context.tr("Connect"),
-            style: AppTextStyles.uberMoveBlack20,
+            style: AppTextStyles.uberMoveBlack(context,20),
           ),
         ),
         body: const FollowersSuggestionsBlocConsumerBody(),
@@ -76,11 +76,7 @@ class _FollowersSuggestionsBlocConsumerBodyState
                 "There are no suggested accounts for you to follow at the moment. Check back later or explore more users."),
           );
         } else if (state is GetFollowersSuggestionsLoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryColor,
-            ),
-          );
+          return const CustomLoadingBody();
         } else if (state is GetFollowersSuggestionsFailureState) {
           return Text(state.message);
         }

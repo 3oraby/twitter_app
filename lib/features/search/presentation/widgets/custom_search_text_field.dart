@@ -32,7 +32,7 @@ class CustomSearchTextField extends StatelessWidget {
           vertical: 12,
         ),
         hintText: hintText,
-        hintStyle: AppTextStyles.uberMoveMedium20.copyWith(
+        hintStyle: AppTextStyles.uberMoveMedium(context,20).copyWith(
           color: AppColors.thirdColor,
         ),
         prefixIcon: const Icon(
@@ -40,7 +40,7 @@ class CustomSearchTextField extends StatelessWidget {
           color: AppColors.thirdColor,
         ),
       ),
-      style: AppTextStyles.uberMoveMedium20.copyWith(
+      style: AppTextStyles.uberMoveMedium(context,20).copyWith(
         color: AppColors.thirdColor,
       ),
     );

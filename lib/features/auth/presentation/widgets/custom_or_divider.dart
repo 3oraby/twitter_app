@@ -21,7 +21,7 @@ class CustomOrDivider extends StatelessWidget {
         const HorizontalGap(16),
         Text(
           context.tr("or"),
-          style: AppTextStyles.uberMoveRegular20.copyWith(
+          style: AppTextStyles.uberMoveRegular(context,20).copyWith(
             color: AppColors.secondaryColor,
           ),
         ),

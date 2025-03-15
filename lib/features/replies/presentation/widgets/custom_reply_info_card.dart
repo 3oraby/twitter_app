@@ -76,7 +76,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                                   ),
                                   child: Text(
                                     "${replyDetailsEntity.replyAuthorData.firstName} ${replyDetailsEntity.replyAuthorData.lastName}",
-                                    style: AppTextStyles.uberMoveBold16,
+                                    style: AppTextStyles.uberMoveBold(context,16),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -95,7 +95,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                                   child: Text(
                                     "${replyDetailsEntity.commentAuthorData.firstName} ${replyDetailsEntity.commentAuthorData.lastName}",
                                     style:
-                                        AppTextStyles.uberMoveMedium14.copyWith(
+                                        AppTextStyles.uberMoveMedium(context,14).copyWith(
                                       color: AppColors.secondaryColor,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -122,7 +122,7 @@ class CustomReplyInfoCard extends StatelessWidget {
                         const VerticalGap(4),
                         Text(
                           replyDetailsEntity.reply.content!,
-                          style: AppTextStyles.uberMoveRegular16,
+                          style: AppTextStyles.uberMoveRegular(context,16),
                         ),
                       ],
                     ),

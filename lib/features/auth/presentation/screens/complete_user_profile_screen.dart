@@ -34,7 +34,13 @@ class _CompleteUserProfileScreenState extends State<CompleteUserProfileScreen> {
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground36),
+          title: SvgPicture.asset(
+            AppSvgs.svgXLogoWhiteBackground36,
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).iconTheme.color!,
+              BlendMode.srcIn,
+            ),
+          ),
         ),
         body: const CompleteUserProfileBlocConsumerBody(),
       ),
@@ -55,7 +61,8 @@ class CompleteUserProfileBlocConsumerBody extends StatelessWidget {
           Navigator.pushReplacementNamed(context, SignInScreen.routeId);
         } else if (state is CompleteUserProfileLoadedState) {
           log("user data is successfully added");
-          Navigator.pushReplacementNamed(context, AddUserProfilePictureScreen.routeId);
+          Navigator.pushReplacementNamed(
+              context, AddUserProfilePictureScreen.routeId);
         }
       },
       builder: (context, state) {

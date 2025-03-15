@@ -65,8 +65,9 @@ class _SignInBodyState extends State<SignInBody> {
               CustomTriggerButton(
                 buttonDescription: Text(
                   context.tr("Sign In"),
-                  style: AppTextStyles.uberMoveBold22
-                      .copyWith(color: Colors.white),
+                  style: AppTextStyles.uberMoveBold(context, 22).copyWith(
+                    color: Colors.white,
+                  ),
                 ),
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
@@ -107,11 +108,6 @@ class _SignInBodyState extends State<SignInBody> {
                 description: context.tr("Continue With Google"),
                 onPressed: () {},
               ),
-              // CustomTriggerButton(
-              //   onPressed: () {
-              //     AuthRepoImpl(firebaseAuthService: FirebaseAuthService()).getCurrentUser();
-              //   },
-              // )
             ],
           ),
         ),

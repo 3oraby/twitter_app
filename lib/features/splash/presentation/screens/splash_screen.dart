@@ -46,7 +46,10 @@ class _SplashScreenState extends State<SplashScreen>
           AppSvgs.svgXLogoWhiteBackground36,
           height: 100,
           width: 100,
-          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          colorFilter: const ColorFilter.mode(
+            Colors.white,
+            BlendMode.srcIn,
+          ),
         ),
       ),
     );

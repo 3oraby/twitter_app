@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
 
 class CustomDrawerListTileOption extends StatelessWidget {
@@ -22,12 +21,12 @@ class CustomDrawerListTileOption extends StatelessWidget {
       minLeadingWidth: 0,
       leading: Icon(
         iconData,
-        color: AppColors.primaryColor,
+        color: Theme.of(context).iconTheme.color,
         size: 30,
       ),
       title: Text(
         title,
-        style: AppTextStyles.uberMoveBlack20,
+        style: AppTextStyles.uberMoveBlack(context, 20),
       ),
     );
   }

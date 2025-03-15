@@ -16,7 +16,7 @@ class UserBookmarksScreen extends StatelessWidget {
         context,
         title: Text(
           context.tr("Bookmarks"),
-          style: AppTextStyles.uberMoveBlack20,
+          style: AppTextStyles.uberMoveBlack(context,20),
         ),
       ),
       body: const CustomShowTweetFeed(

@@ -148,7 +148,7 @@ class _ShowTweetCommentsListenerBodyState
                           children: [
                             Text(
                               context.tr(selectedCommentedFilter.value),
-                              style: AppTextStyles.uberMoveBold18.copyWith(
+                              style: AppTextStyles.uberMoveBold(context,18).copyWith(
                                 color: AppColors.thirdColor,
                               ),
                             ),

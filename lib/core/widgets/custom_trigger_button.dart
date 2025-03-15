@@ -9,7 +9,7 @@ class CustomTriggerButton extends StatelessWidget {
     this.onPressed,
     this.child,
     this.isEnabled = true,
-    this.backgroundColor = AppColors.primaryColor,
+    this.backgroundColor,
     this.buttonDescription,
     this.buttonHeight = 60,
     this.buttonWidth = double.infinity,
@@ -25,7 +25,7 @@ class CustomTriggerButton extends StatelessWidget {
   final bool isEnabled;
   final VoidCallback? onPressed;
   final Text? buttonDescription;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final double buttonHeight;
   final double buttonWidth;
   final Widget? child;
@@ -39,13 +39,18 @@ class CustomTriggerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final Color buttonBackgroundColor = backgroundColor ??
+        (theme.brightness == Brightness.dark
+            ? theme.colorScheme.primaryContainer
+            : AppColors.primaryColor);
     return GestureDetector(
       onTap: isEnabled ? onPressed : null,
       child: Container(
         height: buttonHeight,
         width: buttonWidth,
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: buttonBackgroundColor,
           border: Border.all(
             width: borderWidth,
             color: borderWidth == 0 ? Colors.white : borderColor,
@@ -55,7 +60,6 @@ class CustomTriggerButton extends StatelessWidget {
         child: child ??
             Row(
               mainAxisAlignment: mainAxisAlignment,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (prefixIcon != null) prefixIcon!,
                 HorizontalGap(horizontalPadding),

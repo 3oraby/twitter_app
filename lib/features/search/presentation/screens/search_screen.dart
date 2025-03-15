@@ -44,7 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Text(
               context.tr("Try searching for people and tweets"),
-              style: AppTextStyles.uberMoveRegular20.copyWith(
+              style: AppTextStyles.uberMoveRegular(context,20).copyWith(
                 color: AppColors.thirdColor,
               ),
             )

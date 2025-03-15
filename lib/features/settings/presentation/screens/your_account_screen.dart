@@ -25,11 +25,11 @@ class YourAccountScreen extends StatelessWidget {
           children: [
             Text(
               context.tr("Your Account"),
-              style: AppTextStyles.uberMoveBlack20,
+              style: AppTextStyles.uberMoveBlack(context,20),
             ),
             Text(
               "@${getCurrentUserEntity().email}",
-              style: AppTextStyles.uberMoveMedium16
+              style: AppTextStyles.uberMoveMedium(context,16)
                   .copyWith(color: AppColors.thirdColor),
             ),
           ],
@@ -44,7 +44,7 @@ class YourAccountScreen extends StatelessWidget {
             Text(
               context.tr(
                   "See information about your account and learn about your account deactivation options"),
-              style: AppTextStyles.uberMoveMedium18.copyWith(
+              style: AppTextStyles.uberMoveMedium(context,18).copyWith(
                 color: AppColors.thirdColor,
               ),
             ),

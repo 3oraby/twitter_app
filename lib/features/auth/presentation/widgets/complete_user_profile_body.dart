@@ -87,7 +87,7 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
               const VerticalGap(16),
               Text(
                 context.tr('Tell us about yourself'),
-                style: AppTextStyles.uberMoveBold22,
+                style: AppTextStyles.uberMoveBold(context, 22),
               ),
               const VerticalGap(16),
               Row(
@@ -137,11 +137,12 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
               const VerticalGap(16),
               Text(
                 context.tr('Gender'),
-                style: AppTextStyles.uberMoveBold16,
+                style: AppTextStyles.uberMoveBold(context, 16),
               ),
               const VerticalGap(8),
               DropdownButtonFormField<Gender>(
                 value: selectedGender,
+                dropdownColor: Colors.white,
                 onChanged: (Gender? newValue) {
                   setState(() {
                     selectedGender = newValue!;
@@ -150,9 +151,15 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
                 items: Gender.values.map((Gender gender) {
                   return DropdownMenuItem<Gender>(
                     value: gender,
-                    child: Text(context.tr(
-                      gender.name.capitalize(),
-                    )),
+                    child: Text(
+                      context.tr(
+                        gender.name.capitalize(),
+                      ),
+                      style:
+                          AppTextStyles.uberMoveRegular(context, 18).copyWith(
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -181,7 +188,7 @@ class _CompleteUserProfileBodyState extends State<CompleteUserProfileBody> {
                       onPressed: _onCompleteProfileButtonPressed,
                       buttonDescription: Text(
                         context.tr("Next"),
-                        style: AppTextStyles.uberMoveBold18
+                        style: AppTextStyles.uberMoveBold(context, 18)
                             .copyWith(color: Colors.white),
                       ),
                     ),

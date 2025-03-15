@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
@@ -26,8 +25,10 @@ class CustomUserInformationItem extends StatelessWidget {
         children: [
           Text(
             context.tr(title),
-            style: AppTextStyles.uberMoveExtraBold20.copyWith(
-              color: onTap == null ? Colors.grey[600] : Colors.black,
+            style: AppTextStyles.uberMoveExtraBold(context, 20).copyWith(
+              color: onTap == null
+                  ? Colors.grey[600]
+                  : Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const HorizontalGap(8),
@@ -38,7 +39,7 @@ class CustomUserInformationItem extends StatelessWidget {
                 Flexible(
                   child: Text(
                     value,
-                    style: AppTextStyles.uberMoveMedium18.copyWith(
+                    style: AppTextStyles.uberMoveMedium(context, 18).copyWith(
                       color: onTap == null
                           ? Colors.grey[500]
                           : AppColors.thirdColor,

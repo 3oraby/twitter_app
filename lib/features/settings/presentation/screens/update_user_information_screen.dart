@@ -135,12 +135,12 @@ class _UpdateUserInformationBlocConsumerBodyState
                     },
                     child: Text(
                       context.tr("Cancel"),
-                      style: AppTextStyles.uberMoveMedium20,
+                      style: AppTextStyles.uberMoveMedium(context,20),
                     ),
                   ),
                   Text(
                     "${context.tr("Update")} ${context.tr(widget.arguments.title)}",
-                    style: AppTextStyles.uberMoveBlack20,
+                    style: AppTextStyles.uberMoveBlack(context,20),
                   ),
                   CustomContainerButton(
                     internalVerticalPadding: 4,
@@ -156,7 +156,7 @@ class _UpdateUserInformationBlocConsumerBodyState
                         : null,
                     child: Text(
                       context.tr("Done"),
-                      style: AppTextStyles.uberMoveMedium18
+                      style: AppTextStyles.uberMoveMedium(context,18)
                           .copyWith(color: Colors.white),
                     ),
                   ),
@@ -185,15 +185,15 @@ class _UpdateUserInformationBlocConsumerBodyState
                     children: [
                       Text(
                         context.tr("Current"),
-                        style: AppTextStyles.uberMoveExtraBold20,
+                        style: AppTextStyles.uberMoveExtraBold(context,20),
                       ),
                       Text(
                         widget.arguments.currentValue,
-                        style: AppTextStyles.uberMoveRegular18,
+                        style: AppTextStyles.uberMoveRegular(context,18),
                       ),
                       Text(
                         context.tr("New"),
-                        style: AppTextStyles.uberMoveExtraBold20,
+                        style: AppTextStyles.uberMoveExtraBold(context,20),
                       ),
                       Form(
                         key: _formKey,
@@ -229,7 +229,7 @@ class _UpdateUserInformationBlocConsumerBodyState
                           },
                           decoration: InputDecoration(
                             hintText: context.tr(widget.arguments.title),
-                            hintStyle: AppTextStyles.uberMoveMedium18.copyWith(
+                            hintStyle: AppTextStyles.uberMoveMedium(context,18).copyWith(
                               color: AppColors.thirdColor,
                             ),
                             border: const UnderlineInputBorder(

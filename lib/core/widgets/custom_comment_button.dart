@@ -35,7 +35,7 @@ class CustomCommentButton extends StatelessWidget {
           const HorizontalGap(6),
           Text(
             commentsCount.toString(),
-            style: AppTextStyles.uberMoveMedium18.copyWith(
+            style: AppTextStyles.uberMoveMedium(context,18).copyWith(
               color: AppColors.thirdColor,
             ),
           ),

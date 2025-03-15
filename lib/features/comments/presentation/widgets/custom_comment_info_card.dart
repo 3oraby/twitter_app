@@ -82,14 +82,14 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
                             children: [
                               Text(
                                 "${widget.commentDetailsEntity.commentAuthorData.firstName} ${widget.commentDetailsEntity.commentAuthorData.lastName}",
-                                style: AppTextStyles.uberMoveBold18,
+                                style: AppTextStyles.uberMoveBold(context,18),
                               ),
                               const HorizontalGap(8),
                               Flexible(
                                 child: Text(
                                   widget.commentDetailsEntity.commentAuthorData
                                       .email,
-                                  style: AppTextStyles.uberMoveMedium16
+                                  style: AppTextStyles.uberMoveMedium(context,16)
                                       .copyWith(
                                           color: AppColors.secondaryColor),
                                   overflow: TextOverflow.ellipsis,
@@ -115,7 +115,7 @@ class _CustomCommentInfoCardState extends State<CustomCommentInfoCard> {
                         const VerticalGap(4),
                         Text(
                           widget.commentDetailsEntity.comment.content!,
-                          style: AppTextStyles.uberMoveRegular16,
+                          style: AppTextStyles.uberMoveRegular(context,16),
                         ),
                       ],
                     ),

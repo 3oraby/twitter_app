@@ -125,7 +125,7 @@ class _RetweetButtonBlocConsumerBodyState
         ),
         countBuilder: (likeCount, isLiked, text) => Text(
           likeCount.toString(),
-          style: AppTextStyles.uberMoveMedium18.copyWith(
+          style: AppTextStyles.uberMoveMedium(context,18).copyWith(
             color: isLiked ? Colors.green : AppColors.thirdColor,
           ),
         ),

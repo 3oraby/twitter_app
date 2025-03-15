@@ -121,7 +121,7 @@ class _MakeNewCommentBlocConsumerBodyState
             },
             child: Text(
               context.tr("Cancel"),
-              style: AppTextStyles.uberMoveMedium20,
+              style: AppTextStyles.uberMoveMedium(context,20),
             ),
           ),
         ],
@@ -136,7 +136,7 @@ class _MakeNewCommentBlocConsumerBodyState
               _isPostButtonEnabled ? () => _onPostButtonPressed(context) : null,
           child: Text(
             context.tr("post_verb"),
-            style: AppTextStyles.uberMoveMedium18.copyWith(color: Colors.white),
+            style: AppTextStyles.uberMoveMedium(context,18).copyWith(color: Colors.white),
           ),
         ),
         const HorizontalGap(AppConstants.horizontalPadding),

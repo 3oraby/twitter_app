@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
+
 class PasswordTextFieldWidget extends StatefulWidget {
   const PasswordTextFieldWidget({
     super.key,
@@ -61,7 +62,10 @@ class _PasswordTextFieldWidgetState extends State<PasswordTextFieldWidget> {
       controller: widget.controller,
       focusNode: widget.focusNode,
       obscureText: isObscure,
-      style: widget.textStyle ?? AppTextStyles.uberMoveBold16,
+      style: widget.textStyle ??
+          AppTextStyles.uberMoveBold(context, 16).copyWith(
+            color: AppColors.primaryColor,
+          ),
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       validator: widget.validator,
@@ -69,7 +73,10 @@ class _PasswordTextFieldWidgetState extends State<PasswordTextFieldWidget> {
       decoration: InputDecoration(
         labelText: widget.labelText,
         hintText: widget.hintText ?? context.tr("Password"),
-        hintStyle: widget.hintTextStyle ?? AppTextStyles.uberMoveBold16,
+        hintStyle: widget.hintTextStyle ??
+            AppTextStyles.uberMoveBold(context, 16).copyWith(
+              color: AppColors.primaryColor,
+            ),
         contentPadding: EdgeInsets.all(widget.contentPadding),
         suffixIcon: IconButton(
           icon: Icon(

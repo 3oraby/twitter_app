@@ -56,7 +56,7 @@ class _ChangeAppLanguageScreenState extends State<ChangeAppLanguageScreen> {
         context,
         title: Text(
           context.tr("Choose Your Language"),
-          style: AppTextStyles.uberMoveBlack20,
+          style: AppTextStyles.uberMoveBlack(context,20),
         ),
       ),
       body: Padding(
@@ -70,13 +70,13 @@ class _ChangeAppLanguageScreenState extends State<ChangeAppLanguageScreen> {
             Text(
               context.tr(
                   "Select the language you’d like to use in the app. You can change this anytime in settings."),
-              style: AppTextStyles.uberMoveMedium16,
+              style: AppTextStyles.uberMoveMedium(context,16),
             ),
             const VerticalGap(20),
             ListTile(
               title: Text(
                 context.tr("English"),
-                style: AppTextStyles.uberMoveBold18,
+                style: AppTextStyles.uberMoveBold(context,18),
               ),
               trailing: context.locale.languageCode == 'en'
                   ? const Icon(
@@ -90,7 +90,7 @@ class _ChangeAppLanguageScreenState extends State<ChangeAppLanguageScreen> {
             ListTile(
               title: Text(
                 context.tr("Arabic"),
-                style: AppTextStyles.uberMoveBold18,
+                style: AppTextStyles.uberMoveBold(context,18),
               ),
               trailing: context.locale.languageCode == 'ar'
                   ? const Icon(

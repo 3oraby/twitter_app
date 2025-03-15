@@ -23,7 +23,7 @@ class CustomPopupMenuItemWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppTextStyles.uberMoveMedium18.copyWith(
+          style: AppTextStyles.uberMoveMedium(context,18).copyWith(
             color: titleColor,
           ),
         ),

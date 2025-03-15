@@ -17,7 +17,6 @@ import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 import 'package:twitter_app/features/user/presentation/cubits/set_user_profile_picture_cubit/set_user_profile_picture_cubit.dart';
 
-
 class AddUserProfilePictureBody extends StatefulWidget {
   const AddUserProfilePictureBody({super.key});
 
@@ -90,6 +89,10 @@ class _AddUserProfilePictureBodyState extends State<AddUserProfilePictureBody> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final Color underlineColor = theme.colorScheme.onSurface;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppConstants.horizontalPadding,
@@ -99,12 +102,12 @@ class _AddUserProfilePictureBodyState extends State<AddUserProfilePictureBody> {
         children: [
           Text(
             context.tr("Pick a profile picture"),
-            style: AppTextStyles.uberMoveBlack30,
+            style: AppTextStyles.uberMoveBlack(context, 30),
           ),
           const VerticalGap(16),
           Text(
             context.tr("Have a favorite selfie? Upload it now."),
-            style: AppTextStyles.uberMoveRegular18.copyWith(
+            style: AppTextStyles.uberMoveRegular(context, 18).copyWith(
               color: AppColors.secondaryColor,
             ),
           ),
@@ -174,13 +177,12 @@ class _AddUserProfilePictureBodyState extends State<AddUserProfilePictureBody> {
             onPressed: _onSaveAndProceedButtonPressed,
             buttonDescription: Text(
               context.tr("Save & Proceed"),
-              style: AppTextStyles.uberMoveBold18.copyWith(
+              style: AppTextStyles.uberMoveBold(context, 18).copyWith(
                 color: Colors.white,
               ),
             ),
-            backgroundColor: _isImageUploaded
-                ? AppColors.primaryColor
-                : AppColors.unEnabledButtonColor,
+            backgroundColor:
+                !_isImageUploaded ? AppColors.unEnabledButtonColor : null,
           ),
           const VerticalGap(16),
           Center(
@@ -188,9 +190,9 @@ class _AddUserProfilePictureBodyState extends State<AddUserProfilePictureBody> {
               onTap: _onSkipForNowButtonPressed,
               child: Text(
                 context.tr("Skip for now"),
-                style: AppTextStyles.uberMoveBold20.copyWith(
+                style: AppTextStyles.uberMoveBold(context, 20).copyWith(
                   decoration: TextDecoration.underline,
-                  decorationColor: AppColors.primaryColor,
+                  decorationColor: underlineColor,
                   decorationThickness: 2,
                 ),
               ),

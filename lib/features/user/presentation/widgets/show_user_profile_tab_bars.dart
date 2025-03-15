@@ -9,19 +9,16 @@ class ShowUserProfileTabBars extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: CustomTabBar(
-        isScrollable: true,
-        tabAlignment: TabAlignment.start,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 30),
-        tabs: [
-          Tab(text: context.tr("Posts")),
-          Tab(text: context.tr("Media")),
-          Tab(text: context.tr("Likes")),
-          Tab(text: context.tr("Retweets")),
-        ],
-      ),
+    return CustomTabBar(
+      isScrollable: true,
+      tabAlignment: TabAlignment.start,
+      labelPadding: const EdgeInsets.symmetric(horizontal: 30),
+      tabs: [
+        Tab(text: context.tr("Posts")),
+        Tab(text: context.tr("Media")),
+        Tab(text: context.tr("Likes")),
+        Tab(text: context.tr("Retweets")),
+      ],
     );
   }
 }

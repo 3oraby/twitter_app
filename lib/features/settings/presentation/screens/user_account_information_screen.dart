@@ -56,11 +56,11 @@ class _UserAccountInformationScreenState
           children: [
             Text(
               context.tr("Account"),
-              style: AppTextStyles.uberMoveBlack20,
+              style: AppTextStyles.uberMoveBlack(context,20),
             ),
             Text(
               "@${currentUser.email}",
-              style: AppTextStyles.uberMoveMedium16
+              style: AppTextStyles.uberMoveMedium(context,16)
                   .copyWith(color: AppColors.thirdColor),
             ),
           ],

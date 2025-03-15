@@ -43,7 +43,9 @@ class _ShowUserProfileDataState extends State<ShowUserProfileData> {
         Container(
           height: 280,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : Colors.black,
             image: userEntity.coverPicUrl != null
                 ? DecorationImage(
                     image: NetworkImage(userEntity.coverPicUrl!),
@@ -61,11 +63,11 @@ class _ShowUserProfileDataState extends State<ShowUserProfileData> {
             children: [
               Text(
                 "${userEntity.firstName ?? ''} ${userEntity.lastName ?? ''}",
-                style: AppTextStyles.uberMoveBlack26,
+                style: AppTextStyles.uberMoveBlack(context, 26),
               ),
               Text(
                 "@${userEntity.email}",
-                style: AppTextStyles.uberMoveMedium20.copyWith(
+                style: AppTextStyles.uberMoveMedium(context, 20).copyWith(
                   color: AppColors.thirdColor,
                 ),
               ),
@@ -83,7 +85,7 @@ class _ShowUserProfileDataState extends State<ShowUserProfileData> {
                       timestamp: userEntity.joinedAt,
                       monthYearOnly: true,
                     )}",
-                    style: AppTextStyles.uberMoveMedium18
+                    style: AppTextStyles.uberMoveMedium(context, 18)
                         .copyWith(color: AppColors.thirdColor),
                   ),
                 ],
@@ -112,12 +114,14 @@ class _ShowUserProfileDataState extends State<ShowUserProfileData> {
                 );
               },
               internalVerticalPadding: 4,
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).brightness == Brightness.light
+                  ? Colors.white
+                  : Colors.black,
               borderColor: AppColors.borderColor,
               borderWidth: 1,
               child: Text(
                 context.tr("Edit profile"),
-                style: AppTextStyles.uberMoveExtraBold16,
+                style: AppTextStyles.uberMoveExtraBold(context, 16),
               ),
             ),
           ),

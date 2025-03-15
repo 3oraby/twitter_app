@@ -46,13 +46,13 @@ class UserInfoCard extends StatelessWidget {
                 children: [
                   Text(
                     "${user.firstName} ${user.lastName}",
-                    style: AppTextStyles.uberMoveExtraBold18,
+                    style: AppTextStyles.uberMoveExtraBold(context,18),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     user.email,
-                    style: AppTextStyles.uberMoveBold18.copyWith(
+                    style: AppTextStyles.uberMoveBold(context,18).copyWith(
                       color: AppColors.secondaryColor,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -88,7 +88,7 @@ class UserInfoCard extends StatelessWidget {
                 ),
                 child: Text(
                   context.tr("Follows you"),
-                  style: AppTextStyles.uberMoveBold14.copyWith(
+                  style: AppTextStyles.uberMoveBold(context,14).copyWith(
                     color: AppColors.secondaryColor,
                   ),
                 ),
@@ -97,7 +97,7 @@ class UserInfoCard extends StatelessWidget {
             if (user.bio != null)
               Text(
                 user.bio!,
-                style: AppTextStyles.uberMoveMedium16,
+                style: AppTextStyles.uberMoveMedium(context,16),
               ),
           ],
         ),

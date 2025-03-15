@@ -118,12 +118,12 @@ class _ChangeYourPasswordBlocConsumerBodyState
                     },
                     child: Text(
                       context.tr("Cancel"),
-                      style: AppTextStyles.uberMoveMedium20,
+                      style: AppTextStyles.uberMoveMedium(context,20),
                     ),
                   ),
                   Text(
                     context.tr("Update password"),
-                    style: AppTextStyles.uberMoveBlack20,
+                    style: AppTextStyles.uberMoveBlack(context,20),
                   ),
                   CustomContainerButton(
                     internalVerticalPadding: 4,
@@ -134,7 +134,7 @@ class _ChangeYourPasswordBlocConsumerBodyState
                         isDoneButtonEnabled ? _onDoneButtonPressed : null,
                     child: Text(
                       context.tr("Done"),
-                      style: AppTextStyles.uberMoveMedium18
+                      style: AppTextStyles.uberMoveMedium(context,18)
                           .copyWith(color: Colors.white),
                     ),
                   ),
@@ -163,7 +163,7 @@ class _ChangeYourPasswordBlocConsumerBodyState
                       children: [
                         Text(
                           context.tr("Current password"),
-                          style: AppTextStyles.uberMoveExtraBold20,
+                          style: AppTextStyles.uberMoveExtraBold(context,20),
                         ),
                         const VerticalGap(8),
                         PasswordTextFieldWidget(
@@ -175,7 +175,7 @@ class _ChangeYourPasswordBlocConsumerBodyState
                         const VerticalGap(28),
                         Text(
                           context.tr("New password"),
-                          style: AppTextStyles.uberMoveExtraBold20,
+                          style: AppTextStyles.uberMoveExtraBold(context,20),
                         ),
                         const VerticalGap(8),
                         PasswordTextFieldWidget(
@@ -191,7 +191,7 @@ class _ChangeYourPasswordBlocConsumerBodyState
                         const VerticalGap(28),
                         Text(
                           context.tr("Confirm new password"),
-                          style: AppTextStyles.uberMoveExtraBold20,
+                          style: AppTextStyles.uberMoveExtraBold(context,20),
                         ),
                         const VerticalGap(8),
                         PasswordTextFieldWidget(

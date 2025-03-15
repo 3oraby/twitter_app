@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:twitter_app/core/helpers/functions/build_custom_app_bar.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_svgs.dart';
 import 'package:twitter_app/core/widgets/custom_tab_bar.dart';
 import 'package:twitter_app/core/widgets/keep_alive_tab.dart';
@@ -41,7 +40,13 @@ class _HomeViewState extends State<HomeView>
   }) {
     return buildCustomAppBar(
       context,
-      title: SvgPicture.asset(AppSvgs.svgXLogoWhiteBackground36),
+      title: SvgPicture.asset(
+        AppSvgs.svgXLogoWhiteBackground36,
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).iconTheme.color!,
+          BlendMode.srcIn,
+        ),
+      ),
       leading: const LeadingAppBarUserImage(),
       actions: [
         IconButton(
@@ -51,7 +56,6 @@ class _HomeViewState extends State<HomeView>
           icon: const Icon(
             Icons.person_add_alt_1_outlined,
             size: 34,
-            color: AppColors.primaryColor,
           ),
         )
       ],
@@ -88,4 +92,3 @@ class _HomeViewState extends State<HomeView>
     );
   }
 }
-

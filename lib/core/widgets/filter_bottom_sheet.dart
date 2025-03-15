@@ -21,11 +21,11 @@ class FilterBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppConstants.horizontalPadding,
         vertical: AppConstants.topPadding,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(
@@ -44,23 +44,23 @@ class FilterBottomSheet extends StatelessWidget {
           const VerticalGap(10),
           Text(
             sheetTitle,
-            style: AppTextStyles.uberMoveBlack18,
+            style: AppTextStyles.uberMoveBlack(context,18),
           ),
-          VerticalGap(10),
+          const VerticalGap(10),
           ...filters.map((filter) {
             return ListTile(
-              contentPadding: EdgeInsets.all(0),
+              contentPadding: const EdgeInsets.all(0),
               title: Text(
                 context.tr(filter),
-                style: AppTextStyles.uberMoveBold18,
+                style: AppTextStyles.uberMoveBold(context,18),
               ),
               trailing: selectedFilter == filter
-                  ? Icon(
+                  ? const Icon(
                       Icons.check_circle,
                       color: AppColors.twitterAccentColor,
                       size: 28,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.circle_outlined,
                       size: 28,
                       color: AppColors.dividerColor,
@@ -68,7 +68,7 @@ class FilterBottomSheet extends StatelessWidget {
               onTap: () => onFilterSelected(filter),
             );
           }),
-          VerticalGap(10),
+          const VerticalGap(10),
         ],
       ),
     );

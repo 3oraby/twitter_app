@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_text_styles.dart';
@@ -39,7 +38,7 @@ class MakeNewTweetTextField extends StatelessWidget {
             focusedBorderColor: Colors.white,
             fillColor: Colors.white,
             hintText: hintText,
-            hintStyle: AppTextStyles.uberMoveRegular22.copyWith(
+            hintStyle: AppTextStyles.uberMoveRegular(context, 22).copyWith(
               color: AppColors.secondaryColor,
             ),
             maxLines: null,

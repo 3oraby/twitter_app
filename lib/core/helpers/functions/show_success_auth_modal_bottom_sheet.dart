@@ -39,19 +39,19 @@ Future<dynamic> showSuccessAuthModalBottomSheet({
               const VerticalGap(8),
               Text(
                 sheetTitle,
-                style: AppTextStyles.uberMoveBold22,
+                style: AppTextStyles.uberMoveBold(context,22),
               ),
               const VerticalGap(8),
               Text(
                 sheetDescription,
-                style: AppTextStyles.uberMoveRegular18,
+                style: AppTextStyles.uberMoveRegular(context,18),
               ),
               const VerticalGap(16),
               CustomTriggerButton(
                 onPressed: onNextButtonPressed,
                 buttonDescription: Text(
                   buttonDescription,
-                  style: AppTextStyles.uberMoveBold18
+                  style: AppTextStyles.uberMoveBold(context,18)
                       .copyWith(color: Colors.white),
                 ),
               ),

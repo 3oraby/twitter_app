@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twitter_app/core/utils/app_colors.dart';
+import 'package:twitter_app/core/widgets/custom_loading_body.dart';
 import 'package:twitter_app/features/tweet/data/models/get_tweets_filter_option_model.dart';
 import 'package:twitter_app/features/tweet/presentation/cubits/get_tweets_cubit/get_tweets_cubit.dart';
 import 'package:twitter_app/features/tweet/presentation/widgets/show_tweet_feed_body.dart';
@@ -46,11 +46,7 @@ class _ShowTweetFeedBlocBuilderBodyState
     return BlocBuilder<GetTweetsCubit, GetTweetsState>(
       builder: (context, state) {
         if (state is GetTweetsLoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryColor,
-            ),
-          );
+          return const CustomLoadingBody();
         } else if (state is GetTweetsFailureState) {
           return Center(
             child: Text(state.message),

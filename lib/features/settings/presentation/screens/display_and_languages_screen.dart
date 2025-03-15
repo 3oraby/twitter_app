@@ -17,7 +17,7 @@ class DisplayAndLanguagesScreen extends StatelessWidget {
         context,
         title: Text(
           context.tr("Display and Languages"),
-          style: AppTextStyles.uberMoveBlack20,
+          style: AppTextStyles.uberMoveBlack(context,20),
         ),
       ),
       body: Padding(
