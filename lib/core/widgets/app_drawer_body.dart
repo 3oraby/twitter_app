@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitter_app/core/constants/app_constants.dart';
+import 'package:twitter_app/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
+import 'package:twitter_app/core/utils/app_text_styles.dart';
 import 'package:twitter_app/core/widgets/custom_drawer_list_tile_option.dart';
 import 'package:twitter_app/core/widgets/custom_logout_button.dart';
 import 'package:twitter_app/core/widgets/drawer_user_info.dart';
@@ -66,7 +69,61 @@ class AppDrawerBody extends StatelessWidget {
                 children: [
                   IconButton(
                     padding: EdgeInsets.zero,
-                    onPressed: () {},
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppConstants.horizontalPadding,
+                              vertical: AppConstants.topPadding,
+                            ),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(
+                                  AppConstants.bottomSheetBorderRadius,
+                                ),
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 4,
+                                  width: 60,
+                                  color: AppColors.dividerColor,
+                                ),
+                                const VerticalGap(10),
+                                Text(
+                                  context.tr("Dark Mode"),
+                                  style:
+                                      AppTextStyles.uberMoveBlack(context, 22),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      context.tr("Dark Mode"),
+                                      style: AppTextStyles.uberMoveBlack(
+                                          context, 20),
+                                    ),
+                                    Switch(
+                                      value: Theme.of(context).brightness ==
+                                          Brightness.dark,
+                                      onChanged: (value) {
+                                        context
+                                            .read<ThemeCubit>()
+                                            .toggleTheme(value);
+                                      },
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
                     icon: const Icon(
                       Icons.wb_sunny,
                       size: 30,

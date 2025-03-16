@@ -13,7 +13,7 @@ class SharedPreferencesSingleton {
     await _instance.setBool(key, value);
   }
 
-  static getBool(String key) async {
+  static getBool(String key) {
     return _instance.getBool(key) ?? false;
   }
 
