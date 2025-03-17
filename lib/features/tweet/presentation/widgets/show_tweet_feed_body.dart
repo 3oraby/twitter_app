@@ -6,7 +6,6 @@ import 'package:twitter_app/core/constants/app_constants.dart';
 import 'package:twitter_app/core/helpers/functions/get_current_user_entity.dart';
 import 'package:twitter_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
-import 'package:twitter_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:twitter_app/core/widgets/custom_scroll_bar.dart';
 import 'package:twitter_app/core/widgets/vertical_gap.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
@@ -17,6 +16,7 @@ import 'package:twitter_app/features/tweet/presentation/cubits/update_tweet_cubi
 import 'package:twitter_app/features/tweet/presentation/widgets/custom_tweet_info_card.dart';
 import 'package:twitter_app/features/comments/presentation/screens/show_tweet_comments_screen.dart';
 import 'package:twitter_app/features/tweet/domain/entities/tweet_details_entity.dart';
+import 'package:twitter_app/features/tweet/presentation/widgets/show_tweets_feed_empty_body.dart';
 
 class ShowTweetFeedBody extends StatefulWidget {
   const ShowTweetFeedBody({
@@ -25,14 +25,12 @@ class ShowTweetFeedBody extends StatefulWidget {
     required this.mainLabelEmptyBody,
     required this.subLabelEmptyBody,
     required this.onRefreshPage,
-    this.isCenteredEmptyState = false,
   });
 
   final List<TweetDetailsEntity> tweets;
   final String mainLabelEmptyBody;
   final String subLabelEmptyBody;
   final VoidCallback onRefreshPage;
-  final bool isCenteredEmptyState;
 
   @override
   State<ShowTweetFeedBody> createState() => _ShowTweetFeedBodyState();
@@ -124,19 +122,10 @@ class _ShowTweetFeedBodyState extends State<ShowTweetFeedBody> {
         ),
       ],
       child: widget.tweets.isEmpty
-          ? RefreshIndicator(
-              onRefresh: () async {
-                widget.onRefreshPage();
-              },
-              child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  CustomEmptyBodyWidget(
-                    mainLabel: context.tr(widget.mainLabelEmptyBody),
-                    subLabel: context.tr(widget.subLabelEmptyBody),
-                  ),
-                ],
-              ),
+          ? ShowTweetsFeedEmptyBody(
+              mainLabelEmptyBody: widget.mainLabelEmptyBody,
+              subLabelEmptyBody: widget.subLabelEmptyBody,
+              onRefreshPage: widget.onRefreshPage,
             )
           : CustomScrollBar(
               controller: _scrollController,

@@ -57,9 +57,6 @@ class _ShowTweetFeedBlocBuilderBodyState
             mainLabelEmptyBody: widget.mainLabelEmptyBody,
             subLabelEmptyBody: widget.subLabelEmptyBody,
             onRefreshPage: _refreshPage,
-            isCenteredEmptyState:
-                widget.tweetFilterOption.includeBookmarkedTweets ||
-                    widget.tweetFilterOption.isForFollowingOnly,
           );
         }
         return const SizedBox();
