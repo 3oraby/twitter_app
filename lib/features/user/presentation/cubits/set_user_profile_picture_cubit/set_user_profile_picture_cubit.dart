@@ -26,11 +26,11 @@ class SetUserProfilePictureCubit extends Cubit<SetUserProfilePictureState> {
   }) async {
     emit(SetUserProfilePictureLoadingState());
     Either<Failure, String> result;
-    if (isUpload) {
+    if (isUpload || oldFileUrl == null) {
       result = await filesRepo.uploadFile(file);
     } else {
       result = await filesRepo.updateFile(
-        oldFileUrl: oldFileUrl!,
+        oldFileUrl: oldFileUrl,
         file: file,
       );
     }
