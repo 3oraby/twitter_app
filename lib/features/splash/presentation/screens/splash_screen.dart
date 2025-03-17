@@ -2,10 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:twitter_app/core/constants/local_storage_data_names.dart';
 import 'package:twitter_app/core/services/firebase_auth_service.dart';
 import 'package:twitter_app/core/services/get_it_service.dart';
+import 'package:twitter_app/core/services/shared_preferences_singleton.dart';
 import 'package:twitter_app/core/utils/app_colors.dart';
 import 'package:twitter_app/core/utils/app_svgs.dart';
+import 'package:twitter_app/features/auth/presentation/screens/complete_user_profile_screen.dart';
 import 'package:twitter_app/features/auth/presentation/screens/signin_screen.dart';
 import 'package:twitter_app/features/home/presentation/screens/main_app_screen.dart';
 
@@ -30,7 +33,13 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   FutureOr<Null> _navigateToNextPage() {
-    if (getIt<FirebaseAuthService>().isUserLoggedIn()) {
+    bool isSignUpCompleted = SharedPreferencesSingleton.getBool(
+        LocalStorageDataNames.kIsSignUpCompleted);
+
+    if (isSignUpCompleted) {
+      Navigator.pushReplacementNamed(
+          context, CompleteUserProfileScreen.routeId);
+    } else if (getIt<FirebaseAuthService>().isUserLoggedIn()) {
       Navigator.pushReplacementNamed(context, MainAppScreen.routeId);
     } else {
       Navigator.pushReplacementNamed(context, SignInScreen.routeId);

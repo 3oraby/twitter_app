@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twitter_app/core/constants/local_storage_data_names.dart';
+import 'package:twitter_app/core/services/shared_preferences_singleton.dart';
 import 'package:twitter_app/features/auth/data/models/user_model.dart';
 import 'package:twitter_app/features/auth/domain/entities/user_entity.dart';
 import 'package:twitter_app/features/user/domain/repo_interface/user_repo.dart';
@@ -23,9 +25,13 @@ class CompleteUserProfileCubit extends Cubit<CompleteUserProfileState> {
     result.fold(
       (failure) =>
           emit(CompleteUserProfileFailureState(message: failure.message)),
-      (success) => emit(CompleteUserProfileLoadedState(
-        userEntity: UserModel.fromJson(data),
-      )),
+      (success) async {
+        emit(
+          CompleteUserProfileLoadedState(userEntity: UserModel.fromJson(data)),
+        );
+        await SharedPreferencesSingleton.setBool(
+            LocalStorageDataNames.kIsSignUpCompleted, false);
+      },
     );
   }
 }

@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:twitter_app/core/constants/local_storage_data_names.dart';
 import 'package:twitter_app/core/errors/failures.dart';
 import 'package:twitter_app/core/helpers/functions/delete_user_data_from_prefs.dart';
 import 'package:twitter_app/core/services/firebase_auth_service.dart';
+import 'package:twitter_app/core/services/shared_preferences_singleton.dart';
 import 'package:twitter_app/core/success/success.dart';
 import 'package:twitter_app/features/auth/domain/repo_interface/auth_repo.dart';
 import 'package:twitter_app/features/user/domain/repo_interface/user_repo.dart';
@@ -24,6 +26,9 @@ class AuthRepoImpl extends AuthRepo {
       User user = await firebaseAuthService.createUserWithEmailAndPassword(
           email: email, password: password);
 
+      await SharedPreferencesSingleton.setBool(
+          LocalStorageDataNames.kIsSignUpCompleted, true);
+          
       return right(user);
     } catch (e) {
       return left(ServerFailure(message: e.toString()));
